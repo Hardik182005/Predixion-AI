@@ -1,0 +1,19 @@
+# Local use: the port is published on host loopback only, so the API runs without tokens.
+# To expose it beyond this machine, set AUTH_MODE=token and API_TOKEN_HASHES and drop
+# ALLOW_UNAUTHENTICATED_BIND.
+services:
+  predixion:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ALLOW_UNAUTHENTICATED_BIND: "true"
+    volumes:
+      - predixion-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  predixion-data:

@@ -1,0 +1,17 @@
+.git
+.github
+.env
+.env.*
+!.env.example
+.venv
+**/__pycache__
+.pytest_cache
+.ruff_cache
+data
+evals/results/scratch
+frontend/node_modules
+frontend/dist
+frontend/test-results
+frontend/playwright-report
+*.pdf
+0*_Claude_*.md
