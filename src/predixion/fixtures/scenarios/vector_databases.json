@@ -1,0 +1,163 @@
+{
+  "id": "vector_databases",
+  "question": "Compare the top three open-source vector databases for a startup building RAG products.",
+  "aliases": [
+    "Compare the top 3 open source vector databases for a startup building RAG products",
+    "Which open-source vector database should a RAG startup use?"
+  ],
+  "plan": {
+    "objective": "Compare three widely used open-source vector databases for a startup building retrieval-augmented generation (RAG) products.",
+    "task_type": "comparison",
+    "interpretation": "Compare Qdrant, Milvus, and Weaviate on licensing and self-hosting, hybrid search and filtering, operational complexity, and independent performance evidence, from the point of view of a small team building RAG products.",
+    "assumptions": [
+      "\"Top\" is read as widely used, actively maintained, open source, and self-hostable. The three databases are compared, not ranked.",
+      "The startup is a small team that may self-host before moving to a managed service."
+    ],
+    "constraints": ["Open-source license", "Can be self-hosted"],
+    "ambiguity_note": null,
+    "freshness_days": null,
+    "target_entity_count": 3,
+    "candidate_entities": ["Qdrant", "Milvus", "Weaviate"],
+    "criteria": [
+      {"id": "K1", "description": "License and self-hosting options", "kind": "dimension", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["license", "open-source", "apache", "bsd", "self-hosted", "docker"]},
+      {"id": "K2", "description": "Hybrid search and metadata filtering", "kind": "dimension", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["hybrid", "sparse", "bm25", "keyword", "filter", "filtering"]},
+      {"id": "K3", "description": "Operational complexity and scaling", "kind": "dimension", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["distributed", "cluster", "shards", "replication", "dependencies", "etcd"]},
+      {"id": "K4", "description": "Independent evidence on performance", "kind": "general", "required": true, "needs_freshness": false, "comparative": true, "key_terms": ["benchmark", "independent", "throughput", "recall", "performance"]}
+    ],
+    "queries": [
+      {"key": "q1", "purpose": "Licenses and self-hosting options for each database", "criterion_ids": ["K1"], "topic": "general"},
+      {"key": "q2", "purpose": "Hybrid search and filtering support", "criterion_ids": ["K2"], "topic": "general"},
+      {"key": "q3", "purpose": "Operating each database as it grows", "criterion_ids": ["K3", "K4"], "topic": "general"}
+    ],
+    "steps": [
+      "Fix the comparison set and the criteria",
+      "Collect license, search, and operations evidence for each database",
+      "Look for independent performance evidence rather than vendor benchmarks",
+      "Compare, and state what the evidence does not settle"
+    ]
+  },
+  "queries": {
+    "q1": "Qdrant Milvus Weaviate open source license self-hosting",
+    "q2": "Qdrant Milvus Weaviate hybrid search metadata filtering",
+    "q3": "vector database operational complexity distributed deployment",
+    "q4": "independent benchmark open-source vector databases filtered search"
+  },
+  "follow_up": [
+    {"query": "q4", "criteria": ["K4"], "reason": "Performance evidence so far is first-party only; look for an independent benchmark."}
+  ],
+  "documents": [
+    {
+      "url": "https://docs.qdrant.example/documentation/overview",
+      "title": "Qdrant documentation: overview",
+      "snippet": "Qdrant is an open-source vector database and similarity search engine written in Rust, licensed under Apache 2.0.",
+      "published": "2026-05-12",
+      "found_by": ["q1", "q2"],
+      "content": "Qdrant overview\n\nQdrant is an open-source vector database and similarity search engine written in Rust. It is distributed under the Apache License 2.0 and can be self-hosted with Docker or Kubernetes, or used through a managed cloud service.\n\nQdrant supports hybrid search by combining dense vectors with sparse vectors in a single query. Payload filters can be applied during the vector search rather than only after it.\n\nIn distributed mode, Qdrant splits collections into shards and replicates them across nodes, using the Raft consensus protocol for cluster metadata. Our published benchmarks show Qdrant delivering high throughput on the datasets we tested.",
+      "facts": [
+        {"key": "qdrant_license", "quote": "It is distributed under the Apache License 2.0 and can be self-hosted with Docker or Kubernetes", "claim": "Qdrant is licensed under Apache 2.0 and can be self-hosted with Docker or Kubernetes.", "criteria": ["K1"], "entity": "Qdrant"},
+        {"key": "qdrant_hybrid", "quote": "Qdrant supports hybrid search by combining dense vectors with sparse vectors in a single query", "claim": "Qdrant supports hybrid search that combines dense and sparse vectors in one query.", "criteria": ["K2"], "entity": "Qdrant"},
+        {"key": "qdrant_filter", "quote": "Payload filters can be applied during the vector search rather than only after it", "claim": "Qdrant applies payload filters during the vector search rather than only after it.", "criteria": ["K2"], "entity": "Qdrant"},
+        {"key": "qdrant_scale", "quote": "In distributed mode, Qdrant splits collections into shards and replicates them across nodes", "claim": "In distributed mode, Qdrant shards collections and replicates them across nodes.", "criteria": ["K3"], "entity": "Qdrant"},
+        {"key": "qdrant_bench_fp", "quote": "Our published benchmarks show Qdrant delivering high throughput on the datasets we tested", "claim": "Qdrant's own published benchmarks report high throughput on the datasets Qdrant tested.", "criteria": ["K4"], "entity": "Qdrant"}
+      ]
+    },
+    {
+      "url": "https://milvus.example/docs/architecture-overview",
+      "title": "Milvus documentation: architecture overview",
+      "snippet": "Milvus is an open-source vector database released under Apache 2.0 and a graduated project of the LF AI & Data Foundation.",
+      "published": "2026-04-28",
+      "found_by": ["q1", "q2", "q3"],
+      "content": "Milvus architecture overview\n\nMilvus is an open-source vector database released under the Apache License 2.0. It is a graduated project of the LF AI & Data Foundation.\n\nMilvus supports hybrid search across multiple vector fields, including sparse vectors for keyword-style matching, and scalar filtering on entity fields.\n\nMilvus can run as Milvus Lite inside a Python process, as a single-node standalone server, or as a distributed cluster. A distributed deployment depends on additional components, including etcd for metadata, object storage, and a message queue. Milvus is built to scale to billions of vectors.",
+      "facts": [
+        {"key": "milvus_license", "quote": "Milvus is an open-source vector database released under the Apache License 2.0", "claim": "Milvus is an open-source vector database released under the Apache License 2.0.", "criteria": ["K1"], "entity": "Milvus"},
+        {"key": "milvus_hybrid", "quote": "Milvus supports hybrid search across multiple vector fields, including sparse vectors for keyword-style matching", "claim": "Milvus supports hybrid search across multiple vector fields, including sparse vectors for keyword-style matching.", "criteria": ["K2"], "entity": "Milvus"},
+        {"key": "milvus_modes", "quote": "Milvus can run as Milvus Lite inside a Python process, as a single-node standalone server, or as a distributed cluster", "claim": "Milvus can run embedded as Milvus Lite, as a single-node standalone server, or as a distributed cluster.", "criteria": ["K1", "K3"], "entity": "Milvus"},
+        {"key": "milvus_deps", "quote": "A distributed deployment depends on additional components, including etcd for metadata, object storage, and a message queue", "claim": "A distributed Milvus deployment depends on etcd, object storage, and a message queue.", "criteria": ["K3"], "entity": "Milvus"},
+        {"key": "milvus_scale_fp", "quote": "Milvus is built to scale to billions of vectors", "claim": "Milvus's documentation says it is built to scale to billions of vectors.", "criteria": ["K4"], "entity": "Milvus"}
+      ]
+    },
+    {
+      "url": "https://docs.weaviate.example/weaviate/introduction",
+      "title": "Weaviate documentation: introduction",
+      "snippet": "Weaviate is an open-source vector database written in Go and released under the BSD 3-Clause license.",
+      "published": "2026-05-30",
+      "found_by": ["q1", "q2"],
+      "content": "Introduction to Weaviate\n\nWeaviate is an open-source vector database written in Go and released under the BSD 3-Clause license. Teams can self-host it with Docker or Kubernetes or use a managed service.\n\nWeaviate's hybrid search combines keyword search using BM25 with vector search and merges the two result sets with a configurable weighting.\n\nWeaviate scales horizontally by sharding collections across nodes, and replication can be configured per collection for availability. Weaviate is used in production by companies building search and retrieval-augmented generation applications.",
+      "facts": [
+        {"key": "weaviate_license", "quote": "Weaviate is an open-source vector database written in Go and released under the BSD 3-Clause license", "claim": "Weaviate is an open-source vector database written in Go and released under the BSD 3-Clause license.", "criteria": ["K1"], "entity": "Weaviate"},
+        {"key": "weaviate_selfhost", "quote": "Teams can self-host it with Docker or Kubernetes or use a managed service", "claim": "Weaviate can be self-hosted with Docker or Kubernetes or used as a managed service.", "criteria": ["K1"], "entity": "Weaviate"},
+        {"key": "weaviate_hybrid", "quote": "Weaviate's hybrid search combines keyword search using BM25 with vector search", "claim": "Weaviate's hybrid search combines BM25 keyword search with vector search.", "criteria": ["K2"], "entity": "Weaviate"},
+        {"key": "weaviate_scale", "quote": "Weaviate scales horizontally by sharding collections across nodes", "claim": "Weaviate scales horizontally by sharding collections across nodes, with per-collection replication.", "criteria": ["K3"], "entity": "Weaviate"},
+        {"key": "weaviate_prod_fp", "quote": "Weaviate is used in production by companies building search and retrieval-augmented generation applications", "claim": "Weaviate says it is used in production for search and retrieval-augmented generation applications.", "criteria": ["K4"], "entity": "Weaviate"}
+      ]
+    },
+    {
+      "url": "https://ragbuilders-journal.example/blog/self-hosting-three-vector-databases",
+      "title": "Self-hosting Qdrant, Milvus, and Weaviate: notes from a small team",
+      "snippet": "We ran Qdrant, Milvus, and Weaviate on our own infrastructure for a retrieval-augmented generation prototype.",
+      "published": "2026-04-02",
+      "found_by": ["q3", "q1"],
+      "content": "Self-hosting three vector databases\n\nWe ran Qdrant, Milvus, and Weaviate on our own infrastructure for a retrieval-augmented generation prototype. All three were straightforward to start on a single machine with Docker.\n\nThe biggest operational difference appeared when we moved to a cluster. Milvus in distributed mode required us to operate etcd, object storage, and a message queue alongside the database itself, while Qdrant and Weaviate each ran as a single service type per node.\n\nFor a small team, the number of moving parts mattered more to us than raw query speed.",
+      "facts": [
+        {"key": "blog_single_machine", "quote": "All three were straightforward to start on a single machine with Docker", "claim": "An independent team found all three databases straightforward to start on a single machine with Docker.", "criteria": ["K3"], "entity": null},
+        {"key": "blog_milvus_ops", "quote": "Milvus in distributed mode required us to operate etcd, object storage, and a message queue alongside the database itself", "claim": "An independent team had to operate etcd, object storage, and a message queue alongside Milvus in distributed mode.", "criteria": ["K3"], "entity": "Milvus"},
+        {"key": "blog_moving_parts", "quote": "For a small team, the number of moving parts mattered more to us than raw query speed", "claim": "For one small team, the number of moving parts mattered more than raw query speed.", "criteria": ["K3"], "entity": null}
+      ]
+    },
+    {
+      "url": "https://infra-notes.example/posts/filtering-during-vector-search",
+      "title": "Why filtering during vector search matters",
+      "snippet": "Filtering during the search, rather than after it, avoids returning fewer results than requested.",
+      "published": "2026-02-17",
+      "found_by": ["q2"],
+      "content": "Filtering during vector search\n\nMany RAG applications restrict retrieval to one tenant, product, or date range. Filtering during the search, rather than after it, avoids returning fewer results than requested when filters are selective.\n\nWhen comparing databases, test filtered queries with realistic metadata, because unfiltered results can hide this difference.",
+      "facts": [
+        {"key": "filter_during", "quote": "Filtering during the search, rather than after it, avoids returning fewer results than requested when filters are selective", "claim": "Filtering during the vector search, rather than after it, avoids returning fewer results than requested when filters are selective.", "criteria": ["K2"], "entity": null}
+      ]
+    },
+    {
+      "url": "https://vectorhub-roundup.example/top-10-vector-databases-2026",
+      "title": "Top 10 vector databases in 2026",
+      "snippet": "Our roundup of the most talked-about vector databases this year.",
+      "published": "2026-01-09",
+      "found_by": ["q1"],
+      "content": "Top 10 vector databases in 2026\n\nQdrant is the fastest vector database for every workload, and Milvus is the most popular choice for enterprises. Weaviate is a strong all-rounder with a friendly API.\n\nThis list reflects our editors' opinions and is not based on a controlled benchmark.",
+      "facts": []
+    },
+    {
+      "url": "https://searchbench-lab.example/reports/open-source-vector-database-benchmark",
+      "title": "Independent benchmark of open-source vector databases for filtered search",
+      "snippet": "This report compares Qdrant, Milvus, and Weaviate on the same hardware using public embedding datasets.",
+      "published": "2026-06-20",
+      "found_by": ["q4"],
+      "content": "Independent benchmark of open-source vector databases\n\nThis report compares Qdrant, Milvus, and Weaviate on the same hardware using public embedding datasets and a fixed recall target. None of the vendors funded or reviewed the study.\n\nNo engine led on every dataset. Results depended heavily on index parameters, filter selectivity, and hardware, so the order changed between test configurations.\n\nWe recommend that teams benchmark their own data and filters before choosing.",
+      "facts": [
+        {"key": "bench_independent", "quote": "None of the vendors funded or reviewed the study", "claim": "The benchmark compared Qdrant, Milvus, and Weaviate on the same hardware, and none of the vendors funded or reviewed the study.", "criteria": ["K4"], "entity": null},
+        {"key": "bench_no_leader", "quote": "No engine led on every dataset", "claim": "In the independent benchmark, no engine led on every dataset.", "criteria": ["K4"], "entity": null},
+        {"key": "bench_config", "quote": "Results depended heavily on index parameters, filter selectivity, and hardware", "claim": "Benchmark results depended heavily on index parameters, filter selectivity, and hardware.", "criteria": ["K4"], "entity": null}
+      ]
+    }
+  ],
+  "bad_extractions": [
+    {"quote": "Weaviate guarantees sub-millisecond latency at any scale.", "claim": "Weaviate guarantees sub-millisecond latency at any scale.", "criteria": ["K4"], "entity": "Weaviate"},
+    {"passage_id": "S99.P1", "quote": "Milvus is the most popular vector database.", "claim": "Milvus is the most popular vector database.", "criteria": ["K4"], "entity": "Milvus"}
+  ],
+  "synthesis": {
+    "short_answer": {
+      "text": "Qdrant, Milvus, and Weaviate are all open source, can be self-hosted, and support hybrid search. The clearest difference is operational: a distributed Milvus deployment depends on etcd, object storage, and a message queue. An independent benchmark found that no engine led on every dataset, so the choice should follow your own data, filters, and team capacity rather than a ranking.",
+      "facts": ["qdrant_license", "milvus_license", "weaviate_license", "qdrant_hybrid", "milvus_hybrid", "weaviate_hybrid", "milvus_deps", "bench_no_leader"]
+    },
+    "findings": [
+      {"text": "For a small team, the number of moving parts in a cluster may matter more than raw query speed when choosing among the three.", "facts": ["blog_moving_parts", "blog_milvus_ops"], "kind": "interpretation", "criteria": ["K3"]}
+    ],
+    "overclaim": {"text": "Qdrant is the fastest of the three for every RAG workload.", "facts": ["qdrant_bench_fp"], "criteria": ["K4"]},
+    "limitations": [
+      "The comparison covers three databases chosen as widely used and self-hostable; other options such as pgvector or Elasticsearch were not evaluated.",
+      "Performance evidence comes from one independent benchmark whose results depended on configuration."
+    ],
+    "next_steps": [
+      "Benchmark the shortlisted databases on your own embeddings, filters, and expected query volume.",
+      "Decide whether you will self-host a cluster or use a managed service before weighting operational complexity."
+    ]
+  }
+}

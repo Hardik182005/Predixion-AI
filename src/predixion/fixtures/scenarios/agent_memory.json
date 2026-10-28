@@ -1,0 +1,120 @@
+{
+  "id": "agent_memory",
+  "question": "Compare approaches to memory in an AI support agent.",
+  "aliases": [
+    "Compare memory approaches for an AI customer support agent",
+    "What are the approaches to memory in an AI support agent?"
+  ],
+  "plan": {
+    "objective": "Compare the main ways an AI support agent can remember information within and across conversations.",
+    "task_type": "comparison",
+    "interpretation": "Compare three memory approaches for a support agent (a conversation buffer with summaries, retrieval-based memory, and structured customer state) on what each keeps, how it fails, and what it costs, and cover privacy obligations that apply to all of them.",
+    "assumptions": [
+      "The three approaches are the common building blocks; real systems often combine them.",
+      "\"Memory\" covers both the current conversation and information carried across conversations."
+    ],
+    "constraints": [],
+    "ambiguity_note": null,
+    "freshness_days": null,
+    "target_entity_count": 3,
+    "candidate_entities": ["Conversation buffer and summaries", "Retrieval-based memory", "Structured customer state"],
+    "criteria": [
+      {"id": "K1", "description": "What the approach keeps and how it is recalled", "kind": "dimension", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["buffer", "summary", "retrieval", "embeddings", "structured", "fields"]},
+      {"id": "K2", "description": "Main failure modes", "kind": "dimension", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["drop", "irrelevant", "outdated", "mistaken", "fields", "details"]},
+      {"id": "K3", "description": "Cost and latency", "kind": "dimension", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["token", "latency", "prompt", "lookup", "embedding"]},
+      {"id": "K4", "description": "Privacy, retention, and deletion", "kind": "general", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["personal", "data", "retention", "delete", "privacy"]}
+    ],
+    "queries": [
+      {"key": "q1", "purpose": "How each memory approach works", "criterion_ids": ["K1"], "topic": "general"},
+      {"key": "q2", "purpose": "Long-term and structured memory for support agents", "criterion_ids": ["K1", "K3"], "topic": "general"},
+      {"key": "q3", "purpose": "Failure modes, cost, and latency", "criterion_ids": ["K2", "K3"], "topic": "general"}
+    ],
+    "steps": [
+      "Describe how each approach stores and recalls information",
+      "Collect failure modes for each approach",
+      "Compare cost and latency",
+      "Check privacy and retention obligations"
+    ]
+  },
+  "queries": {
+    "q1": "AI agent memory approaches conversation buffer summary retrieval",
+    "q2": "customer support agent long-term memory structured customer state",
+    "q3": "LLM agent memory failure modes cost latency",
+    "q4": "AI support agent memory personal data retention deletion"
+  },
+  "follow_up": [
+    {"query": "q4", "criteria": ["K4"], "reason": "No evidence yet on privacy, retention, or deletion of stored memory."}
+  ],
+  "documents": [
+    {
+      "url": "https://agent-memory-notes.example/blog/three-kinds-of-memory",
+      "title": "Three kinds of memory for support agents",
+      "snippet": "A conversation buffer, retrieval-based memory, and structured customer state each keep different information.",
+      "published": "2026-04-19",
+      "found_by": ["q1", "q3"],
+      "content": "Three kinds of memory for support agents\n\nA conversation buffer keeps recent messages verbatim in the prompt, and a rolling summary replaces older turns with a shorter description. Retrieval-based memory stores past interactions or documents as embeddings and recalls the most similar items for each new message. Structured customer state stores specific fields, such as plan, open tickets, and stated preferences, that the agent reads and updates through tools.\n\nSummaries can drop details that later turn out to matter, such as an order number mentioned early in the conversation. Similarity search can return memories that look related but are irrelevant or out of date.",
+      "facts": [
+        {"key": "mem_buffer_what", "quote": "A conversation buffer keeps recent messages verbatim in the prompt, and a rolling summary replaces older turns with a shorter description", "claim": "A conversation buffer keeps recent messages verbatim in the prompt, and a rolling summary replaces older turns with a shorter description.", "criteria": ["K1"], "entity": "Conversation buffer and summaries"},
+        {"key": "mem_retrieval_what", "quote": "Retrieval-based memory stores past interactions or documents as embeddings and recalls the most similar items for each new message", "claim": "Retrieval-based memory stores past interactions or documents as embeddings and recalls the most similar items for each new message.", "criteria": ["K1"], "entity": "Retrieval-based memory"},
+        {"key": "mem_state_what", "quote": "Structured customer state stores specific fields, such as plan, open tickets, and stated preferences, that the agent reads and updates through tools", "claim": "Structured customer state stores specific fields, such as plan, open tickets, and preferences, that the agent reads and updates through tools.", "criteria": ["K1"], "entity": "Structured customer state"},
+        {"key": "mem_buffer_fail", "quote": "Summaries can drop details that later turn out to matter, such as an order number mentioned early in the conversation", "claim": "Summaries can drop details that later matter, such as an order number mentioned early in the conversation.", "criteria": ["K2"], "entity": "Conversation buffer and summaries"},
+        {"key": "mem_retrieval_fail", "quote": "Similarity search can return memories that look related but are irrelevant or out of date", "claim": "Retrieval can return memories that look related but are irrelevant or out of date.", "criteria": ["K2"], "entity": "Retrieval-based memory"}
+      ]
+    },
+    {
+      "url": "https://support-ai-handbook.example/docs/memory-design",
+      "title": "Designing memory for support agents",
+      "snippet": "Structured state is predictable and easy to audit; full conversation history grows token use with every turn.",
+      "published": "2026-05-25",
+      "found_by": ["q2", "q3"],
+      "content": "Designing memory for support agents\n\nStructured state is predictable and easy to audit, but it only captures the fields that someone decided to model.\n\nKeeping the full conversation in the prompt is simple, but token use and latency grow with every turn. Retrieval adds an embedding call and a vector search before each response, but keeps the prompt size roughly constant. Reading a few structured fields adds little to the prompt and can be done with a single database lookup.",
+      "facts": [
+        {"key": "mem_state_fail", "quote": "Structured state is predictable and easy to audit, but it only captures the fields that someone decided to model", "claim": "Structured state is predictable and easy to audit, but it only captures the fields someone decided to model.", "criteria": ["K2"], "entity": "Structured customer state"},
+        {"key": "mem_buffer_cost", "quote": "Keeping the full conversation in the prompt is simple, but token use and latency grow with every turn", "claim": "Keeping the full conversation in the prompt is simple, but token use and latency grow with every turn.", "criteria": ["K3"], "entity": "Conversation buffer and summaries"},
+        {"key": "mem_retrieval_cost", "quote": "Retrieval adds an embedding call and a vector search before each response, but keeps the prompt size roughly constant", "claim": "Retrieval adds an embedding call and a vector search before each response but keeps the prompt size roughly constant.", "criteria": ["K3"], "entity": "Retrieval-based memory"},
+        {"key": "mem_state_cost", "quote": "Reading a few structured fields adds little to the prompt and can be done with a single database lookup", "claim": "Reading a few structured fields adds little to the prompt and takes a single database lookup.", "criteria": ["K3"], "entity": "Structured customer state"}
+      ]
+    },
+    {
+      "url": "https://llm-systems-review.example/articles/memory-drift-in-agents",
+      "title": "Memory drift in long-running agents",
+      "snippet": "When an agent writes its own memories, mistaken inferences can be stored and repeated later.",
+      "published": "2026-03-09",
+      "found_by": ["q3", "q1"],
+      "content": "Memory drift in long-running agents\n\nWhen an agent writes its own memories, mistaken inferences can be stored and repeated in later conversations.\n\nCombining approaches is common: a short buffer for the current conversation, structured state for account facts, and retrieval for past cases.",
+      "facts": [
+        {"key": "mem_self_write", "quote": "When an agent writes its own memories, mistaken inferences can be stored and repeated in later conversations", "claim": "When an agent writes its own memories, mistaken inferences can be stored and repeated in later conversations.", "criteria": ["K2"], "entity": null},
+        {"key": "mem_combine", "quote": "Combining approaches is common: a short buffer for the current conversation, structured state for account facts, and retrieval for past cases", "claim": "Systems commonly combine a short buffer for the current conversation, structured state for account facts, and retrieval for past cases.", "criteria": ["K1"], "entity": null}
+      ]
+    },
+    {
+      "url": "https://privacy-engineering.example/guides/memory-and-personal-data",
+      "title": "Agent memory and personal data",
+      "snippet": "Stored conversation memory often contains personal data and needs a retention period and a deletion path.",
+      "published": "2026-06-30",
+      "found_by": ["q4"],
+      "content": "Agent memory and personal data\n\nStored conversation memory often contains personal data, so it needs a retention period and a way to delete it on request.\n\nStructured fields are easier to locate and delete than facts embedded in free-text summaries or vector stores.",
+      "facts": [
+        {"key": "mem_privacy", "quote": "Stored conversation memory often contains personal data, so it needs a retention period and a way to delete it on request", "claim": "Stored conversation memory often contains personal data, so it needs a retention period and a way to delete it on request.", "criteria": ["K4"], "entity": null},
+        {"key": "mem_delete_structured", "quote": "Structured fields are easier to locate and delete than facts embedded in free-text summaries or vector stores", "claim": "Structured fields are easier to locate and delete than facts embedded in free-text summaries or vector stores.", "criteria": ["K4"], "entity": null}
+      ]
+    }
+  ],
+  "synthesis": {
+    "short_answer": {
+      "text": "A conversation buffer with rolling summaries is the simplest approach, but token use and latency grow with every turn and summaries can drop details. Retrieval-based memory keeps the prompt size roughly constant but can return memories that are irrelevant or out of date. Structured customer state is predictable and easy to audit but only captures the fields someone decided to model. Systems commonly combine the three, and stored memory that contains personal data needs a retention period and a way to delete it.",
+      "facts": ["mem_buffer_cost", "mem_buffer_fail", "mem_retrieval_cost", "mem_retrieval_fail", "mem_state_fail", "mem_combine", "mem_privacy"]
+    },
+    "findings": [
+      {"text": "Structured customer state is easier to audit and delete than facts kept in summaries or vector stores.", "facts": ["mem_state_fail", "mem_delete_structured"], "kind": "interpretation", "criteria": ["K2", "K4"]}
+    ],
+    "limitations": [
+      "The sources are practitioner guides; no controlled comparison of the approaches was found.",
+      "Cost and latency are described qualitatively and depend on the model and infrastructure used."
+    ],
+    "next_steps": [
+      "List the facts your support agent must remember across conversations and decide which belong in structured fields.",
+      "Set a retention period and a deletion process before storing conversation memory."
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "id": "ambiguous_mercury",
+  "question": "Is mercury dangerous?",
+  "aliases": ["How dangerous is mercury?", "Is mercury dangerous to humans?"],
+  "plan": {
+    "objective": "Explain whether and how the chemical element mercury is hazardous to people.",
+    "task_type": "explainer",
+    "interpretation": "Read \"mercury\" as the chemical element and explain its health effects, how the hazard differs by form, and how to reduce exposure.",
+    "assumptions": ["The question is about health risks to people, not to the environment in general."],
+    "constraints": [],
+    "ambiguity_note": "\"Mercury\" can also mean the planet, the Roman god, or a brand. This run assumes the chemical element because the question asks about danger. Ask again with more context if you meant something else.",
+    "freshness_days": null,
+    "target_entity_count": null,
+    "candidate_entities": [],
+    "criteria": [
+      {"id": "K1", "description": "Health effects of mercury exposure", "kind": "general", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["health", "exposure", "brain", "kidneys", "harm"]},
+      {"id": "K2", "description": "How the hazard differs by form of mercury", "kind": "general", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["elemental", "vapor", "methylmercury", "fish", "inhaled"]},
+      {"id": "K3", "description": "Practical guidance for reducing exposure", "kind": "general", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["spill", "thermometer", "vacuum", "fish", "guidance"]}
+    ],
+    "queries": [
+      {"key": "q1", "purpose": "Health effects of mercury", "criterion_ids": ["K1"], "topic": "general"},
+      {"key": "q2", "purpose": "Hazard by form of mercury", "criterion_ids": ["K2"], "topic": "general"},
+      {"key": "q3", "purpose": "Guidance on spills and fish", "criterion_ids": ["K3"], "topic": "general"}
+    ],
+    "steps": [
+      "State the interpretation of the ambiguous term",
+      "Collect health-effects evidence from public health sources",
+      "Explain how the risk differs by form",
+      "Summarize practical guidance"
+    ]
+  },
+  "queries": {
+    "q1": "mercury health effects exposure",
+    "q2": "elemental mercury vapor methylmercury fish hazard",
+    "q3": "broken mercury thermometer cleanup guidance"
+  },
+  "follow_up": [],
+  "documents": [
+    {
+      "url": "https://health-agency.example/docs/mercury-health-effects",
+      "title": "Health effects of exposure to mercury",
+      "snippet": "Exposure to high levels of mercury can harm the brain, kidneys, and developing fetus.",
+      "published": "2025-12-01",
+      "found_by": ["q1", "q2"],
+      "content": "Health effects of exposure to mercury\n\nExposure to high levels of mercury can harm the brain, kidneys, and developing fetus. The effects depend on the form of mercury, the amount, and how a person is exposed.\n\nElemental mercury is most harmful when its vapor is inhaled, because the lungs absorb it efficiently. Methylmercury, the form that builds up in fish and shellfish, is the main source of mercury exposure for most people.",
+      "facts": [
+        {"key": "hg_effects", "quote": "Exposure to high levels of mercury can harm the brain, kidneys, and developing fetus", "claim": "Exposure to high levels of mercury can harm the brain, kidneys, and a developing fetus.", "criteria": ["K1"], "entity": null},
+        {"key": "hg_depends", "quote": "The effects depend on the form of mercury, the amount, and how a person is exposed", "claim": "The health effects depend on the form of mercury, the amount, and how a person is exposed.", "criteria": ["K1", "K2"], "entity": null},
+        {"key": "hg_vapor", "quote": "Elemental mercury is most harmful when its vapor is inhaled, because the lungs absorb it efficiently", "claim": "Elemental mercury is most harmful when its vapor is inhaled, because the lungs absorb it efficiently.", "criteria": ["K2"], "entity": null},
+        {"key": "hg_fish", "quote": "Methylmercury, the form that builds up in fish and shellfish, is the main source of mercury exposure for most people", "claim": "Methylmercury, which builds up in fish and shellfish, is the main source of mercury exposure for most people.", "criteria": ["K2"], "entity": null}
+      ]
+    },
+    {
+      "url": "https://environment-office.example/docs/mercury-spills",
+      "title": "Cleaning up a small mercury spill",
+      "snippet": "Do not use a vacuum cleaner on a mercury spill, because it spreads mercury vapor.",
+      "published": "2025-09-18",
+      "found_by": ["q3"],
+      "content": "Cleaning up a small mercury spill\n\nA small spill, such as from a broken thermometer, can usually be cleaned up by following official guidance. Larger spills should be reported to the local environmental or health agency.\n\nDo not use a vacuum cleaner to clean up a mercury spill, because it spreads mercury vapor into the air.",
+      "facts": [
+        {"key": "hg_small_spill", "quote": "A small spill, such as from a broken thermometer, can usually be cleaned up by following official guidance", "claim": "A small mercury spill, such as from a broken thermometer, can usually be cleaned up by following official guidance.", "criteria": ["K3"], "entity": null},
+        {"key": "hg_vacuum", "quote": "Do not use a vacuum cleaner to clean up a mercury spill, because it spreads mercury vapor into the air", "claim": "A vacuum cleaner should not be used on a mercury spill because it spreads mercury vapor into the air.", "criteria": ["K3"], "entity": null}
+      ]
+    },
+    {
+      "url": "https://food-safety.example/guides/fish-and-mercury",
+      "title": "Eating fish while limiting mercury",
+      "snippet": "Choosing fish lower in mercury keeps the nutritional benefits of fish while limiting exposure.",
+      "published": "2026-01-12",
+      "found_by": ["q2", "q3"],
+      "content": "Eating fish while limiting mercury\n\nFish is a good source of protein and other nutrients. Choosing fish lower in mercury lets pregnant people and young children keep the nutritional benefits of fish while limiting exposure.\n\nLocal advisories may give additional advice for fish caught in specific lakes and rivers.",
+      "facts": [
+        {"key": "hg_fish_choice", "quote": "Choosing fish lower in mercury lets pregnant people and young children keep the nutritional benefits of fish while limiting exposure", "claim": "Choosing fish lower in mercury lets pregnant people and young children keep the benefits of fish while limiting exposure.", "criteria": ["K3"], "entity": null}
+      ]
+    },
+    {
+      "url": "https://planet-facts.example/solar-system/mercury",
+      "title": "Mercury, the smallest planet",
+      "snippet": "Mercury is the smallest planet in the solar system and the closest to the Sun.",
+      "published": "2025-06-05",
+      "found_by": ["q1"],
+      "content": "Mercury, the smallest planet\n\nMercury is the smallest planet in the solar system and the closest to the Sun. Its surface temperature swings widely between day and night because it has almost no atmosphere.\n\nSpacecraft have mapped its cratered surface in detail.",
+      "facts": []
+    }
+  ],
+  "synthesis": {
+    "short_answer": {
+      "text": "Yes, mercury can be dangerous, but the risk depends on the form of mercury, the amount, and how a person is exposed. Exposure to high levels can harm the brain, kidneys, and a developing fetus. Inhaled mercury vapor and methylmercury in fish are the main concerns, and a vacuum cleaner should not be used on a spill because it spreads the vapor.",
+      "facts": ["hg_depends", "hg_effects", "hg_vapor", "hg_fish", "hg_vacuum"]
+    },
+    "findings": [],
+    "limitations": [
+      "This answer assumes \"mercury\" means the chemical element.",
+      "The sources give general guidance; they do not replace advice from a poison control center or doctor after a specific exposure."
+    ],
+    "next_steps": [
+      "If someone has been exposed, contact a poison control center or local health agency.",
+      "Ask again with more context if you meant the planet or something else named Mercury."
+    ]
+  }
+}

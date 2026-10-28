@@ -1,0 +1,80 @@
+{
+  "id": "nonexistent_entity",
+  "question": "What does QuantumLeap Vector Engine 9 from Hyperion DB cost?",
+  "aliases": [
+    "What is the pricing of QuantumLeap Vector Engine 9 from Hyperion DB?",
+    "QuantumLeap Vector Engine 9 Hyperion DB pricing"
+  ],
+  "plan": {
+    "objective": "Find published pricing for a product named QuantumLeap Vector Engine 9 from a vendor named Hyperion DB.",
+    "task_type": "explainer",
+    "interpretation": "Confirm that QuantumLeap Vector Engine 9 exists and is sold by Hyperion DB, then find its published pricing.",
+    "assumptions": ["The product and vendor names are as given in the question."],
+    "constraints": [],
+    "ambiguity_note": null,
+    "freshness_days": null,
+    "target_entity_count": null,
+    "candidate_entities": ["QuantumLeap Vector Engine 9"],
+    "criteria": [
+      {"id": "K1", "description": "Evidence that the product exists and who sells it", "kind": "general", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["quantumleap", "hyperion", "vector", "engine"]},
+      {"id": "K2", "description": "Published pricing for the product", "kind": "general", "required": true, "needs_freshness": false, "comparative": false, "key_terms": ["pricing", "price", "plans", "cost", "license"]}
+    ],
+    "queries": [
+      {"key": "q1", "purpose": "Find the product and its pricing page", "criterion_ids": ["K1", "K2"], "topic": "general"},
+      {"key": "q2", "purpose": "Confirm the product exists", "criterion_ids": ["K1"], "topic": "general"},
+      {"key": "q3", "purpose": "Find the vendor", "criterion_ids": ["K1"], "topic": "general"}
+    ],
+    "steps": [
+      "Confirm the product and vendor exist",
+      "Find official pricing",
+      "Report what could not be found"
+    ]
+  },
+  "queries": {
+    "q1": "QuantumLeap Vector Engine 9 Hyperion DB pricing",
+    "q2": "Hyperion DB QuantumLeap Vector Engine",
+    "q3": "Hyperion DB vector database company",
+    "q4": "QuantumLeap Vector Engine 9 release announcement"
+  },
+  "follow_up": [
+    {"query": "q4", "criteria": ["K1", "K2"], "reason": "No source mentions the product; look for a release announcement."}
+  ],
+  "documents": [
+    {
+      "url": "https://myth-reference.example/titans/hyperion",
+      "title": "Hyperion (mythology)",
+      "snippet": "In Greek mythology, Hyperion is one of the twelve Titans.",
+      "published": "2024-08-14",
+      "found_by": ["q2", "q3"],
+      "content": "Hyperion (mythology)\n\nIn Greek mythology, Hyperion is one of the twelve Titans, the children of Gaia and Uranus. He is often described as the father of Helios, Selene, and Eos.\n\nThe name has since been used for ships, novels, and a tall coast redwood tree in California.",
+      "facts": []
+    },
+    {
+      "url": "https://vector-pricing-guide.example/guides/how-vector-databases-are-priced",
+      "title": "How managed vector databases are priced",
+      "snippet": "Managed vector database pricing usually depends on storage, query volume, and replicas.",
+      "published": "2026-03-30",
+      "found_by": ["q1"],
+      "content": "How managed vector databases are priced\n\nManaged vector database pricing usually depends on the amount of data stored, the volume of queries, and the number of replicas.\n\nSome vendors charge per pod or node, while others bill per read and write unit. Self-hosted open-source engines have no license fee but carry infrastructure and operations costs.",
+      "facts": []
+    },
+    {
+      "url": "https://dbweekly.example/news/vector-engine-releases",
+      "title": "Vector engine releases this month",
+      "snippet": "This month's releases include updates to several open-source vector engines.",
+      "published": "2026-09-02",
+      "found_by": ["q1", "q2"],
+      "content": "Vector engine releases this month\n\nThis month's releases include updates to several open-source vector engines, with improvements to filtered search and memory usage.\n\nNo new major versions were announced by the vendors we track.",
+      "facts": []
+    }
+  ],
+  "synthesis": {
+    "limitations": [
+      "No reviewed source mentioned QuantumLeap Vector Engine 9 or a vendor named Hyperion DB."
+    ],
+    "next_steps": [
+      "Check the product and vendor names for spelling, or provide a link to the vendor's site.",
+      "If the product is new or private, ask the vendor directly for pricing."
+    ]
+  }
+}

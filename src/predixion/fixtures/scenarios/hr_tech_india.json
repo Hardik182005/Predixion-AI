@@ -1,0 +1,370 @@
+{
+  "id": "hr_tech_india",
+  "question": "Find five Indian B2B SaaS startups in HR tech and summarize their positioning.",
+  "aliases": [
+    "Find 5 Indian B2B SaaS startups in HR tech and summarize their positioning",
+    "List five Indian HR tech SaaS startups and their positioning"
+  ],
+  "plan": {
+    "objective": "Identify five India-headquartered B2B SaaS companies selling HR software and summarize how each positions itself.",
+    "task_type": "entity_discovery",
+    "interpretation": "Find five companies headquartered in India that sell HR, payroll, or talent software to employers as a cloud service, and summarize the market each says it serves.",
+    "assumptions": [
+      "\"Indian\" means headquartered in India. Companies founded in India but headquartered elsewhere are excluded.",
+      "\"Startup\" is read loosely as a privately held, founder-led or venture-backed company. Founding year is not used as a filter.",
+      "Positioning is summarized from each company's own description and is labeled as self-described."
+    ],
+    "constraints": [
+      "Headquartered in India",
+      "Sells HR software to businesses as SaaS"
+    ],
+    "ambiguity_note": null,
+    "freshness_days": null,
+    "target_entity_count": 5,
+    "candidate_entities": [],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "Headquartered in India",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "headquartered",
+          "india",
+          "hyderabad",
+          "bengaluru",
+          "gurugram"
+        ]
+      },
+      {
+        "id": "K2",
+        "description": "Sells HR software to businesses as SaaS",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "hr",
+          "payroll",
+          "software",
+          "cloud",
+          "hrms",
+          "businesses"
+        ]
+      },
+      {
+        "id": "K3",
+        "description": "Self-described market positioning",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "enterprises",
+          "mid-sized",
+          "small",
+          "businesses",
+          "platform"
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "key": "q1",
+        "purpose": "Find candidate HR tech companies",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "topic": "general"
+      },
+      {
+        "key": "q2",
+        "purpose": "Confirm headquarters and product",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "topic": "general"
+      },
+      {
+        "key": "q3",
+        "purpose": "Find how each company describes its market",
+        "criterion_ids": [
+          "K3"
+        ],
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Collect candidate companies from search results and lists",
+      "Confirm headquarters and product for each candidate",
+      "Exclude candidates whose evidence contradicts the conditions",
+      "Summarize self-described positioning for the confirmed companies"
+    ]
+  },
+  "queries": {
+    "q1": "Indian B2B SaaS HR tech startups",
+    "q2": "HR payroll software company headquartered in India",
+    "q3": "HRMS startup India positioning enterprise small businesses",
+    "q4": "HR and payroll SaaS company Gurugram small businesses"
+  },
+  "follow_up": [
+    {
+      "query": "q4",
+      "criteria": [
+        "K1",
+        "K2"
+      ],
+      "reason": "Only four companies are confirmed so far; search for another India-headquartered HR SaaS company."
+    }
+  ],
+  "documents": [
+    {
+      "url": "https://darwinbox.example/about",
+      "title": "About Darwinbox",
+      "snippet": "Darwinbox is an HR technology company headquartered in Hyderabad, India, building a cloud HR platform for large enterprises.",
+      "published": "2026-03-03",
+      "found_by": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "content": "About Darwinbox\n\nDarwinbox is an HR technology company headquartered in Hyderabad, India. The company was founded in 2015.\n\nDarwinbox provides a cloud HR platform for large enterprises, covering core HR, payroll, performance, and talent management.",
+      "facts": [
+        {
+          "key": "darwinbox_hq",
+          "quote": "Darwinbox is an HR technology company headquartered in Hyderabad, India",
+          "claim": "Darwinbox is an HR technology company headquartered in Hyderabad, India.",
+          "criteria": [
+            "K1"
+          ],
+          "entity": "Darwinbox"
+        },
+        {
+          "key": "darwinbox_product",
+          "quote": "Darwinbox provides a cloud HR platform for large enterprises, covering core HR, payroll, performance, and talent management",
+          "claim": "Darwinbox describes itself as a cloud HR platform for large enterprises, covering core HR, payroll, performance, and talent management.",
+          "criteria": [
+            "K2",
+            "K3"
+          ],
+          "entity": "Darwinbox"
+        }
+      ]
+    },
+    {
+      "url": "https://keka.example/about-us",
+      "title": "About Keka HR",
+      "snippet": "Keka is an HR and payroll software company based in Hyderabad, India.",
+      "published": "2026-02-11",
+      "found_by": [
+        "q1",
+        "q2"
+      ],
+      "content": "About Keka\n\nKeka is an HR and payroll software company based in Hyderabad, India.\n\nKeka builds HR and payroll software for small and mid-sized businesses, with tools for attendance, leave, performance, and employee engagement.",
+      "facts": [
+        {
+          "key": "keka_hq",
+          "quote": "Keka is an HR and payroll software company based in Hyderabad, India",
+          "claim": "Keka is an HR and payroll software company based in Hyderabad, India.",
+          "criteria": [
+            "K1"
+          ],
+          "entity": "Keka"
+        },
+        {
+          "key": "keka_product",
+          "quote": "Keka builds HR and payroll software for small and mid-sized businesses",
+          "claim": "Keka describes its HR and payroll software as built for small and mid-sized businesses.",
+          "criteria": [
+            "K2",
+            "K3"
+          ],
+          "entity": "Keka"
+        }
+      ]
+    },
+    {
+      "url": "https://greythr.example/company",
+      "title": "greytHR company overview",
+      "snippet": "greytHR is a product of Greytip Software, headquartered in Bengaluru, India.",
+      "published": "2026-01-22",
+      "found_by": [
+        "q2",
+        "q3"
+      ],
+      "content": "greytHR company overview\n\ngreytHR is a product of Greytip Software, headquartered in Bengaluru, India.\n\ngreytHR offers cloud HR and payroll software for small and medium businesses, including statutory compliance features for Indian payroll.",
+      "facts": [
+        {
+          "key": "greythr_hq",
+          "quote": "greytHR is a product of Greytip Software, headquartered in Bengaluru, India",
+          "claim": "greytHR is a product of Greytip Software, headquartered in Bengaluru, India.",
+          "criteria": [
+            "K1"
+          ],
+          "entity": "greytHR"
+        },
+        {
+          "key": "greythr_product",
+          "quote": "greytHR offers cloud HR and payroll software for small and medium businesses",
+          "claim": "greytHR describes itself as cloud HR and payroll software for small and medium businesses.",
+          "criteria": [
+            "K2",
+            "K3"
+          ],
+          "entity": "greytHR"
+        }
+      ]
+    },
+    {
+      "url": "https://peoplestrong.example/about",
+      "title": "About PeopleStrong",
+      "snippet": "PeopleStrong is an HR technology company headquartered in Gurugram, India.",
+      "published": "2026-04-15",
+      "found_by": [
+        "q2",
+        "q3"
+      ],
+      "content": "About PeopleStrong\n\nPeopleStrong is an HR technology company headquartered in Gurugram, India.\n\nPeopleStrong offers a cloud HR automation platform for large organizations, covering hiring, core HR, payroll, and employee experience.",
+      "facts": [
+        {
+          "key": "peoplestrong_hq",
+          "quote": "PeopleStrong is an HR technology company headquartered in Gurugram, India",
+          "claim": "PeopleStrong is an HR technology company headquartered in Gurugram, India.",
+          "criteria": [
+            "K1"
+          ],
+          "entity": "PeopleStrong"
+        },
+        {
+          "key": "peoplestrong_product",
+          "quote": "PeopleStrong offers a cloud HR automation platform for large organizations",
+          "claim": "PeopleStrong describes itself as a cloud HR automation platform for large organizations.",
+          "criteria": [
+            "K2",
+            "K3"
+          ],
+          "entity": "PeopleStrong"
+        }
+      ]
+    },
+    {
+      "url": "https://deel.example/about",
+      "title": "About Deel",
+      "snippet": "Deel offers payroll, HR, and compliance software for companies hiring globally.",
+      "published": "2026-05-06",
+      "found_by": [
+        "q1"
+      ],
+      "content": "About Deel\n\nDeel offers payroll, HR, and compliance software for companies hiring globally, including teams in India. Customers use it to hire employees and contractors in other countries.\n\nDeel is headquartered in San Francisco, California, and has employees in many countries.",
+      "facts": [
+        {
+          "key": "deel_product",
+          "quote": "Deel offers payroll, HR, and compliance software for companies hiring globally",
+          "claim": "Deel offers payroll, HR, and compliance software for companies hiring globally.",
+          "criteria": [
+            "K2"
+          ],
+          "entity": "Deel"
+        },
+        {
+          "key": "deel_hq",
+          "quote": "Deel is headquartered in San Francisco, California",
+          "claim": "Deel is headquartered in San Francisco, California, not in India.",
+          "criteria": [
+            "K1"
+          ],
+          "entity": "Deel",
+          "polarity": "contradicts"
+        }
+      ]
+    },
+    {
+      "url": "https://hrtech-digest.example/top-10-hr-tech-startups-india",
+      "title": "Top 10 HR tech startups in India",
+      "snippet": "Our editors' picks of HR tech startups to watch in India.",
+      "published": "2025-11-19",
+      "found_by": [
+        "q1"
+      ],
+      "content": "Top 10 HR tech startups in India\n\nOur editors picked HR tech companies to watch, including Darwinbox, Keka, greytHR, PeopleStrong, and Deel.\n\nThis list is based on editorial judgment and does not rank companies by revenue or customers.",
+      "facts": []
+    },
+    {
+      "url": "https://zimyo.example/about",
+      "title": "About Zimyo",
+      "snippet": "Zimyo is an HR and payroll software company headquartered in Gurugram, India.",
+      "published": "2026-02-27",
+      "found_by": [
+        "q4"
+      ],
+      "content": "About Zimyo\n\nZimyo is an HR and payroll software company headquartered in Gurugram, India.\n\nZimyo offers an HRMS and payroll platform for small and mid-sized businesses, with modules for attendance, benefits, and performance.",
+      "facts": [
+        {
+          "key": "zimyo_hq",
+          "quote": "Zimyo is an HR and payroll software company headquartered in Gurugram, India",
+          "claim": "Zimyo is an HR and payroll software company headquartered in Gurugram, India.",
+          "criteria": [
+            "K1"
+          ],
+          "entity": "Zimyo"
+        },
+        {
+          "key": "zimyo_product",
+          "quote": "Zimyo offers an HRMS and payroll platform for small and mid-sized businesses",
+          "claim": "Zimyo describes itself as an HRMS and payroll platform for small and mid-sized businesses.",
+          "criteria": [
+            "K2",
+            "K3"
+          ],
+          "entity": "Zimyo"
+        }
+      ]
+    }
+  ],
+  "synthesis": {
+    "short_answer": {
+      "text": "Five India-headquartered HR software companies were confirmed: Darwinbox and Keka (Hyderabad), greytHR (Bengaluru), and PeopleStrong and Zimyo (Gurugram). Darwinbox and PeopleStrong describe their platforms as built for large enterprises and organizations, while Keka, greytHR, and Zimyo describe their HR and payroll software as built for small and mid-sized businesses. Deel was excluded because it is headquartered in San Francisco.",
+      "facts": [
+        "darwinbox_hq",
+        "keka_hq",
+        "greythr_hq",
+        "peoplestrong_hq",
+        "zimyo_hq",
+        "darwinbox_product",
+        "peoplestrong_product",
+        "keka_product",
+        "greythr_product",
+        "zimyo_product",
+        "deel_hq"
+      ]
+    },
+    "findings": [
+      {
+        "text": "The confirmed companies split into two groups: platforms for large enterprises (Darwinbox, PeopleStrong) and HR and payroll software for small and mid-sized businesses (Keka, greytHR, Zimyo).",
+        "facts": [
+          "darwinbox_product",
+          "peoplestrong_product",
+          "keka_product",
+          "greythr_product",
+          "zimyo_product"
+        ],
+        "kind": "interpretation",
+        "criteria": [
+          "K3"
+        ]
+      }
+    ],
+    "limitations": [
+      "Positioning is self-described by each company; independent market-share or customer data was not reviewed.",
+      "\"Startup\" was not filtered by founding year or funding stage, and many other Indian HR tech companies exist."
+    ],
+    "next_steps": [
+      "Check independent sources, such as customer reviews or funding announcements, before relying on each company's positioning.",
+      "Narrow the list by company size, funding stage, or product area if you need a tighter definition of startup."
+    ]
+  }
+}
