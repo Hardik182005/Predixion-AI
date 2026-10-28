@@ -268,6 +268,32 @@ def test_decide_status() -> None:
     assert status(ok, supported, ran=False) == RunStatus.partial
 
 
+def test_unanswered_report_with_only_a_caveat_finding_is_insufficient_evidence() -> None:
+    """A removed short answer plus no supported required criterion is not a partial answer.
+
+    Seen live on a nonexistent product: the only surviving finding said the sources describe a different
+    project, every required criterion was missing or stale, and the run was labelled partial.
+    """
+    draft = Draft(
+        short_answer=CheckedText(text="It costs $99.", evidence_ids=["E1"]),
+        findings=[Finding(text="The sources describe a different project.", evidence_ids=["E1"])],
+    )
+    refs = enumerate_claims(draft)
+    apply_verdict(refs[0], SupportVerdict.not_supported, "not in evidence")
+    apply_verdict(refs[1], SupportVerdict.supported, None)
+    nothing = [_coverage(CoverageStatus.missing), _coverage(CoverageStatus.stale)]
+    assert decide_status(coverage=nothing, refs=refs, verification_ran=True, evidence_count=1, hit_limit=False) == (
+        RunStatus.insufficient_evidence
+    )
+    # One supported required criterion, or a surviving short answer, keeps it a partial answer.
+    some = [_coverage(CoverageStatus.supported), _coverage(CoverageStatus.missing)]
+    assert decide_status(coverage=some, refs=refs, verification_ran=True, evidence_count=1, hit_limit=False) == RunStatus.partial
+    apply_verdict(refs[0], SupportVerdict.partially_supported, "hedged")
+    assert (
+        decide_status(coverage=nothing, refs=refs, verification_ran=True, evidence_count=1, hit_limit=False) == RunStatus.partial
+    )
+
+
 def _ev(eid: str, polarity: str, entity: str | None = "SQLite") -> Evidence:
     return Evidence(
         id=eid,

@@ -1,0 +1,877 @@
+{
+  "run_id": "run_971badc19fe89fba1a892c7a",
+  "question": "What does QuantumLeap Vector Engine 9 from Hyperion DB cost?",
+  "status": "insufficient_evidence",
+  "stop_reason": "diminishing_returns",
+  "stop_detail": "The follow-up round found no new evidence.",
+  "mode": "live",
+  "short_answer": {
+    "claim_id": null,
+    "text": "No usable evidence was found, so no answer was synthesized.",
+    "evidence_ids": [],
+    "verdict": "unchecked",
+    "disposition": "qualified",
+    "note": null
+  },
+  "key_findings": [],
+  "comparison": null,
+  "entities": [],
+  "sources": [
+    {
+      "id": "S2",
+      "url": "https://db-analytics.com/hyperion",
+      "canonical_url": "https://db-analytics.com/hyperion",
+      "domain": "db-analytics.com",
+      "title": "Hyperion – DB Analytics",
+      "snippet": "Highlights  \n• Innovative visual interface  \n• Sophisticated calculation engine with over 100 pre-built financial and statistical functions  \n• Multi-User write back enables forecasting and scenario modeling activities  \n• Multiple data storage options (Multidimensional, Hybrid, Relational)  \n• Fully published APIs for custom analytic application development (C, VB, Java, XMLA) [...] to data locked in transactional systems, and leverages information from your existing data stores to deliver unequaled business intelligence reporting. [...] Oracle Hyperion Essbase – to model complex business sce",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.15800568,
+      "rank_score": 0.2029,
+      "retrieved_at": "2026-10-28T16:59:05.623188Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "ab3ce676ebf8f24f5be80504bdf440260d089271f2d0a1635e11ef37fb11dc88",
+      "content_chars": 3161,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S3",
+      "url": "https://quantumleap.readthedocs.io",
+      "canonical_url": "https://quantumleap.readthedocs.io/",
+      "domain": "quantumleap.readthedocs.io",
+      "title": "QuantumLeap",
+      "snippet": "database back ends. In fact, presently QuantumLeap supports both CrateDB and Timescale as back end databases. [...] One guiding principle in QuantumLeap design has been the ability to use multiple time series databases. This design choice is justified by the fact that a database product may be more suitable than another depending on circumstances at hand. Currently QuantumLeap can be used with both CrateDB and Timescale.\n\nThe Database Selection section of this manual explains how to configure QuantumLeap to use one of the available database back ends.\n\n### CrateDB back end [...] time series st",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q3"
+      ],
+      "provider_score": 0.08943091,
+      "rank_score": 0.2221,
+      "retrieved_at": "2026-10-28T16:58:59.266981Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "d66f9e7c8af18d89eb3779d2593e0fdc9c96a4214fb711b4ffad98bf01bc642e",
+      "content_chars": 16374,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S7",
+      "url": "https://www.oracle.com/support/license-codes/hyperion.html",
+      "canonical_url": "https://oracle.com/support/license-codes/hyperion.html",
+      "domain": "oracle.com",
+      "title": "Hyperion | License Codes | Support | Oracle",
+      "snippet": "| 4.0.5 | HS9\\_MasterLicenseFile.zip |\n| Pillar | All | Admin: 8613556  ODBC: 1246805 |\n| Planning | 1.0 - 4.0.1 | Core: 28446026-18029109-23846095613  Workforce: 28432005-18007077-61382948579 |\n| 4.0.5 | HS9\\_MasterLicenseFile.zip |\n| Planning Standard Edition | All | Core: 28446026-18029109-23846095613  Workforce: 28432005-18007077-61382948579 |\n| Reports | All | None |\n| SQR | 6.x | 00000-4738-2229-5829-0756 | [...] | 7.1.6.5 | None |\n| Financial Management | 1.0 - 4.0.2 | None |\n| 4.0.5 | HS9\\_MasterLicenseFile.zip |\n| Intelligence | 6.6.4, 6.6.5 | See below |\n| 8.0 - 8.5 | 5M82-7N9W3 |\n| ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.60861784,
+      "rank_score": 0.3977,
+      "retrieved_at": "2026-10-28T16:58:59.234532Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "d8ad6f4dc4027a569c3e3985bffec3e8dc54b1d039514518d268f2748d053aea",
+      "content_chars": 10714,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S9",
+      "url": "https://cloudian.com/blog/vector-data-lake-accelerates-enterprise-ai",
+      "canonical_url": "https://cloudian.com/blog/vector-data-lake-accelerates-enterprise-ai",
+      "domain": "cloudian.com",
+      "title": "How a Vector Data Lake Accelerates Enterprise AI",
+      "snippet": "4. Scalable Vector Engine: Milvus is a high-performance vector database, deployed on the compute cluster, leveraging K3S for scalable orchestration. The VDB provides the query engine, while Cloudian HyperStore provides the persistent, exabyte-scale storage backbone, resulting in a robust, future-proof Vector Data Lake. [...] 2. Milvus Vector Database (VDB): Milvus, developed by Zilliz, is a specialized database designed to store and manage vectors—numerical representations (embeddings) generated by AI and ML models that capture the semantic meaning of data. VDBs enable extremely fast similarit",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2",
+        "Q3"
+      ],
+      "provider_score": 0.10108273,
+      "rank_score": 0.2273,
+      "retrieved_at": "2026-10-28T16:58:59.249496Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "4b2df3b075689f6a1dc7b835bb11007328f3709d7a577544a3efa5d89c97494a",
+      "content_chars": 16744,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S13",
+      "url": "https://developer.nvidia.com/drive/hyperion-7.1",
+      "canonical_url": "https://developer.nvidia.com/drive/hyperion-7.1",
+      "domain": "developer.nvidia.com",
+      "title": "Hyperion 7.1 | NVIDIA Developer",
+      "snippet": "# NVIDIA Hyperion 7.1 [...] | Accelerate image, point cloud, and computer vision processing. |  Consider using  DriveWorks, which includes CUDA and PVA-accelerated image, computer vision, and point cloud processing modules.  If you would still like to implement your own processing algorithms, get CUDA samples using SDK Manager available on the  Download page. | [...] | Use TensorRT to accelerate inference of deep neural networks developed for AV perception. |  Consider using DriveWorks , which includes CUDA and PVA-accelerated image, computer vision, and point cloud processing modules.  If you",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.16450334,
+      "rank_score": 0.2979,
+      "retrieved_at": "2026-10-28T16:58:59.242405Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "6547f429fa36a4bc98c159c7721bf4c6555eb29f95734363b89482b552446c05",
+      "content_chars": 8064,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S18",
+      "url": "https://samexpert.com/microsoft-ea-discount-removal-2025",
+      "canonical_url": "https://samexpert.com/microsoft-ea-discount-removal-2025",
+      "domain": "samexpert.com",
+      "title": "Microsoft slashed EA discounts for large organisations",
+      "snippet": "> MCA ends automatic volume discounts. Reductions now rely on negotiation.\n\nNow, the discounts may still be there. It's rumoured (it's not confirmed) that Microsoft sales representatives have internal guidance on offering upfront discount levels for Microsoft Customer Agreement clients. When you approach your next Enterprise Agreement renewal after 1st November 2025, Microsoft may offer different alternatives. [...] For over 25 years, Microsoft, through the Enterprise Agreement programme, has been offering different price levels depending on the organisation's size. There are discounts that so",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.1732186,
+      "rank_score": 0.351,
+      "retrieved_at": "2026-10-28T16:59:05.633475Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "755508785573201721c002e8c292641b52b78fef8afaeb3320a18a8e0686fc98",
+      "content_chars": 7076,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S19",
+      "url": "https://www.solutions-ii.com/blog/the-disappearing-volume-discount",
+      "canonical_url": "https://solutions-ii.com/blog/the-disappearing-volume-discount",
+      "domain": "solutions-ii.com",
+      "title": "The Disappearing Volume Discount: Why Microsoft’s EA Just Leveled the Pricing Field",
+      "snippet": "If you’ve ever justified a big Microsoft Enterprise Agreement by saying, “the more we buy, the more we save,” that card is about to be pulled from the deck. Microsoft is retiring the volume discount that made EAs the gold standard for enterprise licensing. Starting November 1, 2025, every organization will pay the same list price for cloud services. It’s a shift that flattens the playing field and forces enterprises to rethink how they negotiate, plan, and commit to Microsoft’s cloud. [...] ## Introduction\n\nFor decades, Microsoft’s Enterprise Agreement (EA) has been the crown jewel of corporat",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.16571489,
+      "rank_score": 0.3636,
+      "retrieved_at": "2026-10-28T16:59:05.625536Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "dcfb416913b1ad0efd4159e26becad8fe090167ae48725331410bc4a7f0a470c",
+      "content_chars": 6943,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S20",
+      "url": "https://www.serversys.com/insights/microsoft-enterprise-agreement-volume-licensing-discounts-end-november-2025",
+      "canonical_url": "https://serversys.com/insights/microsoft-enterprise-agreement-volume-licensing-discounts-end-november-2025",
+      "domain": "serversys.com",
+      "title": "Microsoft EA Volume Licensing Discounts End November 2025",
+      "snippet": "Call us: +44(0)203 884 3804\n Client Portal\n\nServerSys\n\nSelect Page\n\n# Microsoft Enterprise Agreement Volume Licensing Discounts End November 2025\n\n5 minutes reading time\n\nMicrosoft Enterprise Agreement Volume Licensing Discounts End November 2025\n\nMicrosoft is changing how Enterprise Agreement (EA) pricing works for its online services, including Dynamics 365 and Microsoft 365. [...] From 1st November 2025, the volume-based discount structure that has rewarded larger organisations with better pricing will be replaced with standardised rates across all agreement levels.\n\n## The End of Volume-Ba",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.16474508,
+      "rank_score": 0.3631,
+      "retrieved_at": "2026-10-28T16:59:05.630553Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "e350fb4a4507551351afbff2b453ccc82ab7e3161470858a71388de62681a977",
+      "content_chars": 5229,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S1",
+      "url": "https://docs.plainid.io/docs/vector-db-engine",
+      "canonical_url": "https://docs.plainid.io/docs/vector-db-engine",
+      "domain": "docs.plainid.io",
+      "title": "Vector DB Engine",
+      "snippet": "Title: Vector DB Engine\n# Vector DB Engine. OpenAI API key used for embedding generation. - Currently, only the Open AI API Key is supported. Always set `OPENAI_API_KEY` using a separate values file or the Helm CLI. # Option 1: Using --set (creates a Secret via Helm) helm install vector-db-classifier-engine ./vector-db-classifier-engine \\ --set secret.OPENAI_API_KEY=\"sk-your-actual-key\" # Option 2: Using a separate secrets file helm install vector-db-classifier-engine ./vector-db-classifier-engine \\ -f secrets.yaml # Option 3: Using an existing Kubernetes Secret kubectl create secret generic m",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "failed",
+      "state_reason": "Could not be read: 404 page not found",
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.21148235,
+      "rank_score": 0.327,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S4",
+      "url": "https://quantumleap.readthedocs.io/en/latest",
+      "canonical_url": "https://quantumleap.readthedocs.io/en/latest",
+      "domain": "quantumleap.readthedocs.io",
+      "title": "QuantumLeap",
+      "snippet": "database back ends. In fact, presently QuantumLeap supports both CrateDB and Timescale as back end databases. [...] One guiding principle in QuantumLeap design has been the ability to use multiple time series databases. This design choice is justified by the fact that a database product may be more suitable than another depending on circumstances at hand. Currently QuantumLeap can be used with both CrateDB and Timescale.\n\nThe Database Selection section of this manual explains how to configure QuantumLeap to use one of the available database back ends.\n\n### CrateDB back end [...] time series st",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.08943091,
+      "rank_score": 0.2054,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S5",
+      "url": "https://quantumleap.readthedocs.io/en/latest/admin/configuration",
+      "canonical_url": "https://quantumleap.readthedocs.io/en/latest/admin/configuration",
+      "domain": "quantumleap.readthedocs.io",
+      "title": "Configuration - QuantumLeap",
+      "snippet": "schedule `M` task execution attempts at time points `t1,..., tM`. On retrying task execution at time point `t[k]`, if the DB insert succeeds, cancel any subsequent scheduled retries and flag the task as successful. If the insert fails, what happens next depends on whether the failure is transient or permanent. A transient failure is a situation where the task may succeed if retried at some time in the future (e.g. a DB connection goes down) whereas a permanent failure is a situation where the [...] | `INSERT_MAX_SIZE` | Maximum amount of data a SQL (bulk) insert should take |\n| `POSTGRES_HOST`",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.07439947,
+      "rank_score": 0.24,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://quantumleap.readthedocs.io/en/latest/admin/timescale",
+      "canonical_url": "https://quantumleap.readthedocs.io/en/latest/admin/timescale",
+      "domain": "quantumleap.readthedocs.io",
+      "title": "Timescale - QuantumLeap",
+      "snippet": "## QuantumLeap Timescale DB setup [...] 1. Bootstrap the QuantumLeap database if it doesn't exist. It creates a database for QuantumLeap with all required extensions as well as an initial QuantumLeap role. If the specified QuantumLeap DB already exists, the bootstrap phase is skipped. [...] `POSTGRES_HOST`: the hostname or IP address of your Timescale server. Defaults to `timescale` if not specified.\n `POSTGRES_PORT`: the server port to connect to, defaults to `5432`.\n `POSTGRES_DB_NAME`: the name of the QuantumLeap DB, defaults to `quantumleap`.\n `POSTGRES_DB_USER`: the DB user QuantumLeap sh",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.07193612,
+      "rank_score": 0.2229,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S8",
+      "url": "https://blogs.nvidia.com/blog/drive-hyperion-9-thor",
+      "canonical_url": "https://blogs.nvidia.com/blog/drive-hyperion-9-thor",
+      "domain": "blogs.nvidia.com",
+      "title": "Introducing DRIVE Hyperion 9 for Software-Defined Fleets | NVIDIA Blog",
+      "snippet": "### Related News\n\nNVIDIA Expands Advanced Technology Access for Europe’s Scientific Community Through Open Learning Resources, Collaborations and Compute\n\nAI\n\n### NVIDIA Expands Advanced Technology Access for Europe’s Scientific Community Through Open Learning Resources, Collaborations and Compute\n\nThe Nordics and NVIDIA Show What’s Possible When a Region Commits to Advanced Computing\n\nAI\n\n### The Nordics and NVIDIA Show What’s Possible When a Region Commits to Advanced Computing [...] It provides 2,000 teraflops of performance — more than ample compute horsepower for redundant and diverse dee",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.19073945,
+      "rank_score": 0.2271,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S10",
+      "url": "https://www.vastdata.com/blog/powering-enterprise-ai-high-velocity-vector-search-sql",
+      "canonical_url": "https://vastdata.com/blog/powering-enterprise-ai-high-velocity-vector-search-sql",
+      "domain": "vastdata.com",
+      "title": "Powering Enterprise AI with High-Velocity Vector Search and SQL - VAST Data",
+      "snippet": "For background: [...] cybersecurity, genomics / life sciences, retail, and chemistry. [...] a series of benchmarks that demonstrate the scale and performance of its native vector database, achieving very high throughput, performance, and recall across a sample size of 50 billion vectors.",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2",
+        "Q4"
+      ],
+      "provider_score": 0.09461931,
+      "rank_score": 0.2752,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S11",
+      "url": "https://www.valeo.com/en/valeo-builds-next-generation-high-performance-compute-platforms-built-on-nvidia-hyperion",
+      "canonical_url": "https://valeo.com/en/valeo-builds-next-generation-high-performance-compute-platforms-built-on-nvidia-hyperion",
+      "domain": "valeo.com",
+      "title": "Valeo Builds Next-Generation High-Performance Compute Platforms Built on NVIDIA Hyperion | Valeo",
+      "snippet": "Worldwide\n Africa & Overseas\n Algeria\n Argentina\n ASEAN\n Australia\n Belgium\n Brazil\n China\n France\n Germany\n India\n Italy\n Ivory Coast\n Marocco\n Mexico\n Netherlands\n Overseas France\n Poland\n Portugal\n South Africa\n Spain\n Thailand\n Tunisia\n Türkiye\n United Kingdom\n United States [...] enhance operational efficiency, minimize system complexity, and accelerate time-to-market for the next generation of intelligent transport. [...] Skip to content\n\nValeo €13.4450\n\n-0,96%\n\n en\n fr\n\nJoin us\n\nSmart Technology For Smarter mobility\n\nValeo Group\n\nVALEO GROUP 21 October 2026 3 min \n\n# Valeo Builds Next-G",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.082173064,
+      "rank_score": 0.1782,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S12",
+      "url": "https://www.actian.com/databases/analytics-engine",
+      "canonical_url": "https://actian.com/databases/analytics-engine",
+      "domain": "actian.com",
+      "title": "Actian Analytics Engine (Formerly Vector) | Columnar Database",
+      "snippet": "Actian Analytics Engine experts can help you establish the right data foundation to unlock the full potential of your data for real-time analytics. Get in touch to see how we can support a wide range of analytic use cases across every industry.\n\n### Request Free Demo\n\nThis email extension () is not allowed. Please update.\n\nThis personal email address domain () is not allowed. Please update.\n\nValid email\n\nLoading...\n\nInvalid email\n\nEnter an email\n\nEnter a business email [...] Read Article [...] ## What’s new in Analytics Engine 8.0\n\n8.0 adds in-database vector workflows, ONNX inference, MCP age",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.060246922,
+      "rank_score": 0.2097,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S14",
+      "url": "https://qdrant.tech",
+      "canonical_url": "https://qdrant.tech/",
+      "domain": "qdrant.tech",
+      "title": "Qdrant - Vector Search Engine",
+      "snippet": "Index new data instantly without rebuilding the entire index. Your vectors are searchable the moment they're added.\n\n### Memory‑Efficient Storage\n\nStore billions of vectors with minimal memory footprint using our optimized storage architecture.\n\n### Asymmetric, Scalar and Binary Quantization\n\nReduce memory usage by up to 64x while maintaining search quality with advanced quantization techniques.\n\n### Highest‑Performance Vector Search Engine [...] + About us+ Customers+ Partners+ Services+ Careers+ Contact us [...] Go beyond keywords with neural search that understands intent and delivers relev",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.10963924,
+      "rank_score": 0.2399,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S15",
+      "url": "https://www.youtube.com/watch?v=OCZQUQxQ-Jo",
+      "canonical_url": "https://youtube.com/watch?v=OCZQUQxQ-Jo",
+      "domain": "youtube.com",
+      "title": "Vector Databases Explained: Insights, Applications, and Pinecone Tutorial | LLM | Community Webinar",
+      "snippet": "[44:21] It's a simple loop that I ran over the documents to get the page content. And\n[44:29] we have our SMBO relevant content here. Another thing\n[44:37] like you might be asking where is the page number?\n[44:43] So for the page number what you can do is you can remove the like the subscript for page content\n[44:51] and you will be getting the page number alongside the content as well. So the first chunk corresponds to page number [...] [40:23] going to run this piece of code. Another uh option that you can take is using the doc search method which is usually\n[40:31] provided in other docume",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.105809815,
+      "rank_score": 0.1968,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S16",
+      "url": "https://wpengine.com/managed-vector-database",
+      "canonical_url": "https://wpengine.com/managed-vector-database",
+      "domain": "wpengine.com",
+      "title": "Managed Vector Database for WordPress | WP Engine",
+      "snippet": "We support a default high-quality embedding model for fast setup. If you prefer a custom model, you can bring your own and connect it via API.\n\nNo. The vector database runs in a separate hosted environment, so your site performance stays fast and unaffected.\n\nWe offer flat-rate pricing based on your site’s needs. You get predictable costs, no usage-based surprises, and simple billing through WP Engine. [...] Skip to Main Content\n\n# Managed Vector Database for WordPress\n\n## Build AI tools with managed content\n\nBuilt for technical teams, this fully managed service for WordPress® removes the need",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.0895264,
+      "rank_score": 0.2468,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S17",
+      "url": "https://www.directionsonmicrosoft.com/microsoft-is-dropping-ea-volume-discounts-starting-in-november-2025",
+      "canonical_url": "https://directionsonmicrosoft.com/microsoft-is-dropping-ea-volume-discounts-starting-in-november-2025",
+      "domain": "directionsonmicrosoft.com",
+      "title": "Microsoft Is Dropping EA Volume Discounts Starting in November 2025  - Directions on Microsoft",
+      "snippet": "Credit: Microsoft\n\nMicrosoft has been working to move more customers off Enterprise Agreement (EA) volume licenses for the past few years. But it is really stepping up the war on the volume discounts on which these customers counted starting in Nov. 2025. Starting then, Microsoft will be discontinuing existing discounts for online services provided across all of its EA tiers, as well as for products covered by the Microsoft Products and Services Agreement (MPSA). [...] “With a standardized Online Services starting price for all customers across both Enterprise Agreement and Cloud Solution Prov",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.18352078,
+      "rank_score": 0.3224,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S21",
+      "url": "https://upperedge.com/microsoft/microsoft-ends-ea-volume-discounts-what-it-means-and-how-to-respond",
+      "canonical_url": "https://upperedge.com/microsoft/microsoft-ends-ea-volume-discounts-what-it-means-and-how-to-respond",
+      "domain": "upperedge.com",
+      "title": "Microsoft Ends EA Volume Discounts: What It Means and How to Respond - UpperEdge",
+      "snippet": "# Microsoft Ends EA Volume Discounts: What It Means and How to Respond\n\n Adam Mansfield\n Reading Time: 3 minutes\n\nmicrosoft webinar 04 2021 twitter\n\nMicrosoft has made a sweeping change to its Enterprise Agreement (EA) contracting model that will impact all EA customers. \n\nOn November 1, 2025, Microsoft will eliminate EA volume licensing price levels  and the programmatic “waterfall” price level (A-D) volume discounts that have long been a cornerstone of Microsoft’s EA contracting model.",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.13151889,
+      "rank_score": 0.299,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    }
+  ],
+  "evidence": [],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "List price or base cost for QuantumLeap Vector Engine 9 (per‑seat, per‑core, or per‑instance)",
+      "kind": "dimension",
+      "required": true,
+      "status": "missing",
+      "evidence_ids": [],
+      "independent_sources": 0,
+      "note": "No evidence found in reviewed sources."
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Available licensing or subscription models (e.g., perpetual license, annual subscription, usage‑based billing)",
+      "kind": "dimension",
+      "required": true,
+      "status": "missing",
+      "evidence_ids": [],
+      "independent_sources": 0,
+      "note": "No evidence found in reviewed sources."
+    },
+    {
+      "criterion_id": "K3",
+      "description": "Any publicly mentioned discounts, volume‑pricing tiers, or enterprise agreements",
+      "kind": "dimension",
+      "required": false,
+      "status": "missing",
+      "evidence_ids": [],
+      "independent_sources": 0,
+      "note": "No evidence found in reviewed sources."
+    },
+    {
+      "criterion_id": "K4",
+      "description": "Verification that the product actually exists and is currently offered by Hyperion DB",
+      "kind": "eligibility",
+      "required": true,
+      "status": "missing",
+      "evidence_ids": [],
+      "independent_sources": 0,
+      "note": "No evidence found in reviewed sources."
+    }
+  ],
+  "unresolved_criteria": [
+    "K1",
+    "K2",
+    "K4"
+  ],
+  "conflicts": [],
+  "confidence": {
+    "level": "low",
+    "explanation": "Low: 0 of 3 required criteria are supported; no claims could be checked; evidence comes from 0 independent sites; claim verification did not run.",
+    "factors": {
+      "required_criteria_supported": "0/3",
+      "claim_support_rate": 0.0,
+      "independent_domains": 0,
+      "high_suitability_sources": 0,
+      "first_party_evidence_share": 0.0,
+      "unresolved_conflicts": 0,
+      "stale_required_criteria": 0,
+      "weak_required_criteria": 0,
+      "verification": "did not run"
+    }
+  },
+  "limitations": [
+    "Research stopped early: The follow-up round found no new evidence.",
+    "K1 (List price or base cost for QuantumLeap Vector Engine 9 (per‑seat, per‑core, or per‑instance)): missing. No evidence found in reviewed sources.",
+    "K2 (Available licensing or subscription models (e.g., perpetual license, annual subscription, usage‑based billing)): missing. No evidence found in reviewed sources.",
+    "K4 (Verification that the product actually exists and is currently offered by Hyperion DB): missing. No evidence found in reviewed sources.",
+    "1 source could not be read (blocked, paywalled, or failed extraction).",
+    "Publication dates are provider estimates or dates found in page text and may be inaccurate.",
+    "Claims were not independently verified against their evidence."
+  ],
+  "assumptions": [
+    "The product name is exactly \"QuantumLeap Vector Engine 9\" and is marketed by a company called Hyperion DB.",
+    "Pricing information is publicly disclosed on the vendor website, reseller pages, or recent press releases."
+  ],
+  "next_steps": [
+    "Find primary or independent sources for: List price or base cost for QuantumLeap Vector Engine 9 (per‑seat, per‑core, or per‑instance).",
+    "Find primary or independent sources for: Available licensing or subscription models (e.g., perpetual license, annual subscription, usage‑based billing).",
+    "Find primary or independent sources for: Verification that the product actually exists and is currently offered by Hyperion DB."
+  ],
+  "plan": {
+    "objective": "Identify the current pricing (license, subscription, or usage fees) for the QuantumLeap Vector Engine 9 product offered by Hyperion DB, and note any relevant purchasing options or restrictions.",
+    "task_type": "entity_discovery",
+    "interpretation": "Research the up‑to‑date cost details for the QuantumLeap Vector Engine 9 software from Hyperion DB, including list price, tiered pricing, subscription models, and any enterprise discount information.",
+    "assumptions": [
+      "The product name is exactly \"QuantumLeap Vector Engine 9\" and is marketed by a company called Hyperion DB.",
+      "Pricing information is publicly disclosed on the vendor website, reseller pages, or recent press releases."
+    ],
+    "constraints": [],
+    "ambiguity_note": null,
+    "freshness_days": 365,
+    "target_entity_count": 1,
+    "candidate_entities": [],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "List price or base cost for QuantumLeap Vector Engine 9 (per‑seat, per‑core, or per‑instance)",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "QuantumLeap Vector Engine 9 price",
+          "QuantumLeap Vector Engine 9 cost",
+          "Hyperion DB QuantumLeap pricing"
+        ]
+      },
+      {
+        "id": "K2",
+        "description": "Available licensing or subscription models (e.g., perpetual license, annual subscription, usage‑based billing)",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "QuantumLeap Vector Engine 9 licensing",
+          "QuantumLeap subscription",
+          "Hyperion DB licensing options"
+        ]
+      },
+      {
+        "id": "K3",
+        "description": "Any publicly mentioned discounts, volume‑pricing tiers, or enterprise agreements",
+        "kind": "dimension",
+        "required": false,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "QuantumLeap volume discount",
+          "QuantumLeap enterprise pricing",
+          "Hyperion DB bulk pricing"
+        ]
+      },
+      {
+        "id": "K4",
+        "description": "Verification that the product actually exists and is currently offered by Hyperion DB",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "QuantumLeap Vector Engine 9 Hyperion DB",
+          "QuantumLeap product page",
+          "Hyperion DB offerings"
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "QuantumLeap Vector Engine 9 price Hyperion DB",
+        "purpose": "Find official or reseller pricing information for the product",
+        "criterion_ids": [
+          "K1",
+          "K2",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "QuantumLeap Vector Engine 9 licensing Hyperion DB",
+        "purpose": "Identify licensing or subscription models available",
+        "criterion_ids": [
+          "K2"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q3",
+        "text": "QuantumLeap Vector Engine 9 Hyperion DB product page",
+        "purpose": "Confirm product existence and current availability",
+        "criterion_ids": [
+          "K4"
+        ],
+        "round": 1,
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Search the vendor's official website (hyperiondb.com) for a product page or datasheet for QuantumLeap Vector Engine 9; capture pricing tables or links to a pricing portal.",
+      "If the vendor site lacks explicit prices, search reseller or partner sites (e.g., software marketplaces, IT procurement portals) using the queries to locate quoted list prices or subscription fees.",
+      "Collect information on licensing models (perpetual, subscription, usage‑based) from the vendor or reseller documentation; note any tiered or volume‑discount structures mentioned.",
+      "Cross‑check the gathered figures with recent news articles, press releases, or analyst reports (within the last year) to ensure the pricing is current.",
+      "Compile the findings, citing the source URLs and dates, and flag any missing or ambiguous pricing elements for further clarification."
+    ]
+  },
+  "claims": [],
+  "verification": {
+    "claims_checked": 0,
+    "supported": 0,
+    "partially_supported": 0,
+    "not_supported": 0,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": false,
+    "removed_claims": [],
+    "note": "Verification did not run."
+  },
+  "execution": {
+    "mode": "live",
+    "model": "gpt-6.1-terra",
+    "sdk_version": "3.40.0",
+    "prompt_version": "2026-10-28.3",
+    "reasoning_effort": "low",
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.15
+    },
+    "metrics": {
+      "started_at": "2026-10-28T16:58:52.851263Z",
+      "finished_at": "2026-10-28T16:59:06.945962Z",
+      "duration_ms": 14094.7,
+      "first_event_ms": 0.0,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 3176.4
+        },
+        {
+          "stage": "search",
+          "ms": 2416.7
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 834.1
+        },
+        {
+          "stage": "extract",
+          "ms": 2080.0
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "follow_up",
+          "ms": 1295.7
+        },
+        {
+          "stage": "search",
+          "ms": 1926.8
+        },
+        {
+          "stage": "filter",
+          "ms": 0.4
+        },
+        {
+          "stage": "read",
+          "ms": 1055.3
+        },
+        {
+          "stage": "extract",
+          "ms": 1308.5
+        },
+        {
+          "stage": "assess",
+          "ms": 0.0
+        }
+      ],
+      "rounds": 2,
+      "search_calls": 4,
+      "extract_calls": 2,
+      "pages_requested": 9,
+      "pages_read": 8,
+      "model_calls": 4,
+      "model_attempts": 4,
+      "retries": 0,
+      "model_fallbacks": 0,
+      "models_used": {
+        "groq:openai/gpt-oss-120b": 2,
+        "openai:gpt-6.1-terra": 2
+      },
+      "cache_hits": 0,
+      "cache_misses": 13,
+      "input_tokens": 9270,
+      "output_tokens": 1367,
+      "estimated_cost_usd": 0.0559,
+      "cost_uncertain": false,
+      "tavily_credits": 6.0,
+      "sources_discovered": 21,
+      "sources_filtered": 0,
+      "evidence_accepted": 0,
+      "evidence_rejected": 0
+    }
+  },
+  "created_at": "2026-10-28T16:59:06.946015Z"
+}

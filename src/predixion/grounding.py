@@ -551,6 +551,13 @@ def decide_status(
     supported_claims = [r for r in refs if r.claim.verdict in (SupportVerdict.supported, SupportVerdict.partially_supported)]
     if evidence_count == 0 or (verification_ran and not supported_claims):
         return RunStatus.insufficient_evidence
+    # A report whose short answer failed verification and whose required criteria all lack support has
+    # not answered anything, even if a caveat-style finding survived; that is insufficient evidence.
+    answer = next((r for r in refs if r.claim.location == ClaimLocation.short_answer), None)
+    answer_failed = answer is None or answer.claim.verdict == SupportVerdict.not_supported
+    required = [c for c in coverage if c.required] or coverage
+    if verification_ran and answer_failed and not any(c.status == CoverageStatus.supported for c in required):
+        return RunStatus.insufficient_evidence
     if verification_ran and required_satisfied(coverage) and not hit_limit:
         return RunStatus.completed
     return RunStatus.partial

@@ -7,7 +7,8 @@ These are real reports from live runs on 2026-10-28. Each one was saved by `pred
 | [vector-db-comparison](vector-db-comparison.md) ([JSON](vector-db-comparison.json)) | Compare the top three open-source vector databases for a startup building RAG products. | Completed, High confidence, with a comparison table | `2026-10-28.3` |
 | [hr-tech-discovery](hr-tech-discovery.md) ([JSON](hr-tech-discovery.json)) | Find five Indian B2B SaaS startups in HR tech and summarize their positioning. | Partial: 1 company confirmed, 6 candidates excluded with reasons | `2026-10-28.3` |
 | [sqlite-contradictory](sqlite-contradictory.md) ([JSON](sqlite-contradictory.json)) | Is SQLite suitable for production web applications? | Partial, Low confidence, with conflicting sources reported | `2026-10-28.2` |
+| [nonexistent-product](nonexistent-product.md) ([JSON](nonexistent-product.json)) | What does QuantumLeap Vector Engine 9 from Hyperion DB cost? | Insufficient evidence: eight pages read, nothing usable, no price invented (saved during the independent audit) | `2026-10-28.3` |
 
-All three used `gpt-6.1-terra` at reasoning effort low, with Tavily for search and extraction.
+All four used `gpt-6.1-terra` at reasoning effort low, with Tavily for search and extraction. The nonexistent-product report also used Groq-hosted `openai/gpt-oss-120b` for its plan and follow-up steps (Groq routing was enabled in the audit session).
 
 [docs/evaluation.md](../evaluation.md#spot-check-of-live-claims) lists problems seen in these reports. They include overstated confidence on the vector report and generic conflict entries in the SQLite report. Sources, quotes, and dates are what the live web returned that day and may have changed since.

@@ -1,0 +1,110 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T16:59:06+00:00",
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.3",
+  "git_commit": "5e37466",
+  "prices": {
+    "model_input_usd_per_mtok": 1.0,
+    "model_output_usd_per_mtok": 5.0,
+    "tavily_usd_per_credit": 0.008
+  },
+  "routing": {
+    "groq_models_usd_per_mtok_in_out": {
+      "openai/gpt-oss-120b": [
+        0.15,
+        0.6
+      ],
+      "openai/gpt-oss-20b": [
+        0.075,
+        0.3
+      ]
+    },
+    "groq_tasks": [
+      "plan",
+      "follow_up"
+    ],
+    "groq_max_request_tokens": 8000,
+    "fallback": true
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 0.15,
+  "spent_usd": 0.0559,
+  "stopped_early": false,
+  "cases": [
+    {
+      "id": "nonexistent_product",
+      "category": "nonexistent_entity",
+      "question": "What does QuantumLeap Vector Engine 9 from Hyperion DB cost?",
+      "expected": "Says it found no evidence for the product and makes no factual claims about it.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "List price or base cost for QuantumLeap Vector Engine 9 (per‑seat, per‑core, or per‑instance)",
+        "Available licensing or subscription models (e.g., perpetual license, annual subscription, usage‑based billing)",
+        "Any publicly mentioned discounts, volume‑pricing tiers, or enterprise agreements",
+        "Verification that the product actually exists and is currently offered by Hyperion DB"
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "insufficient_evidence",
+        "stop_reason": "diminishing_returns",
+        "confidence": "low",
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 3,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "abstains": true
+        },
+        "latency_s": 14.09,
+        "cost_usd": 0.0559,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "model_fallbacks": 0,
+        "models_used": {
+          "groq:openai/gpt-oss-120b": 2,
+          "openai:gpt-6.1-terra": 2
+        },
+        "input_tokens": 9270,
+        "output_tokens": 1367,
+        "search_calls": 4,
+        "pages_read": 8
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 1,
+      "checks_passed": 1,
+      "checks_total": 1,
+      "claims": 0,
+      "supported": 0,
+      "partially_supported": 0,
+      "not_supported": 0,
+      "supported_rate": null,
+      "invalid_citations": 0,
+      "criteria_covered": 0,
+      "criteria_total": 3,
+      "reported_criteria_supported": 0,
+      "latency_s_median": 14.09,
+      "latency_s_total": 14.09,
+      "cost_usd_total": 0.0559,
+      "cost_uncertain": false
+    },
+    "baseline": null
+  }
+}

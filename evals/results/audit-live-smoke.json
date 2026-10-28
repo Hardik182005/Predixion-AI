@@ -1,0 +1,232 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T16:57:28+00:00",
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.3",
+  "git_commit": "5e37466",
+  "prices": {
+    "model_input_usd_per_mtok": 1.0,
+    "model_output_usd_per_mtok": 5.0,
+    "tavily_usd_per_credit": 0.008
+  },
+  "routing": {
+    "groq_models_usd_per_mtok_in_out": {
+      "openai/gpt-oss-120b": [
+        0.15,
+        0.6
+      ],
+      "openai/gpt-oss-20b": [
+        0.075,
+        0.3
+      ]
+    },
+    "groq_tasks": [
+      "plan",
+      "follow_up"
+    ],
+    "groq_max_request_tokens": 8000,
+    "fallback": true
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 0.3,
+  "spent_usd": 0.1351,
+  "stopped_early": false,
+  "cases": [
+    {
+      "id": "vector_db_comparison",
+      "category": "assignment_example",
+      "question": "Compare the top three open-source vector databases for a startup building RAG products.",
+      "expected": "Compares three open-source vector databases; vendor claims stay attributed and unsupported superlatives are dropped.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Eligibility: Must be an open‑source project (permissive or copyleft license) that provides a vector search engine suitable for embeddings.",
+        "Popularity / adoption: Relative community size, star count, number of forks, and presence in recent RAG tutorials or reference architectures.",
+        "Performance: Reported query latency, throughput, and scalability for typical embedding dimensions (e.g., 768‑1536).",
+        "Community & ecosystem: Frequency of releases, active issue/PR turnover, availability of connectors (Python, LangChain, LlamaIndex) and documentation quality.",
+        "Licensing suitability for a commercial startup: Whether the license permits proprietary use without viral obligations and any required attribution."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "low",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Milvus, pgvector and Weaviate are described as open-source vector-search projects, but the sources do not establish a current relative adoption ranking.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Open-source vector databases include Milvus, Weaviate, Qdrant, PGVector, Chroma, and FAISS.",
+              "pgvector is an open-source extension that adds vector search to PostgreSQL. If you already run Postgres, you can add vector capabilities without a new database.",
+              "Weaviate: An open-source graph-based vector store."
+            ],
+            "sources": [
+              "https://www.cake.ai/blog/best-vector-databases",
+              "https://www.olostep.com/blog/best-vector-database",
+              "https://www.zenml.io/blog/vector-databases-for-rag"
+            ]
+          },
+          {
+            "text": "Milvus says it reached more than 35,000 GitHub stars. Without comparable, current metrics for the other projects, that claim does not establish its relative rank.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Our Journey to 35K+ GitHub Stars: The Real Story of Building Milvus from Scratch"
+            ],
+            "sources": [
+              "https://milvus.io/blog/vdbbench-1-0-benchmarking-with-your-real-world-production-workloads.md"
+            ]
+          },
+          {
+            "text": "An aggregator reports that Milvus has Python SDKs and LangChain and LlamaIndex integrations. ZenML says its pipelines can connect to Milvus, pgvector and Weaviate.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "The project provides client SDKs for Python, Java, Go, and other languages, as well as integration with popular AI models and ML frameworks, including LangChain and LlamaIndex.",
+              "With ZenML, you can plug in any vector database you prefer, whether Pinecone, Weaviate, Qdrant, Milvus, or even Postgres with pgvector, and focus on building reliable, fine-tuned production-ready pipelines."
+            ],
+            "sources": [
+              "https://zilliz.com/blog/top-5-open-source-vector-search-engines",
+              "https://www.zenml.io/blog/vector-databases-for-rag"
+            ]
+          },
+          {
+            "text": "A reported benchmark combines pgvector with pgvectorscale; it does not provide a like-for-like comparison of the three options. Vendor benchmark conditions can vary.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Per Tiger Data's benchmarks (formerly Timescale), pgvector with pgvectorscale achieved 28x lower p95 latency and 16x higher query throughput compared to Pinecone's storage-optimized (s1) index at 99% recall on 50M 768-dim embeddings (self-hosted).",
+              "Vendor benchmarks are marketing tools. Conditions vary (hardware, dataset size, recall targets), and every vendor optimizes for scenarios that favor their product."
+            ],
+            "sources": [
+              "https://www.olostep.com/blog/best-vector-database",
+              "https://www.olostep.com/blog/best-vector-database"
+            ]
+          },
+          {
+            "text": "Benchmark shortlisted options against the startup's own workload, including writes, metadata filters and concurrency, before choosing.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Vendor benchmarks are marketing tools. Conditions vary (hardware, dataset size, recall targets), and every vendor optimizes for scenarios that favor their product.",
+              "Leaderboards reward performance under static conditions, yet production systems must survive continuous writes, metadata filters, and concurrency spikes."
+            ],
+            "sources": [
+              "https://www.olostep.com/blog/best-vector-database",
+              "https://www.actian.com/blog/databases/how-to-evaluate-vector-databases-in-2026"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 5,
+        "reported_criteria_supported": 1,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": true
+        },
+        "latency_s": 52.24,
+        "cost_usd": 0.07217,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "model_fallbacks": 0,
+        "models_used": {
+          "groq:openai/gpt-oss-120b": 2,
+          "openai:gpt-6.1-terra": 4
+        },
+        "input_tokens": 17190,
+        "output_tokens": 4901,
+        "search_calls": 3,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "nonexistent_product",
+      "category": "nonexistent_entity",
+      "question": "What does QuantumLeap Vector Engine 9 from Hyperion DB cost?",
+      "expected": "Says it found no evidence for the product and makes no factual claims about it.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Official price(s) listed by Hyperion DB for QuantumLeap Vector Engine 9 (base license, enterprise license, subscription, perpetual, etc.)",
+        "Any publicly available discount structures, volume pricing, or academic/research pricing for the product",
+        "Verification that the product name and vendor are correct and that the product is actively sold as of the current year"
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "low",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "QuantumLeap documentation describes a project for making historical data available to the FIWARE ecosystem, but does not establish that it is the named product sold by Hyperion DB.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "QuantumLeap started out as an exploration of an alternative way to make historical data available to the FIWARE ecosystem without committing to a specific database back end."
+            ],
+            "sources": [
+              "https://quantumleap.readthedocs.io"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 2,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "abstains": false
+        },
+        "latency_s": 26.91,
+        "cost_usd": 0.06293,
+        "cost_uncertain": false,
+        "model_calls": 7,
+        "model_fallbacks": 0,
+        "models_used": {
+          "groq:openai/gpt-oss-120b": 2,
+          "openai:gpt-6.1-terra": 5
+        },
+        "input_tokens": 12373,
+        "output_tokens": 2091,
+        "search_calls": 5,
+        "pages_read": 8
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 2,
+      "checks_passed": 3,
+      "checks_total": 4,
+      "claims": 6,
+      "supported": 1,
+      "partially_supported": 1,
+      "not_supported": 4,
+      "supported_rate": 0.167,
+      "invalid_citations": 0,
+      "criteria_covered": 1,
+      "criteria_total": 7,
+      "reported_criteria_supported": 1,
+      "latency_s_median": 39.58,
+      "latency_s_total": 79.15,
+      "cost_usd_total": 0.1351,
+      "cost_uncertain": false
+    },
+    "baseline": null
+  }
+}
