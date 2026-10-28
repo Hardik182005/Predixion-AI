@@ -37,7 +37,7 @@ Test paths are relative to the repository root. Unless marked live, every test r
 | React, TypeScript, Vite, Tailwind; Vitest and Playwright | `frontend/` | 24 Vitest tests, 7 Playwright tests | Done |
 | Generate frontend API types from the backend contract where practical | `frontend/src/lib/types.ts` is hand-mirrored from `contracts.py` and lists only the fields the UI reads | Typecheck in `npm run build` | Partial: not generated |
 | Structured JSON logging | `logs.py`, `runs.py` (`run accepted`, `run finished` with status, stop reason, duration, cost) | Manual inspection of server logs | Done |
-| Docker and GitHub Actions | `Dockerfile`, `compose.yaml`, `.github/workflows/ci.yml` | Not verified: the Docker daemon was unavailable locally, and CI has not run on GitHub yet (see [submission.md](submission.md)) | Partial |
+| Docker and GitHub Actions | `Dockerfile`, `compose.yaml`, `.github/workflows/ci.yml` | Local `docker build` and a fixture-mode container run passed health, API, and export checks (see [submission.md](submission.md)). The CI result on GitHub has not been checked yet. | Partial |
 
 ## Inspectable research
 

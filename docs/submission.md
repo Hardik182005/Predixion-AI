@@ -36,10 +36,14 @@ Verified locally on 2026-10-28 (Windows 11, Python 3.13, uv 0.10.11, Node.js 24)
 - `uv run predixion eval --mode fixture`: 20 of 20 agent checks pass.
 - Live evaluation with real OpenAI and Tavily calls; see [evaluation.md](evaluation.md).
 - `pip-audit` and `npm audit --audit-level=high`: no known vulnerabilities.
+- `docker build` succeeded with Docker 29.6.2. The container was then run in fixture mode:
+  - `/healthz` and `/readyz` responded, the UI was served with its security headers, and Docker reported the container healthy.
+  - It ran as a non-root user.
+  - A research run through the API completed, and the Markdown and JSON exports worked.
+  - `docker compose up` itself was not run; the compose file adds only the loopback port mapping, the `.env` file, and a volume.
 
 Not verified:
 
-- **Docker image build.** The Docker daemon was not running on the development machine. The `docker build` job in CI is the first real check.
 - **CI workflow.** `.github/workflows/ci.yml` has not run on GitHub yet.
 - **Owner review.** The owner has not reviewed the code, the evaluation, or the sample reports; see [AI_USAGE.md](../AI_USAGE.md). The live claims spot-checked in [evaluation.md](evaluation.md) were checked by the AI development assistant.
 
@@ -47,7 +51,7 @@ Not verified:
 
 - [ ] Record the demo video and add the link above.
 - [ ] Give evaluators access to the repository, or make it public.
-- [ ] Confirm the CI run on `main` passes on GitHub, including the Docker build. `main` and `feature/research-agent` point at the same commit.
+- [ ] Confirm the CI run on `main` passes on GitHub. `main` and `feature/research-agent` point at the same commit.
 - [ ] Set `main` as the repository's default branch in GitHub settings if it is not already.
 - [ ] Choose a license. None is included, and that decision belongs to the owner.
 - [ ] Read [AI_USAGE.md](../AI_USAGE.md), the residual risks in [security.md](security.md), and the evaluation caveats in [evaluation.md](evaluation.md).

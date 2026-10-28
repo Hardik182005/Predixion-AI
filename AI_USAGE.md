@@ -24,9 +24,12 @@ This project used AI in two separate ways:
 - `uv run predixion eval --mode fixture`: all 20 agent checks pass.
 - Live evaluations with real OpenAI and Tavily calls. Results are in `evals/results/`, and spending was capped per run with `--max-spend`.
 - `pip-audit` and `npm audit --audit-level=high`: no known vulnerabilities on 2026-10-28.
+- `docker build` (Docker 29.6.2). The container was then run in fixture mode:
+  - `/healthz` and `/readyz` responded, the UI was served, and Docker reported the container healthy.
+  - It ran as a non-root user.
+  - A research run through the API completed, and both exports worked.
 
 **What was not checked:**
-- The Docker image build. The Docker daemon was not running on the development machine, so CI's `docker build` job is the first real check.
 - The CI workflow itself, which has not yet run on GitHub.
 - The demo video, which has not been recorded.
 
