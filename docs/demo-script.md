@@ -61,7 +61,7 @@ Point at the tagline and the evidence-card illustration. Click **Start research*
 ### 3:45–4:30 · How it is checked
 
 Show the terminal or the repository:
-- `uv run pytest` passes 191 backend tests offline.
+- `uv run pytest` passes 219 backend tests offline.
 - `uv run predixion eval --mode fixture` runs the 8-scenario regression suite at no cost.
 - `evals/results/live-gpt-6.1-terra.md` holds the live comparison with a one-pass baseline. The agent covered about twice as many criteria; it was about 8× slower and 2.3× more expensive.
 

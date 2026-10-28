@@ -107,7 +107,7 @@ Tests:
 
 ### Spending abuse and resource exhaustion
 
-- **Request limits.** Body capped at 64 KiB; question 10–2000 characters; at most 3 seed URLs; rounds 1–4.
+- **Request limits.** Body capped at 64 KiB; question 8–1000 characters; at most 3 seed URLs; rounds 1–4.
 - **Per-run limits.** Deadline, token cap, cost cap (reserved before each model call and reconciled with reported usage, keeping the worst case when usage is unknown), and caps on pages, queries, and model attempts.
 - **Server limits.**
   - Concurrent and queued runs are capped; over capacity returns `429` with `Retry-After`.

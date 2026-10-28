@@ -19,8 +19,8 @@ This project used AI in two separate ways:
 - **Documentation:** wrote this file, the README, and everything in `docs/`.
 
 **How the work was checked during development (commands actually run):**
-- `uv run ruff check .`, `uv run ruff format --check .`, and `uv run pytest`: 191 passed, 1 skipped. The skipped test is the opt-in live test.
-- `npm run build` (TypeScript check plus production build), `npm test` (24 Vitest tests), and `npm run e2e` (7 Playwright tests, including axe accessibility scans).
+- `uv run ruff check .`, `uv run ruff format --check .`, and `uv run pytest`: 216 passed, 1 skipped at the end of the build session. The skipped test is the opt-in live test.
+- `npm run build` (TypeScript check plus production build), `npm test` (25 Vitest tests), and `npm run e2e` (7 Playwright tests, including axe accessibility scans).
 - `uv run predixion eval --mode fixture`: all 20 agent checks pass.
 - Live evaluations with real OpenAI and Tavily calls. Results are in `evals/results/`, and spending was capped per run with `--max-spend`.
 - `pip-audit` and `npm audit --audit-level=high`: no known vulnerabilities on 2026-10-28.
@@ -32,6 +32,25 @@ This project used AI in two separate ways:
 
 **What was not checked:**
 - The demo video, which has not been recorded.
+
+## Independent review session
+
+**Tool:** Claude Code in a cloud session (claude.ai/code), with the Claude Fable 5.1 model selected, on 2026-10-28, starting from commit `ca97a75` on `main`. The full report is [docs/audit.md](docs/audit.md).
+
+**What it did:**
+- Read the assignment brief, the build brief, the repository instructions, every document, and the backend and frontend source.
+- Re-ran every documented check from a fresh container: `uv sync --frozen`, ruff, pytest, the fixture evaluation, `npm ci`, `npm run build`, Vitest, Playwright (with the container's preinstalled Chromium), `pip-audit`, and `npm audit`.
+- Wrote probe scripts (not committed) that reproduced three defects, then fixed them and added regression tests:
+  - A run's time limit and duration clock started when the run was queued, not when it got an execution slot (`Deadline.restart`).
+  - A cost stop after pages were read but before extraction was reported as `insufficient_evidence`.
+  - A deadline stop before any page was read was relabelled `no_relevant_sources`.
+- Ran adversarial fixture probes for prompt injection in titles, snippets and tool errors, duplicate articles on different domains, oversized pages, vendor-only comparative claims, outdated and undated sources, conflicts, and fault injection in production.
+- Verified the interface in a real browser at desktop and mobile widths, with and without reduced motion.
+- Corrected documentation that disagreed with the code (question length limits, test counts) and wrote `docs/audit.md`.
+
+**What it could not do:** live provider calls. The cloud sandbox's network policy refused connections to the OpenAI, Groq and Tavily hosts, so the live smoke run failed at the network layer (the app reported `failed` / `provider_unavailable` as designed). No live result in this repository comes from the review session. Docker was also unavailable in the sandbox; the Docker build was verified only through the GitHub Actions run on commit `ca97a75`.
+
+**Review status.** The review session read representative claims in the committed sample reports against their quoted passages. That is again an AI checking AI output, not a human review.
 
 **Review status.** The development assistant inspected representative live claims against their cited sources; see [docs/evaluation.md](docs/evaluation.md). That is an AI checking AI output, not an independent human review. Nothing in this repository should be read as saying the owner personally reviewed a specific result unless they add that themselves.
 

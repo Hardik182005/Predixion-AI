@@ -233,6 +233,10 @@ uv run predixion eval --mode live --model gpt-6-luna --input-usd-per-mtok 0.10 -
 
 Live runs will not reproduce these numbers exactly, because search results and model outputs change.
 
+## Independent audit (2026-10-28)
+
+The audit session ([audit.md](audit.md)) re-ran the fixture suite from a fresh container (20 of 20 agent checks, 34 of 35 claims, 16 of 27 criteria, identical to the committed result). It could not add live results: the sandbox's network policy refused connections to the OpenAI, Groq and Tavily hosts, so a two-case live smoke run ended `failed` / `provider_unavailable` after the model fallback chain (Groq 120b, Groq 20b, OpenAI) was exhausted. That outcome is the designed behavior for an outage; it says nothing about answer quality. The audit also fixed how runs that are cut off before any evidence is extracted are labelled: they are now `failed` with the limit that stopped them, not `insufficient_evidence`. No case in this suite changed status as a result.
+
 ## Limits of this evaluation
 
 - **Small.** 8 cases, 4 of them from the assignment. One live run per configuration.

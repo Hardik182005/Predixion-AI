@@ -11,6 +11,7 @@ It has a web UI, a REST + Server-Sent Events API, and a CLI. A fixture mode runs
 - [Evaluation method and results](docs/evaluation.md)
 - [Sample reports](docs/samples/)
 - [Demo script](docs/demo-script.md) · [Submission notes](docs/submission.md) · [AI usage](AI_USAGE.md)
+- [Independent audit](docs/audit.md): requirement-by-requirement verification, defects found and fixed, and what remains
 
 ## Quick start
 
@@ -72,7 +73,7 @@ All errors use the shape `{"error": {"code": "...", "message": "..."}}`.
 
 | Method and path | Purpose |
 |---|---|
-| `POST /api/runs` | Start a run. Body: `{"question", "mode"?, "max_rounds"?, "seed_urls"?}`. Returns `202 {"run_id", "status", "reused"}`. An `Idempotency-Key` header returns the same run when a request is retried. |
+| `POST /api/runs` | Start a run. Body: `{"question", "mode"?, "max_rounds"?, "seed_urls"?}` (question 8–1000 characters, at most 3 seed URLs, 1–4 rounds). Returns `202 {"run_id", "status", "reused"}`. An `Idempotency-Key` header returns the same run when a request is retried. |
 | `GET /api/runs` | Recent runs of the caller. |
 | `GET /api/runs/{run_id}` | Status, metrics, and the report once there is one. |
 | `GET /api/runs/{run_id}/events` | SSE progress stream. Resumes after `Last-Event-ID`; ends with a status event whose `data.terminal` is true. |
@@ -86,7 +87,7 @@ Run IDs match `^run_[0-9a-f]{24}$`. Anything else is rejected before any lookup.
 
 **`/api/runs` instead of `/research`.** The assignment describes a `/research` endpoint. This API uses `/api/runs` because a research request is a long-running job: POST creates the job, and the client then follows it, reconnects, cancels it, or exports it. This keeps the API under one `/api` prefix and leaves `/research` free for UI routes. A synchronous `/research` that blocked for a minute would time out behind most proxies and could not report progress.
 
-**Execution guarantees.** Runs execute as asyncio tasks inside the server process. They are not durable: if the process stops, active runs are marked `interrupted` on the next start, and their clients receive a terminal event. Delivery is not exactly-once. Events are numbered, persisted, and replayed after `Last-Event-ID`, and the client discards duplicates. Idempotency keys are scoped to the caller. Reusing a key with a different request body returns `409 idempotency_conflict`.
+**Execution guarantees.** Runs execute as asyncio tasks inside the server process. A run's time limit starts when it gets an execution slot, not when it is queued. They are not durable: if the process stops, active runs are marked `interrupted` on the next start, and their clients receive a terminal event. Delivery is not exactly-once. Events are numbered, persisted, and replayed after `Last-Event-ID`, and the client discards duplicates. Idempotency keys are scoped to the caller. Reusing a key with a different request body returns `409 idempotency_conflict`.
 
 ## Architecture
 
@@ -180,6 +181,7 @@ Adding persistence or human-in-the-loop steps would make a graph framework more 
 - **Classified errors.** Provider failures are classified as rate limit, timeout, unavailable, auth, bad request, or bad output. Only transient kinds are retried, with backoff that honors `Retry-After`. SDK retries are off, so every attempt is counted once.
 - **Bounded runs.** Each run has a deadline, a token and cost budget reserved before each model call, and caps on rounds, queries, and pages.
 - **Partial page failures.** Pages that fail to load are recorded per item and the run continues. If every page fails, or search is down, the run ends with a clear status (`failed`, `insufficient_evidence` or `partial`) and an explanation, never an invented answer.
+- **Status semantics.** `insufficient_evidence` is a verdict about pages that were read. A run cut off before it could extract any evidence (provider outage, bad credentials, the time or cost limit, unusable model output) ends `failed` with the stop reason that cut it off, so a timeout is never reported as "no relevant sources".
 - **Filtered results.** Search results are filtered before reading: unsafe URLs, duplicates, near-duplicate content, non-text files, and paywalled pages are dropped.
 - **Fault injection.** Behind `ENABLE_FAULT_INJECTION`, it is disabled in production. Tests and the UI's "simulate a failure" control use it to exercise search outages, rate limits, empty results, failed pages, and malformed model output.
 
