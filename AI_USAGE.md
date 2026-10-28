@@ -28,9 +28,9 @@ This project used AI in two separate ways:
   - `/healthz` and `/readyz` responded, the UI was served, and Docker reported the container healthy.
   - It ran as a non-root user.
   - A research run through the API completed, and both exports worked.
+- GitHub Actions: on 2026-10-28 the CI run for commit `31b8e31` passed all four jobs (backend, frontend, secrets scan, Docker build) on `main` and on `feature/research-agent`.
 
 **What was not checked:**
-- The CI workflow itself, which has not yet run on GitHub.
 - The demo video, which has not been recorded.
 
 **Review status.** The development assistant inspected representative live claims against their cited sources; see [docs/evaluation.md](docs/evaluation.md). That is an AI checking AI output, not an independent human review. Nothing in this repository should be read as saying the owner personally reviewed a specific result unless they add that themselves.

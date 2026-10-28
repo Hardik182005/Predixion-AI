@@ -4,8 +4,8 @@
 
 | Item | Status |
 |---|---|
-| Repository | https://github.com/Hardik182005/Predixion-AI, branch `feature/research-agent` |
-| Repository access | On 2026-10-28, an unauthenticated request to the repository page returned 404, so the repository is private or not public yet. Evaluators need collaborator access, or the owner needs to make it public. Visibility was checked, not changed. |
+| Repository | https://github.com/Hardik182005/Predixion-AI, branch `main` (`feature/research-agent` points at the same commit) |
+| Repository access | Private (`gh repo view` on 2026-10-28). Evaluators need collaborator access, or the owner needs to make it public. Visibility was checked, not changed. |
 | Demo video | **Pending.** Not recorded yet. Follow [demo-script.md](demo-script.md), then add the link here. |
 | Hosted deployment | None. The app runs locally or in Docker; see the [README](../README.md#quick-start). |
 | Evaluation | [evaluation.md](evaluation.md), raw results in [`evals/results/`](../evals/results/) |
@@ -42,17 +42,18 @@ Verified locally on 2026-10-28 (Windows 11, Python 3.13, uv 0.10.11, Node.js 24)
   - A research run through the API completed, and the Markdown and JSON exports worked.
   - `docker compose up` itself was not run; the compose file adds only the loopback port mapping, the `.env` file, and a volume.
 
+Verified on GitHub on 2026-10-28: the CI run for commit `31b8e31` passed all four jobs (backend, frontend, secrets scan, Docker build) on `main` and on `feature/research-agent`.
+
 Not verified:
 
-- **CI workflow.** `.github/workflows/ci.yml` has not run on GitHub yet.
 - **Owner review.** The owner has not reviewed the code, the evaluation, or the sample reports; see [AI_USAGE.md](../AI_USAGE.md). The live claims spot-checked in [evaluation.md](evaluation.md) were checked by the AI development assistant.
 
 ## Before submitting
 
 - [ ] Record the demo video and add the link above.
 - [ ] Give evaluators access to the repository, or make it public.
-- [ ] Confirm the CI run on `main` passes on GitHub. `main` and `feature/research-agent` point at the same commit.
-- [ ] Set `main` as the repository's default branch in GitHub settings if it is not already.
+- [x] Confirm the CI run on `main` passes on GitHub. Checked on 2026-10-28; see above.
+- [ ] Set `main` as the repository's default branch in GitHub settings. On 2026-10-28 the default was still `feature/research-agent`.
 - [ ] Choose a license. None is included, and that decision belongs to the owner.
 - [ ] Read [AI_USAGE.md](../AI_USAGE.md), the residual risks in [security.md](security.md), and the evaluation caveats in [evaluation.md](evaluation.md).
 - [ ] Check the model prices in `config.py` and `.env.example` against current list prices; cost caps depend on them.
