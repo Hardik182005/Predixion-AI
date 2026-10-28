@@ -7,8 +7,9 @@ from typing import Any
 import pytest
 
 from predixion.contracts import Confidence, Mode, ResearchRequest, RunStatus, SourceState, StopReason
-from predixion.fixtures import FixtureModel, Scenario
-from predixion.orchestrator import ResearchRun
+from predixion.fixtures import FixtureExtract, FixtureModel, FixtureSearch, Scenario
+from predixion.orchestrator import Providers, ResearchRun
+from predixion.reliability import BudgetExhausted, DeadlineReached
 
 from .conftest import (
     RUN_ID,
@@ -260,3 +261,42 @@ async def test_fabricated_extraction_is_rejected(settings) -> None:
     assert report.execution.metrics.evidence_rejected >= 2
     assert all(e.claim not in ("From a passage that does not exist.", "Invented.") for e in report.evidence)
     assert report.status == RunStatus.completed
+
+
+# ---------------------------------------------------------------------------
+# A run cut off before it could look at anything is "failed", never "insufficient evidence"
+
+
+class BudgetlessExtractModel(FixtureModel):
+    """Fixture model whose extraction call finds the cost budget already spent."""
+
+    async def generate(self, spec, input_text, payload, *, timeout):
+        if spec.task.value == "extract":
+            raise BudgetExhausted("cost")
+        return await super().generate(spec, input_text, payload, timeout=timeout)
+
+
+class DeadlineSearch(FixtureSearch):
+    """Search whose per-operation timeout has already expired (what Deadline.op_timeout raises)."""
+
+    async def search(self, args, *, timeout: float):
+        raise DeadlineReached()
+
+
+async def test_budget_stop_before_extraction_is_reported_as_failed(settings) -> None:
+    sc = scenario("agent_memory")
+    report = await run_research(sc.question, settings, fixture_providers(sc, model=BudgetlessExtractModel(sc)))
+    assert (report.status, report.stop_reason) == (RunStatus.failed, StopReason.budget_exhausted)
+    assert any(s.state == SourceState.read for s in report.sources)  # pages were read, never analyzed
+    assert report.evidence == [] and report.key_findings == []
+    assert "before any evidence could be extracted" in report.short_answer.text
+    assert report.confidence.level == Confidence.low
+
+
+async def test_deadline_before_any_page_is_read_is_reported_as_failed(settings) -> None:
+    sc = scenario("agent_memory")
+    providers = Providers(DeadlineSearch(sc), FixtureExtract(sc), FixtureModel(sc), Mode.fixture)
+    report = await run_research(sc.question, settings, providers)
+    assert (report.status, report.stop_reason) == (RunStatus.failed, StopReason.deadline_reached)
+    assert report.stop_detail and "deadline" in report.stop_detail
+    assert report.evidence == []

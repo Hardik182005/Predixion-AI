@@ -103,6 +103,18 @@ PROVIDER_FAILURE_KINDS = {
     ErrorKind.auth: StopReason.provider_auth_error,
     ErrorKind.quota: StopReason.provider_unavailable,
 }
+# Stops that end research before it could finish. With no evidence, they are reported as failed,
+# never as "insufficient evidence" (which is a verdict about sources that were actually read).
+CUT_OFF_STOP_REASONS = frozenset(
+    {
+        StopReason.provider_unavailable,
+        StopReason.provider_auth_error,
+        StopReason.deadline_reached,
+        StopReason.budget_exhausted,
+        StopReason.model_output_invalid,
+        StopReason.internal_error,
+    }
+)
 
 
 @dataclass
@@ -229,6 +241,10 @@ class ResearchRun:
     # Entry point
 
     async def execute(self) -> ResearchReport:
+        # The run may have been constructed while queued; its time limit and timings start now.
+        self._started_perf = time.perf_counter()
+        self.deadline.restart()
+        self.metrics.started_at = _now()
         self.emit(EventType.status, "Run started", {"status": "running", "mode": self.mode.value})
         async with self._stage(Stage.validate, "Validating request"):
             seeds = self._validate_seeds()
@@ -827,20 +843,26 @@ class ResearchRun:
         assert self.plan is not None
         self.coverage = self._coverage()
         if not self.evidence:
-            status = (
-                RunStatus.failed
-                if self.stop_reason in (StopReason.provider_unavailable, StopReason.provider_auth_error)
-                else RunStatus.insufficient_evidence
-            )
-            if status == RunStatus.insufficient_evidence and not any(s.state == SourceState.read for s in self.sources.values()):
+            # No evidence can mean two different things: the research ran and found nothing usable
+            # (insufficient evidence), or the run was cut off by a provider or a limit before it could
+            # look (failed). The second must never be reported as the first.
+            if self.stop_reason in CUT_OFF_STOP_REASONS:
+                detail = self.stop_detail or self.stop_reason.value.replace("_", " ")
+                return self._evidence_only_report(
+                    RunStatus.failed,
+                    synth_note=f"The run stopped before any evidence could be extracted ({detail.rstrip('.')}), so no answer was synthesized.",
+                )
+            if not any(s.state == SourceState.read for s in self.sources.values()):
                 failed = sum(1 for s in self.sources.values() if s.state == SourceState.failed)
                 self.stop_reason = StopReason.no_relevant_sources
                 self.stop_detail = (
                     f"None of the selected pages could be read ({failed} failed)." if failed else self.stop_detail
                 ) or "Search returned no usable sources."
-            elif status == RunStatus.insufficient_evidence:
+            else:
                 self.stop_reason = self.stop_reason or StopReason.no_relevant_sources
-            return self._evidence_only_report(status, synth_note="No usable evidence was found, so no answer was synthesized.")
+            return self._evidence_only_report(
+                RunStatus.insufficient_evidence, synth_note="No usable evidence was found, so no answer was synthesized."
+            )
 
         try:
             async with self._stage(Stage.synthesize, "Synthesizing the report from accepted evidence"):

@@ -8,7 +8,7 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from predixion.contracts import EventType, Mode, ResearchRequest, RunStatus, StopReason
-from predixion.fixtures import FixtureExtract, FixtureModel
+from predixion.fixtures import FixtureExtract, FixtureModel, FixtureSearch
 from predixion.orchestrator import Providers
 from predixion.runs import ActiveRun, RunError, RunManager, wait_for
 from predixion.store import Store
@@ -176,6 +176,25 @@ async def test_cancel_stops_a_running_run(monkeypatch: pytest.MonkeyPatch) -> No
     assert manager.cancel(started.run_id, OWNER) == RunStatus.cancelled  # repeat cancel is harmless
     assert manager.delete(started.run_id, OWNER)
     assert manager.store.get_run(started.run_id, OWNER) is None
+
+
+async def test_queued_run_keeps_its_full_time_limit(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A run built while queued must not spend its deadline (or report duration) waiting for a slot."""
+    manager = _manager(MAX_CONCURRENT_RUNS=1, MAX_QUEUED_RUNS=2)
+    sc = scenario("agent_memory")
+    slow = Providers(SlowSearch(sc, delay_s=1.0), FixtureExtract(sc), FixtureModel(sc), Mode.fixture)
+    fast = Providers(FixtureSearch(sc), FixtureExtract(sc), FixtureModel(sc), Mode.fixture)
+    providers = iter([slow, fast])
+    monkeypatch.setattr(manager, "_providers", lambda mode, question: next(providers))
+    first = manager.start_run(ResearchRequest(question=QUESTION), owner=OWNER)
+    second = manager.start_run(ResearchRequest(question=f"{QUESTION} (queued)"), owner=OWNER)
+    research = manager._active[second.run_id].research
+    await wait_for(manager, second.run_id)
+    view = manager.store.get_run(second.run_id, OWNER)
+    assert view is not None and view.report is not None and view.status == RunStatus.completed
+    assert view.report.execution.metrics.duration_ms < 1000  # the queue wait is not counted
+    assert research.deadline.elapsed() < 1.0
+    await wait_for(manager, first.run_id)
 
 
 async def test_capacity_limit(monkeypatch: pytest.MonkeyPatch) -> None:

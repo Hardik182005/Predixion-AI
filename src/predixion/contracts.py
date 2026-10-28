@@ -43,7 +43,7 @@ class RunStatus(StrEnum):
     completed = "completed"  # required criteria addressed and verified
     partial = "partial"  # useful verified findings, but criteria missing or limits hit
     insufficient_evidence = "insufficient_evidence"  # providers worked; evidence did not support an answer
-    failed = "failed"  # could not research (provider outage, credentials, internal error)
+    failed = "failed"  # could not research: provider outage, credentials, internal error, or a limit hit before any evidence
     cancelled = "cancelled"  # stopped by the user
     interrupted = "interrupted"  # process stopped while the run was active
 

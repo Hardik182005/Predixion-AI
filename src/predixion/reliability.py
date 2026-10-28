@@ -100,6 +100,10 @@ class Deadline:
         self.total_s = total_s
         self.reserve_s = min(reserve_s, total_s * 0.5)
 
+    def restart(self) -> None:
+        """Start the clock now. A run constructed while queued must not lose its time waiting for a slot."""
+        self.start = self._clock()
+
     def elapsed(self) -> float:
         return self._clock() - self.start
 
