@@ -7,12 +7,12 @@ An independent verification and hardening review of Predixion AI, run after the 
 | Date | 2026-10-28 |
 | Reviewer | Claude Code in a cloud session, Claude Fable 5.1 model (an AI, not the owner) |
 | Starting commit | `ca97a75` on `main` (the cloud feature branch pointed at the same commit); working tree clean |
-| Final tested code commit | `8e52629` |
-| Documentation-only commits after it | one, adding this file and the documentation corrections listed under [Documentation](#documentation) |
+| Final tested code commit | `dcbb588` |
+| Documentation-only commits after it | two: one adding this file and the documentation corrections listed under [Documentation](#documentation), one recording the CI result below |
 | Runtime used for the review | Linux container, Python 3.13.17, uv 0.11.32, Node.js 22.22.0, npm 10.9.4, Playwright 1.64.1 with the container's preinstalled Chromium 1243 |
 | Credentials | `OPENAI_API_KEY`, `TAVILY_API_KEY`, `GROQ_API_KEY` were present as environment variables and were never printed |
 | Network | Outbound HTTPS goes through the sandbox's egress proxy, which refused `api.openai.com`, `api.groq.com` and `api.tavily.com` (HTTP 403 on CONNECT). Live checks are therefore **BLOCKED** below. |
-| Docker | Client 29.9.2 present, no daemon. The Docker build is **BLOCKED** locally; it passed in GitHub Actions on `ca97a75`. |
+| Docker | Client 29.9.2 present, no daemon. The Docker build is **BLOCKED** locally; it passed in GitHub Actions on `ca97a75` and again on the audit commits (run 23, all four jobs green). |
 
 **Verdict: ready for submission with stated limitations.** The application does what the assignment asks, the checks that could be run from a clean container all pass, and three real defects found during the review are fixed with regression tests. What remains is human work: record the demo video, give evaluators repository access, and read the documents the owner is expected to explain.
 
@@ -274,7 +274,6 @@ Corrected to match the code: the question length limit is 8–1000 characters (d
 
 1. Record the 3–5 minute demo (happy path plus a failure case) following `docs/demo-script.md`, and add the link to `docs/submission.md`.
 2. Grant evaluators access to the private repository, or make it public.
-3. Confirm the GitHub Actions run on `main` is green for the audit commits (this review could not run Docker or live providers).
-4. Run one live research question with the real keys to confirm the credentials and network still work from the owner's machine.
-5. Read `AI_USAGE.md`, the residual risks in `docs/security.md`, the caveats in `docs/evaluation.md`, and this file before presenting the work.
-6. Choose a license.
+3. Run one live research question with the real keys to confirm the credentials and network still work from the owner's machine.
+4. Read `AI_USAGE.md`, the residual risks in `docs/security.md`, the caveats in `docs/evaluation.md`, and this file before presenting the work.
+5. Choose a license.

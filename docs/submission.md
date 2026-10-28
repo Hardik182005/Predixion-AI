@@ -54,7 +54,7 @@ Not verified:
 ## Before submitting
 
 - [ ] Record the demo video and add the link above.
-- [ ] Confirm the CI run on `main` passes for the audit commits (the audit session could not run Docker or live providers locally).
+- [x] Confirm the CI run on `main` passes for the audit commits. Run 23 (the same tree, before the audit commits were re-authored under the owner's identity) passed all four jobs (backend, frontend, secrets scan, Docker build) on 2026-10-28.
 - [ ] Give evaluators access to the repository, or make it public.
 - [x] Confirm the CI run on `main` passes on GitHub. Checked on 2026-10-28; see above.
 - [x] Set `main` as the repository's default branch in GitHub settings. Done on 2026-10-28.
