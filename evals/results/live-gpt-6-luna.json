@@ -1,0 +1,1065 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T11:51:53+00:00",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.3",
+  "git_commit": null,
+  "prices": {
+    "model_input_usd_per_mtok": 0.1,
+    "model_output_usd_per_mtok": 0.5,
+    "tavily_usd_per_credit": 0.008
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 0.45,
+  "spent_usd": 0.4077,
+  "stopped_early": true,
+  "cases": [
+    {
+      "id": "memory_comparison",
+      "category": "assignment_example",
+      "question": "Compare approaches to memory in an AI support agent.",
+      "expected": "Compares memory approaches on the planned dimensions with cited findings and a comparison table.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Identify and explain the main memory approaches, including their scope, storage, retrieval, and use during response generation.",
+        "Compare each approach's usefulness for continuity, personalization, factual accuracy, latency, cost, and maintenance.",
+        "Establish privacy, security, consent, retention, and user-control considerations for information retained by an agent.",
+        "Identify evaluation methods and failure modes, such as stale or incorrect memories, retrieval failures, and cross-user data leakage."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "medium",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "A long-context approach serializes the full chronological dialogue into the model input; it can use the conversation directly, but the evidence does not establish its cross-session persistence or comparative costs.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "For plain LLMs, we serialize the full dialogue history into a chronological long-context input and query the model separately for each probing dimension."
+            ],
+            "sources": [
+              "https://arxiv.org/html/2605.06527v1"
+            ]
+          },
+          {
+            "text": "Persistent memory stores information across sessions and can supply preferences and prior context for continuity. The evidence does not specify one required storage format or a universal retrieval mechanism.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "AI agent memory is a persistent storage layer that lets an agent retain information across sessions. Without it, every conversation starts from zero-no user preferences, no prior context, no continuity."
+            ],
+            "sources": [
+              "https://mem0.ai/blog/state-of-ai-agent-memory-2026"
+            ]
+          },
+          {
+            "text": "A retrieval-based store can surface updated evidence without ensuring the agent treats it as authoritative: stale and updated memories may coexist, and read-only retrieval is identified as a long-term-memory failure mode.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "new evidence appears in retrieval results for 77.5% of SR/PR cases and 67.8% of IPA cases. However, visibility does not imply authority.",
+              "Stale and updated memories therefore coexist without adjudication, which helps explain the high failure rates even when new evidence is visible.",
+              "Argues record-level correctness (rows, embeddings, edges) cannot satisfy long-term memory's needs, causing four recurring failure modes: unregulated growth, missing semantic revision, capacity-driven forgetting, read-only retrieval."
+            ],
+            "sources": [
+              "https://arxiv.org/html/2605.06527v1",
+              "https://arxiv.org/html/2605.06527v1",
+              "https://github.com/tfatykhov/awesome-agent-memory"
+            ]
+          },
+          {
+            "text": "Compiling recurring user intent into specialist agents is presented as an alternative to relying solely on retrieval, aimed at reducing repeated corrections about format, depth, and scope. Reported results are conditional on a specialist firing and include an accuracy cost, so they do not establish a general advantage.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Proposes compiling recurring user intent into purpose-built specialist agents as a memory paradigm distinct from retrieval, targeting the multi-turn tax where users repeatedly correct format, depth, and scope.",
+              "On 90 held-out scenarios across five personas it wins 32 of 36 cases where a specialist fires (88.9%), at +2.05 personalization gain and a -0.28 accuracy cost on a 1-4 scale - note the win rate is conditional on a specialist firing"
+            ],
+            "sources": [
+              "https://github.com/tfatykhov/awesome-agent-memory",
+              "https://github.com/tfatykhov/awesome-agent-memory"
+            ]
+          },
+          {
+            "text": "Evaluation should test whether the agent notices that a prior belief has become invalid, rejects outdated assumptions, and uses updated evidence—not merely whether it can retrieve a stored fact. One cited evaluation reports a gap between retrieving updated evidence and acting on it.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "This dimension directly tests whether the model recognizes that a prior belief is no longer valid. The query explicitly asks about the prior belief (e.g., \"Based on the conversation history, does the user still commute by cycling?\").",
+              "A successful model must reject the false premise and ground its response in the updated belief.",
+              "current benchmarks primarily measure static fact retrieval, overlooking the ability to revise stored beliefs when new evidence emerges. We identify a critical and underexplored failure mode, Implicit Conflict: a later observation invalidates an earlier memory without explicit negation, requiring co…",
+              "A systematic evaluation of frontier LLMs and specialized memory frameworks reveals a pervasive gap between retrieving updated evidence and acting on it, with even the best evaluated model achieving only 55.2% overall accuracy."
+            ],
+            "sources": [
+              "https://arxiv.org/html/2605.06527v1",
+              "https://arxiv.org/html/2605.06527v1",
+              "https://huggingface.co/papers/2605.06527",
+              "https://huggingface.co/papers/2605.06527"
+            ]
+          },
+          {
+            "text": "Persistent memory raises governance concerns including stale or poisoned memories, cross-user exposure, access control, retention, deletion, transparency, and auditability. The cited sources identify these risks but do not establish a complete or current legal standard.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Memory poisoning - Agents store incorrect or malicious data that persists and influences future decisions Stale context - Outdated information lacks freshness signals, leading to decisions based on obsolete data",
+              "Access control violations - One user's data surfaces to unauthorized users through shared memory scopes Compliance failures - GDPR Article 17 deletion requests, HIPAA retention requirements, and EU AI Act transparency mandates go unmet",
+              "Privacy and consent architecture: Who can inspect stored memories? How long are they retained? How does a user delete them? These are application-layer decisions today.",
+              "The six unaddressed risks are memory poisoning, stale context, access control violations, compliance failures, audit trail absence, and multi-agent conflicts - each traceable to a structural gap in memory-layer architecture that only a governed context layer closes.",
+              "In shared deployments, one user's memory context bleeds into another user's responses."
+            ],
+            "sources": [
+              "https://www.mintmcp.com/blog/agent-memory-governance",
+              "https://www.mintmcp.com/blog/agent-memory-governance",
+              "https://mem0.ai/blog/state-of-ai-agent-memory-2026",
+              "https://atlan.com/know/ai-agent-memory-governance",
+              "https://atlan.com/know/ai-agent-memory-governance"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 4,
+        "criteria_total": 4,
+        "reported_criteria_supported": 3,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": true
+        },
+        "latency_s": 86.27,
+        "cost_usd": 0.04616,
+        "cost_uncertain": false,
+        "model_calls": 8,
+        "input_tokens": 25163,
+        "output_tokens": 7284,
+        "search_calls": 3,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Working memory is suited to the current support ticket, while semantic memory can hold stable customer details such as subscription tier.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "A customer support agent, for example, might keep the current ticket in working memory, a customer’s subscription tier in semantic memory, past complaints in episodic memory, and a learned refund-handling routine in procedural memory."
+            ],
+            "sources": [
+              "https://machinelearningmastery.com/choosing-the-right-ai-agent-memory-strategy-a-decision-tree-approach"
+            ]
+          },
+          {
+            "text": "Short-term memory supports coherent exchanges within a session but does not persist after that session ends.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "When the session ends, the memory is gone."
+            ],
+            "sources": [
+              "https://www.dataiku.com/blog/ai-agent-memory"
+            ]
+          },
+          {
+            "text": "Episodic memory preserves specific past events and their outcomes, which can inform later decisions.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Episodic memory is often implemented by logging key events, actions and their outcomes in a structured format that the agent can access when making decisions."
+            ],
+            "sources": [
+              "https://www.ibm.com/think/topics/ai-agent-memory"
+            ]
+          },
+          {
+            "text": "A layered approach can combine recent turns, summaries, vector retrieval, structured facts, and episodic records.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "The best practical pattern is hybrid layered memory: recent context, summaries, vector retrieval, structured memory, episodic memory, and a memory manager."
+            ],
+            "sources": [
+              "https://blogs.oracle.com/developers/which-agent-memory-approach-is-best-for-long-conversations"
+            ]
+          },
+          {
+            "text": "Retrieval of older context can help, but semantic similarity alone does not guarantee relevance.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Vector retrieval finds semantically related context, but similarity is not the same as relevance."
+            ],
+            "sources": [
+              "https://blogs.oracle.com/developers/which-agent-memory-approach-is-best-for-long-conversations"
+            ]
+          },
+          {
+            "text": "Memory design should balance personalized continuity with privacy and governance obligations.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Enterprise memory design must balance personalization with privacy: What agents remember is as important as how they forget."
+            ],
+            "sources": [
+              "https://www.dataiku.com/blog/ai-agent-memory"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 4,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": null
+        },
+        "latency_s": 6.58,
+        "cost_usd": 0.01731,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 11049,
+        "output_tokens": 419,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "vector_db_comparison",
+      "category": "assignment_example",
+      "question": "Compare the top three open-source vector databases for a startup building RAG products.",
+      "expected": "Compares three open-source vector databases; vendor claims stay attributed and unsupported superlatives are dropped.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Verify that each candidate is an existing vector database and that its current license qualifies as open source; clarify any distinction between the open-source product and commercial hosted offerings.",
+        "Establish a defensible top-three shortlist using independent indicators of adoption, project maturity, and ecosystem activity.",
+        "Compare RAG-relevant functionality, including vector and hybrid search, metadata filtering, integrations, and retrieval capabilities.",
+        "Compare startup-relevant operational characteristics: deployment choices, scaling and performance evidence, ease of operation, and cost considerations."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "medium",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Milvus is described as open source under Apache 2.0; a comparison also lists Zilliz as its managed service, distinct from the open-source database.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Milvus is open source under Apache 2.0 within the LF AI & Data Foundation, and Weaviate uses the BSD-3-Clause license.",
+              "Milvus is an open-source vector database built for vector similarity search and large embedding collections, offering multiple indexing approaches. Zilliz is the managed service based on Milvus for teams that prefer a hosted deployment model."
+            ],
+            "sources": [
+              "https://commandlinux.com/statistics/vector-database-market-share-pinecone-weaviate-milvus",
+              "https://www.pingcap.com/compare/best-vector-database"
+            ]
+          },
+          {
+            "text": "Weaviate is described as using the BSD-3-Clause license, with both self-hosted and managed-cloud deployment options.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Milvus is open source under Apache 2.0 within the LF AI & Data Foundation, and Weaviate uses the BSD-3-Clause license.",
+              "Weaviate is an open-source vector database built from the ground up for AI workloads. It combines vector search with structured filtering, offers built-in vectorization modules, and supports both self-hosted and managed cloud deployments.",
+              "Weaviate | Managed + self-hosted | Yes | Yes | Strong | HNSW (+ hybrid features) | LangChain, LlamaIndex | Cloud + self-hosted"
+            ],
+            "sources": [
+              "https://commandlinux.com/statistics/vector-database-market-share-pinecone-weaviate-milvus",
+              "https://iternal.ai/insights/best-vector-databases-2026",
+              "https://www.pingcap.com/compare/best-vector-database"
+            ]
+          },
+          {
+            "text": "Qdrant is described as an open-source vector database, but the reviewed evidence does not identify its current license; its eligibility under the stated open-source requirement is therefore unconfirmed.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Qdrant is an open-source vector database written in Rust, offering high performance and reliability. It provides a RESTful API and gRPC interface, and supports filtering, payload indexing, and distributed deployment."
+            ],
+            "sources": [
+              "https://medium.com/@mnp975/retrieval-augmented-generation-using-llamaindex-with-simplevectorstore-and-langchain-with-chroma-f2e6b2978346"
+            ]
+          },
+          {
+            "text": "Milvus has reported adoption indicators, including 46,000 GitHub stars in September 2026 and a June 2026 DB-Engines score of 6.37; Weaviate’s reported score was 4.55. These figures offer some shortlist evidence but do not establish a comprehensive ranking.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "DB-Engines popularity score in June 2026, against 6.37 for Milvus and 4.55 for Weaviate",
+              "Milvus has 46.0k GitHub stars (September 2026), while Pinecone is closed source."
+            ],
+            "sources": [
+              "https://commandlinux.com/statistics/vector-database-market-share-pinecone-weaviate-milvus",
+              "https://commandlinux.com/statistics/vector-database-market-share-pinecone-weaviate-milvus"
+            ]
+          },
+          {
+            "text": "For RAG, Weaviate is reported to support vector-plus-keyword hybrid search and framework integrations; Qdrant is reported to support filtering and LangChain integration. Milvus is reported to support hybrid search and several index types.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Milvus | HNSW, IVF, IVF-PQ, SCANN | Yes | No | Apache 2.0 | Billion-scale, distributed",
+              "Qdrant is designed to handle billions of vectors with low-latency search using HNSW and additional scoring optimizations. It integrates well with AI frameworks like LlamaIndex and supports hybrid filtering on vector similarity and metadata fields, making it a strong candidate for both experimentati…",
+              "Native hybrid search (vector + keyword)",
+              "Weaviate | Managed + self-hosted | Yes | Yes | Strong | HNSW (+ hybrid features) | LangChain, LlamaIndex | Cloud + self-hosted",
+              "RAG pipelines | Pinecone, Weaviate, or Qdrant (strong framework integrations with LangChain and LlamaIndex)"
+            ],
+            "sources": [
+              "https://redis.io/blog/best-open-source-vector-databases-comparison",
+              "https://medium.com/@mnp975/retrieval-augmented-generation-using-llamaindex-with-simplevectorstore-and-langchain-with-chroma-f2e6b2978346",
+              "https://iternal.ai/insights/best-vector-databases-2026",
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://www.datacamp.com/blog/the-top-5-vector-databases"
+            ]
+          },
+          {
+            "text": "A benchmark repository reports results at 100 million vectors for all three databases, but its evidence does not establish that the results generalize to a startup’s workload or operating costs.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Qdrant | 0.991 | 4,200 | 12ms | $0.18 pgvector | 0.987 | 1,800 | 28ms | $0.08",
+              "Weaviate | 0.989 | 5,100 | 9ms | $0.24",
+              "Milvus | 0.988 | 4,600 | 11ms | $0.21"
+            ],
+            "sources": [
+              "https://github.com/jhondados/vector-database-benchmark",
+              "https://github.com/jhondados/vector-database-benchmark",
+              "https://github.com/jhondados/vector-database-benchmark"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 4,
+        "reported_criteria_supported": 3,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": true
+        },
+        "latency_s": 81.84,
+        "cost_usd": 0.06153,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 20344,
+        "output_tokens": 6997,
+        "search_calls": 5,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "insufficient_evidence",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": false,
+          "citations_resolve": true,
+          "comparison_table": null
+        },
+        "latency_s": 3.27,
+        "cost_usd": 0.02501,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 9862,
+        "output_tokens": 51,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "hr_tech_discovery",
+      "category": "assignment_example",
+      "question": "Find five Indian B2B SaaS startups in HR tech and summarize their positioning.",
+      "expected": "Lists at most five companies and includes only those whose eligibility is backed by evidence; never pads the list.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish that each candidate exists and is currently operating as a startup.",
+        "Verify each candidate is Indian under the stated interpretation.",
+        "Verify that each candidate offers B2B SaaS in HR tech.",
+        "Summarize each company's target customers, core HR use case or product, and stated differentiation."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "low",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "CompUp is described as providing compensation benchmarking for candidate offers and annual increments, using internal and external data.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "CompUp provides the most accurate real-time compensation benchmarking data which helps you make the right offer to the candidate. The platform allows you to make better compensation decisions such as annual increments, candidate offers using internal and external data."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india"
+            ]
+          },
+          {
+            "text": "SalaryBook is positioned for Indian SMEs, with employee onboarding, payroll, attendance, and expense management; its stated attendance features include selfie- and location-based marking.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "SalaryBook is an payroll, employee attendance and Expense management app for 60 million Indian SMEs. SMBs see in our app a one stop solution for running their business.",
+              "Starting from seamless on-boarding of employees to managing their payroll and attendance. Our app includes some cool features like selfie & location based attendance marking."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india",
+              "https://www.ycombinator.com/companies/industry/saas/india"
+            ]
+          },
+          {
+            "text": "Xoxoday’s described HR-related positioning includes employee rewards and recognition; Empuls is described as covering recognition, rewards, surveys, and social intranet features.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Xoxoday offers business software products to solve problems around employee rewards and recognition, channel sales incentives and consumer promotions. The software products are used by HR leaders, channel managers and brand marketers across 700+ global companies to engage their employees, channel p…",
+              "Xoxoday Empuls is an employee engagement platform built around recognition, rewards, surveys, and social intranet features."
+            ],
+            "sources": [
+              "https://cutshort.io/companies/saas",
+              "https://www.profit.co/employee-engagement-software/vs/xoxoday"
+            ]
+          },
+          {
+            "text": "The evidence does not establish that CompUp is currently operating, Indian by headquarters or founding, or specifically a B2B SaaS provider. E2 identifies SalaryBook as active, Bengaluru, SaaS, and B2B.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "CompUp provides the most accurate real-time compensation benchmarking data which helps you make the right offer to the candidate. The platform allows you to make better compensation decisions such as annual increments, candidate offers using internal and external data.",
+              "SalaryBook is an payroll, employee attendance and Expense management app for 60 million Indian SMEs. SMBs see in our app a one stop solution for running their business.",
+              "Starting from seamless on-boarding of employees to managing their payroll and attendance. Our app includes some cool features like selfie & location based attendance marking."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india",
+              "https://www.ycombinator.com/companies/industry/saas/india",
+              "https://www.ycombinator.com/companies/industry/saas/india"
+            ]
+          },
+          {
+            "text": "Xoxoday has evidence of company activity and HR-related products, but the reviewed sources do not establish its Indian origin or headquarters; one source lists it in California, United States.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Xoxoday offers business software products to solve problems around employee rewards and recognition, channel sales incentives and consumer promotions. The software products are used by HR leaders, channel managers and brand marketers across 700+ global companies to engage their employees, channel p…",
+              "It powers rewards, incentives, and loyalty programs for more than 5,000 companies worldwide, helping organizations engage and retain their employees, customers, and partners.",
+              "The company offers a suite of products, including Empuls, an all-in-one rewards and incentive platform; Plum, a global rewards and payouts infrastructure; and Loyalife, an enterprise-grade loyalty solution.",
+              "Xoxoday Empuls is an employee engagement platform built around recognition, rewards, surveys, and social intranet features.",
+              "Xoxoday Software DevelopmentCalifornia, United States501-1000 Employees"
+            ],
+            "sources": [
+              "https://cutshort.io/companies/saas",
+              "https://leadiq.com/c/xoxoday/5a1d989b2300005300874519",
+              "https://leadiq.com/c/xoxoday/5a1d989b2300005300874519",
+              "https://www.profit.co/employee-engagement-software/vs/xoxoday",
+              "https://leadiq.com/c/xoxoday/5a1d989b2300005300874519"
+            ]
+          },
+          {
+            "text": "Treat these names as leads for further verification, not as a confirmed list of five eligible companies; verify company status, Indian basis, and B2B SaaS offering using current sources before relying on the list.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "CompUp provides the most accurate real-time compensation benchmarking data which helps you make the right offer to the candidate. The platform allows you to make better compensation decisions such as annual increments, candidate offers using internal and external data.",
+              "SalaryBook is an payroll, employee attendance and Expense management app for 60 million Indian SMEs. SMBs see in our app a one stop solution for running their business.",
+              "Xoxoday offers business software products to solve problems around employee rewards and recognition, channel sales incentives and consumer promotions. The software products are used by HR leaders, channel managers and brand marketers across 700+ global companies to engage their employees, channel p…",
+              "It powers rewards, incentives, and loyalty programs for more than 5,000 companies worldwide, helping organizations engage and retain their employees, customers, and partners.",
+              "Xoxoday Software DevelopmentCalifornia, United States501-1000 Employees"
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india",
+              "https://www.ycombinator.com/companies/industry/saas/india",
+              "https://cutshort.io/companies/saas",
+              "https://leadiq.com/c/xoxoday/5a1d989b2300005300874519",
+              "https://leadiq.com/c/xoxoday/5a1d989b2300005300874519"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "entities_not_padded": true,
+          "eligibility_backed": true
+        },
+        "latency_s": 67.53,
+        "cost_usd": 0.0606,
+        "cost_uncertain": false,
+        "model_calls": 8,
+        "input_tokens": 18732,
+        "output_tokens": 5449,
+        "search_calls": 6,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Keka positions itself as a single platform for employee experience, spanning payroll, performance reviews, hiring, and onboarding.",
+            "verdict": "not_supported",
+            "issue": "Quote not found in the cited source.",
+            "quotes": [
+              "Keka develops HR software and seeks to be a single platform for employee experience management."
+            ],
+            "sources": [
+              "https://builtin.com/articles/saas-companies-in-india"
+            ]
+          },
+          {
+            "text": "Peoplebox.ai combines AI-enabled recruiting with talent-management workflows such as goals, performance, career growth, and compensation.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Peoplebox.ai is an AI-native talent platform used by 500+ companies to hire, manage, and grow their people."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india"
+            ]
+          },
+          {
+            "text": "PeopleStrong is positioned as a comprehensive human-capital-management SaaS platform.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "PeopleStrong is Asia’s leading, and the most comprehensive Human Capital Management SaaS platform."
+            ],
+            "sources": [
+              "https://revenuebase.ai/companies/hr-tech-companies/india"
+            ]
+          },
+          {
+            "text": "greytHR is listed among India-based HR tech companies, though the supplied source does not detail its specific product positioning.",
+            "verdict": "not_supported",
+            "issue": "Quote not found in the cited source.",
+            "quotes": [
+              "Greythr"
+            ],
+            "sources": [
+              "https://revenuebase.ai/companies/hr-tech-companies/india"
+            ]
+          },
+          {
+            "text": "CompUp is a specialist compensation-benchmarking product that uses real-time data to help employers make pay decisions and offers.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "CompUp is an API-driven compensation benchmarking tool."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india"
+            ]
+          }
+        ],
+        "invalid_citations": 2,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": true,
+          "citations_resolve": false,
+          "entities_not_padded": null,
+          "eligibility_backed": null
+        },
+        "latency_s": 5.7,
+        "cost_usd": 0.02538,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 12299,
+        "output_tokens": 307,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "multi_agent_pros_cons",
+      "category": "assignment_example",
+      "question": "Research the pros and cons of a multi-agent architecture for customer support automation.",
+      "expected": "Gives cited pros and cons of multi-agent support automation.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Potential benefits for customer support, including task specialization, resolution quality, scalability, and handling complex or multi-step requests.",
+        "Drawbacks and failure modes, including coordination overhead, latency, inconsistent responses, error propagation, and difficulty debugging or evaluating the system.",
+        "Operational and economic trade-offs, including implementation effort, inference and maintenance costs, integration needs, and comparison with single-agent or workflow-based alternatives.",
+        "Customer-facing risks and safeguards, including privacy, security, policy compliance, human escalation, and accountability for actions taken by agents."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "medium",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Distinct agents can specialize across subtasks and execute work in parallel; specialist agents may also make adding new domains more manageable and sometimes more cost-efficient over time than retraining one large model.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Single-agent designs are usually simpler to build and easier to control, while multi-agent designs support specialization and parallel execution at a coordination cost that many teams underestimate.",
+              "Scalability through specialization: Instead of retraining one large model to do everything, you can introduce a specialist agent for a new domain. That modularity makes expansion more manageable and often more cost-efficient over time."
+            ],
+            "sources": [
+              "https://www.jetbrains.com/pages/ai-agents/single-agent-vs-multi-agent-systems",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "The evidence describes multi-agent architectures as potentially useful on complex tasks, but does not provide customer-support-specific comparative outcome data demonstrating better resolution quality.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Multi-agent architectures outperform single agents on complex tasks but demand governance infrastructure."
+            ],
+            "sources": [
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Coordination logic adds complexity. Sources also identify possible latency increases, cascading failures, more complex retries, and greater difficulty debugging or tracing failures across agents.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Suited to coordinated specialization across subtasks of one task Orchestration complexity Generally lower Generally higher, requires coordination logic between agents",
+              "Generally higher, failures may cascade or span multiple agents",
+              "Cascading failures possible, and retry logic is more complex",
+              "The mistake we see most often is teams reaching for multiple agents because it sounds sophisticated, then paying for it in latency and debugging time."
+            ],
+            "sources": [
+              "https://www.jetbrains.com/pages/ai-agents/single-agent-vs-multi-agent-systems",
+              "https://www.jetbrains.com/pages/ai-agents/single-agent-vs-multi-agent-systems",
+              "https://www.jetbrains.com/pages/ai-agents/single-agent-vs-multi-agent-systems",
+              "https://unicoconnect.com/blogs/single-ai-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Without governance and operational practices, risks include data exposure, inconsistent behavior, unclear accountability, agent sprawl, and costs that grow without visibility. Fragmented practices can also weaken change control and duplicate effort.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Without strong governance, security, and operational practices, this same capability can introduce risk through unintended data exposure, inconsistent behavior, unclear accountability, agent sprawl, or rising costs.",
+              "Cost and usage governance is unmanaged: Teams don't allocate or monitor token, usage, and capacity costs, so spend grows without visibility and governance can't prioritize what to scale or retire.",
+              "Risk: Inconsistent agent performance, duplicated effort, reduced operational efficiency, weakened change control."
+            ],
+            "sources": [
+              "https://learn.microsoft.com/en-us/agents/adoption-maturity-model/maturity-model-security-governance",
+              "https://learn.microsoft.com/en-us/agents/adoption-maturity-model/maturity-model-security-governance",
+              "https://learn.microsoft.com/en-us/agents/adoption-maturity-model/maturity-model-security-governance"
+            ]
+          },
+          {
+            "text": "Suggested customer-facing safeguards include approved data sources, role-based access, redaction and retention rules, audit logs, restrictions on high-risk topics, fallback rules, and human escalation when confidence is low or requests involve policy, privacy, or complexity.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "For customers, governance creates safer, more consistent experiences. For agents, it provides clearer guidance, safer automation, and escalation paths that reduce uncertainty when policies, privacy, or complex requests are involved.",
+              "Privacy and security controls should include role-based access, approved data sources, redaction rules, data retention policies, and audit logs.",
+              "An AI agent resolves common customer questions using approved help center content. Governance restricts high-risk topics, defines fallback rules, and escalates customers to a human when confidence is low."
+            ],
+            "sources": [
+              "https://www.zendesk.com/blog/ai/agentic-ai/what-is-ai-governance-customer-service",
+              "https://www.zendesk.com/blog/ai/agentic-ai/what-is-ai-governance-customer-service",
+              "https://www.zendesk.com/blog/ai/agentic-ai/what-is-ai-governance-customer-service"
+            ]
+          },
+          {
+            "text": "Start with a simple architecture unless the work requires specialized subtasks or genuinely independent parallel work. Before expanding, test the multi-agent design against a single-agent baseline using task completion, accuracy, escalation, cost per successful workflow, and latency; also test coordination under load.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Multi-agent architecture is worth adopting deliberately rather than by default. If the workflow doesn't require specialized subtasks or genuinely independent parallel work, start simple.",
+              "Measure task completion, output accuracy, tool selection errors and human escalation, and record the cost per successful workflow along with P50 and P95 latency.",
+              "Stress-test inter-agent coordination under load. Many failure modes emerge only during collaboration, not isolated testing."
+            ],
+            "sources": [
+              "https://www.jetbrains.com/pages/ai-agents/single-agent-vs-multi-agent-systems",
+              "https://unicoconnect.com/blogs/single-ai-agent-vs-multi-agent-systems",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 4,
+        "criteria_total": 4,
+        "reported_criteria_supported": 4,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 55.2,
+        "cost_usd": 0.0362,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 16189,
+        "output_tokens": 5154,
+        "search_calls": 3,
+        "pages_read": 5
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Specialized agents can divide common support responsibilities such as identifying intent, retrieving knowledge, taking actions, and escalating to a human.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Instead of one AI assistant managing every task, companies can design multiple smaller AI agents, each with a clear role:"
+            ],
+            "sources": [
+              "https://www.ayudo.ai/blog/multi-agent-architecture-in-cx"
+            ]
+          },
+          {
+            "text": "Narrow specialization may improve answer reliability compared with a generalist bot.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "A knowledge agent trained only on official documentation will likely answer more reliably than a generalist bot."
+            ],
+            "sources": [
+              "https://www.ayudo.ai/blog/multi-agent-architecture-in-cx"
+            ]
+          },
+          {
+            "text": "A modular design can support growth and adaptation by adding agents for new processes or systems.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "When new systems or APIs are introduced, companies can plug in new agents instead of rebuilding a chatbot from scratch."
+            ],
+            "sources": [
+              "https://www.ayudo.ai/blog/multi-agent-architecture-in-cx"
+            ]
+          },
+          {
+            "text": "Coordination failures can create customer-facing loops or contradictory answers.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "without strong coordination customers may end up in loops or receive contradictory answers."
+            ],
+            "sources": [
+              "https://www.ayudo.ai/blog/multi-agent-architecture-in-cx"
+            ]
+          },
+          {
+            "text": "Multi-agent operation can increase cost and operational complexity, particularly before workloads are optimized.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Running and monitoring multiple agents requires infrastructure."
+            ],
+            "sources": [
+              "https://www.ayudo.ai/blog/multi-agent-architecture-in-cx"
+            ]
+          },
+          {
+            "text": "Agent handoffs introduce latency and require explicit state management.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "The coordination between agents introduces latency at each handoff point and requires explicit state management between components."
+            ],
+            "sources": [
+              "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents"
+            ]
+          },
+          {
+            "text": "Multi-agent systems suit complex workflows better, while single-agent systems can be preferable for simple, well-scoped tasks.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "For most organizations, single-agent systems remain the correct starting point for predictable, well-scoped tasks"
+            ],
+            "sources": [
+              "https://www.innervationai.com/blog/single-vs-multi-agent-architecture-2026-guide"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 6.47,
+        "cost_usd": 0.01735,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 11421,
+        "output_tokens": 425,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "nonexistent_product",
+      "category": "nonexistent_entity",
+      "question": "What does QuantumLeap Vector Engine 9 from Hyperion DB cost?",
+      "expected": "Says it found no evidence for the product and makes no factual claims about it.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish whether QuantumLeap Vector Engine 9 is a real product offered by Hyperion DB.",
+        "Find the product’s current price or pricing model, including currency, billing basis, and any stated conditions or quote requirements."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "insufficient_evidence",
+        "stop_reason": "diminishing_returns",
+        "confidence": "low",
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 2,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "abstains": true
+        },
+        "latency_s": 24.08,
+        "cost_usd": 0.05732,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 9190,
+        "output_tokens": 793,
+        "search_calls": 5,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "insufficient_evidence",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 2,
+        "reported_criteria_supported": null,
+        "checks": {
+          "abstains": true
+        },
+        "latency_s": 2.98,
+        "cost_usd": 0.02524,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 12223,
+        "output_tokens": 43,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "ambiguous_mercury",
+      "category": "ambiguous_request",
+      "question": "Is mercury dangerous?",
+      "expected": "States which meaning of 'mercury' it researched, then answers with citations.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Explain how mercury’s health hazard varies by chemical form, amount, and exposure duration.",
+        "Identify major exposure routes and groups at elevated risk, including relevant food and workplace exposures.",
+        "Summarize significant health effects and practical steps for avoiding or responding to exposure.",
+        "Briefly establish how mercury can affect ecosystems and enter the food chain."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "medium",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Risk from a hazardous substance depends on dose, exposure duration, route, personal traits and habits, and other chemicals present. High-level methylmercury exposure may cause adverse health effects; metallic mercury at higher exposures may cause kidney effects, respiratory failure, and death.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Methylmercury, however, is a powerful neurotoxin, and people exposed to high levels may experience adverse health effects. If you are concerned about your exposure to methylmercury, you should consult your physician.",
+              "Higher exposures may also cause kidney effects, respiratory failure and death.",
+              "The effects of exposure to any hazardous substance depend on the dose, the duration, how you are exposed, personal traits and habits, and whether other chemicals are present."
+            ],
+            "sources": [
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury",
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury",
+              "https://www.atsdr.cdc.gov/toxprofiles/tp46-c1-b.pdf"
+            ]
+          },
+          {
+            "text": "Methylmercury exposure most commonly occurs from eating fish and shellfish with high levels. Metallic mercury exposure most often occurs when it is spilled or a product containing it breaks and exposes it to air.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Exposure to methylmercury most commonly occurs when people eat kinds of fish and shellfish that have high levels of methylmercury in their tissues. Almost all people have at least small amounts of methylmercury in their bodies, reflecting the widespread presence of methylmercury in the environment.",
+              "Exposures to metallic mercury most often occur when metallic mercury is spilled, or when products that contain metallic mercury break, so that mercury is exposed to the air. If you are concerned about your exposure to metallic mercury, you should consult your physician."
+            ],
+            "sources": [
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury",
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury"
+            ]
+          },
+          {
+            "text": "Children may be exposed through improperly contained metallic mercury, contaminated food, or mercury carried home on a worker’s clothes or tools. Workers with concerns can ask their employer for workplace safety and health information.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Children are at risk of being exposed to metallic mercury that is not safely contained, to mercury that may be brought home on work clothes or tools, or to methylmercury-contaminated foods.",
+              "If you have questions or concerns about exposure to mercury at work, you have a right to obtain information from your employer about your safety and health on the job without fear of punishment."
+            ],
+            "sources": [
+              "https://www.atsdr.cdc.gov/toxprofiles/tp46-c1-b.pdf",
+              "https://www.atsdr.cdc.gov/toxprofiles/tp46-c1-b.pdf"
+            ]
+          },
+          {
+            "text": "If concerned about exposure to methylmercury or metallic mercury, consult a physician. Workers with questions or concerns about workplace mercury exposure have a right to obtain safety and health information from their employer without fear of punishment; workplace safety sheets should include exposure routes, health effects, safe handling, and emergency procedures.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Information on these sheets should include chemical names and hazardous ingredients, important properties (such as fire and explosion data), potential health effects, how you get the chemical(s) in your body, how to properly handle the materials, and what to do in an emergency.",
+              "Methylmercury, however, is a powerful neurotoxin, and people exposed to high levels may experience adverse health effects. If you are concerned about your exposure to methylmercury, you should consult your physician.",
+              "Exposures to metallic mercury most often occur when metallic mercury is spilled, or when products that contain metallic mercury break, so that mercury is exposed to the air. If you are concerned about your exposure to metallic mercury, you should consult your physician.",
+              "If you have questions or concerns about exposure to mercury at work, you have a right to obtain information from your employer about your safety and health on the job without fear of punishment."
+            ],
+            "sources": [
+              "https://archive.cdc.gov/www_atsdr_cdc_gov/sites/toxzine/mercury_toxzine.html",
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury",
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury",
+              "https://www.atsdr.cdc.gov/toxprofiles/tp46-c1-b.pdf"
+            ]
+          },
+          {
+            "text": "Do not remove dental amalgams without an indication of adverse effects; chelation should be considered only if a qualified physician determines it is necessary to reduce immediate and significant risk from high mercury levels.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Removal of dental amalgams in people who have no indication of adverse effects is not recommended and can put the person at greater risk, if performed improperly. Chelation therapy (used to remove metals from the body tissues) itself presents some health risks, and should be considered only when a …"
+            ],
+            "sources": [
+              "https://archive.cdc.gov/www_atsdr_cdc_gov/sites/toxzine/mercury_toxzine.html"
+            ]
+          },
+          {
+            "text": "In aquatic ecosystems, some inorganic mercury becomes methylmercury; methylmercury accumulates through the food web and can reach high concentrations in fish near the top of it, creating concerns for people and fish-eating wildlife.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Mercury can enter and accumulate in the food chain. The form of mercury that accumulates in the food chain is methylmercury. Inorganic mercury does not accumulate up the food chain to any extent.",
+              "Mercury is a potent neurotoxin that accumulates in fish to levels of concern for human health and the health of fish-eating wildlife. Mercury contamination of fish is the primary reason for issuing fish consumption advisories, which exist in every State in the Nation.",
+              "In aquatic ecosystems, some inorganic mercury is converted to methylmercury, the form that ultimately accumulates in fish. The rate of mercury methylation, thus the amount of methylmercury produced, varies greatly in time and space, and depends on numerous environmental factors, including temperatu…",
+              "Methylmercury concentrations increase with successively higher trophic levels in the food web-a process known as bioaccumulation. In general, fish at the top of the food web consume other fish and tend to accumulate the highest methylmercury concentrations."
+            ],
+            "sources": [
+              "https://archive.cdc.gov/www_atsdr_cdc_gov/sites/toxzine/mercury_toxzine.html",
+              "https://hero.epa.gov/reference/3220121",
+              "https://hero.epa.gov/reference/3220121",
+              "https://hero.epa.gov/reference/3220121"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 3,
+        "reported_criteria_supported": 3,
+        "checks": {
+          "ambiguity_noted": true,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 46.81,
+        "cost_usd": 0.03556,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 15406,
+        "output_tokens": 4048,
+        "search_calls": 3,
+        "pages_read": 5
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 6,
+      "checks_passed": 16,
+      "checks_total": 16,
+      "claims": 30,
+      "supported": 13,
+      "partially_supported": 9,
+      "not_supported": 8,
+      "supported_rate": 0.433,
+      "invalid_citations": 0,
+      "criteria_covered": 14,
+      "criteria_total": 21,
+      "reported_criteria_supported": 13,
+      "latency_s_median": 61.37,
+      "latency_s_total": 361.73,
+      "cost_usd_total": 0.2974,
+      "cost_uncertain": false
+    },
+    "baseline": {
+      "runs": 5,
+      "checks_passed": 7,
+      "checks_total": 9,
+      "claims": 18,
+      "supported": 3,
+      "partially_supported": 5,
+      "not_supported": 10,
+      "supported_rate": 0.167,
+      "invalid_citations": 2,
+      "criteria_covered": 5,
+      "criteria_total": 18,
+      "reported_criteria_supported": null,
+      "latency_s_median": 5.7,
+      "latency_s_total": 25.0,
+      "cost_usd_total": 0.1103,
+      "cost_uncertain": false
+    }
+  }
+}

@@ -1,0 +1,435 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T11:56:36+00:00",
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.3",
+  "git_commit": null,
+  "prices": {
+    "model_input_usd_per_mtok": 1.0,
+    "model_output_usd_per_mtok": 5.0,
+    "tavily_usd_per_credit": 0.008
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 0.35,
+  "spent_usd": 0.2905,
+  "stopped_early": false,
+  "cases": [
+    {
+      "id": "hr_tech_discovery",
+      "category": "assignment_example",
+      "question": "Find five Indian B2B SaaS startups in HR tech and summarize their positioning.",
+      "expected": "Lists at most five companies and includes only those whose eligibility is backed by evidence; never pads the list.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish Indian origin or headquarters and evidence that each company is a startup.",
+        "Verify that each company offers B2B SaaS in HR technology.",
+        "Identify each company’s product focus, target customers and stated positioning or differentiators."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "medium",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "CompUp offers API-driven compensation benchmarking that integrates with HR and payroll systems and updates in real time. The evidence does not specify a narrower target customer segment.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "CompUp is an API-driven compensation benchmarking tool. We integrate with your existing HR/payroll systems, removing the need for manual data entry, and also getting updated in real-time."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india"
+            ]
+          },
+          {
+            "text": "SalaryBook targets Indian SMEs with a one-stop app for payroll, attendance and expenses; its attendance features include selfie- and location-based marking.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "SalaryBook is an payroll, employee attendance and Expense management app for 60 million Indian SMEs. SMBs see in our app a one stop solution for running their business.",
+              "Our app includes some cool features like selfie & location based attendance marking."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/saas/india",
+              "https://www.ycombinator.com/companies/industry/saas/india"
+            ]
+          },
+          {
+            "text": "Darwinbox and Eightfold appear on a tracker of SaaS companies described as being out of India, with Indian bases listed. That does not clearly establish that either was founded or is headquartered in India.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "This is a curated list of SaaS companies valued at $1B+ out of India.",
+              "Darwinbox | Tech company offering end-to-end HR operations management solutions | 1,000 M | 135 M | Hyderabad | 2015 | January, 2022 | Series D",
+              "Eightfold | AI-based talent intelligence solutions for enterprises | 2,100 M | 410 M | Noida | 2016 | October, 2020 | Series E"
+            ],
+            "sources": [
+              "https://saasboomi.org/india-saas-unicorn-tracker",
+              "https://saasboomi.org/india-saas-unicorn-tracker",
+              "https://saasboomi.org/india-saas-unicorn-tracker"
+            ]
+          },
+          {
+            "text": "The reviewed evidence describes HR-related offerings from Xoxoday, Keka and greytHR, but does not establish their Indian origin or headquarters and startup status.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Xoxoday offers business software products to solve problems around employee rewards and recognition, channel sales incentives and consumer promotions. The software products are used by HR leaders, channel managers and brand marketers across 700+ global companies to engage their employees, channel p…",
+              "Keka has built a good reputation among Indian tech companies. Its interface feels modern and appeals to HR teams that prefer visual dashboards over dense data tables.",
+              "For them, Keka's performance management modules are impeccably suitable. The system supports appraisal workflows and structured feedback processes.",
+              "greytHR focuses heavily on compliance and statutory management in India. Many IT service firms choose it for payroll accuracy.",
+              "The platform handles PF, ESI, professional tax, and TDS efficiently. Attendance and leave tracking are available, though the system feels more payroll-centric than performance-driven."
+            ],
+            "sources": [
+              "https://cutshort.io/companies/saas",
+              "https://www.mewurk.com/blog/top-hr-software-in-india-for-it-saas-companies",
+              "https://www.mewurk.com/blog/top-hr-software-in-india-for-it-saas-companies",
+              "https://www.mewurk.com/blog/top-hr-software-in-india-for-it-saas-companies",
+              "https://www.mewurk.com/blog/top-hr-software-in-india-for-it-saas-companies"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 3,
+        "reported_criteria_supported": 2,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "entities_not_padded": true,
+          "eligibility_backed": true
+        },
+        "latency_s": 87.13,
+        "cost_usd": 0.08889,
+        "cost_uncertain": false,
+        "model_calls": 8,
+        "input_tokens": 19694,
+        "output_tokens": 5840,
+        "search_calls": 4,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "multi_agent_pros_cons",
+      "category": "assignment_example",
+      "question": "Research the pros and cons of a multi-agent architecture for customer support automation.",
+      "expected": "Gives cited pros and cons of multi-agent support automation.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Define the architecture, common agent roles, coordination patterns, and relevant alternatives.",
+        "Assess potential benefits for specialization, support quality, scalability, and handling complex cases, including supporting evidence.",
+        "Assess drawbacks and risks, including coordination failures, latency, costs, security, privacy, and accountability.",
+        "Identify when multi-agent systems are justified, implementation safeguards, human escalation, and evaluation measures."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "high",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "A multi-agent system uses two or more agents for distinct tasks. Roles can include planner, researcher, executor and reviewer; coordination can use a manager-worker, orchestrator-executor or peer-to-peer pattern.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Multi-agent systems divide work across specialized agents (planner, researcher, executor, reviewer), better for complex, multi-step, or cross-tool workflows Multi-agent systems cost more and add latency due to coordination between agents, but scale better for research, software development, and ent…",
+              "Common multi-agent orchestration patterns include planner-executor, researcher-writer-reviewer, manager-worker and tool-specialist patterns. These patterns help divide complex work, but they also require stronger monitoring, evaluation, and fallback logic.",
+              "Multi-agent systems deploy two or more agents for distinct tasks within a single business process. This architecture enables different orchestration patterns and specialization.",
+              "Choose coordination patterns (orchestrator-executor or peer-to-peer)."
+            ],
+            "sources": [
+              "https://factory.fpt.ai/ai-insights/single-agent-vs-multi-agent",
+              "https://factory.fpt.ai/ai-insights/single-agent-vs-multi-agent",
+              "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Specialization may help with complex, multi-step cases, and independently divisible work may benefit from parallel throughput. Adding a specialist can also make expansion into another domain more manageable. These are potential benefits, not demonstrated support-quality gains in the reviewed evidence.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Scalability through specialization: Instead of retraining one large model to do everything, you can introduce a specialist agent for a new domain. That modularity makes expansion more manageable and often more cost-efficient over time.",
+              "When multiple specialized agents work together, you are not stacking capability, you are unlocking parallel throughput on tasks that can genuinely be split. Specialization lets each agent carry a narrower, better-defined job, which improves output quality on complex, multi-step problems."
+            ],
+            "sources": [
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems",
+              "https://www.lyzr.ai/blog/multi-agent-vs-single-agent"
+            ]
+          },
+          {
+            "text": "Disagreements, duplicated work and incomplete handoffs can produce inconsistent responses. Additional model calls and handoffs can also increase latency and cost, while shared state makes failures harder to debug.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "However, multi-agent systems often require more model calls, stronger orchestration, shared memory management and closer monitoring, which can increase latency, cost and operational complexity.",
+              "If agents disagree, repeat work or pass incomplete context to each other, the final output may become inconsistent.",
+              "The coordination between agents introduces latency at each handoff point and requires explicit state management between components.",
+              "Debuggability | Simple. One trace, one decision path | Hard. Failures hide inside inter-agent handoffs and shared state"
+            ],
+            "sources": [
+              "https://factory.fpt.ai/ai-insights/single-agent-vs-multi-agent",
+              "https://factory.fpt.ai/ai-insights/single-agent-vs-multi-agent",
+              "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents",
+              "https://www.lyzr.ai/blog/multi-agent-vs-single-agent"
+            ]
+          },
+          {
+            "text": "Extra credentials and data transfers expand the security surface and create additional points at which customer data must be protected. Oversight and audit trails are important for tracing responsibility across agents.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Security surfaces expand through extra credential management and data transit points between agents. Cost structures increase because each agent processes redundant context and communication overhead multiplies with agent count.",
+              "Multi-agent architectures outperform single agents on complex tasks but demand governance infrastructure. Multi-agent systems require centralized oversight and audit trails built into the development workflow."
+            ],
+            "sources": [
+              "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Start with a simpler design when specialized subtasks or independent parallel work are unnecessary. Consider splitting work among agents if a single agent repeatedly fails on a complex workflow, after also considering redesign of that workflow.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "If a single agent repeatedly fails because the workflow is too complex, the task may need to be redesigned or split into multiple agents.",
+              "If the workflow doesn't require specialized subtasks or genuinely independent parallel work, start simple. Distributed coordination adds real complexity, and that complexity is the cost to weigh before adopting a multi-agent design."
+            ],
+            "sources": [
+              "https://factory.fpt.ai/ai-insights/single-agent-vs-multi-agent",
+              "https://www.jetbrains.com/pages/ai-agents/single-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Test each agent independently and stress-test coordination under load. Compare alternatives on task accuracy, throughput, latency, successful handoffs and cost per completed task; include monitoring, fallback logic and routes to human support.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Common multi-agent orchestration patterns include planner-executor, researcher-writer-reviewer, manager-worker and tool-specialist patterns. These patterns help divide complex work, but they also require stronger monitoring, evaluation, and fallback logic.",
+              "Branching logic | Routes requests to appropriate agents based on conditions, enabling escalation from chatbots to specialized agents or human support",
+              "Test agents independently for task accuracy. Stress-test inter-agent coordination under load.",
+              "Throughput: Tasks completed per unit of time Latency: Time from input to final output Inter-agent reliability: Successful handoffs versus coordination failures Cost per task: Total inference spend divided by completed workflows"
+            ],
+            "sources": [
+              "https://factory.fpt.ai/ai-insights/single-agent-vs-multi-agent",
+              "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 4,
+        "reported_criteria_supported": 4,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 65.12,
+        "cost_usd": 0.07264,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 16938,
+        "output_tokens": 4740,
+        "search_calls": 3,
+        "pages_read": 5
+      }
+    },
+    {
+      "id": "nonexistent_product",
+      "category": "nonexistent_entity",
+      "question": "What does QuantumLeap Vector Engine 9 from Hyperion DB cost?",
+      "expected": "Says it found no evidence for the product and makes no factual claims about it.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish whether the named vendor and product exist and identify any verified naming variations.",
+        "Determine published pricing, billing units, licensing terms, and whether a custom quote is required."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "insufficient_evidence",
+        "stop_reason": "diminishing_returns",
+        "confidence": "low",
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 2,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "abstains": true
+        },
+        "latency_s": 24.79,
+        "cost_usd": 0.07717,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 8540,
+        "output_tokens": 927,
+        "search_calls": 6,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "ambiguous_mercury",
+      "category": "ambiguous_request",
+      "question": "Is mercury dangerous?",
+      "expected": "States which meaning of 'mercury' it researched, then answers with citations.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish how mercury's chemical forms, exposure routes, and dose affect health risks.",
+        "Identify common exposure sources, health effects, and particularly vulnerable groups.",
+        "Establish practical precautions and when to seek poison-control or medical help after suspected exposure."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "high",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Methylmercury exposure most commonly occurs through eating fish. Metallic mercury can escape from broken devices and evaporate at room temperature; its vapor has no odor and is not irritating, so people may not notice it.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "The most common method of exposure is by eating fish containing methylmercury. Other exposures may result from children mishandling or improper cleanup after a metallic mercury spill.",
+              "Liquid mercury vaporizes (evaporates) at room temperature causing elevated levels of mercury in indoor air. Mercury vapor is not irritating and has no odor, so people do not know when they are breathing it.",
+              "Mercury may be found in thermometers, thermostats, blood pressure units, barometers and gas pressure regulators. Exposure to mercury can occur when people handle or play with the liquid metal, or when a measuring device breaks and mercury beads scatter onto floors or other surfaces."
+            ],
+            "sources": [
+              "https://www.epa.gov/newsreleases/epa-reminds-citizens-take-additional-steps-if-handling-mercury-children-are",
+              "https://www.health.ny.gov/environmental/chemicals/mercury/docs/cleaning_up_a_small_mercury_spill.htm",
+              "https://www.health.ny.gov/environmental/chemicals/mercury/docs/cleaning_up_a_small_mercury_spill.htm"
+            ]
+          },
+          {
+            "text": "Brief exposure to high levels can cause effects such as fatigue, insomnia and behavioral changes. Long-term exposure to even small amounts may damage the brain, kidneys and lungs; nervous-system effects may be permanent.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Children are more susceptible to mercury poisoning than adults. Exposure to even small amounts of mercury over a long period may cause negative health effects including damage to the brain, kidney, lungs, and the developing fetus.",
+              "Brief contact with high levels of mercury can cause immediate health effects including loss of appetite, fatigue, insomnia, and changes in behavior or personality.",
+              "When exposure to mercury stops, most symptoms usually go away; however, effects on the brain and nervous system may be permanent."
+            ],
+            "sources": [
+              "https://illinois-doit-prod-idph.amsadobe.com/topics-services/environmental-health-protection/toxicology/indoor-air-quality-healthy-homes/mercury-spills.html",
+              "https://illinois-doit-prod-idph.amsadobe.com/topics-services/environmental-health-protection/toxicology/indoor-air-quality-healthy-homes/mercury-spills.html",
+              "https://illinois-doit-prod-idph.amsadobe.com/topics-services/environmental-health-protection/toxicology/indoor-air-quality-healthy-homes/mercury-spills.html"
+            ]
+          },
+          {
+            "text": "Children are more susceptible than adults, and exposure may harm a developing fetus. Even mercury from a broken thermometer can cause harm, especially to children, if it is not properly cleaned up.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Even the small amount of mercury from a broken thermometer can cause harm, especially to children, unless it is properly cleaned up and removed.",
+              "Children are more susceptible to mercury poisoning than adults. Exposure to even small amounts of mercury over a long period may cause negative health effects including damage to the brain, kidney, lungs, and the developing fetus."
+            ],
+            "sources": [
+              "https://www.health.ny.gov/environmental/chemicals/mercury/docs/cleaning_up_a_small_mercury_spill.htm",
+              "https://illinois-doit-prod-idph.amsadobe.com/topics-services/environmental-health-protection/toxicology/indoor-air-quality-healthy-homes/mercury-spills.html"
+            ]
+          },
+          {
+            "text": "After a large spill, leave the area immediately and contact a physician about possible testing and treatment. For moderate to serious exposure, call 911 or your local poison control center and seek medical treatment.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "For immediate help,moderate to serious exposures, call 911 or the Poison Control Centre in your area and seek medical treatment, and refer to the first aid section.",
+              "Persons involved in a large mercury spill should leave the area immediately. Contact your physician for possible treatment and testing."
+            ],
+            "sources": [
+              "https://tc.canada.ca/en/dangerous-goods/canutec/articles/mercury-thermometer-spills-what-do",
+              "https://illinois-doit-prod-idph.amsadobe.com/topics-services/environmental-health-protection/toxicology/indoor-air-quality-healthy-homes/mercury-spills.html"
+            ]
+          },
+          {
+            "text": "Do not vacuum, sweep with a broom or pour spilled mercury down a drain. Mercury left behind can continue to release potentially harmful vapor.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Never use a vacuum cleaner to clean up mercury. The vacuum will put mercury into the air and increase exposure.",
+              "Never use a broom to clean up mercury. It will break the mercury into smaller droplets and spread them.",
+              "Never pour mercury down a drain. It may lodge in the plumbing and cause future problems during plumbing repairs.",
+              "Any mercury not removed will continue to be a source of potentially harmful mercury vapors."
+            ],
+            "sources": [
+              "https://www.epa.gov/mercury/what-do-if-you-spill-more-mercury-amount-thermometer",
+              "https://www.epa.gov/mercury/what-do-if-you-spill-more-mercury-amount-thermometer",
+              "https://www.epa.gov/mercury/what-do-if-you-spill-more-mercury-amount-thermometer",
+              "https://www.health.ny.gov/environmental/chemicals/mercury/docs/cleaning_up_a_small_mercury_spill.htm"
+            ]
+          },
+          {
+            "text": "Keep mercury thermometers away from children and pets, and consider properly disposing of them and replacing them with a digital or other less hazardous alternative.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Keep them out of reach of young children and pets. We recommend properly disposing of thermometers that might contain mercury and replacing them with a less or non-hazardous alternative, like a galinstan or digital thermometer."
+            ],
+            "sources": [
+              "https://tc.canada.ca/en/dangerous-goods/canutec/articles/mercury-thermometer-spills-what-do"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 3,
+        "reported_criteria_supported": 3,
+        "checks": {
+          "ambiguity_noted": true,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 43.61,
+        "cost_usd": 0.0518,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 12073,
+        "output_tokens": 3146,
+        "search_calls": 2,
+        "pages_read": 5
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 4,
+      "checks_passed": 10,
+      "checks_total": 10,
+      "claims": 16,
+      "supported": 10,
+      "partially_supported": 3,
+      "not_supported": 3,
+      "supported_rate": 0.625,
+      "invalid_citations": 0,
+      "criteria_covered": 6,
+      "criteria_total": 12,
+      "reported_criteria_supported": 9,
+      "latency_s_median": 54.37,
+      "latency_s_total": 220.65,
+      "cost_usd_total": 0.2905,
+      "cost_uncertain": false
+    },
+    "baseline": null
+  }
+}

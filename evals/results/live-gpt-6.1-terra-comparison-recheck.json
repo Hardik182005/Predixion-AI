@@ -1,0 +1,439 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T11:40:07+00:00",
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.3",
+  "git_commit": null,
+  "prices": {
+    "model_input_usd_per_mtok": 1.0,
+    "model_output_usd_per_mtok": 5.0,
+    "tavily_usd_per_credit": 0.008
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 0.3,
+  "spent_usd": 0.2012,
+  "stopped_early": false,
+  "cases": [
+    {
+      "id": "memory_comparison",
+      "category": "assignment_example",
+      "question": "Compare approaches to memory in an AI support agent.",
+      "expected": "Compares memory approaches on the planned dimensions with cited findings and a comparison table.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Identify memory approaches and explain how each stores, updates, retrieves, and expires information.",
+        "Compare usefulness for continuity, personalization, factual accuracy, and handling stale or conflicting information.",
+        "Compare implementation complexity, latency, storage, and operating cost.",
+        "Assess privacy, security, retention, deletion, and cross-customer isolation considerations.",
+        "Establish when to use each approach or combine approaches, and how to evaluate a deployment."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "high",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Conversation context supports current-session reasoning; persistent memory can supply facts across sessions. A dynamic summary combined with a user graph is one demonstrated hybrid design.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Memoria integrates two complementary components: dynamic session-level summarization and a weighted knowledge graph (KG)-based user modelling engine that incrementally captures user traits, preferences, and behavioral patterns as structured entities and relationships. This hybrid architecture enabl…",
+              "The engineering decision is not \"use memory or use context window\" it is \"use memory for cross-session facts and context window for current-session reasoning.\""
+            ],
+            "sources": [
+              "https://arxiv.org/html/2512.12686v1",
+              "https://ranksquire.com/2026/05/06/long-term-memory-for-ai-agents"
+            ]
+          },
+          {
+            "text": "Vector search retrieves similar items, but a memory system still needs rules for what to save, consolidate, verify, update, and forget.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "In practice a memory layer has to perform four operations on top of storage: write what is worth keeping, consolidate it as duplicates and patterns accumulate, retrieve the right items at the right time, and update or retire what is stale or wrong.",
+              "A vector database stores embeddings and retrieves similar items. An agent memory layer may use vectors, but it also has to decide what to store, how to consolidate it, when to forget, and how to verify that recalled information is still trustworthy."
+            ],
+            "sources": [
+              "https://mnemoverse.com/docs/library/ai-agent-memory",
+              "https://mnemoverse.com/docs/library/ai-agent-memory"
+            ]
+          },
+          {
+            "text": "Graphs can represent relationships and changes, at the cost of additional modeling complexity. In one implementation, weights favor newer knowledge when retrieved facts conflict; recency alone should not be assumed to establish correctness.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "If conflicting triplets are retrieved, this weighting system enables the model to resolve discrepancies in favor of the most current knowledge, having higher weights.",
+              "Graph approaches are often better at answering questions like \"what changed?\" or \"how are these entities connected?\" They also introduce more modeling complexity."
+            ],
+            "sources": [
+              "https://arxiv.org/html/2512.12686v1",
+              "https://mnemoverse.com/docs/library/ai-agent-memory"
+            ]
+          },
+          {
+            "text": "One reported benchmark found selective vector retrieval cheaper and faster than full-context prompting but less accurate; these figures should not be treated as a support-deployment forecast.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "accuracy degradation - where information in the middle of long contexts is reliably ignored - was documented at 72.9% accuracy on LOCOMO for full-context approaches, versus the vectorized selective approach at 68.4% accuracy at 80% lower cost and 74% lower latency.",
+              "Deployment demands more nuance than any single benchmark provides."
+            ],
+            "sources": [
+              "https://ranksquire.com/2026/05/06/long-term-memory-for-ai-agents",
+              "https://arxiv.org/html/2603.07670v1"
+            ]
+          },
+          {
+            "text": "For a stateless FAQ agent, consider document retrieval without cross-session customer memory. For ongoing cases, combine current context with selectively retrieved customer history and organizational knowledge.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Episodic memory[8, 2] encapsulates the agent's ability to recall specific past interactions or events. This type of memory mirrors the autobiographical memory of humans, allowing the model to reference details such as user preferences, prior conversations, and historical decisions.",
+              "The engineering decision is not \"use memory or use context window\" it is \"use memory for cross-session facts and context window for current-session reasoning.\"",
+              "Agent handles stateless one-shot queries Customer FAQ bots answering from a static knowledge base do not benefit from cross-session memory. Use RAG over static documents instead.",
+              "You add a persistent layer outside the model that saves facts, events, preferences, or procedures and retrieves them across sessions. Common approaches include vector memory, graph memory, hybrid systems, and OS-tiered or self-editing runtimes."
+            ],
+            "sources": [
+              "https://arxiv.org/html/2512.12686v1",
+              "https://ranksquire.com/2026/05/06/long-term-memory-for-ai-agents",
+              "https://ranksquire.com/2026/05/06/long-term-memory-for-ai-agents",
+              "https://mnemoverse.com/docs/library/ai-agent-memory"
+            ]
+          },
+          {
+            "text": "Evaluate retrieval quality and restraint, deletion across derived and connected stores, and cross-customer isolation; repeat privacy tests after relevant system changes.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Memory-deletion failure rate | Delete canary values; test direct recall, semantic recall, summaries, caches, connected stores | 0 for in-scope production stores | Deletion proofs, storage inventory, backup policy, retest results",
+              "Tenant-isolation failure rate | Seed one tenant's data; attempt retrieval from another tenant | 0 | Isolation test report and database/index configuration evidence",
+              "Privacy is an operating discipline. Re-test after any model, tool, retrieval, or policy change, and expand autonomy only when those controls keep working.",
+              "It checks retrieval and restraint, not whether a write succeeded."
+            ],
+            "sources": [
+              "https://blog.naitive.cloud/ai-agent-privacy-enterprises",
+              "https://blog.naitive.cloud/ai-agent-privacy-enterprises",
+              "https://blog.naitive.cloud/ai-agent-privacy-enterprises",
+              "https://mnemoverse.com/docs/library/ai-agent-memory"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 5,
+        "criteria_total": 5,
+        "reported_criteria_supported": 5,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": true
+        },
+        "latency_s": 72.82,
+        "cost_usd": 0.0727,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 14834,
+        "output_tokens": 5173,
+        "search_calls": 3,
+        "pages_read": 5
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Working memory, semantic memory, episodic memory, and procedural memory serve distinct support-agent needs.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "A customer support agent, for example, might keep the current ticket in working memory, a customer’s subscription tier in semantic memory, past complaints in episodic memory, and a learned refund-handling routine in procedural memory."
+            ],
+            "sources": [
+              "https://machinelearningmastery.com/choosing-the-right-ai-agent-memory-strategy-a-decision-tree-approach"
+            ]
+          },
+          {
+            "text": "Short-term memory does not retain information across sessions.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "When the session ends, the memory is gone."
+            ],
+            "sources": [
+              "https://www.dataiku.com/blog/ai-agent-memory"
+            ]
+          },
+          {
+            "text": "Summarization can lose details, and semantic similarity does not guarantee relevance.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Summarization compresses older dialogue, but it can lose details or drift."
+            ],
+            "sources": [
+              "https://blogs.oracle.com/developers/which-agent-memory-approach-is-best-for-long-conversations"
+            ]
+          },
+          {
+            "text": "Vector retrieval has relevance limitations.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Vector retrieval finds semantically related context, but similarity is not the same as relevance."
+            ],
+            "sources": [
+              "https://blogs.oracle.com/developers/which-agent-memory-approach-is-best-for-long-conversations"
+            ]
+          },
+          {
+            "text": "Persistent memory creates privacy and retention obligations.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Memory architecture choices directly affect cost (larger context windows consume more tokens), governance (persistent memory creates data retention obligations), and performance (retrieval latency affects agent response time)."
+            ],
+            "sources": [
+              "https://www.dataiku.com/blog/ai-agent-memory"
+            ]
+          },
+          {
+            "text": "Customer memory and retrieval of current information serve different functions.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Retrieval looks up facts; memory tracks what's happened with this user before."
+            ],
+            "sources": [
+              "https://redis.io/blog/ai-agent-memory-vs-retrieval"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 5,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": null
+        },
+        "latency_s": 7.89,
+        "cost_usd": 0.03701,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 11049,
+        "output_tokens": 393,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "vector_db_comparison",
+      "category": "assignment_example",
+      "question": "Compare the top three open-source vector databases for a startup building RAG products.",
+      "expected": "Compares three open-source vector databases; vendor claims stay attributed and unsupported superlatives are dropped.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Verify that each candidate is a vector database with an open-source core and identify its license.",
+        "Establish a transparent basis for selecting three leading candidates using adoption, ecosystem maturity, and RAG relevance.",
+        "Compare retrieval capabilities relevant to RAG, including filtering, hybrid search, integrations, and documented performance.",
+        "Compare deployment, operational complexity, scalability, managed options, and cost considerations for a startup."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "high",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "The selection is based on their inclusion in a vector database comparison and their documented RAG-relevant features, not a measured adoption ranking. Adoption figures were not found.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Compare Pinecone, Weaviate, Qdrant, Milvus, and ChromaDB.",
+              "Open-source options provide better control, scalability, and integration: Milvus, Weaviate, Qdrant, and others support hybrid search, flexible deployment, and production-grade performance."
+            ],
+            "sources": [
+              "https://deploybase.ai/articles/vector-database-comparison",
+              "https://www.cake.ai/blog/best-vector-databases"
+            ]
+          },
+          {
+            "text": "All three are described as open-source vector databases, but the reviewed evidence does not identify their licenses.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Qdrant Budget-friendly vector database with the best free tier and excellent filtering for moderate-scale projects Type | Open-source, Rust-based, managed and self-hosted options",
+              "Weaviate is an open-source vector database (with managed deployment options) used to store embeddings and perform vector similarity search, often alongside metadata filtering.",
+              "Specifically, I focused on Milvus (an open-source vector database) and Zilliz Cloud (a fully managed service built on Milvus)."
+            ],
+            "sources": [
+              "https://www.firecrawl.dev/blog/best-vector-databases",
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://medium.com/@aefselinates/scaling-vector-search-my-hands-on-comparison-of-self-hosted-and-managed-solutions-8efb68fe8c8e"
+            ]
+          },
+          {
+            "text": "All three are described as supporting hybrid search and metadata filtering. The reviewed evidence names LangChain and LlamaIndex integrations for Weaviate, but does not establish comparable integration coverage for the other two.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Weaviate | Managed + self-hosted | Yes | Yes | Strong | HNSW (+ hybrid features) | LangChain, LlamaIndex | Cloud + self-hosted",
+              "Compare Pinecone, Weaviate, Qdrant, Milvus, and ChromaDB.",
+              "All databases support metadata filtering during vector search. Store metadata (tags, timestamps, URLs) alongside vectors.",
+              "Open-source options provide better control, scalability, and integration: Milvus, Weaviate, Qdrant, and others support hybrid search, flexible deployment, and production-grade performance."
+            ],
+            "sources": [
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://deploybase.ai/articles/vector-database-comparison",
+              "https://deploybase.ai/articles/vector-database-comparison",
+              "https://www.cake.ai/blog/best-vector-databases"
+            ]
+          },
+          {
+            "text": "Qdrant is a candidate to test for frequently updated workloads; the reviewed article says it handles frequent updates well, while Milvus needs an index rebuild for optimal performance after large bulk updates.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Pinecone and Qdrant handle frequent updates well. Milvus requires index rebuild for optimal performance after large bulk updates."
+            ],
+            "sources": [
+              "https://deploybase.ai/articles/vector-database-comparison"
+            ]
+          },
+          {
+            "text": "Milvus is a candidate for larger-scale workloads, but a reviewed guide says it requires engineering resources. Weaviate and Qdrant also have managed and self-hosted options.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Milvus / Zilliz Cloud: billions of vectors at lower cost; requires engineering resources.",
+              "Qdrant Budget-friendly vector database with the best free tier and excellent filtering for moderate-scale projects Type | Open-source, Rust-based, managed and self-hosted options",
+              "Weaviate | Managed + self-hosted | Yes | Yes | Strong | HNSW (+ hybrid features) | LangChain, LlamaIndex | Cloud + self-hosted",
+              "Specifically, I focused on Milvus (an open-source vector database) and Zilliz Cloud (a fully managed service built on Milvus)."
+            ],
+            "sources": [
+              "https://www.firecrawl.dev/blog/best-vector-databases",
+              "https://www.firecrawl.dev/blog/best-vector-databases",
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://medium.com/@aefselinates/scaling-vector-search-my-hands-on-comparison-of-self-hosted-and-managed-solutions-8efb68fe8c8e"
+            ]
+          },
+          {
+            "text": "Benchmark the shortlist on the startup’s own data, filters, update patterns and tail-latency targets before choosing.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Use these snapshots to shortlist 2-3 candidates, then benchmark them on your own data and real query patterns, especially the filters and tail-latency targets your app will live or die by.",
+              "Pinecone and Qdrant handle frequent updates well. Milvus requires index rebuild for optimal performance after large bulk updates."
+            ],
+            "sources": [
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://deploybase.ai/articles/vector-database-comparison"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 4,
+        "reported_criteria_supported": 4,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": true
+        },
+        "latency_s": 58.77,
+        "cost_usd": 0.06537,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 12439,
+        "output_tokens": 4187,
+        "search_calls": 3,
+        "pages_read": 5
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "insufficient_evidence",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": false,
+          "citations_resolve": true,
+          "comparison_table": null
+        },
+        "latency_s": 3.08,
+        "cost_usd": 0.02608,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 9862,
+        "output_tokens": 43,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 2,
+      "checks_passed": 6,
+      "checks_total": 6,
+      "claims": 12,
+      "supported": 2,
+      "partially_supported": 6,
+      "not_supported": 4,
+      "supported_rate": 0.167,
+      "invalid_citations": 0,
+      "criteria_covered": 6,
+      "criteria_total": 9,
+      "reported_criteria_supported": 9,
+      "latency_s_median": 65.8,
+      "latency_s_total": 131.59,
+      "cost_usd_total": 0.1381,
+      "cost_uncertain": false
+    },
+    "baseline": {
+      "runs": 2,
+      "checks_passed": 3,
+      "checks_total": 4,
+      "claims": 6,
+      "supported": 2,
+      "partially_supported": 1,
+      "not_supported": 3,
+      "supported_rate": 0.333,
+      "invalid_citations": 0,
+      "criteria_covered": 0,
+      "criteria_total": 9,
+      "reported_criteria_supported": null,
+      "latency_s_median": 5.48,
+      "latency_s_total": 10.97,
+      "cost_usd_total": 0.0631,
+      "cost_uncertain": false
+    }
+  }
+}

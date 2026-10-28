@@ -1,0 +1,360 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T11:57:32+00:00",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.3",
+  "git_commit": null,
+  "prices": {
+    "model_input_usd_per_mtok": 0.1,
+    "model_output_usd_per_mtok": 0.5,
+    "tavily_usd_per_credit": 0.008
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 0.12,
+  "spent_usd": 0.0526,
+  "stopped_early": false,
+  "cases": [
+    {
+      "id": "contradictory_sqlite",
+      "category": "contradictory_evidence",
+      "question": "Is SQLite suitable for production web applications?",
+      "expected": "Reports that sources disagree instead of silently picking a side.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Production-relevant strengths, such as simplicity, deployment, maintenance, and reliability characteristics.",
+        "Concurrency and write-contention behavior, including implications for typical web request patterns.",
+        "Scaling and workload limits, including when a client/server database may be more appropriate.",
+        "Operational requirements and failure risks in production, including backups, storage, and deployment constraints."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "high",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "SQLite is described as a good fit for applications prioritizing simple setup, reliability in a small package, a small footprint, and read-heavy workloads.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "SQLite is best suited for production use in applications that: Desire fast and simple setup Require high reliability in a small package Have, and want to retain, a small footprint Are read-heavy but not write-heavy"
+            ],
+            "sources": [
+              "https://victoria.dev/posts/sqlite-in-production-with-wal"
+            ]
+          },
+          {
+            "text": "Because SQLite runs as a library within the application process, one source says it avoids database-query network round trips; another says it avoids several operational tasks, including database-server maintenance and connection pooling.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "More importantly, SQLite eliminates entire categories of operational complexity: connection pooling, database server maintenance, backup procedures, replication configuration, and deployment coordination.",
+              "Unlike PostgreSQL, which operates as a separate process requiring network communication, SQLite is a library integrated directly into your application process. This eliminates the latency inherent in network round-trips for database queries."
+            ],
+            "sources": [
+              "https://victoria.dev/posts/sqlite-in-production-with-wal",
+              "https://nrtechstudio.com/use-sqlite-in-production-for-small-saas-apps"
+            ]
+          },
+          {
+            "text": "SQLite has limited concurrent writes, characterized in the evidence as a single-writer model. One source reports 400 write transactions per second with WAL on a specified modest EC2 setup, but that benchmark does not establish performance for other workloads or deployments.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "For teams handling moderate write loads, WAL mode often provides the performance characteristics they actually need without the operational complexity of distributed databases. The Performance Reality Benchmarks tell a compelling story about SQLite's practical capabilities. On modest hardware-the s…",
+              "Concurrent writes | Limited (single writer) | High Replication | Not built-in | Included"
+            ],
+            "sources": [
+              "https://victoria.dev/posts/sqlite-in-production-with-wal",
+              "https://www.mindstudio.ai/blog/what-is-sqlite"
+            ]
+          },
+          {
+            "text": "If multiple application servers need to write to the same database simultaneously, the evidence points to a client-server database or a replication solution as alternatives.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "If you need to run multiple application servers all writing to the same database simultaneously, you need a client-server database or a SQLite extension like LiteFS or Turso's libSQL that handles replication.",
+              "Concurrent writes | Limited (single writer) | High Replication | Not built-in | Included"
+            ],
+            "sources": [
+              "https://www.mindstudio.ai/blog/what-is-sqlite",
+              "https://www.mindstudio.ai/blog/what-is-sqlite"
+            ]
+          },
+          {
+            "text": "Production deployment depends on suitable filesystem locking; the evidence warns that distributed filesystems such as NFS or SMB may lack or poorly implement the required POSIX locking.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "The filesystem must support POSIX-compliant locking mechanisms, which are often absent or poorly implemented in many distributed file systems like NFS or SMB."
+            ],
+            "sources": [
+              "https://nrtechstudio.com/use-sqlite-in-production-for-small-saas-apps"
+            ]
+          },
+          {
+            "text": "Backups require deliberate handling: the evidence warns against simply copying the database file and recommends VACUUM INTO for a full backup; it also describes third-party or libSQL options for online backups.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "You might be tempted to copy/paste the SQLite file to create a backup, but this is a bad idea as it can corrupt the backup file. Instead, you should always use the VACUUM INTO command to create a full backup.",
+              "For online backups, you must use a third-party tool like LiteStream to copy changes to an S3 bucket every few seconds. libSQL also provides great backup options, including S3."
+            ],
+            "sources": [
+              "https://blog.pecar.me/sqlite-prod",
+              "https://blog.pecar.me/sqlite-prod"
+            ]
+          },
+          {
+            "text": "A workload-fit decision is more appropriate than a blanket yes or no: SQLite appears suitable where its operational simplicity and read-heavy profile match the application, while sustained concurrent writes or multi-server shared writes warrant evaluating another architecture.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "SQLite is best suited for production use in applications that: Desire fast and simple setup Require high reliability in a small package Have, and want to retain, a small footprint Are read-heavy but not write-heavy",
+              "More importantly, SQLite eliminates entire categories of operational complexity: connection pooling, database server maintenance, backup procedures, replication configuration, and deployment coordination.",
+              "If you need to run multiple application servers all writing to the same database simultaneously, you need a client-server database or a SQLite extension like LiteFS or Turso's libSQL that handles replication.",
+              "Concurrent writes | Limited (single writer) | High Replication | Not built-in | Included",
+              "The filesystem must support POSIX-compliant locking mechanisms, which are often absent or poorly implemented in many distributed file systems like NFS or SMB.",
+              "You might be tempted to copy/paste the SQLite file to create a backup, but this is a bad idea as it can corrupt the backup file. Instead, you should always use the VACUUM INTO command to create a full backup."
+            ],
+            "sources": [
+              "https://victoria.dev/posts/sqlite-in-production-with-wal",
+              "https://victoria.dev/posts/sqlite-in-production-with-wal",
+              "https://www.mindstudio.ai/blog/what-is-sqlite",
+              "https://www.mindstudio.ai/blog/what-is-sqlite",
+              "https://nrtechstudio.com/use-sqlite-in-production-for-small-saas-apps",
+              "https://blog.pecar.me/sqlite-prod"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 4,
+        "reported_criteria_supported": 4,
+        "checks": {
+          "conflict_reported": false,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 35.02,
+        "cost_usd": 0.03453,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 10113,
+        "output_tokens": 3047,
+        "search_calls": 3,
+        "pages_read": 5
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "SQLite works well for most low- to medium-traffic websites.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "SQLite works great as the database engine for most low to medium traffic websites (which is to say, most websites)."
+            ],
+            "sources": [
+              "https://www.sqlite.org/whentouse.html"
+            ]
+          },
+          {
+            "text": "The SQLite project gives fewer than 100,000 daily hits as a conservative guideline, not a strict limit.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Generally speaking, any site that gets fewer than 100K hits/day should work fine with SQLite."
+            ],
+            "sources": [
+              "https://www.sqlite.org/whentouse.html"
+            ]
+          },
+          {
+            "text": "SQLite allows an application to avoid managing a separate database server, reducing operational complexity.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "One huge benefit to SQLite is the fact that it runs as an embedded part of your application."
+            ],
+            "sources": [
+              "https://www.epicweb.dev/why-you-should-probably-be-using-sqlite"
+            ]
+          },
+          {
+            "text": "SQLite permits only one writer at a time, so concurrent write-heavy workloads can encounter contention.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "The remaining limitation: only one writer at a time."
+            ],
+            "sources": [
+              "https://www.mindstudio.ai/blog/what-is-sqlite"
+            ]
+          },
+          {
+            "text": "Because SQLite is a single-file database, connecting from another machine and scaling across machines can be challenging.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "One of SQLite’s main strengths is its single-file design, which frees you from configuring ports, setting up users and passwords, and configuring connection pools."
+            ],
+            "sources": [
+              "https://blog.pecar.me/sqlite-prod"
+            ]
+          },
+          {
+            "text": "For applications that need multiple instances, replication tooling may be required.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "if you need your app to run in multiple instances, you need to use one of these tools."
+            ],
+            "sources": [
+              "https://www.epicweb.dev/why-you-should-probably-be-using-sqlite"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "conflict_reported": null,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 5.1,
+        "cost_usd": 0.01745,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 12597,
+        "output_tokens": 380,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "search_provider_down",
+      "category": "provider_failure",
+      "question": "Compare approaches to memory in an AI support agent.",
+      "expected": "With search unavailable (injected), fails closed: a failed report with provider_unavailable and no findings.",
+      "fault": {
+        "search": "unavailable",
+        "extract": "none",
+        "model": "none"
+      },
+      "agent_plan_criteria": [
+        "Identify the main memory approaches and explain what information they retain, how it is represented, and when it is retrieved or updated.",
+        "Compare effects on continuity, relevance, factual accuracy, and correction of outdated or mistaken information.",
+        "Compare operational trade-offs, including latency, token or storage cost, implementation complexity, and scaling.",
+        "Assess privacy, security, retention, user control, and governance implications of retaining support conversation data."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "failed",
+        "stop_reason": "provider_unavailable",
+        "confidence": "low",
+        "error": "Search failed for every query: server_error",
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "fails_closed": true
+        },
+        "latency_s": 12.69,
+        "cost_usd": 0.00063,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 836,
+        "output_tokens": 1102,
+        "search_calls": 3,
+        "pages_read": 0
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "failed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": "search: server_error: injected: HTTP 503",
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "fails_closed": true
+        },
+        "latency_s": 0.57,
+        "cost_usd": 0.0,
+        "cost_uncertain": false,
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "search_calls": 1,
+        "pages_read": 0
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 2,
+      "checks_passed": 3,
+      "checks_total": 4,
+      "claims": 7,
+      "supported": 2,
+      "partially_supported": 2,
+      "not_supported": 3,
+      "supported_rate": 0.286,
+      "invalid_citations": 0,
+      "criteria_covered": 3,
+      "criteria_total": 8,
+      "reported_criteria_supported": 4,
+      "latency_s_median": 23.86,
+      "latency_s_total": 47.71,
+      "cost_usd_total": 0.0352,
+      "cost_uncertain": false
+    },
+    "baseline": {
+      "runs": 2,
+      "checks_passed": 3,
+      "checks_total": 3,
+      "claims": 6,
+      "supported": 1,
+      "partially_supported": 0,
+      "not_supported": 5,
+      "supported_rate": 0.167,
+      "invalid_citations": 0,
+      "criteria_covered": 0,
+      "criteria_total": 8,
+      "reported_criteria_supported": null,
+      "latency_s_median": 2.83,
+      "latency_s_total": 5.67,
+      "cost_usd_total": 0.0175,
+      "cost_uncertain": false
+    }
+  }
+}

@@ -1,0 +1,1374 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T10:04:00+00:00",
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.1",
+  "git_commit": null,
+  "prices": {
+    "model_input_usd_per_mtok": 1.0,
+    "model_output_usd_per_mtok": 5.0,
+    "tavily_usd_per_credit": 0.008
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 2.0,
+  "spent_usd": 0.8423,
+  "stopped_early": false,
+  "cases": [
+    {
+      "id": "memory_comparison",
+      "category": "assignment_example",
+      "question": "Compare approaches to memory in an AI support agent.",
+      "expected": "Compares memory approaches on the planned dimensions with cited findings and a comparison table.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Identify the main memory approaches and explain what each stores, for how long, and how it is retrieved.",
+        "Compare approaches for answer quality, continuity, latency, cost, and implementation complexity.",
+        "Assess privacy, security, retention, correction, and deletion risks in customer support.",
+        "Identify suitable use cases, hybrid designs, and evaluation methods for selecting an approach."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "medium",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Replaying an expanding history preserves the supplied conversation context, but its cumulative token cost grows quadratically over a multi-turn task. Memory systems have reduced token costs and latency relative to full-context replay in long-horizon benchmarks.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Memory systems reduce token costs and latency in long-horizon benchmarks compared to full-context replay.",
+              "Large language model (LLM) agents that resend an expanding conversation history incur token costs that grow quadratically over a multi-turn task."
+            ],
+            "sources": [
+              "https://aimultiple.com/ai-memory",
+              "https://www.preprints.org/manuscript/202608.1369"
+            ]
+          },
+          {
+            "text": "External memory can retain information outside the context window and bring it back when needed. Extraction and retrieval introduce their own failure points: graph ingestion can lose information, and retrieval and reranking affect grounding.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Graph-based ingestion introduces entity resolution, relation labeling, and schema-constrained extraction, each an opportunity for information loss before retrieval is attempted.",
+              "MemGPT frames the context window as virtual memory, paging information between an in-context tier and external storage [1]; the fact-slot table we evaluate is a deliberately simpler realization of the same external-memory idea with writes performed by a cheaper model.",
+              "The quality of the RAG implementation, specifically the retrieval and reranking stages, determines how reliably the system stays grounded."
+            ],
+            "sources": [
+              "https://arxiv.org/html/2601.07978v4",
+              "https://www.preprints.org/manuscript/202608.1369",
+              "https://fin.ai/learn/ai-agents-pii-data-security"
+            ]
+          },
+          {
+            "text": "Persistent memory requires controls for access, retention, provenance and auditability. Correction and deletion requests should reach memory and cached or embedded copies; vendor retention and data use also need checking.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "If a customer requests deletion or correction of their data, an agent's memory, cached context, and any fine-tuning or embedding stores built from that data all need to be reachable by that request.",
+              "If a third-party AI vendor processes customer PII on your behalf, get specifics on data retention, whether your data trains their models, and where processing physically happens.",
+              "As AI agents move into production, persistent memory creates governance obligations around access, retention, provenance, and auditability."
+            ],
+            "sources": [
+              "https://accelate.ai/blog/ai-agent-data-privacy-pii-customer-records",
+              "https://accelate.ai/blog/ai-agent-data-privacy-pii-customer-records",
+              "https://www.mintmcp.com/blog/agent-memory-governance"
+            ]
+          },
+          {
+            "text": "Evaluate a hybrid of structured fact slots and retrieval alongside simpler baselines on representative support questions, measuring answer quality, latency and cost. A published study compared these strategy families using annotated long-conversation benchmarks and question-level paired statistics.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "The transition to a constrained cloud-edge DMAS introduces only a modest, architecture-dependent latency increase, affecting systems that perform query-time retrieval but leaving correctness unchanged.",
+              "Large language model (LLM) agents that resend an expanding conversation history incur token costs that grow quadratically over a multi-turn task.",
+              "This paper is a controlled cost-retention study of seven memory strategies-full context, truncation, running summary, append-only notes, cheap-extractor fact slots, sparse BM25 retrieval, and a slots+retrieval hybrid-evaluated on _real_,_human-annotated long-conversation benchmarks_ (LoCoMo and Lon…"
+            ],
+            "sources": [
+              "https://arxiv.org/html/2601.07978v4",
+              "https://www.preprints.org/manuscript/202608.1369",
+              "https://www.preprints.org/manuscript/202608.1369"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 4,
+        "reported_criteria_supported": 3,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": false
+        },
+        "latency_s": 73.93,
+        "cost_usd": 0.07398,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 16567,
+        "output_tokens": 5082,
+        "search_calls": 3,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Different memory layers can handle the current ticket, customer facts, past complaints, and refund routines.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "A customer support agent, for example, might keep the current ticket in working memory, a customer’s subscription tier in semantic memory, past complaints in episodic memory, and a learned refund-handling routine in procedural memory."
+            ],
+            "sources": [
+              "https://machinelearningmastery.com/choosing-the-right-ai-agent-memory-strategy-a-decision-tree-approach"
+            ]
+          },
+          {
+            "text": "Sliding windows retain recent turns but lose older context.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Sliding window memory keeps recent turns available, but older context still falls out."
+            ],
+            "sources": [
+              "https://blogs.oracle.com/developers/which-agent-memory-approach-is-best-for-long-conversations"
+            ]
+          },
+          {
+            "text": "Summaries compress dialogue but may lose details or drift.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Summarization compresses older dialogue, but it can lose details or drift."
+            ],
+            "sources": [
+              "https://blogs.oracle.com/developers/which-agent-memory-approach-is-best-for-long-conversations"
+            ]
+          },
+          {
+            "text": "Semantic similarity does not guarantee that retrieved context is relevant.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Vector retrieval finds semantically related context, but similarity is not the same as relevance."
+            ],
+            "sources": [
+              "https://blogs.oracle.com/developers/which-agent-memory-approach-is-best-for-long-conversations"
+            ]
+          },
+          {
+            "text": "Support agents need both retrieval of facts and memory of previous interactions.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Retrieval looks up facts; memory tracks what's happened with this user before."
+            ],
+            "sources": [
+              "https://redis.io/blog/ai-agent-memory-vs-retrieval"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": null
+        },
+        "latency_s": 13.28,
+        "cost_usd": 0.03724,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 11269,
+        "output_tokens": 394,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "vector_db_comparison",
+      "category": "assignment_example",
+      "question": "Compare the top three open-source vector databases for a startup building RAG products.",
+      "expected": "Compares three open-source vector databases; vendor claims stay attributed and unsupported superlatives are dropped.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Confirm each candidate is an available vector database with an open-source license and identify relevant license restrictions.",
+        "Establish a defensible basis for selecting three leading options using adoption, ecosystem activity, and independent evaluations.",
+        "Compare RAG-relevant capabilities, including hybrid search, filtering, integrations, and data ingestion.",
+        "Compare deployment, scalability, operational burden, and startup costs, including hosted pricing where available.",
+        "Compare performance and reliability evidence, noting benchmark workloads, limitations, and trade-offs."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "high",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "An October 2026 comparison reviewed ten databases and suggested Qdrant or Weaviate for dedicated self-hosted retrieval and Milvus for very large collections (E7, E8). An independent RAG guide also identifies distinct use cases for all three (E18). This supports a shortlist, not a numerical adoption ranking.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Ten vector databases checked against their own documentation and GitHub repositories in October 2026: pgvector, Qdrant, Milvus, Weaviate, Chroma, OpenSearch, Elasticsearch, LanceDB, Redis and Vespa, plus Pinecone as the managed reference.",
+              "In October 2026 that means pgvector for teams already on PostgreSQL, Qdrant or Weaviate for a dedicated self-hosted retrieval service, Milvus or Vespa for billions of vectors, and OpenSearch or Elasticsearch when a search cluster already exists.",
+              "Best choice depends on workload stage: pgvector for MVPs (<5-10M vectors), Pinecone for production RAG with serverless scaling and low ops, Milvus/Weaviate for on-prem/air-gapped, Qdrant for complex filtering/edge, Elasticsearch for keyword-first legacy stacks."
+            ],
+            "sources": [
+              "https://vdf.ai/blog/best-vector-database-for-rag",
+              "https://vdf.ai/blog/best-vector-database-for-rag",
+              "https://engineersguide.substack.com/p/best-vector-databases-rag"
+            ]
+          },
+          {
+            "text": "Weaviate supports semantic, keyword, and hybrid search and metadata filtering (E16, E4). The reviewed guide highlights Qdrant for complex filtering and describes its integration ecosystem as growing but smaller than Weaviate's (E18, E20).",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "What it is: Weaviate is an open-source vector database that stores data objects with their vectors and supports semantic, keyword, and hybrid search in one query layer. Hosting model: Self-host or managed cloud.",
+              "Weaviate is an open-source vector database (with managed deployment options) used to store embeddings and perform vector similarity search, often alongside metadata filtering.",
+              "Best choice depends on workload stage: pgvector for MVPs (<5-10M vectors), Pinecone for production RAG with serverless scaling and low ops, Milvus/Weaviate for on-prem/air-gapped, Qdrant for complex filtering/edge, Elasticsearch for keyword-first legacy stacks.",
+              "Smaller Ecosystem: While growing rapidly, Qdrant's ecosystem of native integrations is slightly smaller than Pinecone or Weaviate."
+            ],
+            "sources": [
+              "https://www.braintrust.dev/articles/best-vector-databases-for-rag-2026",
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://engineersguide.substack.com/p/best-vector-databases-rag",
+              "https://engineersguide.substack.com/p/best-vector-databases-rag"
+            ]
+          },
+          {
+            "text": "Managed options are available for all three, but self-hosting can carry substantial operational costs: one guide flags high-availability work for Qdrant, while another says Milvus requires engineering resources (E15, E5, E19, E1).",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Weaviate and Qdrant are open-source and self-hostable, with managed cloud options when teams want less operational work. Chroma is the lightweight option for local development, prototypes, and smaller applications that need vector search without a separate database service.",
+              "Milvus is an open-source vector database built for vector similarity search and large embedding collections, offering multiple indexing approaches. Zilliz is the managed service based on Milvus for teams that prefer a hosted deployment model.",
+              "Self-Hosting TCO: Like other open-source tools, achieving production-grade high availability requires significant DevOps resources for updates, backups, and scaling.",
+              "Milvus / Zilliz Cloud: billions of vectors at lower cost; requires engineering resources."
+            ],
+            "sources": [
+              "https://www.braintrust.dev/articles/best-vector-databases-for-rag-2026",
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://engineersguide.substack.com/p/best-vector-databases-rag",
+              "https://www.firecrawl.dev/blog/best-vector-databases"
+            ]
+          },
+          {
+            "text": "Test finalists against your own filters, concurrency, ingestion freshness, recall, and tail-latency requirements before choosing (E3, E21). The supplied benchmark description does not provide comparable product results (E17).",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Recall@K: Did you retrieve the \"right\" chunks for grounding? Latency (p95/p99): How fast is retrieval under real load and filters?",
+              "Focus on P99 latency under concurrency, filtered-search performance at low selectivity, hybrid search quality/tunability, ingestion-to-query freshness (\"time-to-RAG\"), and the operational cost of scaling and reindexing.",
+              "Benchmarked 6 vector DB options for production RAG (2026) using 10M vectors (1536-3072d) with stress on filtered search, hybrid search, ingestion vs query tradeoffs, and P99 latency under concurrency."
+            ],
+            "sources": [
+              "https://www.pingcap.com/compare/best-vector-database",
+              "https://engineersguide.substack.com/p/best-vector-databases-rag",
+              "https://engineersguide.substack.com/p/best-vector-databases-rag"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 5,
+        "reported_criteria_supported": 5,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": false
+        },
+        "latency_s": 67.52,
+        "cost_usd": 0.07163,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 13559,
+        "output_tokens": 5214,
+        "search_calls": 3,
+        "pages_read": 5
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Qdrant supports structured metadata filtering during similarity search.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Its payload filtering can narrow results by metadata conditions during search, and payload indexes help accelerate filtered vector queries."
+            ],
+            "sources": [
+              "https://www.braintrust.dev/articles/best-vector-databases-for-rag-2026"
+            ]
+          },
+          {
+            "text": "Weaviate combines vector and keyword search and provides configurable modules.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "It also supports modules for vectorization, reranking, and generative workflows."
+            ],
+            "sources": [
+              "https://www.braintrust.dev/articles/best-vector-databases-for-rag-2026"
+            ]
+          },
+          {
+            "text": "Milvus is open-source and optimized for large-scale, high-throughput serving.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "* [Milvus](https://milvus.io/) (Zilliz Cloud): Open-source, GPU-accelerated vector DB. Optimized for massive scale and high-throughput serving."
+            ],
+            "sources": [
+              "https://www.zenml.io/blog/vector-databases-for-rag"
+            ]
+          },
+          {
+            "text": "Milvus requires engineering resources at scale.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "* **Milvus / Zilliz Cloud**: billions of vectors at lower cost; requires engineering resources."
+            ],
+            "sources": [
+              "https://www.firecrawl.dev/blog/best-vector-databases"
+            ]
+          },
+          {
+            "text": "Qdrant and Weaviate can be self-hosted or used through managed cloud services.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Weaviate and Qdrant are open-source and self-hostable, with managed cloud options when teams want less operational work."
+            ],
+            "sources": [
+              "https://www.braintrust.dev/articles/best-vector-databases-for-rag-2026"
+            ]
+          },
+          {
+            "text": "Database selection should be tested under realistic loads.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "You have to test each system’s semantic accuracy, query throughput, and metadata filtering under realistic loads."
+            ],
+            "sources": [
+              "https://www.zenml.io/blog/vector-databases-for-rag"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 5,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": null
+        },
+        "latency_s": 8.55,
+        "cost_usd": 0.03815,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 12222,
+        "output_tokens": 385,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "hr_tech_discovery",
+      "category": "assignment_example",
+      "question": "Find five Indian B2B SaaS startups in HR tech and summarize their positioning.",
+      "expected": "Lists at most five companies and includes only those whose eligibility is backed by evidence; never pads the list.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Verify Indian origins and sufficient evidence that each company is a currently operating startup or scale-up.",
+        "Verify that each company sells cloud-based HR software to business customers.",
+        "Establish each company's target customers, HR use cases, and stated positioning or differentiation."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "completed",
+        "stop_reason": "criteria_satisfied",
+        "confidence": "high",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Darwinbox is an India-built enterprise HCM provider positioned as an alternative to large enterprise HCM products in Asia.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Founded in 2015 by Jayant Paleti, Chaitanya Peddi, and Rohit Chennamaneni, Darwinbox is headquartered in Hyderabad with offices across APAC and the Middle East.",
+              "It raised Series D funding at unicorn valuation in 2022, and currently serves 800-plus enterprise customers covering more than three million users, including brands like Kotak Life, Tokopedia, and Max Life.",
+              "Its positioning is clear: the India-built enterprise HCM that wants to displace SAP SuccessFactors and Oracle HCM in Asia."
+            ],
+            "sources": [
+              "https://hrone.cloud/blog/darwinbox-vs-keka",
+              "https://hrone.cloud/blog/darwinbox-vs-keka",
+              "https://hrone.cloud/blog/darwinbox-vs-keka"
+            ]
+          },
+          {
+            "text": "Keka targets firms that skew toward 50–800 employees, with an HR platform spanning hiring through payroll; its stated pitch emphasizes clean user experience and fair pricing.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "It serves 8,000-plus customers, skewing heavily toward 50 to 800 employee firms, and publishes its pricing openly as Foundation, Strength, and Growth plans, which is rare in the Indian HRMS market.",
+              "Keka's pitch has always been \"good software with clean UX at a fair price\" rather than enterprise muscle.",
+              "The platform covers hiring, onboarding, time and attendance, performance management, payroll, and other HR workflows, with a focus on consistency, compliance, and clearer operational visibility."
+            ],
+            "sources": [
+              "https://hrone.cloud/blog/darwinbox-vs-keka",
+              "https://hrone.cloud/blog/darwinbox-vs-keka",
+              "https://leadiq.com/c/keka-hr/5a1d9d6323000052008d3b2d"
+            ]
+          },
+          {
+            "text": "Advantage Club focuses on employee engagement through rewards, benefits, perks and communities, and reports annual recurring revenue.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Advantage Club is a global platform for employee engagement including rewards, flexible benefits, perks and communities.",
+              "We are currently live with 1000+ companies across 100+ countries and have a ARR of ~$8m."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/human-resources",
+              "https://www.ycombinator.com/companies/industry/human-resources"
+            ]
+          },
+          {
+            "text": "inFeedo says its conversational AI platform helps employers engage employees, predict attrition and answer FAQs; its cited customers include multinationals and conglomerates.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Today we're Asia's leading employee experience platform that helps engage employees, predict attrition & answer FAQs with conversational AI that people love ❤️",
+              "Spanning across 60 countries, our customers include MNCs like Samsung, Xiaomi, Lenovo, conglomerates like TATA, Godrej, Bharti."
+            ],
+            "sources": [
+              "https://www.ycombinator.com/companies/industry/human-resources",
+              "https://www.ycombinator.com/companies/industry/human-resources"
+            ]
+          },
+          {
+            "text": "Nova Benefits focuses on employee health and wellness, combining insurance and wellness programs with reduced HR administration for corporate clients.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Nova Benefits is an India-based B2B insurance broker and employee benefits platform building an employee health and wellness solution for businesses.",
+              "Its platform supports insurance and wellness programs while reducing HR administration, and serves more than 500 corporate clients across India."
+            ],
+            "sources": [
+              "https://builtin.com/companies/location/as/india/bangalore/type/hr-tech-companies",
+              "https://builtin.com/companies/location/as/india/bangalore/type/hr-tech-companies"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 3,
+        "reported_criteria_supported": 3,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "entities_not_padded": true,
+          "eligibility_backed": true
+        },
+        "latency_s": 87.05,
+        "cost_usd": 0.09959,
+        "cost_uncertain": false,
+        "model_calls": 8,
+        "input_tokens": 22530,
+        "output_tokens": 5812,
+        "search_calls": 5,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "insufficient_evidence",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 3,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": false,
+          "citations_resolve": true,
+          "entities_not_padded": null,
+          "eligibility_backed": null
+        },
+        "latency_s": 6.45,
+        "cost_usd": 0.0374,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 12430,
+        "output_tokens": 194,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "multi_agent_pros_cons",
+      "category": "assignment_example",
+      "question": "Research the pros and cons of a multi-agent architecture for customer support automation.",
+      "expected": "Gives cited pros and cons of multi-agent support automation.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Define multi-agent support architectures and relevant single-agent and workflow alternatives.",
+        "Assess potential benefits for specialization, complex case handling, scalability, and customer experience against simpler alternatives.",
+        "Assess drawbacks involving coordination, latency, reliability, debugging, and total operating costs.",
+        "Identify privacy, security, compliance, and human escalation considerations in customer support deployments.",
+        "Establish decision criteria, evaluation metrics, and conditions under which a multi-agent approach is justified."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "low",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "A multi-agent system coordinates multiple AI agents toward a goal, using patterns such as an orchestrator with executors or peer-to-peer coordination. A single agent instead combines reasoning, memory, and tool execution without coordinating with other agents (E15, E22, E2).",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "A multi-agent system is more than one AI agent collaborating on a goal. The architecture is more powerful than a single agent and considerably harder to run.",
+              "Choose coordination patterns (orchestrator-executor or peer-to-peer).",
+              "A single-agent system combines all reasoning, memory, and tool execution into one AI entity. It operates autonomously within a defined environment to achieve specific goals[[1]](#ref-1), adapting its approach as conditions change without relying on coordination with other agents[[2]](#ref-2)."
+            ],
+            "sources": [
+              "https://whatisanaiagent.com/multi-agent-systems",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems",
+              "https://www.innervationai.com/blog/single-vs-multi-agent-architecture-2026-guide"
+            ]
+          },
+          {
+            "text": "Specialization, parallel work, and adding domain specialists are potential benefits. They may help with complex support cases, but the reviewed sources do not quantify improvements in customer experience or support scalability (E3, E6, E20).",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "A single agent keeps all context in one place and is simple to debug. A multi-agent system trades that simplicity for specialization and parallelism, at the cost of coordination overhead.",
+              "The pattern also helps when you need parallelism (ten agents screening ten suppliers at once) or resilience (if one agent fails, the orchestrator reroutes). The trade-off is real: more moving parts, harder evaluation, and the ever-present risk of agents compounding each other's errors.",
+              "Instead of retraining one large model to do everything, you can introduce a specialist agent for a new domain. That modularity makes expansion more manageable and often more cost-efficient over time."
+            ],
+            "sources": [
+              "https://delos.so/blog/single-vs-multi-agent-enterprise",
+              "https://delos.so/blog/single-vs-multi-agent-enterprise",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Handoffs and extra interfaces increase coordination, monitoring, and evaluation work. Errors can propagate between agents, while extra model calls and coordination can increase cost and latency (E6, E12, E26, E32).",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "The pattern also helps when you need parallelism (ten agents screening ten suppliers at once) or resilience (if one agent fails, the orchestrator reroutes). The trade-off is real: more moving parts, harder evaluation, and the ever-present risk of agents compounding each other's errors.",
+              "Multi-agent systems have real added cost: more tokens, more latency from the extra coordination step, more places to log and monitor. That cost only makes sense on tasks big enough, or valuable enough, to absorb it.",
+              "Every new agent creates an additional interface that must be designed, prompted, tested, traced, and monitored.",
+              "Coordination between agents multiplies LLM calls, errors from one agent can propagate to others before anyone notices, and emergent behavior across agents makes the system harder to predict, test, and govern than a single reasoning chain."
+            ],
+            "sources": [
+              "https://delos.so/blog/single-vs-multi-agent-enterprise",
+              "https://www.ayautomate.com/blog/multi-agent-systems",
+              "https://pub.towardsai.net/the-hidden-cost-of-multi-agent-ai-systems-why-more-agents-are-not-automatically-better-8122be771520",
+              "https://www.lyzr.ai/blog/multi-agent-vs-single-agent"
+            ]
+          },
+          {
+            "text": "Control each agent's access to tools and data, monitor unexpected calls or data requests, and require human approval for high-risk actions such as moving money or sending data externally. Consider governance and compliance constraints and maintain oversight and audit trails (E8, E9, E10, E21, E25).",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "A Grok-powered agent's real exposure is defined by the tools, permissions, and data it can reach, not by the model's built-in refusals alone.",
+              "Human approval should be required before high-risk or irreversible actions, such as sending data externally, deleting records, moving money, or changing permissions.",
+              "Runtime signs include unexpected tool calls, requests for data outside the task scope, actions unrelated to the user's request, or repeated attempts to send information to an unrequested destination.",
+              "Identify constraints around governance, risk, and compliance. Determine whether coordination complexity truly requires multiple agents.",
+              "Multi-agent systems require centralized oversight and audit trails built into the development workflow."
+            ],
+            "sources": [
+              "https://www.sweet.security/agent-security/ai-prompt-injection",
+              "https://www.sweet.security/agent-security/ai-prompt-injection",
+              "https://www.sweet.security/agent-security/ai-prompt-injection",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Start with a simpler baseline, then consider multiple agents if work genuinely separates into independent parts or requires distinct expertise, parallelism, or context isolation (E4, E14, E17, E30).",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Reach for one agent when the task is well-scoped and the context fits comfortably in a single model's window. Think of a support assistant that answers questions against a knowledge base, an invoice extractor, or a code reviewer on a defined repo.",
+              "Multi-agent designs are for the specific cases where parallelism or context isolation genuinely matters, not a default starting point.",
+              "The first question to ask is whether the task genuinely decomposes into independent parts, or whether it merely sounds decomposable.",
+              "Does the task require distinct, even adversarial, expert roles to reach a good answer? This is the clearest legitimate case for a full multi-agent design."
+            ],
+            "sources": [
+              "https://delos.so/blog/single-vs-multi-agent-enterprise",
+              "https://www.ayautomate.com/blog/multi-agent-systems",
+              "https://whatisanaiagent.com/multi-agent-systems",
+              "https://www.lyzr.ai/blog/multi-agent-vs-single-agent"
+            ]
+          },
+          {
+            "text": "Compare alternatives on routing and handoff accuracy, answer consistency, escalation frequency, latency, and cost per completed workflow; stress-test coordination under load (E23, E24, E29).",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Stress-test inter-agent coordination under load. Many failure modes emerge only during collaboration, not isolated testing.",
+              "Inter-agent reliability: Successful handoffs versus coordination failures Cost per task: Total inference spend divided by completed workflows",
+              "In practice, that means you should measure route accuracy, tool selection accuracy, handoff correctness, duplication rate, latency, total token cost, escalation frequency, and final-answer consistency before and after splitting a workflow."
+            ],
+            "sources": [
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems",
+              "https://www.dataiku.com/blog/single-agent-vs-multi-agent-systems",
+              "https://pub.towardsai.net/the-hidden-cost-of-multi-agent-ai-systems-why-more-agents-are-not-automatically-better-8122be771520"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 4,
+        "criteria_total": 5,
+        "reported_criteria_supported": 1,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 74.61,
+        "cost_usd": 0.09556,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 19882,
+        "output_tokens": 5536,
+        "search_calls": 5,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "A support proof of concept uses specialized agents for classification, routing, responses and escalation.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "The system uses four specialized AI agents (Classifier, Router, Response Generator, and Escalation Handler) that work together to automatically process support tickets, classify them, route them to the right department, generate responses, and decide when human intervention is needed."
+            ],
+            "sources": [
+              "https://dev.to/exploredataaiml/building-an-intelligent-customer-support-system-with-multi-agent-architecture-236h"
+            ]
+          },
+          {
+            "text": "A supervisor can isolate specialist context and invoke subagents in parallel.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "This architecture provides centralized control where all routing passes through the main agent, which can invoke multiple subagents in parallel."
+            ],
+            "sources": [
+              "https://www.langchain.com/blog/choosing-the-right-multi-agent-architecture"
+            ]
+          },
+          {
+            "text": "Separate capabilities can have clear team ownership.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Different teams develop and maintain each capability independently, with clear boundaries and ownership."
+            ],
+            "sources": [
+              "https://www.langchain.com/blog/choosing-the-right-multi-agent-architecture"
+            ]
+          },
+          {
+            "text": "Supervisor-based orchestration adds model-call overhead, latency and token costs.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "This overhead provides centralized control and context isolation, but costs latency and tokens."
+            ],
+            "sources": [
+              "https://www.langchain.com/blog/choosing-the-right-multi-agent-architecture"
+            ]
+          },
+          {
+            "text": "Coordination failures can cause overlapping work or missing information.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Agents coordinate properly, or they risk overlapping tasks or missing key information."
+            ],
+            "sources": [
+              "https://galileo.ai/blog/choosing-the-right-ai-agent-architecture-single-vs-multi-agent-systems"
+            ]
+          },
+          {
+            "text": "Single-agent systems are easier to design, test and maintain.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "It's easier to design, implement, test, and maintain."
+            ],
+            "sources": [
+              "https://learn.microsoft.com/en-us/dynamics365/guidance/resources/contact-center-multi-agent-architecture-design"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 5,
+        "reported_criteria_supported": null,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 13.12,
+        "cost_usd": 0.03724,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 11407,
+        "output_tokens": 366,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "nonexistent_product",
+      "category": "nonexistent_entity",
+      "question": "What does QuantumLeap Vector Engine 9 from Hyperion DB cost?",
+      "expected": "Says it found no evidence for the product and makes no factual claims about it.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish whether the named product, version, and vendor exist and are associated with one another.",
+        "Identify current published prices or establish whether pricing requires a quote.",
+        "Identify pricing units, currency, plan conditions, and any significant additional charges."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "insufficient_evidence",
+        "stop_reason": "diminishing_returns",
+        "confidence": "low",
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 3,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "abstains": true
+        },
+        "latency_s": 26.1,
+        "cost_usd": 0.07752,
+        "cost_uncertain": false,
+        "model_calls": 4,
+        "input_tokens": 8270,
+        "output_tokens": 1051,
+        "search_calls": 6,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "insufficient_evidence",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 3,
+        "reported_criteria_supported": null,
+        "checks": {
+          "abstains": true
+        },
+        "latency_s": 4.97,
+        "cost_usd": 0.02814,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 11963,
+        "output_tokens": 35,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "ambiguous_mercury",
+      "category": "ambiguous_request",
+      "question": "Is mercury dangerous?",
+      "expected": "States which meaning of 'mercury' it researched, then answers with citations.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish which forms of mercury are hazardous and how exposure route, amount, and duration affect risk.",
+        "Identify major health effects and groups at elevated risk.",
+        "Establish safety guidance for common exposures, including fish consumption and broken mercury-containing devices, and when to seek urgent help."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "medium",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Elemental, inorganic and organic mercury have different toxic effects. All forms can affect the nervous system and kidneys. [E3, E9]",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "All forms of mercury can affect the nervous system and the kidneys. Workers exposed to elemental mercury vapor and people who eat foods with high levels of methylmercury experienced tremors, incoordination, impaired vision, impaired learning and memory, and mood changes.",
+              "Mercury exists in various forms: elemental (or metallic); inorganic (e.g. mercuric chloride); and organic (e.g. methyl- and ethylmercury), which all have different toxic effects, including on the nervous, digestive and immune systems, and on lungs, kidneys, skin and eyes."
+            ],
+            "sources": [
+              "https://wwwn.cdc.gov/TSp/ToxFAQs/ToxFAQsDetails.aspx?faqid=113&toxid=24",
+              "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health"
+            ]
+          },
+          {
+            "text": "Common exposure routes include eating methylmercury in food and inhaling elemental mercury vapor. Liquid mercury evaporates at room temperature; its vapor has no odor and does not irritate, so it may go unnoticed. Inorganic mercury salts can be corrosive and may damage the kidneys if swallowed. [E1, E7, E10, E28]",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Most people are exposed to organic mercury compounds (typically methylmercury) in food (such as fish, seafood, rice) or to elemental mercury from dental fillings. Food is the most common form of exposure.",
+              "Human exposure occurs mainly through inhalation of elemental mercury vapours during industrial processes and through consumption of contaminated fish and shellfish.",
+              "The inorganic salts of mercury are corrosive to the skin, eyes and gastrointestinal tract, and may induce kidney toxicity if ingested.",
+              "Liquid mercury vaporizes (evaporates) at room temperature causing elevated levels of mercury in indoor air. Mercury vapor is not irritating and has no odor, so people do not know when they are breathing it."
+            ],
+            "sources": [
+              "https://wwwn.cdc.gov/TSp/ToxFAQs/ToxFAQsDetails.aspx?faqid=113&toxid=24",
+              "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health",
+              "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health",
+              "https://www.health.ny.gov/environmental/chemicals/mercury/docs/cleaning_up_a_small_mercury_spill.htm"
+            ]
+          },
+          {
+            "text": "Effects can include tremors, coordination problems, impaired vision, learning and memory difficulties, and mood changes. High metallic mercury exposure can cause respiratory failure and death. Exposure before birth and early in life is especially concerning for development. [E3, E8, E16]",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "All forms of mercury can affect the nervous system and the kidneys. Workers exposed to elemental mercury vapor and people who eat foods with high levels of methylmercury experienced tremors, incoordination, impaired vision, impaired learning and memory, and mood changes.",
+              "Mercury is toxic to human health, posing a particular threat to the development of the child in utero and early in life.",
+              "Higher exposures may also cause kidney effects, respiratory failure and death."
+            ],
+            "sources": [
+              "https://wwwn.cdc.gov/TSp/ToxFAQs/ToxFAQsDetails.aspx?faqid=113&toxid=24",
+              "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health",
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury"
+            ]
+          },
+          {
+            "text": "Avoid fish high in methylmercury, especially during pregnancy and for children. Follow state advisories for fish or wildlife caught in contaminated areas; consult a physician if concerned about methylmercury exposure. [E5, E6, E14]",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "People should avoid eating fish that contain high levels of methylmercury. This is particularly important for pregnant women and children.",
+              "Follow your state's health advisories that tell you about whether it is okay to eat fish or wildlife caught in contaminated areas. Avoid all contact with spills of the liquid form of elemental mercury (the type of mercury found in old thermometers).",
+              "If you are concerned about your exposure to methylmercury, you should consult your physician."
+            ],
+            "sources": [
+              "https://wwwn.cdc.gov/TSp/ToxFAQs/ToxFAQsDetails.aspx?faqid=113&toxid=24",
+              "https://wwwn.cdc.gov/TSp/ToxFAQs/ToxFAQsDetails.aspx?faqid=113&toxid=24",
+              "https://www.epa.gov/mercury/health-effects-exposures-mercury"
+            ]
+          },
+          {
+            "text": "If a mercury-containing thermometer breaks, avoid contact with the liquid and breathing its vapor. Even a thermometer’s small amount can cause harm, especially to children, if not properly removed. Contact a physician or poison control for exposure questions; EPA gives the number 1-800-222-1222. For a larger spill, consult EPA’s separate guidance. [E6, E20, E21, E24, E29]",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Follow your state's health advisories that tell you about whether it is okay to eat fish or wildlife caught in contaminated areas. Avoid all contact with spills of the liquid form of elemental mercury (the type of mercury found in old thermometers).",
+              "If you have questions about the potential health effects after being exposed to a broken thermometer, then please call your physician or your local poison control center at 1 (800) 222-1222.",
+              "If your spill is greater than the amount in a thermometer, then visit our What to Do if You Spill More Mercury than the Amount in a Thermometer page.",
+              "Mercury exposure is most dangerous in small, confined, and poorly ventilated areas. Mercury containing equipment like thermometers must be handled with care to avoid breathing in the vapours if there is a leak or if the thermometer breaks.",
+              "Even the small amount of mercury from a broken thermometer can cause harm, especially to children, unless it is properly cleaned up and removed."
+            ],
+            "sources": [
+              "https://wwwn.cdc.gov/TSp/ToxFAQs/ToxFAQsDetails.aspx?faqid=113&toxid=24",
+              "https://www.epa.gov/mercury/what-do-if-mercury-thermometer-breaks",
+              "https://www.epa.gov/mercury/what-do-if-mercury-thermometer-breaks",
+              "https://tc.canada.ca/en/dangerous-goods/canutec/articles/mercury-thermometer-spills-what-do",
+              "https://www.health.ny.gov/environmental/chemicals/mercury/docs/cleaning_up_a_small_mercury_spill.htm"
+            ]
+          },
+          {
+            "text": "For a moderate to serious exposure, call 911 or your local poison control center and seek medical treatment. [E23]",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "For immediate help,moderate to serious exposures, call 911 or the Poison Control Centre in your area and seek medical treatment, and refer to the first aid section."
+            ],
+            "sources": [
+              "https://tc.canada.ca/en/dangerous-goods/canutec/articles/mercury-thermometer-spills-what-do"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 3,
+        "reported_criteria_supported": 2,
+        "checks": {
+          "ambiguity_noted": true,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 65.9,
+        "cost_usd": 0.08097,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 17726,
+        "output_tokens": 4649,
+        "search_calls": 3,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Mercury is toxic, with different effects depending on its form.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Mercury exists in various forms: elemental (or metallic); inorganic (e.g. mercuric chloride); and organic (e.g. methyl- and ethylmercury), which all have different toxic effects, including on the nervous, digestive and immune systems, and on lungs, kidneys, skin and eyes."
+            ],
+            "sources": [
+              "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health"
+            ]
+          },
+          {
+            "text": "Exposure can occur through mercury vapor or contaminated seafood.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Human exposure occurs mainly through inhalation of elemental mercury vapours during industrial processes and through consumption of contaminated fish and shellfish."
+            ],
+            "sources": [
+              "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health"
+            ]
+          },
+          {
+            "text": "Mercury threatens fetal and early childhood development.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Mercury is toxic to human health, posing a particular threat to the development of the child in utero and early in life."
+            ],
+            "sources": [
+              "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health"
+            ]
+          },
+          {
+            "text": "People concerned about metallic mercury exposure should seek advice.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "If you think you have been exposed to metallic mercury, call your doctor, nurse, or poison control center."
+            ],
+            "sources": [
+              "https://www.atsdr.cdc.gov/toxfaqs/tfacts46_metallic_mercury.pdf"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 3,
+        "reported_criteria_supported": null,
+        "checks": {
+          "ambiguity_noted": null,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 9.33,
+        "cost_usd": 0.02713,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 9582,
+        "output_tokens": 310,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "contradictory_sqlite",
+      "category": "contradictory_evidence",
+      "question": "Is SQLite suitable for production web applications?",
+      "expected": "Reports that sources disagree instead of silently picking a side.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Establish production benefits, including reliability, operational simplicity, and deployment characteristics.",
+        "Examine concurrency, write contention, performance, and workload-dependent scaling limits.",
+        "Assess operational risks and requirements for backups, durability, security, and multi-instance or distributed deployments.",
+        "Identify application scenarios where SQLite fits and circumstances that favor a client-server database."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "low",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "SQLite runs inside the application process without a separate database server, which can simplify deployment. SQLite says it emphasizes reliability and simplicity; the reviewed evidence does not independently quantify its production reliability (E11, E16, E6).",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "SQLite is a C library embedded directly in your application process. There is no server, no network protocol, no authentication layer, and no concurrent write access from multiple processes.",
+              "With SQLite, you only have to deploy a single service: your application with the SQLite file included. This means less complexity and less cost.",
+              "SQLite strives to provide local data storage for individual applications and devices. SQLite emphasizes economy, efficiency, reliability, independence, and simplicity."
+            ],
+            "sources": [
+              "https://www.tinybird.co/blog/postgres-vs-sqlite",
+              "https://medium.com/data-science/sqlite-in-production-dreams-becoming-reality-94557bec095b",
+              "https://www.sqlite.org/whentouse.html"
+            ]
+          },
+          {
+            "text": "SQLite says only one writer can write a database file at a time, although multiple writers can take turns. WAL mode permits multiple readers alongside one writer, but high write load can cause queuing and reduced throughput (E9, E12, E13).",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "SQLite only supports one writer at a time per database file. But in most cases, a write transaction only takes milliseconds and so multiple writers can simply take turns.",
+              "SQLite in WAL (Write-Ahead Logging) mode supports one concurrent writer plus multiple concurrent readers.",
+              "A web application handling thousands of requests per second, each writing to the database, needs this. SQLite's single-writer constraint means concurrent writes queue up, and under high write load, throughput degrades."
+            ],
+            "sources": [
+              "https://www.sqlite.org/whentouse.html",
+              "https://www.tinybird.co/blog/postgres-vs-sqlite",
+              "https://www.tinybird.co/blog/postgres-vs-sqlite"
+            ]
+          },
+          {
+            "text": "For applications with write contention, test WAL mode, an appropriate busy timeout, and transaction behavior under representative load. A five-second busy timeout waits for a held lock before raising an error; BEGIN IMMEDIATE can avoid a class of write-lock upgrade deadlocks (E2, E3, E12, E13).",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "busy_timeout=5000 means \"if a lock is held, wait up to 5 seconds for it before raising an error.\"",
+              "The BEGIN IMMEDIATE form takes the write lock at transaction start instead of on the first write, which avoids a class of upgrade deadlocks when multiple connections both intend to write.",
+              "SQLite in WAL (Write-Ahead Logging) mode supports one concurrent writer plus multiple concurrent readers.",
+              "A web application handling thousands of requests per second, each writing to the database, needs this. SQLite's single-writer constraint means concurrent writes queue up, and under high write load, throughput degrades."
+            ],
+            "sources": [
+              "https://coddy.tech/docs/sqlite/wal-mode-and-concurrency",
+              "https://coddy.tech/docs/sqlite/wal-mode-and-concurrency",
+              "https://www.tinybird.co/blog/postgres-vs-sqlite",
+              "https://www.tinybird.co/blog/postgres-vs-sqlite"
+            ]
+          },
+          {
+            "text": "A local database on the application server and a read-heavy workload are plausible fits. SQLite says a database on the same physical machine as the application server may be appropriate, and one account reports that read-only or batch-updated databases can scale well when they fit in memory (E7, E18, E29).",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "If the \"application\" is an application server and if the content resides on the same physical machine as the application server, then SQLite might still be appropriate even though the end user is another network hop away.",
+              "Using WAL or not, if your SQLite database is read only (or is batch updated) and it fits in RAM (your OS has enough spare RAM to keep it in buffers) it can scale very well on a production web application.",
+              "Thanks to advancements in hardware like NVMe SSDs and tools like Litestream, Turso, and Cloudflare D1, SQLite is now a viable option for production workloads, especially for read-heavy applications, single-server setups, and edge computing."
+            ],
+            "sources": [
+              "https://www.sqlite.org/whentouse.html",
+              "https://serverfault.com/questions/114524/sqlite-on-a-production-server",
+              "https://daily.dev/blog/sqlite-production-guide-when-how-to-use-beyond-prototyping"
+            ]
+          },
+          {
+            "text": "Multi-instance and distributed deployments need particular care: WAL relies on shared memory that network filesystems may not support reliably, and horizontal scaling can pose performance problems. Avoiding network shares is recommended by one reviewed source (E4, E5, E24).",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "WAL relies on shared memory (mmap) between processes accessing the database. NFS, SMB, and similar don't support that reliably.",
+              "If your database lives on a network share, stick with the rollback journal - or, better, don't put SQLite on a network share.",
+              "From a performance standpoint, running SQLite in production should only be problematic if you know your application will need horizontal scaling (although horizontally scaling reads is possible!)."
+            ],
+            "sources": [
+              "https://coddy.tech/docs/sqlite/wal-mode-and-concurrency",
+              "https://coddy.tech/docs/sqlite/wal-mode-and-concurrency",
+              "https://blog.pecar.me/django-sqlite-benchmark"
+            ]
+          },
+          {
+            "text": "SQLite has no built-in authentication layer, and one source says its limited built-in instrumentation can make WAL or checkpoint incidents difficult to diagnose. Plan application security and operational monitoring accordingly (E11, E28).",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "SQLite is a C library embedded directly in your application process. There is no server, no network protocol, no authentication layer, and no concurrent write access from multiple processes.",
+              "Unlike Postgres with pg_stat_statements, slow query logs, and rich monitoring tools (pganalyze, Datadog integrations), SQLite offers minimal built-in instrumentation. Without observability, you're flying blind-a production incident caused by a runaway WAL or checkpoint blocking writes will be hard …"
+            ],
+            "sources": [
+              "https://www.tinybird.co/blog/postgres-vs-sqlite",
+              "https://shivekkhurana.com/blog/sqlite-in-production"
+            ]
+          },
+          {
+            "text": "Consider a client-server database when writes cannot queue or services need network-based database access. That choice brings additional infrastructure upkeep and network latency (E8, E31, E25).",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "If many threads and/or processes need to write the database at the same instant (and they cannot queue up and take turns) then it is best to select a database engine that supports that capability, which always means a client/server database engine.",
+              "If your application requires scaling writes across multiple servers or needs network-based access for various services, PostgreSQL's client-server architecture becomes essential.",
+              "The client-server model of databases like Postgres requires extra infrastructure provisioning and upkeep. Because queries are passed to a network before processing, there is network latency."
+            ],
+            "sources": [
+              "https://www.sqlite.org/whentouse.html",
+              "https://daily.dev/blog/sqlite-production-guide-when-how-to-use-beyond-prototyping",
+              "https://shivekkhurana.com/blog/sqlite-in-production"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 4,
+        "reported_criteria_supported": 1,
+        "checks": {
+          "conflict_reported": true,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 74.22,
+        "cost_usd": 0.09373,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "input_tokens": 19533,
+        "output_tokens": 5240,
+        "search_calls": 4,
+        "pages_read": 8
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "completed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "SQLite is suitable for many low- to medium-traffic websites.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "SQLite works great as the database engine for most low to medium traffic websites (which is to say, most websites)."
+            ],
+            "sources": [
+              "https://www.sqlite.org/whentouse.html"
+            ]
+          },
+          {
+            "text": "SQLite runs inside the application without a separate server process.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "There’s no network hop, no connection pool, no server process to manage."
+            ],
+            "sources": [
+              "https://www.mindstudio.ai/blog/what-is-sqlite"
+            ]
+          },
+          {
+            "text": "WAL mode allows readers to access the database while a writer is active.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Multiple readers can access the database at the same time a writer is active."
+            ],
+            "sources": [
+              "https://www.mindstudio.ai/blog/what-is-sqlite"
+            ]
+          },
+          {
+            "text": "Even in WAL mode, SQLite permits only one writer at a time.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "Even with the `WAL` mode enabled, SQLite still limits writing to only one thread at a time."
+            ],
+            "sources": [
+              "https://blog.pecar.me/sqlite-prod"
+            ]
+          },
+          {
+            "text": "An ephemeral filesystem can lose database changes on restart or redeployment.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "While you can technically run your SQLite database from an ephemeral file system, all changes will be lost when the container is redeployed or restarted."
+            ],
+            "sources": [
+              "https://blog.pecar.me/sqlite-prod"
+            ]
+          },
+          {
+            "text": "Multi-instance deployments can use replication tools such as LiteFS.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "For my own applications that need multiple instances, I use [LiteFS](https://fly.io/docs/litefs):"
+            ],
+            "sources": [
+              "https://www.epicweb.dev/why-you-should-probably-be-using-sqlite"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "conflict_reported": null,
+          "answers": true,
+          "citations_resolve": true
+        },
+        "latency_s": 9.8,
+        "cost_usd": 0.0388,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 12597,
+        "output_tokens": 441,
+        "search_calls": 1,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "search_provider_down",
+      "category": "provider_failure",
+      "question": "Compare approaches to memory in an AI support agent.",
+      "expected": "With search unavailable (injected), fails closed: a failed report with provider_unavailable and no findings.",
+      "fault": {
+        "search": "unavailable",
+        "extract": "none",
+        "model": "none"
+      },
+      "agent_plan_criteria": [
+        "Identify memory approaches, their mechanisms, scope, persistence, and typical support use cases.",
+        "Compare retrieval quality, accuracy, latency, cost, scalability, and implementation complexity.",
+        "Assess privacy, security, retention, deletion, access control, and risks from incorrect or stale memories.",
+        "Establish practical selection and combination guidance, including evaluation methods for support scenarios."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "failed",
+        "stop_reason": "provider_unavailable",
+        "confidence": "low",
+        "error": "Search failed for every query: server_error",
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "fails_closed": true
+        },
+        "latency_s": 12.17,
+        "cost_usd": 0.0052,
+        "cost_uncertain": false,
+        "model_calls": 1,
+        "input_tokens": 782,
+        "output_tokens": 883,
+        "search_calls": 3,
+        "pages_read": 0
+      },
+      "baseline": {
+        "system": "baseline",
+        "status": "failed",
+        "stop_reason": null,
+        "confidence": null,
+        "error": "search: server_error: injected: HTTP 503",
+        "abstained": true,
+        "claims": [],
+        "invalid_citations": 0,
+        "criteria_covered": 0,
+        "criteria_total": 4,
+        "reported_criteria_supported": null,
+        "checks": {
+          "fails_closed": true
+        },
+        "latency_s": 0.95,
+        "cost_usd": 0.0,
+        "cost_uncertain": false,
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "search_calls": 1,
+        "pages_read": 0
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 8,
+      "checks_passed": 18,
+      "checks_total": 20,
+      "claims": 32,
+      "supported": 12,
+      "partially_supported": 12,
+      "not_supported": 8,
+      "supported_rate": 0.375,
+      "invalid_citations": 0,
+      "criteria_covered": 15,
+      "criteria_total": 31,
+      "reported_criteria_supported": 15,
+      "latency_s_median": 70.72,
+      "latency_s_total": 481.5,
+      "cost_usd_total": 0.5982,
+      "cost_uncertain": false
+    },
+    "baseline": {
+      "runs": 8,
+      "checks_passed": 13,
+      "checks_total": 14,
+      "claims": 27,
+      "supported": 8,
+      "partially_supported": 13,
+      "not_supported": 6,
+      "supported_rate": 0.296,
+      "invalid_citations": 0,
+      "criteria_covered": 4,
+      "criteria_total": 31,
+      "reported_criteria_supported": null,
+      "latency_s_median": 8.94,
+      "latency_s_total": 66.45,
+      "cost_usd_total": 0.2441,
+      "cost_uncertain": false
+    }
+  }
+}
