@@ -54,6 +54,8 @@ This project used AI in two separate ways:
 - The model has no tools. Application code runs the searches and page reads, validates every model output, rejects quotes that are not in the page text, removes unsupported claims, and computes coverage, status, and confidence.
 - Requests set `store: false`.
 
+**Groq (optional).** With `GROQ_API_KEY` set, the plan and follow-up steps run first on OpenAI's open-weight models `openai/gpt-oss-120b` and `openai/gpt-oss-20b`, hosted by Groq. Every step can fall back between OpenAI and Groq when a provider fails. The same strict schemas and code checks apply to every model. See the README's model routing section.
+
 **Tavily** provides search and page extraction. It is a retrieval service, not an LLM. Its own answer generation is turned off (`include_answer: false`).
 
 **Fixture mode** uses scripted model and search responses. Fixture runs, tests, and the fixture evaluation make no provider calls.

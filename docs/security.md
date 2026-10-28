@@ -1,6 +1,6 @@
 # Security model
 
-Predixion AI is a read-only research service. It calls two external providers (OpenAI and Tavily), stores runs in a local SQLite file, and serves a browser UI. This document describes what it protects, where the trust boundaries are, which controls exist, how they are tested, and what risk remains. It does not claim that every attack is prevented.
+Predixion AI is a read-only research service. It calls two external providers (OpenAI and Tavily), plus Groq when `GROQ_API_KEY` is set, stores runs in a local SQLite file, and serves a browser UI. This document describes what it protects, where the trust boundaries are, which controls exist, how they are tested, and what risk remains. It does not claim that every attack is prevented.
 
 ## Assets
 
@@ -19,6 +19,7 @@ Predixion AI is a read-only research service. It calls two external providers (O
 flowchart LR
     B["Browser (untrusted input)"] -->|"HTTP, optional bearer token"| S["Predixion server"]
     S -->|"fixed endpoint, server-side key"| O["OpenAI Responses API"]
+    S -.->|"optional; fixed endpoint, server-side key"| G["Groq Chat Completions"]
     S -->|"fixed endpoint, server-side key"| T["Tavily Search / Extract"]
     T -->|"untrusted web content"| S
     T -.->|"fetches pages on its own network"| W["Public web"]
@@ -49,7 +50,7 @@ The defense is structural. Instruction filtering is only a secondary layer.
 - **Web text is marked as data.** It is wrapped in `<untrusted_passage>` / `<untrusted_source>` elements. Any embedded `<untrusted` tags are escaped so a page cannot close the wrapper. The instructions say this content is data, not instructions.
 - **Instruction-like sentences are removed** (`sources.screen_injection`) before passages are created, and the source is flagged. This heuristic has false positives and false negatives.
 - **Claims must quote the page.** A claim survives only if it cites a quote that appears in the page text and the verifier finds that the quote supports it. Injected text that has no quote behind it does not reach the report as a claim.
-- **No secrets in model context.** Credentials and other users' data are never sent to the model. OpenAI calls set `store: false`.
+- **No secrets in model context.** Credentials and other users' data are never sent to the model. OpenAI calls set `store: false`. Groq has no such flag. Its stated policy keeps no inputs or outputs by default, apart from limited retention for reliability and abuse monitoring, and zero data retention can be turned on in the Groq console. Groq calls set `include_reasoning: false`, so no reasoning text is returned.
 
 **Residual risk.** A page can still state false facts in plain prose, and those can be quoted and cited correctly. Grounding checks that a claim matches its source, not that the source is true. Source tiers, independent-domain counts, and visible conflicts reduce this risk but do not remove it.
 
@@ -158,5 +159,5 @@ Tests: `tests/test_api.py::test_fault_injection_is_refused_when_disabled`, `test
 | Static bearer tokens, no expiry or rotation tooling | Acceptable for a private demo; replace with real identity before public use |
 | No rate limiting at the edge | Gap; put a proxy or gateway in front for public use |
 | SQLite file not encrypted at rest | Relies on host disk protection |
-| Provider-side handling of questions and pages | Governed by OpenAI's and Tavily's own policies, not by this code |
+| Provider-side handling of questions and pages | Governed by OpenAI's, Tavily's, and (when configured) Groq's own policies, not by this code |
 | No manual screen-reader or penetration test | Not done |

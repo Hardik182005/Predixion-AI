@@ -35,6 +35,8 @@ With Docker: `docker compose up --build`. The image builds the frontend and serv
 
 Live mode needs two keys in `.env`: `OPENAI_API_KEY` and `TAVILY_API_KEY`. Set `PREDIXION_MODE=live` to make it the default, or pass `--mode live` / choose "Live web research" in the UI. The keys stay on the server. They are never sent to the browser, logged, or written to reports.
 
+`GROQ_API_KEY` is optional. With it, small tasks run on Groq and every task can fall back between OpenAI and Groq; see [Model routing](#model-routing).
+
 In the evaluation, a live run took 25–90 seconds and cost $0.03–$0.10 with the default round and page limits. Costs are estimated from list prices; see [docs/evaluation.md](docs/evaluation.md).
 
 ## Usage
@@ -117,7 +119,7 @@ Source layout (`src/predixion/`):
 |---|---|
 | `orchestrator.py` | The workflow above. Every stop condition lives here: criteria satisfied, rounds, diminishing returns, deadline, cost, pages, cancellation. |
 | `tools.py` | The two tools, `search_web` and `read_sources`; the Tavily REST client, caching, credit accounting, and fault injection for tests. |
-| `llm.py` | OpenAI Responses API adapter with strict JSON schemas, and per-run token and cost reservation. |
+| `llm.py` | OpenAI (Responses API) and Groq (Chat Completions) adapters with strict JSON schemas; per-task model routes and fallback; per-run token and cost reservation. |
 | `reliability.py` | Error classification, the single retry owner, deadlines, and budgets. |
 | `sources.py`, `urls.py` | Source cleaning, classification, prompt-injection screening, passage chunking, URL validation and canonicalization. |
 | `grounding.py` | Quote validation, criteria coverage, claim checks, and confidence. This is deterministic code, not model output. |
@@ -147,6 +149,17 @@ There are two tools:
 One provider covers both search and clean page text. The responses carry the publication dates and scores the filters need. The application never fetches pages itself, which removes a whole class of SSRF risk from this server (see [docs/security.md](docs/security.md)).
 
 The model is OpenAI `gpt-6.1-terra` at reasoning effort `low`, called through the Responses API with strict JSON schemas. List prices are $1 / $5 per million input/output tokens, checked on 2026-10-28. It was chosen as the lowest-cost model that held up on this pipeline's structured extraction and verification steps. The cheaper `gpt-6-luna` was evaluated against it; see [docs/evaluation.md](docs/evaluation.md). The model is configurable with `RESEARCH_MODEL` and its prices.
+
+<a id="model-routing"></a>**Model routing (optional Groq).** With `GROQ_API_KEY` set, each model task has an ordered list of models:
+- Tasks in `GROQ_TASKS` (default `plan,follow_up`) try `openai/gpt-oss-120b` on Groq, then `openai/gpt-oss-20b` on Groq, then the OpenAI model. These are small requests, and Groq's list prices are lower ($0.15 / $0.60 and $0.075 / $0.30 per Mtok, checked on 2026-10-28).
+- Every other task tries the OpenAI model first, then the two Groq models.
+- A Groq model is skipped when the request (input estimate plus output cap) is larger than `GROQ_MAX_REQUEST_TOKENS` (default 8,000, a free-tier tokens-per-minute limit). Extraction and synthesis therefore stay on OpenAI.
+- When a model fails, the task moves on to the next model instead of retrying. Only the last model gets the normal retries. Refusals are not retried elsewhere.
+- An auth or quota error rules that provider out for the rest of the run.
+- Every attempt counts toward the run's attempt, token, and cost limits, priced at the model that served it. Before a call, the budget check assumes the priciest model the task may use.
+- Reports list the models that served each run and how many fallbacks happened.
+
+Groq is called through its OpenAI-compatible Chat Completions endpoint with the same strict JSON schemas. `MODEL_FALLBACK=false` turns fallback off. Routing has not been evaluated for answer quality; see [docs/evaluation.md](docs/evaluation.md#limits-of-this-evaluation).
 
 **Tavily setup ("Path B").** Tavily's agent-setup guide offers two paths:
 - Install the Tavily CLI or plugins and sign in with OAuth.
@@ -217,6 +230,8 @@ Everything is set through environment variables or `.env`; see [.env.example](.e
 |---|---|---|
 | `PREDIXION_MODE` | `fixture` | `live` needs both API keys. |
 | `RESEARCH_MODEL`, `RESEARCH_REASONING_EFFORT` | `gpt-6.1-terra`, `low` | Set `MODEL_INPUT_USD_PER_MTOK` / `MODEL_OUTPUT_USD_PER_MTOK` to match the model. |
+| `GROQ_API_KEY`, `GROQ_TASKS`, `GROQ_MODEL`, `GROQ_FALLBACK_MODEL` | unset, `plan,follow_up`, `openai/gpt-oss-120b`, `openai/gpt-oss-20b` | Optional; see [Model routing](#model-routing). Prices: `GROQ_*_USD_PER_MTOK`. |
+| `GROQ_MAX_REQUEST_TOKENS`, `MODEL_FALLBACK` | 8000, `true` | Largest request sent to Groq; whether a failed task moves on to the next model. |
 | `MAX_ROUNDS`, `MAX_PAGES_PER_RUN`, `RUN_DEADLINE_S`, `MAX_COST_USD_PER_RUN` | 2, 8, 120, 0.60 | Per-run limits. |
 | `AUTH_MODE`, `API_TOKEN_HASHES` | `none` | `none` is refused on non-loopback binds unless `ALLOW_UNAUTHENTICATED_BIND=true`. |
 | `SERVE_FRONTEND_DIR` | unset | Serve the built UI from the API process. |
@@ -244,6 +259,7 @@ CI (`.github/workflows/ci.yml`) runs:
 - Verification checks claims against quotes, not quotes against reality. A wrong source can produce a confidently cited wrong claim.
 - Live runs take about a minute. The default 120 s deadline can end a run with a partial answer.
 - Cost figures are estimates from configured list prices, not invoices.
+- Groq routing is not covered by the evaluation. Plans and follow-ups from the Groq-hosted models may differ in quality from OpenAI's.
 - Confidence can be overstated. Coverage is judged per criterion, so a two-part criterion ("open source, and identify the license") can count as supported when only one part is established. The confidence rubric also does not require high-suitability sources. One live sample shows both; see [docs/evaluation.md](docs/evaluation.md#spot-check-of-live-claims).
 - Discovery questions can return far fewer entities than requested, because entities are included only when the pages read state every condition.
 - Runs are not durable across restarts (see [Execution guarantees](#api)).

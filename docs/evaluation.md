@@ -240,3 +240,4 @@ Live runs will not reproduce these numbers exactly, because search results and m
 - **Lexical scoring only.** No human review and no LLM judge. Verification inside the app checks claims against quotes, not quotes against the world.
 - **Partly stale.** Two cases have not been run with terra on the current prompt.
 - **No load testing.** There is no measurement of concurrent runs beyond the unit tests of the concurrency limits.
+- **OpenAI only.** Every result here was produced before Groq routing existed. With `GROQ_API_KEY` set, plans and follow-ups come from Groq-hosted `gpt-oss` models, and their effect on quality has not been measured. One live plan call on 2026-10-28 returned a valid plan from `openai/gpt-oss-120b` (1,011 input and 1,204 output tokens, about $0.0009). Live eval results now record the routing settings under `routing`.

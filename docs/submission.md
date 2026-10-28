@@ -31,8 +31,8 @@ Fixture mode needs no keys and makes no provider calls. Live mode needs `OPENAI_
 Verified locally on 2026-10-28 (Windows 11, Python 3.13, uv 0.10.11, Node.js 24):
 
 - `uv run ruff check .` and `uv run ruff format --check .`: clean.
-- `uv run pytest`: 191 passed, 1 skipped. The skipped test is the opt-in live test.
-- Frontend: `npm run build`, `npm test` (24 Vitest tests), and `npm run e2e` (7 Playwright tests, including axe accessibility scans).
+- `uv run pytest`: 216 passed, 1 skipped. The skipped test is the opt-in live test.
+- Frontend: `npm run build`, `npm test` (25 Vitest tests), and `npm run e2e` (7 Playwright tests, including axe accessibility scans).
 - `uv run predixion eval --mode fixture`: 20 of 20 agent checks pass.
 - Live evaluation with real OpenAI and Tavily calls; see [evaluation.md](evaluation.md).
 - `pip-audit` and `npm audit --audit-level=high`: no known vulnerabilities.
@@ -53,7 +53,7 @@ Not verified:
 - [ ] Record the demo video and add the link above.
 - [ ] Give evaluators access to the repository, or make it public.
 - [x] Confirm the CI run on `main` passes on GitHub. Checked on 2026-10-28; see above.
-- [ ] Set `main` as the repository's default branch in GitHub settings. On 2026-10-28 the default was still `feature/research-agent`.
+- [x] Set `main` as the repository's default branch in GitHub settings. Done on 2026-10-28.
 - [ ] Choose a license. None is included, and that decision belongs to the owner.
 - [ ] Read [AI_USAGE.md](../AI_USAGE.md), the residual risks in [security.md](security.md), and the evaluation caveats in [evaluation.md](evaluation.md).
 - [ ] Check the model prices in `config.py` and `.env.example` against current list prices; cost caps depend on them.

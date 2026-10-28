@@ -39,6 +39,7 @@ uv run predixion eval --mode live --max-spend 0.50 --scenario vector_db_comparis
 ## Conventions
 
 - **The model proposes; the code decides.** Model outputs are strict JSON schemas (`prompts.py`) validated by application code. Do not give the model tools or let model output choose URLs, budgets, or destinations.
+- **Model routing.** `llm.ModelRoutes` lists the models each task tries; `ModelCaller` owns fallback. Fallback attempts count toward the run budget like retries.
 - **One retry owner.** `reliability.call_with_retries` owns retries; SDK retries stay off (`max_retries=0`). Provider adapters classify errors and never retry on their own.
 - **Fixed provider endpoints.** They are constants in `config.py`, never configuration.
 - **Prompt changes.** Bump `PROMPT_VERSION` in `config.py` whenever prompt text changes, then rerun the fixture eval.
