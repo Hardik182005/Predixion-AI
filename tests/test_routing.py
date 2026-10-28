@@ -210,10 +210,11 @@ async def test_a_run_reports_fallbacks_and_the_models_used(settings) -> None:
 
 
 LIVE = {"OPENAI_API_KEY": "sk-test-openai-key", "TAVILY_API_KEY": "tvly-test-key"}
+GROQ_KEY = "gsk_testsecretkey123"
 
 
 async def test_live_routes_put_groq_first_only_for_groq_tasks() -> None:
-    settings = make_settings(**LIVE, GROQ_API_KEY="gsk_testgroqkey1234", GROQ_TASKS="plan, verify")
+    settings = make_settings(**LIVE, GROQ_API_KEY=GROQ_KEY, GROQ_TASKS="plan, verify")
     routes, clients = live_routes(settings)
     try:
         labels = {task: [o.label for o in routes.options(task)] for task in ("plan", "verify", "synthesize")}
@@ -237,7 +238,7 @@ async def test_live_routes_without_groq_use_openai_only() -> None:
         for client in clients:
             await client.aclose()
 
-    routes, clients = live_routes(make_settings(**LIVE, GROQ_API_KEY="gsk_testgroqkey1234", GROQ_FALLBACK_MODEL=""))
+    routes, clients = live_routes(make_settings(**LIVE, GROQ_API_KEY=GROQ_KEY, GROQ_FALLBACK_MODEL=""))
     try:
         assert [o.label for o in routes.options("plan")] == ["groq:openai/gpt-oss-120b", "openai:gpt-6.1-terra"]
     finally:
