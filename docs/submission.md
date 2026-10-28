@@ -47,7 +47,8 @@ Not verified:
 
 - [ ] Record the demo video and add the link above.
 - [ ] Give evaluators access to the repository, or make it public.
-- [ ] Create a `main` branch on GitHub; on 2026-10-28 the remote had only `feature/research-agent`. Then open a pull request from `feature/research-agent` and confirm CI passes, including the Docker build.
+- [ ] Confirm the CI run on `main` passes on GitHub, including the Docker build. `main` and `feature/research-agent` point at the same commit.
+- [ ] Set `main` as the repository's default branch in GitHub settings if it is not already.
 - [ ] Choose a license. None is included, and that decision belongs to the owner.
 - [ ] Read [AI_USAGE.md](../AI_USAGE.md), the residual risks in [security.md](security.md), and the evaluation caveats in [evaluation.md](evaluation.md).
 - [ ] Check the model prices in `config.py` and `.env.example` against current list prices; cost caps depend on them.
