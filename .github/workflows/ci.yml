@@ -61,6 +61,9 @@ jobs:
 
   secrets:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read  # gitleaks lists the PR's commits on pull_request events
     steps:
       - uses: actions/checkout@v5
         with:
