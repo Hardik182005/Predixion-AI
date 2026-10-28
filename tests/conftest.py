@@ -21,6 +21,9 @@ RUN_ID = "run_" + "0" * 24
 _PROVIDER_ENV = (
     "OPENAI_API_KEY",
     "TAVILY_API_KEY",
+    "GROQ_API_KEY",
+    "GROQ_TASKS",
+    "MODEL_FALLBACK",
     "PREDIXION_MODE",
     "PREDIXION_ENV",
     "AUTH_MODE",

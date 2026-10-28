@@ -371,8 +371,19 @@ export function Report({ report }: { report: ResearchReport }) {
             </dd>
             <dt className="text-muted">Model calls</dt>
             <dd>
-              {m.model_calls} ({plural(m.model_attempts, "attempt")}, {plural(m.retries, "retry", "retries")})
+              {m.model_calls} ({plural(m.model_attempts, "attempt")}, {plural(m.retries, "retry", "retries")}
+              {m.model_fallbacks > 0 && `, ${plural(m.model_fallbacks, "fallback")}`})
             </dd>
+            {Object.keys(m.models_used).length > 0 && (
+              <>
+                <dt className="text-muted">Models used</dt>
+                <dd>
+                  {Object.entries(m.models_used)
+                    .map(([name, calls]) => `${name} (${plural(calls, "call")})`)
+                    .join(", ")}
+                </dd>
+              </>
+            )}
             <dt className="text-muted">Tokens</dt>
             <dd>
               {m.input_tokens.toLocaleString()} in · {m.output_tokens.toLocaleString()} out

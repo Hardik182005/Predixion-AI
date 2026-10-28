@@ -70,7 +70,7 @@ from .grounding import (
     required_satisfied,
     validate_evidence,
 )
-from .llm import FaultyModel, ModelCaller, ModelClient
+from .llm import FaultyModel, ModelCaller, ModelClient, ModelRoutes
 from .prompts import Task, attr, dump, fence, render_sections, spec
 from .reliability import Budget, BudgetExhausted, Deadline, DeadlineReached, ErrorKind, ProviderError, RetryPolicy
 from .sources import (
@@ -109,9 +109,10 @@ PROVIDER_FAILURE_KINDS = {
 class Providers:
     search: SearchProvider
     extract: ExtractProvider
-    model: ModelClient
+    model: ModelClient  # the primary model, reported in the run's execution info
     mode: Mode
     cache: TTLCache | None = None
+    routes: ModelRoutes | None = None  # per-task models and fallbacks; None runs every task on `model`
 
 
 def _now() -> datetime:
@@ -141,9 +142,10 @@ class ResearchRun:
 
         fault = request.fault if settings.fault_injection_allowed else None
         search, extract = apply_faults(providers.search, providers.extract, fault)
-        model: ModelClient = providers.model
+        routes = providers.routes or ModelRoutes.single(providers.model, providers.mode.value)
         if fault is not None and fault.model != "none":
-            model = FaultyModel(model, fault.model)
+            fault_mode = fault.model
+            routes = routes.wrap(lambda client: FaultyModel(client, fault_mode))
         self.model_name = providers.model.model
         self.sdk_version = providers.model.sdk_version
 
@@ -175,7 +177,7 @@ class ResearchRun:
             extract_ttl_s=settings.cache_ttl_extract_s,
         )
         self.models = ModelCaller(
-            model,
+            routes,
             budget=self.budget,
             deadline=self.deadline,
             metrics=self.metrics,

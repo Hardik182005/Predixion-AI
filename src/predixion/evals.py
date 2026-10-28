@@ -52,7 +52,7 @@ from .contracts import (
     SupportVerdict,
 )
 from .fixtures import FIXTURE_MODEL, FixtureExtract, FixtureModel, FixtureSearch, Scenario, judge_support, load_scenarios
-from .llm import FaultyModel, ModelCaller, ModelClient, ModelOutcome
+from .llm import FaultyModel, ModelCaller, ModelClient, ModelOutcome, ModelRoutes
 from .orchestrator import Providers, ResearchRun
 from .prompts import BOOL, STR, UNTRUSTED_RULES, Task, TaskSpec, arr, attr, fence, obj, render_sections
 from .reliability import Budget, BudgetExhausted, Deadline, DeadlineReached, ProviderError, RetryPolicy
@@ -191,6 +191,8 @@ class SystemResult:
     cost_usd: float = 0.0
     cost_uncertain: bool = False
     model_calls: int = 0
+    model_fallbacks: int = 0
+    models_used: dict[str, int] = field(default_factory=dict)
     input_tokens: int = 0
     output_tokens: int = 0
     search_calls: int = 0
@@ -281,6 +283,8 @@ async def run_agent(case: EvalCase, settings: Settings, providers: Providers) ->
         cost_usd=round(m.estimated_cost_usd, 5),
         cost_uncertain=m.cost_uncertain,
         model_calls=m.model_calls,
+        model_fallbacks=m.model_fallbacks,
+        models_used=dict(m.models_used),
         input_tokens=m.input_tokens,
         output_tokens=m.output_tokens,
         search_calls=m.search_calls,
@@ -383,9 +387,10 @@ async def run_baseline(case: EvalCase, settings: Settings, providers: Providers)
     metrics = ExecutionMetrics(started_at=datetime.now(UTC))
     policy = RetryPolicy(max_attempts=settings.retry_max_attempts)
     search, extract = apply_faults(providers.search, providers.extract, case.fault)
-    model: ModelClient = providers.model
+    routes = providers.routes or ModelRoutes.single(providers.model, providers.mode.value)
     if case.fault is not None and case.fault.model != "none":
-        model = FaultyModel(model, case.fault.model)
+        fault_mode = case.fault.model
+        routes = routes.wrap(lambda client: FaultyModel(client, fault_mode))
     tools = ToolRunner(
         search=search,
         extract=extract,
@@ -398,7 +403,7 @@ async def run_baseline(case: EvalCase, settings: Settings, providers: Providers)
         concurrency=settings.max_concurrency,
     )
     caller = ModelCaller(
-        model, budget=budget, deadline=deadline, metrics=metrics, policy=policy, timeout_s=settings.model_timeout_s
+        routes, budget=budget, deadline=deadline, metrics=metrics, policy=policy, timeout_s=settings.model_timeout_s
     )
 
     result = SystemResult(system="baseline", status="completed")
@@ -428,6 +433,8 @@ async def run_baseline(case: EvalCase, settings: Settings, providers: Providers)
     result.cost_usd = round(budget.spent_usd, 5)
     result.cost_uncertain = budget.cost_uncertain
     result.model_calls = metrics.model_calls
+    result.model_fallbacks = metrics.model_fallbacks
+    result.models_used = dict(metrics.models_used)
     result.input_tokens = budget.input_tokens
     result.output_tokens = budget.output_tokens
     result.search_calls = metrics.search_calls
@@ -488,6 +495,24 @@ def summarize(results: list[SystemResult]) -> dict[str, Any]:
     }
 
 
+def _routing(settings: Settings) -> dict[str, Any] | None:
+    """The Groq models and tasks used besides the primary model, with their prices; None without a Groq key."""
+    if settings.groq_api_key is None:
+        return None
+    models = {settings.groq_model: [settings.groq_input_usd_per_mtok, settings.groq_output_usd_per_mtok]}
+    if settings.groq_fallback_model:
+        models[settings.groq_fallback_model] = [
+            settings.groq_fallback_input_usd_per_mtok,
+            settings.groq_fallback_output_usd_per_mtok,
+        ]
+    return {
+        "groq_models_usd_per_mtok_in_out": models,
+        "groq_tasks": settings.groq_task_list,
+        "groq_max_request_tokens": settings.groq_max_request_tokens,
+        "fallback": settings.model_fallback,
+    }
+
+
 def _save_report(directory: Path, case_id: str, report: ResearchReport) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     (directory / f"{case_id}.json").write_text(report.model_dump_json(indent=2), encoding="utf-8")
@@ -506,14 +531,14 @@ async def run_suite(
     live_providers: Providers | None = None
     closers: list[Any] = []
     if mode == Mode.live:
-        from .llm import OpenAIModel
+        from .llm import live_routes
         from .tools import TavilyClient
 
         assert settings.tavily_api_key is not None and settings.openai_api_key is not None
         tavily = TavilyClient(settings.tavily_api_key.get_secret_value())
-        model = OpenAIModel(settings.openai_api_key.get_secret_value(), settings.research_model, settings.reasoning_effort)
-        live_providers = Providers(tavily, tavily, model, Mode.live)
-        closers = [tavily, model]
+        routes, models = live_routes(settings)
+        live_providers = Providers(tavily, tavily, routes.primary, Mode.live, routes=routes)
+        closers = [tavily, *models]
 
     spent, stopped_early = 0.0, False
     out_cases: list[dict[str, Any]] = []
@@ -580,6 +605,7 @@ async def run_suite(
         }
         if mode == Mode.live
         else None,
+        "routing": _routing(settings) if mode == Mode.live else None,
         "limits": {
             "max_rounds": settings.max_rounds,
             "max_pages_per_run": settings.max_pages_per_run,
@@ -609,6 +635,15 @@ def _checks_text(checks: dict[str, bool | None]) -> str:
     return ", ".join(f"{k} {'pass' if v else 'FAIL' if v is False else 'n/a'}" for k, v in checks.items())
 
 
+def _routing_lines(routing: dict[str, Any] | None) -> list[str]:
+    if not routing:
+        return []
+    models = ", ".join(routing["groq_models_usd_per_mtok_in_out"])
+    tasks = ", ".join(routing["groq_tasks"]) or "none"
+    fallback = "on" if routing["fallback"] else "off"
+    return [f"- Groq models: {models}; Groq-first tasks: {tasks}; fallback between providers: {fallback}"]
+
+
 def render_results(results: dict[str, Any]) -> str:
     lines = [
         f"# Evaluation results: {results['mode']} mode",
@@ -618,6 +653,7 @@ def render_results(results: dict[str, Any]) -> str:
         + (f", reasoning effort {results['reasoning_effort']}" if results["reasoning_effort"] else "")
         + (f", openai SDK {results['sdk_version']}" if results["sdk_version"] else ""),
         f"- Prompt version: {results['prompt_version']}; git commit: {results['git_commit'] or 'uncommitted'}",
+        *_routing_lines(results.get("routing")),
         f"- Baseline: {results['baseline']}",
         f"- Scoring: {results['scoring']}",
         f"- Spend: ${results['spent_usd']:.4f} of ${results['max_spend_usd']:.2f} limit"

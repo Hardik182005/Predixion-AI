@@ -85,6 +85,15 @@ describe("Report", () => {
     expect(screen.getByText("E999 missing")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Show evidence E999" })).not.toBeInTheDocument();
   });
+
+  it("lists the models a run used and counts fallbacks", () => {
+    const report = fixture(vectorJson);
+    report.execution.metrics.model_fallbacks = 1;
+    report.execution.metrics.models_used = { "groq:openai/gpt-oss-120b": 1, "openai:gpt-test": 7 };
+    render(<Report report={report} />);
+    expect(screen.getByText(/1 fallback\)/)).toBeInTheDocument();
+    expect(screen.getByText("groq:openai/gpt-oss-120b (1 call), openai:gpt-test (7 calls)")).toBeInTheDocument();
+  });
 });
 
 const config: ServerConfig = {

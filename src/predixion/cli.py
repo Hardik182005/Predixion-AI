@@ -67,13 +67,13 @@ def _providers(settings: Settings, mode: Mode, question: str) -> tuple[Providers
 
         scenario = match_scenario(question)
         return Providers(FixtureSearch(scenario), FixtureExtract(scenario), FixtureModel(scenario), Mode.fixture), []
-    from .llm import OpenAIModel
+    from .llm import live_routes
     from .tools import TavilyClient
 
     assert settings.tavily_api_key is not None and settings.openai_api_key is not None
     tavily = TavilyClient(settings.tavily_api_key.get_secret_value())
-    model = OpenAIModel(settings.openai_api_key.get_secret_value(), settings.research_model, settings.reasoning_effort)
-    return Providers(tavily, tavily, model, Mode.live), [tavily, model]
+    routes, models = live_routes(settings)
+    return Providers(tavily, tavily, routes.primary, Mode.live, routes=routes), [tavily, *models]
 
 
 async def run_once(settings: Settings, request: ResearchRequest, mode: Mode, *, quiet: bool = False):

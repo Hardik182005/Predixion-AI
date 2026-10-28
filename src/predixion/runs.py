@@ -34,7 +34,7 @@ from .contracts import (
     StopReason,
 )
 from .fixtures import FixtureExtract, FixtureModel, FixtureSearch, match_scenario
-from .llm import OpenAIModel
+from .llm import GroqModel, ModelRoutes, OpenAIModel, live_routes
 from .logs import log
 from .orchestrator import Providers, ResearchRun
 from .store import Store
@@ -88,7 +88,8 @@ class RunManager:
         self._active: dict[str, ActiveRun] = {}
         self._slots = asyncio.Semaphore(settings.max_concurrent_runs)
         self._tavily: TavilyClient | None = None
-        self._openai: OpenAIModel | None = None
+        self._routes: ModelRoutes | None = None
+        self._models: list[OpenAIModel | GroqModel] = []
         self._cache = TTLCache(settings.cache_max_entries) if settings.cache_max_entries > 0 else None
         self._purge_task: asyncio.Task[None] | None = None
         self._sse_total = 0
@@ -118,8 +119,8 @@ class RunManager:
             await asyncio.wait(tasks, timeout=5)
         if self._tavily:
             await self._tavily.aclose()
-        if self._openai:
-            await self._openai.aclose()
+        for model in self._models:
+            await model.aclose()
 
     async def _purge_loop(self) -> None:
         while True:
@@ -153,14 +154,16 @@ class RunManager:
         if self._tavily is None:
             assert self.settings.tavily_api_key is not None
             self._tavily = TavilyClient(self.settings.tavily_api_key.get_secret_value())
-        if self._openai is None:
-            assert self.settings.openai_api_key is not None
-            self._openai = OpenAIModel(
-                self.settings.openai_api_key.get_secret_value(),
-                self.settings.research_model,
-                self.settings.reasoning_effort,
-            )
-        return Providers(search=self._tavily, extract=self._tavily, model=self._openai, mode=Mode.live, cache=self._cache)
+        if self._routes is None:
+            self._routes, self._models = live_routes(self.settings)
+        return Providers(
+            search=self._tavily,
+            extract=self._tavily,
+            model=self._routes.primary,
+            mode=Mode.live,
+            cache=self._cache,
+            routes=self._routes,
+        )
 
     def start_run(self, request: ResearchRequest, *, owner: str, idempotency_key: str | None = None) -> StartRunResponse:
         mode = self.resolve_mode(request)

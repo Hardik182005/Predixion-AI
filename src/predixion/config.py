@@ -13,9 +13,17 @@ from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 OPENAI_BASE_URL = "https://api.openai.com/v1"
+GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 TAVILY_BASE_URL = "https://api.tavily.com"
 
 PROMPT_VERSION = "2026-10-28.3"
+
+# Model task names (prompts.Task values), listed here so settings can be validated without importing prompts.
+MODEL_TASKS = frozenset({"plan", "extract", "follow_up", "synthesize", "verify", "repair", "baseline"})
+
+
+def _split(value: str) -> list[str]:
+    return [part.strip() for part in value.split(",") if part.strip()]
 
 
 class Settings(BaseSettings):
@@ -35,6 +43,22 @@ class Settings(BaseSettings):
     model_input_usd_per_mtok: float = Field(1.0, alias="MODEL_INPUT_USD_PER_MTOK", ge=0)
     model_output_usd_per_mtok: float = Field(5.0, alias="MODEL_OUTPUT_USD_PER_MTOK", ge=0)
     tavily_usd_per_credit: float = Field(0.008, alias="TAVILY_USD_PER_CREDIT", ge=0)
+
+    # Optional second provider. Groq serves OpenAI's open-weight gpt-oss models through an OpenAI-compatible API.
+    # GROQ_TASKS run on Groq first; every task can fall back between providers (see llm.live_routes).
+    groq_api_key: SecretStr | None = Field(None, alias="GROQ_API_KEY")
+    groq_model: str = Field("openai/gpt-oss-120b", alias="GROQ_MODEL")
+    groq_fallback_model: str | None = Field("openai/gpt-oss-20b", alias="GROQ_FALLBACK_MODEL")
+    # Groq list prices for gpt-oss-120b and gpt-oss-20b, checked 2026-10-28.
+    groq_input_usd_per_mtok: float = Field(0.15, alias="GROQ_INPUT_USD_PER_MTOK", ge=0)
+    groq_output_usd_per_mtok: float = Field(0.60, alias="GROQ_OUTPUT_USD_PER_MTOK", ge=0)
+    groq_fallback_input_usd_per_mtok: float = Field(0.075, alias="GROQ_FALLBACK_INPUT_USD_PER_MTOK", ge=0)
+    groq_fallback_output_usd_per_mtok: float = Field(0.30, alias="GROQ_FALLBACK_OUTPUT_USD_PER_MTOK", ge=0)
+    groq_tasks: str = Field("plan,follow_up", alias="GROQ_TASKS")
+    # Largest request (estimated input plus maximum output) sent to Groq. Groq's free tier allows 8,000 tokens
+    # per minute per model, and larger requests are rejected outright, so bigger requests go to OpenAI.
+    groq_max_request_tokens: int = Field(8_000, alias="GROQ_MAX_REQUEST_TOKENS", ge=1_000)
+    model_fallback: bool = Field(True, alias="MODEL_FALLBACK")
 
     # Per-run limits (initial engineering settings, not benchmark claims).
     max_rounds: int = Field(2, alias="MAX_ROUNDS", ge=1, le=4)
@@ -80,7 +104,7 @@ class Settings(BaseSettings):
     cache_ttl_extract_s: float = Field(86_400.0, alias="CACHE_TTL_EXTRACT_S", ge=0)
     cache_max_entries: int = Field(512, alias="CACHE_MAX_ENTRIES", ge=0)
 
-    @field_validator("openai_api_key", "tavily_api_key", "api_token_hashes", mode="before")
+    @field_validator("openai_api_key", "tavily_api_key", "groq_api_key", "groq_fallback_model", "api_token_hashes", mode="before")
     @classmethod
     def _blank_is_none(cls, value: object) -> object:
         if isinstance(value, str) and not value.strip():
@@ -93,6 +117,18 @@ class Settings(BaseSettings):
         if isinstance(value, str) and not value.strip():
             return None
         return value
+
+    @field_validator("groq_tasks")
+    @classmethod
+    def _known_tasks(cls, value: str) -> str:
+        unknown = sorted(set(_split(value)) - MODEL_TASKS)
+        if unknown:
+            raise ValueError(f"unknown model tasks: {', '.join(unknown)}; expected some of {', '.join(sorted(MODEL_TASKS))}")
+        return value
+
+    @property
+    def groq_task_list(self) -> list[str]:
+        return _split(self.groq_tasks)
 
     @property
     def live_available(self) -> bool:

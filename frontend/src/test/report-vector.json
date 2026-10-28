@@ -1288,6 +1288,10 @@
       "model_calls": 8,
       "model_attempts": 8,
       "retries": 0,
+      "model_fallbacks": 0,
+      "models_used": {
+        "fixture:fixture-heuristic-v1": 8
+      },
       "cache_hits": 0,
       "cache_misses": 11,
       "input_tokens": 13710,

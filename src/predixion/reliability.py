@@ -118,10 +118,20 @@ class Deadline:
         return max(0.5, min(preferred, left))
 
 
+@dataclass(frozen=True)
+class ModelPrice:
+    input_usd_per_mtok: float
+    output_usd_per_mtok: float
+
+    def cost(self, input_tokens: int, output_tokens: int) -> float:
+        return (input_tokens * self.input_usd_per_mtok + output_tokens * self.output_usd_per_mtok) / 1_000_000
+
+
 @dataclass
 class Reservation:
     tokens: int
     cost_usd: float
+    price: ModelPrice | None = None  # None: the budget's default prices
     settled: bool = False
 
 
@@ -148,18 +158,23 @@ class Budget:
     credits: float = 0.0
     _events: list[str] = field(default_factory=list)
 
-    def model_cost(self, input_tokens: int, output_tokens: int) -> float:
+    def model_cost(self, input_tokens: int, output_tokens: int, price: ModelPrice | None = None) -> float:
+        """Cost at `price`, or at the budget's default model prices."""
+        if price is not None:
+            return price.cost(input_tokens, output_tokens)
         return (input_tokens * self.input_usd_per_mtok + output_tokens * self.output_usd_per_mtok) / 1_000_000
 
     def attempts_left(self) -> int:
         return self.max_model_attempts - self.model_attempts
 
-    def reserve_model_attempt(self, est_input_tokens: int, max_output_tokens: int) -> Reservation:
+    def reserve_model_attempt(
+        self, est_input_tokens: int, max_output_tokens: int, price: ModelPrice | None = None
+    ) -> Reservation:
         """Reserve the worst case for one model attempt before sending it."""
         if self.model_attempts >= self.max_model_attempts:
             raise BudgetExhausted("model_attempts")
         tokens = est_input_tokens + max_output_tokens
-        cost = self.model_cost(est_input_tokens, max_output_tokens)
+        cost = self.model_cost(est_input_tokens, max_output_tokens, price)
         if self.tokens_committed + self.tokens_reserved + tokens > self.max_tokens:
             raise BudgetExhausted("tokens")
         if self.cost_committed + self.cost_reserved + cost > self.max_cost_usd:
@@ -167,7 +182,7 @@ class Budget:
         self.model_attempts += 1
         self.tokens_reserved += tokens
         self.cost_reserved += cost
-        return Reservation(tokens=tokens, cost_usd=cost)
+        return Reservation(tokens=tokens, cost_usd=cost, price=price)
 
     def settle_model(self, res: Reservation, input_tokens: int | None, output_tokens: int | None) -> None:
         """Reconcile a reservation. Unknown usage (e.g. timeout) keeps the full reservation as spent."""
@@ -184,7 +199,7 @@ class Budget:
         self.input_tokens += input_tokens
         self.output_tokens += output_tokens
         self.tokens_committed += input_tokens + output_tokens
-        self.cost_committed += self.model_cost(input_tokens, output_tokens)
+        self.cost_committed += self.model_cost(input_tokens, output_tokens, res.price)
 
     def charge_credits(self, credits: float) -> None:
         self.credits += credits

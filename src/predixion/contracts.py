@@ -488,6 +488,8 @@ class ExecutionMetrics(Model):
     model_calls: int = 0
     model_attempts: int = 0
     retries: int = 0
+    model_fallbacks: int = 0  # times a task moved on to its next model after a failure
+    models_used: dict[str, int] = Field(default_factory=dict)  # "provider:model" -> successful calls
     cache_hits: int = 0
     cache_misses: int = 0
     input_tokens: int = 0

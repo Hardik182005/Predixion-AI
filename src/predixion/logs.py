@@ -18,6 +18,7 @@ from .config import Settings
 _SECRET_PATTERNS = [
     re.compile(r"sk-[A-Za-z0-9_\-]{12,}"),
     re.compile(r"tvly-[A-Za-z0-9_\-]{12,}"),
+    re.compile(r"gsk_[A-Za-z0-9]{12,}"),
     re.compile(r"(?i)bearer\s+[A-Za-z0-9._\-]{8,}"),
     re.compile(r"(?i)(api[_-]?key|token|secret|password)(\"?\s*[:=]\s*\"?)[^\s\",]{6,}"),
 ]
@@ -56,7 +57,7 @@ class RedactingFormatter(logging.Formatter):
 
 def configure_logging(settings: Settings) -> None:
     _extra_secrets.clear()
-    for secret in (settings.openai_api_key, settings.tavily_api_key):
+    for secret in (settings.openai_api_key, settings.tavily_api_key, settings.groq_api_key):
         if secret is not None and len(secret.get_secret_value()) >= 8:
             _extra_secrets.append(secret.get_secret_value())
     handler = logging.StreamHandler()

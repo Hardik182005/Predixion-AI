@@ -202,6 +202,8 @@ export interface ExecutionMetrics {
   model_calls: number;
   model_attempts: number;
   retries: number;
+  model_fallbacks: number;
+  models_used: Record<string, number>;
   input_tokens: number;
   output_tokens: number;
   estimated_cost_usd: number;

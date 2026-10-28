@@ -168,6 +168,10 @@ def render_markdown(report: ResearchReport) -> str:
         + (" (uncertain)" if m.cost_uncertain else ""),
         f"- Duration: {(m.duration_ms or 0) / 1000:.1f} s; prompt version {esc(ex.prompt_version)}",
         f"- Verification: {report.verification.supported}/{report.verification.claims_checked} claims supported",
-        "",
     ]
+    if m.models_used:
+        used = ", ".join(f"{esc(name)} ({calls})" for name, calls in m.models_used.items())
+        fallbacks = f"; fallbacks: {m.model_fallbacks}" if m.model_fallbacks else ""
+        out.append(f"- Models used (successful calls): {used}{fallbacks}")
+    out.append("")
     return "\n".join(out)

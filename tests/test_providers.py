@@ -10,13 +10,14 @@ import pytest
 from openai import AsyncOpenAI
 
 from predixion.contracts import SearchArgs
-from predixion.llm import OpenAIModel
+from predixion.llm import GroqModel, OpenAIModel
 from predixion.prompts import Task, spec
 from predixion.reliability import ErrorKind, ProviderError
 from predixion.tools import TavilyClient
 
 TAVILY_KEY = "tvly-test-secret-key"
 OPENAI_KEY = "sk-test-secret-key"
+GROQ_KEY = "gsk_testsecretkey123"
 
 Handler = Callable[[httpx.Request], httpx.Response]
 
@@ -260,3 +261,125 @@ async def test_model_refusal_and_incomplete_are_not_retried() -> None:
     error = await _model_error(lambda r: httpx.Response(200, json=incomplete))
     assert (error.kind, error.retryable) == (ErrorKind.incomplete, False)
     assert "max_output_tokens" in error.message
+
+
+# ---------------------------------------------------------------------------
+# Groq
+
+
+def _completion(content: str | None = '{"ok": true}', finish_reason: str = "stop", **message) -> dict:
+    return {
+        "id": "chatcmpl-test",
+        "object": "chat.completion",
+        "created": 1_790_000_000,
+        "model": "openai/gpt-oss-120b",
+        "choices": [
+            {"index": 0, "message": {"role": "assistant", "content": content, **message}, "finish_reason": finish_reason}
+        ],
+        "usage": {"prompt_tokens": 120, "completion_tokens": 30, "total_tokens": 150},
+    }
+
+
+def groq_model(handler: Handler, effort: str | None = "low") -> GroqModel:
+    model = GroqModel(GROQ_KEY, "openai/gpt-oss-120b", effort)
+    model._client = AsyncOpenAI(
+        api_key=GROQ_KEY,
+        base_url="https://api.groq.test/openai/v1",
+        max_retries=0,
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(handler)),
+    )
+    return model
+
+
+async def _groq_generate(handler: Handler, effort: str | None = "low"):
+    return await groq_model(handler, effort).generate(spec(Task.plan, today="2026-10-28"), "question", {}, timeout=5)
+
+
+async def _groq_error(handler: Handler) -> ProviderError:
+    with pytest.raises(ProviderError) as info:
+        await _groq_generate(handler)
+    assert GROQ_KEY not in str(info.value)
+    assert info.value.provider == "groq"
+    return info.value
+
+
+async def test_groq_sends_a_strict_schema_and_reads_usage() -> None:
+    seen: dict = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["path"] = request.url.path
+        seen["auth"] = request.headers["authorization"]
+        seen.update(json.loads(request.content))
+        return httpx.Response(200, json=_completion())
+
+    outcome = await _groq_generate(handler)
+    assert outcome.data == {"ok": True}
+    assert (outcome.input_tokens, outcome.output_tokens) == (120, 30)
+    assert seen["path"] == "/openai/v1/chat/completions"
+    assert seen["auth"] == f"Bearer {GROQ_KEY}"
+    plan = spec(Task.plan, today="2026-10-28")
+    assert seen["response_format"] == {
+        "type": "json_schema",
+        "json_schema": {"name": "plan", "schema": plan.schema, "strict": True},
+    }
+    assert [m["role"] for m in seen["messages"]] == ["system", "user"]
+    assert seen["messages"][1]["content"] == "question"
+    assert seen["max_completion_tokens"] == plan.max_output_tokens
+    assert seen["reasoning_effort"] == "low"
+    assert seen["include_reasoning"] is False
+    assert "store" not in seen
+
+
+async def test_groq_maps_reasoning_effort_to_supported_values() -> None:
+    seen: list = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(json.loads(request.content).get("reasoning_effort"))
+        return httpx.Response(200, json=_completion())
+
+    for effort in ("minimal", "high", None):
+        await _groq_generate(handler, effort)
+    assert seen == ["low", "high", None]
+
+
+@pytest.mark.parametrize(
+    ("status", "kind", "retryable"),
+    [
+        (401, ErrorKind.auth, False),
+        (429, ErrorKind.rate_limited, True),
+        (498, ErrorKind.rate_limited, True),  # Groq: capacity exceeded
+        (413, ErrorKind.bad_request, False),  # request larger than the tokens-per-minute limit
+        (503, ErrorKind.server_error, True),
+    ],
+)
+async def test_groq_http_errors(status: int, kind: ErrorKind, retryable: bool) -> None:
+    body = {"error": {"message": "x", "type": "invalid_request_error", "code": "rate_limit_exceeded"}}
+    error = await _groq_error(lambda r: httpx.Response(status, json=body, headers={"retry-after": "3"}))
+    assert (error.kind, error.retryable) == (kind, retryable)
+    if kind == ErrorKind.rate_limited:
+        assert error.retry_after == 3.0
+
+
+async def test_groq_timeout_and_connection_errors() -> None:
+    def timeout(request: httpx.Request) -> httpx.Response:
+        raise httpx.ReadTimeout("slow", request=request)
+
+    def refused(request: httpx.Request) -> httpx.Response:
+        raise httpx.ConnectError("refused", request=request)
+
+    assert (await _groq_error(timeout)).kind == ErrorKind.timeout
+    assert (await _groq_error(refused)).kind == ErrorKind.connection
+
+
+async def test_groq_truncated_refused_and_malformed_outputs() -> None:
+    error = await _groq_error(lambda r: httpx.Response(200, json=_completion('{"ok": tr', finish_reason="length")))
+    assert (error.kind, error.retryable, error.usage) == (ErrorKind.incomplete, False, (120, 30))
+
+    error = await _groq_error(lambda r: httpx.Response(200, json=_completion(None, refusal="I can't help with that.")))
+    assert (error.kind, error.retryable) == (ErrorKind.refusal, False)
+
+    error = await _groq_error(lambda r: httpx.Response(200, json=_completion("Sure! Here is the plan")))
+    assert (error.kind, error.retryable, error.usage) == (ErrorKind.malformed_response, True, (120, 30))
+
+    error = await _groq_error(lambda r: httpx.Response(200, json=_completion("[1, 2]")))
+    assert error.kind == ErrorKind.malformed_response
