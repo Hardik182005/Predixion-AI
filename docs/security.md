@@ -124,8 +124,8 @@ Tests:
 
 ### Privacy, logging, and retention
 
-- **Logs.** Structured JSON logs contain run IDs, status, stop reasons, timings, counts, and cost. They contain no question text or page content unless `LOG_CONTENT=true`. Keys never appear.
-- **Storage.** Questions, events, and reports are stored in SQLite, so the database file should be treated as user data.
+- **Logs.** Structured JSON logs contain run IDs, status, stop reasons, timings, counts, and cost. They contain no question text or page content unless `LOG_CONTENT=true`. Keys never appear. Unexpected exceptions are logged by error type and code location (`error`, `where`), not with the exception text, because validation and provider errors can quote the request or a page; the text is added only with `LOG_CONTENT=true` (`tests/test_acceptance.py::test_unexpected_exception_text_is_logged_only_with_log_content`).
+- **Storage.** Questions, events, and reports are stored in SQLite, so the database file should be treated as user data. A storage failure at the end of a run never leaves the run active in memory: the client is told the report was not saved, and the run is marked interrupted at the next start (`tests/test_acceptance.py`, finalization cases).
   - Terminal runs older than `RUN_RETENTION_DAYS` (default 7) are deleted at startup and periodically.
   - `DELETE /api/runs/{id}` removes a run immediately.
 - **Search cache.** The cache holds public web results only, in memory, with TTLs.

@@ -61,13 +61,21 @@ Point at the tagline and the evidence-card illustration. Click **Start research*
 ### 3:45–4:30 · How it is checked
 
 Show the terminal or the repository:
-- `uv run pytest` passes 219 backend tests offline.
+- `uv run pytest` passes 256 backend tests offline, including the frozen acceptance set for coverage, confidence, and storage failures.
 - `uv run predixion eval --mode fixture` runs the 8-scenario regression suite at no cost.
 - `evals/results/live-gpt-6.1-terra.md` holds the live comparison with a one-pass baseline. The agent covered about twice as many criteria; it was about 8× slower and 2.3× more expensive.
 
 Close with:
 
 > "The model proposes; the code decides. Every claim in the report either has a quoted source behind it or it is removed."
+
+### Optional 30 seconds · Evidence you can interrogate
+
+If there is time after the failure case, open any citation in the finished report and scroll to **Source dependencies** in the drawer:
+
+> "The drawer says which claims would lose every citation if this one source were wrong. It is computed from the report's own citation graph, offline, and it is labelled as a dependency analysis, not a new fact check."
+
+Then point at a conflict card labelled **Possible conflict, needs review**: both sides' claims, citations, and dates are shown, and the report says it does not take a side.
 
 ## Things to avoid saying
 

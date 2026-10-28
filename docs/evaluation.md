@@ -14,7 +14,7 @@ This page covers how Predixion AI was evaluated, what the results show, and what
   - covered about twice as many required criteria (12/30 vs 6/30),
   - was about 8× slower (median 65.8 s vs 8.2 s),
   - cost about 2.3× more ($0.53 vs $0.23 for 8 runs).
-- **Lexical claim support** did not favor the agent in that run: 33% of agent claims vs 48% of baseline claims. Spot checks suggest this mostly reflects the scorer, not ungrounded claims; see [Scoring](#scoring) and [Spot check](#spot-check-of-live-claims).
+- **Lexical claim support** did not favor the agent in that run: 33% of agent claims vs 48% of baseline claims. Spot checks suggest this mostly reflects the scorer, which is a proxy rather than a correctness measure; see [Scoring](#scoring) and [Spot check](#spot-check-of-live-claims).
 - **Model choice.** On the same 6 cases and prompt, `gpt-6-luna` cost 31% less per suite. It finished with all criteria satisfied in 2 of 6 runs; terra did in 4 of 6. `gpt-6.1-terra` stays the default.
 
 ## The suite
@@ -53,7 +53,7 @@ The checks are deterministic tests on the report structure (`_agent_checks` in `
 - Otherwise it is **not supported**.
 - A claim that uses a superlative or absolute word ("best", "fastest", "always", "guaranteed", and so on) that the quotes do not use is not supported.
 
-There is no LLM judge, on purpose. An LLM judge cannot certify that a claim is correct, and it would share blind spots with the model being tested. The lexical score is deterministic and cheap, but it is a conservative lower bound with two known biases:
+There is no LLM judge, on purpose. An LLM judge cannot certify that a claim is correct, and it would share blind spots with the model being tested. The lexical score is deterministic and cheap, but it is a proxy, not a bound: it has false negatives (below) and can also mark a wrong claim supported when it reuses the quote's words. Two known biases:
 - **Paraphrase scores low.** A faithful restatement in different words scores as partial or not supported.
 - **Claims about missing evidence score low.** The agent is told to say plainly when evidence is missing, for example "the reviewed evidence does not identify their licenses". By construction, the quotes do not contain those words.
 
@@ -63,21 +63,29 @@ There is no LLM judge, on purpose. An LLM judge cannot certify that a claim is c
 
 ## Confidence rubric
 
-The confidence shown on each report comes from code (`grounding.assess_confidence`), not from the model. There are no probabilities. It uses these rules, in order:
+The confidence shown on each report comes from code (`grounding.assess_confidence`), not from the model. There are no probabilities, and the rubric is not calibrated: High, Medium and Low are rule outcomes, listed with their reasons.
+
+Since the improvement pass (prompt `2026-10-28.4`, [improvements.md](improvements.md)) the rubric is built from the evidence that the **surviving claims actually cite**: the short answer, findings, comparison cells, and entity assertions after verification and removal. Retrieved pages that no claim cites do not count. Copies of a cited page (same content hash or a recorded duplicate link) count once, so "independent sites" means distinct registrable domains with distinct content.
+
+Rules, in order:
 
 1. **Low** if the run failed, found insufficient evidence, was cancelled or interrupted, or claim verification did not run.
 2. **High** if all of these hold:
-   - the run completed,
-   - every required criterion is supported,
-   - at least 90% of checked claims are fully supported,
-   - evidence comes from at least 3 independent sites (registrable domains),
-   - there are no unresolved conflicts,
-   - no required criterion rests only on old or undated sources,
-   - at most half of the evidence is first-party (vendor or company) material.
-3. **Medium** if at least 60% of required criteria are supported, at least 75% of checked claims are supported, and evidence comes from at least 2 sites.
+   - the run completed and every required criterion is supported (compound criteria count only when every part is),
+   - at least 90% of the kept, checked claims are fully supported,
+   - the short answer survived verification with at least one citation,
+   - no claim-level removal was material (the short answer was not removed, and at most a quarter of the claims were),
+   - there are no unresolved conflicts and no required criterion rests only on old or undated sources,
+   - every required **comparative** criterion has independent (non-first-party) cited evidence,
+   - the kept claims cite at least 2 independent sites, or 1 high-suitability source (official documentation, code repository, academic or government page) when every required criterion is a narrow, non-comparative, question-level fact.
+3. **Medium** if at least 60% of required criteria are supported, at least 75% of kept claims are supported, the kept claims cite at least 1 site, and the short answer is supported or at least one claim is.
 4. **Low** otherwise.
 
-The report lists the reasons, such as "4 of 4 required criteria are supported; 19 of 19 checked claims are fully supported; evidence comes from 5 independent sites", and stores the raw factors. The number of high-suitability sources is recorded but not used. The spot check below shows why that matters.
+First-party evidence is not penalized as such: a company's own page is the right evidence for its headquarters or its product's documented features. It is the wrong evidence for a comparative claim, which is what the comparative rule checks.
+
+The report lists the reasons, for example "4 of 4 required criteria are supported; 12 of 12 kept claims are fully supported; the kept claims cite 15 passages from 5 independent sites", and stores the raw factors (`claims_kept`, `claims_removed`, `cited_evidence`, `independent_domains`, `comparative_criteria_without_independent_evidence`, and so on). Results produced before the pass used the earlier rubric (which counted every retrieved passage and penalized first-party share above one half) and are not restated under the new one.
+
+Invariants the tests hold (`tests/test_acceptance.py`): adding uncited sources cannot raise confidence; a copy of a cited source is not corroboration; removing the only support for a required claim cannot improve the outcome; an unresolved conflict prevents High; a single authoritative primary source can establish a narrow documented fact; vendor-only comparative evidence prevents High however many sites it spans.
 
 ## Results
 
@@ -196,13 +204,12 @@ The development assistant (an AI, not the owner) compared four findings from the
 The run's own verifier marked 19 of 19 checked claims supported. The lexical scorer marked 1 of the report's 6 findings supported. This gap is why the lexical rate is called a lower bound. Four claims are too few to estimate an accuracy rate.
 
 **Problems seen while reading the sample reports:**
-- **Overstated confidence on the vector report.**
-  - The criterion "verify an open-source core and identify its license" is marked supported, although no license was found. Coverage is assessed per criterion, so a two-part criterion can pass when only one part is established.
-  - Confidence is High although none of the sources behind its evidence is rated high-suitability. They are third-party articles and vendor blogs from five sites. The rubric does not require high-suitability sources.
-  - Both are worth tightening.
+- **Overstated confidence on the vector report** (addressed in the improvement pass; see [improvements.md](improvements.md)).
+  - The criterion "verify an open-source core and identify its license" was marked supported although no license was found. The planner now lists such parts separately and each is tracked on its own.
+  - Confidence was High although the rubric counted every retrieved passage. It now counts only what the surviving claims cite, and comparative criteria need independent evidence.
 - **The HR discovery report confirms 1 of the 5 companies asked for.** It excludes the other candidates because the pages it read did not state their Indian origin or startup status. Leaving them out rather than padding is the intended behavior, but the answer falls far short of what was asked.
-- **Generic conflict entries.** The SQLite report on prompt `.2` lists two conflicts as "Sources disagree on K2 about SQLite. Unresolved." without saying what the disagreement is.
-- **Wide comparison tables.** The Markdown export uses the full criterion text as each column header.
+- **Generic conflict entries.** The SQLite report on prompt `.2` lists two conflicts as "Sources disagree on K2 about SQLite. Unresolved." without saying what the disagreement is. Code-detected conflicts now quote both sides with citations and dates and are labelled as possible conflicts needing review.
+- **Wide comparison tables.** The Markdown export uses the full criterion text as each column header; the UI now shows a short header with the full text as a tooltip and for screen readers.
 
 ## Measured performance
 
@@ -251,7 +258,7 @@ These are single runs with a Groq-planned criteria set, which was broader than t
 
 - **Small.** 8 cases, 4 of them from the assignment. One live run per configuration.
 - **Not held out.** The prompts were changed after looking at these cases.
-- **Lexical scoring only.** No human review and no LLM judge. Verification inside the app checks claims against quotes, not quotes against the world.
+- **Lexical scoring only.** No human review and no LLM judge. The lexical scorer is a proxy with false positives (a claim can share most words with a quote and still misstate it) as well as false negatives (paraphrase), so its rate is neither a floor nor a ceiling on correctness. Verification inside the app checks claims against quotes, not quotes against the world.
 - **Partly stale.** Two cases have not been run with terra on the current prompt.
 - **No load testing.** There is no measurement of concurrent runs beyond the unit tests of the concurrency limits.
-- **OpenAI only.** Every result here was produced before Groq routing existed. With `GROQ_API_KEY` set, plans and follow-ups come from Groq-hosted `gpt-oss` models, and their effect on quality has not been measured. One live plan call on 2026-10-28 returned a valid plan from `openai/gpt-oss-120b` (1,011 input and 1,204 output tokens, about $0.0009). Live eval results now record the routing settings under `routing`.
+- **Routing coverage is thin.** The full suite was run before Groq routing existed. The live runs since (audit and improvement pass, in `evals/results/audit-live-*.md` and `evals/results/improve-live-*.md`) used Groq-hosted `openai/gpt-oss-120b` for plans and follow-ups; that is a handful of single runs, not an evaluation of routing quality. Live eval results record the routing settings under `routing`.

@@ -45,10 +45,10 @@ Test paths are relative to the repository root. Unless marked live, every test r
 |---|---|---|---|
 | Evidence records: source ID, safe URL, title, retrieval time, publication metadata, content hash, passage, claim link | `contracts.Source`, `contracts.Evidence`; IDs assigned by code (`S1…`, `E1…`) | `tests/test_grounding.py::test_evidence_ids_continue_after_existing`, `::test_reference_check_removes_fake_evidence_ids` | Done |
 | Model selects IDs, never invents citations | Reference check drops unknown IDs; inline markers are parsed into IDs | `tests/test_orchestrator.py::test_fake_evidence_ids_are_dropped`, `tests/test_grounding.py::test_parse_draft_moves_inline_citations_into_evidence_ids` | Done |
-| Coverage tracking (supported, missing, conflicting, stale) guiding follow-up | `grounding.compute_coverage` and `gap_criteria`; the follow-up stage receives the gaps | `tests/test_orchestrator.py::test_contradictory_evidence_is_reported`, `tests/test_grounding.py::test_polarity_conflicts_are_detected_per_entity` | Done |
-| Entity eligibility checks | Eligibility criteria per entity; ineligible or unproven entities are excluded and listed separately | `tests/test_orchestrator.py::test_entity_without_eligibility_evidence_is_excluded`, `tests/test_grounding.py::test_discovery_comparison_keeps_only_listed_entities` | Done |
+| Coverage tracking (supported, missing, conflicting, stale) guiding follow-up | `grounding.compute_coverage` (per criterion and per entity; compound criteria split into parts by `normalize_plan`) and `gap_criteria`; the follow-up stage receives the gaps with the entities they are missing for, and `_cover_untargeted_gaps` guarantees a search for a required criterion nothing targets | `tests/test_acceptance.py` (compound criteria, per-entity freshness, untargeted gaps, slot spreading), `tests/test_orchestrator.py::test_contradictory_evidence_is_reported` | Done |
+| Entity eligibility checks | Eligibility criteria per entity, conjunctive: an entity is included only when every eligibility criterion is present and met for that entity; aliases match only after normalization | `tests/test_acceptance.py::test_entity_with_an_omitted_eligibility_check_is_not_included`, `::test_entity_aliases_match_conservatively`, `tests/test_orchestrator.py::test_entity_without_eligibility_evidence_is_excluded` | Done |
 | Useful partial completion with stop reason and next steps | `snapshot_report`, `StopReason`, `decide_status` | `tests/test_orchestrator.py::test_page_budget_yields_partial_report`, `::test_model_attempt_budget_yields_partial_report` | Done |
-| Coverage separate from confidence | `report.coverage` and `report.confidence` are computed separately (`grounding.assess_confidence`) | `tests/test_grounding.py` | Done |
+| Coverage separate from confidence | `report.coverage` and `report.confidence` are computed separately; confidence uses only evidence cited by surviving claims (`grounding.assess_confidence`) | `tests/test_grounding.py`, `tests/test_acceptance.py` (confidence invariants) | Done |
 
 ## Workflow and contracts
 
@@ -88,7 +88,7 @@ Test paths are relative to the repository root. Unless marked live, every test r
 | Passage validity (normalized exact match) | `grounding.validate_evidence`, `quote_in_passage` | `tests/test_grounding.py::test_evidence_rejections`, `tests/test_orchestrator.py::test_fabricated_extraction_is_rejected` | Done |
 | Semantic support, checked by a model verifier against only the cited passages | Verify stage | `tests/test_grounding.py::test_judge_rejects_real_quote_that_does_not_support_the_claim`, `tests/test_orchestrator.py::test_real_citation_that_does_not_support_the_claim_is_repaired` | Done |
 | Check short answer, table cells, recommendations, not only findings | `grounding.enumerate_claims` and `finalize_draft` cover every claim location | `tests/test_grounding.py::test_finalize_removes_unsupported_claims_everywhere`, `tests/test_orchestrator.py::test_unsupported_short_answer_is_replaced_without_repair` | Done |
-| Contradictions presented, not hidden | `conflicts` in the report; "Sources disagree" section | `tests/test_orchestrator.py::test_contradictory_evidence_is_reported`, Vitest | Done |
+| Contradictions presented, not hidden | `conflicts` in the report; code-detected conflicts quote both sides with citations and dates and are flagged `review_needed` | `tests/test_acceptance.py::test_code_detected_conflicts_quote_both_sides_and_ask_for_review`, `tests/test_orchestrator.py::test_contradictory_evidence_is_reported`, Vitest | Done |
 | High/Medium/Low rubric without fake probabilities | `grounding.assess_confidence` (rubric documented in [evaluation.md](evaluation.md)) | `tests/test_grounding.py` | Done |
 | One bounded repair, then remove or qualify | `MAX_REPAIR_CYCLES=1` | Orchestrator repair test | Done |
 
@@ -127,7 +127,7 @@ Details are in [security.md](security.md).
 | Start, status and report, SSE progress, cancel, health and readiness, CLI | `/api/runs` routes, `/healthz`, `/readyz`, `predixion ask` | `tests/test_api.py`, `tests/test_cli.py` | Done (paths under `/api/runs`; see README) |
 | Validated run IDs; scoped idempotency; conflicting reuse rejected | `RUN_ID_PATTERN`; owner-scoped unique index; `409 idempotency_conflict` | `tests/test_api.py::test_unknown_and_malformed_run_ids`, `tests/test_store_runs.py::test_idempotency_is_scoped_to_owner_and_request` | Done |
 | Bounded event buffers and connections; reconnect without restarting the run | `MAX_EVENTS_PER_RUN`, `MAX_SSE_PER_RUN`, `MAX_SSE_TOTAL`, `Last-Event-ID` replay | `tests/test_store_runs.py::test_event_cap_keeps_terminal_events`, Vitest reconnect test | Done |
-| Restart behavior defined | Marked `interrupted` on next start; graceful shutdown stores a snapshot report with evidence gathered so far. No checkpoint resumption. | `tests/test_store_runs.py::test_restart_marks_abandoned_runs_interrupted`, `::test_shutdown_interrupts_active_runs` | Done |
+| Restart behavior defined | Marked `interrupted` on next start; graceful shutdown stores a snapshot report with evidence gathered so far. No checkpoint resumption. Storage failure at the end of a run releases the run, tells clients the report was not saved, and is recovered as interrupted. | `tests/test_store_runs.py::test_restart_marks_abandoned_runs_interrupted`, `::test_shutdown_interrupts_active_runs`, `tests/test_acceptance.py` (finalization cases) | Done |
 
 ## Interface
 
@@ -143,7 +143,7 @@ Details are in [security.md](security.md).
 
 | Requirement | Implementation | Validation | Status |
 |---|---|---|---|
-| Listed test categories (plan validation, contracts, filtering, fake IDs and quotes, unsupported claims, contradictions, injection, URLs and rendering, provider errors, partial extraction, budgets, retries, cancellation, duplicates, restart, browser flows) | `tests/`, `frontend/src/**/*.test.*`, `frontend/e2e/` | 219 backend tests pass (1 live test skipped); 25 Vitest; 7 Playwright | Done |
+| Listed test categories (plan validation, contracts, filtering, fake IDs and quotes, unsupported claims, contradictions, injection, URLs and rendering, provider errors, partial extraction, budgets, retries, cancellation, duplicates, restart, browser flows) | `tests/`, `frontend/src/**/*.test.*`, `frontend/e2e/` | 256 backend tests pass (1 live test skipped); 27 Vitest; 7 Playwright | Done |
 | ≥8 eval scenarios, including the four examples, nonexistent, ambiguous, contradictory, provider failure | `src/predixion/fixtures/scenarios/*.json`, `evals.py` | `evals/results/` | Done |
 | One-pass baseline, same model; supported findings, coverage, abstention, latency, cost; live separate from fixture | `evals.run_baseline` | [evaluation.md](evaluation.md) | Done |
 | LLM judge cannot certify; manual inspection; no false attribution | Lexical scorer; representative claims inspected by the development assistant (not the owner) | [evaluation.md](evaluation.md) | Done |
@@ -157,3 +157,4 @@ Details are in [security.md](security.md).
 | Checkpoint resumption | Not done; runs are marked interrupted instead |
 | Generated frontend types | Not done; types are hand-mirrored |
 | Second search provider | Not done; the adapter interface allows it |
+| Source-dependency drill ("what depends on this source?") | Done: `dependencies.py`, `predixion deps`, `GET /api/runs/{id}/dependencies`, evidence-drawer section; offline, non-mutating (`tests/test_dependencies.py`) |

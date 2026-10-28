@@ -21,6 +21,7 @@ uv run ruff check . && uv run ruff format --check .
 uv run pytest                             # ~8 s, offline
 uv run predixion eval --mode fixture      # offline regression suite; exit 0 = all agent checks pass
 uv run predixion ask "question" --mode fixture
+uv run predixion deps report.json --source S1   # offline source-dependency analysis
 uv run predixion serve                    # http://127.0.0.1:8000
 
 cd frontend
@@ -43,6 +44,7 @@ uv run predixion eval --mode live --max-spend 0.50 --scenario vector_db_comparis
 - **One retry owner.** `reliability.call_with_retries` owns retries; SDK retries stay off (`max_retries=0`). Provider adapters classify errors and never retry on their own.
 - **Fixed provider endpoints.** They are constants in `config.py`, never configuration.
 - **Prompt changes.** Bump `PROMPT_VERSION` in `config.py` whenever prompt text changes, then rerun the fixture eval.
+- **Acceptance set.** `tests/test_acceptance.py` holds independently labelled cases for coverage, confidence, conflicts, and finalization under storage failure. Add a case there when you change those rules; never derive its expected values from the code under test.
 - **Grounded claims only.** Every claim must cite evidence IDs that exist in the run. Quotes must appear in the page text.
 - **Logging.** Never log question or page text unless `settings.log_content` is set. Never log keys.
 - **Untrusted text.** Frontend renders untrusted text as text only. Use `safeHttpUrl` for every link.

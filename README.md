@@ -65,6 +65,7 @@ uv run predixion samples
 uv run predixion token --user NAME        # prints a new token and the API_TOKEN_HASHES line for it
 uv run predixion eval --mode fixture      # offline regression suite
 uv run predixion eval --mode live --max-spend 1.0 --save-reports DIR
+uv run predixion deps report.json --source S3   # offline: which claims depend on one source
 ```
 
 ### API
@@ -79,6 +80,7 @@ All errors use the shape `{"error": {"code": "...", "message": "..."}}`.
 | `GET /api/runs/{run_id}/events` | SSE progress stream. Resumes after `Last-Event-ID`; ends with a status event whose `data.terminal` is true. |
 | `POST /api/runs/{run_id}/cancel` | Cancel a queued or running run. |
 | `GET /api/runs/{run_id}/export?format=md\|json` | Download the report. |
+| `GET /api/runs/{run_id}/dependencies?source=S3` | Offline source-dependency analysis of the stored report: which claims would lose every citation without that source (and its recorded copies). No provider calls. |
 | `DELETE /api/runs/{run_id}` | Delete a run. |
 | `GET /api/config`, `GET /api/samples` | UI configuration and sample questions. |
 | `GET /healthz`, `GET /readyz` | Liveness and readiness. |
@@ -87,7 +89,7 @@ Run IDs match `^run_[0-9a-f]{24}$`. Anything else is rejected before any lookup.
 
 **`/api/runs` instead of `/research`.** The assignment describes a `/research` endpoint. This API uses `/api/runs` because a research request is a long-running job: POST creates the job, and the client then follows it, reconnects, cancels it, or exports it. This keeps the API under one `/api` prefix and leaves `/research` free for UI routes. A synchronous `/research` that blocked for a minute would time out behind most proxies and could not report progress.
 
-**Execution guarantees.** Runs execute as asyncio tasks inside the server process. A run's time limit starts when it gets an execution slot, not when it is queued. They are not durable: if the process stops, active runs are marked `interrupted` on the next start, and their clients receive a terminal event. Delivery is not exactly-once. Events are numbered, persisted, and replayed after `Last-Event-ID`, and the client discards duplicates. Idempotency keys are scoped to the caller. Reusing a key with a different request body returns `409 idempotency_conflict`.
+**Execution guarantees.** Runs execute as asyncio tasks inside the server process. A run's time limit starts when it gets an execution slot, not when it is queued. They are not durable: if the process stops, active runs are marked `interrupted` on the next start, and their clients receive a terminal event. Delivery is not exactly-once. Events are numbered, persisted, and replayed after `Last-Event-ID`, and the client discards duplicates. If the report cannot be saved when a run ends, the run is still released and its terminal event says `persisted: false`; the UI tells the user nothing was kept, and the next start marks the run interrupted. Durable terminal state is not guaranteed while the database is unavailable. Idempotency keys are scoped to the caller. Reusing a key with a different request body returns `409 idempotency_conflict`.
 
 ## Architecture
 
@@ -190,11 +192,17 @@ Adding persistence or human-in-the-loop steps would make a graph framework more 
 1. **Evidence is quoted.** The model must copy a passage from a page. A quote that does not appear in the page text after normalization is rejected.
 2. **Claims cite evidence IDs.** Citations to unknown IDs are removed. Inline markers such as "(E3)" are moved into the citation list.
 3. **Every claim is verified** against only the passages it cites. Unsupported claims are repaired once and otherwise removed, and partly supported claims are qualified.
-4. **Coverage is computed by code**, per criterion. Missing criteria are reported as missing. A comparative criterion supported only by first-party (vendor) sources counts as weak. A criterion backed only by old or undated sources is marked stale.
+4. **Coverage is computed by code**, per criterion and, for comparisons and discovery, per entity. A compound requirement the planner lists in parts ("open-source core" and "license identified") becomes one criterion per part, so a parent counts as covered only when every part has evidence. Evidence for one candidate never satisfies, or freshens, another candidate's requirement, and the coverage note names the entities that still lack evidence. A comparative criterion supported only by first-party (vendor) sources counts as weak. A criterion backed only by old or undated sources is marked stale.
 5. **Discovery lists are never padded.** An entity is listed only if evidence shows it meets every eligibility condition.
 6. **Page text is data, not instructions.** It is screened for instruction-like text and passed to the model inside delimited blocks, and the model has no tools to call.
 
 These measures check that claims match their sources. They cannot check that the sources are right.
+
+**Confidence** (High, Medium, Low) is computed by code from the evidence the surviving claims actually cite, not from everything retrieved: uncited pages and copies of a cited page cannot raise it, comparative criteria need independent evidence, a removed short answer or an unresolved conflict rules out High, and one authoritative source can establish a narrow documented fact. The rubric is in [docs/evaluation.md](docs/evaluation.md#confidence-rubric); it is not calibrated and shows no probabilities.
+
+**Conflicts** found by code (opposite-polarity evidence about the same entity and criterion) are shown with both sides' claims, citations, and dates, and labelled "possible conflict, needs review", because the code checks only that the passages address the same entity and criterion, not the same version or conditions. Conflicts the model describes and resolves say how they were resolved.
+
+**Source dependencies.** The evidence drawer, `predixion deps`, and `GET /api/runs/{id}/dependencies` answer "what depends on this source?" from the report's own claim graph, offline: which claims would lose every citation without it, which keep some. It is a dependency analysis, not a new fact check.
 
 ### What remains before public production use?
 
@@ -211,7 +219,8 @@ These measures check that claims match their sources. They cannot check that the
 - **Latency:** p50/p95 per run and per stage, plus time to first event.
 - **Cost:** per run and per day, tokens, Tavily credits, and how often budget or deadline stops occur.
 - **Providers:** error rates by kind and retry counts.
-- **Evidence quality:** the evidence rejection rate (quotes not found), claims removed or qualified by verification, and the share of reports with unresolved criteria.
+- **Evidence quality:** the evidence rejection rate (quotes not found), claims removed or qualified by verification, the share of reports with unresolved criteria, and the share of code-detected conflicts.
+- **Persistence:** terminal events with `persisted: false` (a run finished but its report could not be saved) and runs marked interrupted at startup.
 - **Safety and capacity:** injection-screen hits, SSE connection counts, and queue depth.
 
 Structured JSON logs already carry run ID, status, stop reason, duration, model calls, and cost. They contain no question text unless `LOG_CONTENT=true`.
@@ -261,8 +270,8 @@ CI (`.github/workflows/ci.yml`) runs:
 - Verification checks claims against quotes, not quotes against reality. A wrong source can produce a confidently cited wrong claim.
 - Live runs take about a minute. The default 120 s deadline can end a run with a partial answer.
 - Cost figures are estimates from configured list prices, not invoices.
-- Groq routing is not covered by the evaluation. Plans and follow-ups from the Groq-hosted models may differ in quality from OpenAI's.
-- Confidence can be overstated. Coverage is judged per criterion, so a two-part criterion ("open source, and identify the license") can count as supported when only one part is established. The confidence rubric also does not require high-suitability sources. One live sample shows both; see [docs/evaluation.md](docs/evaluation.md#spot-check-of-live-claims).
+- Groq routing has only a few live runs behind it (the audit and improvement runs in `evals/results/`); plans and follow-ups from the Groq-hosted models may differ in quality from OpenAI's. The full suite was run before routing existed.
+- Confidence depends on the planner listing the parts of a compound criterion. If it bundles two requirements into one criterion without parts, coverage is judged on the pair as one; the prompt asks for parts, and the live samples before this change show what the bundling looked like ([docs/evaluation.md](docs/evaluation.md#spot-check-of-live-claims)).
 - Discovery questions can return far fewer entities than requested, because entities are included only when the pages read state every condition.
 - Runs are not durable across restarts (see [Execution guarantees](#api)).
 - The evaluation suite is small (8 scenarios). It was used during development, so its results are optimistic for unseen questions.

@@ -65,6 +65,21 @@ This project used AI in two separate ways:
   - `urls.py`: URL safety.
 - **The repository license.** None has been chosen, and that decision belongs to the owner.
 
+## Targeted improvement session
+
+**Tool:** Claude Code in a cloud session (claude.ai/code), Claude Fable 5.1 model, on 2026-10-28, starting from `main` at `a7ec4d0`, on the branch `feature/evidence-quality`. The report is [docs/improvements.md](docs/improvements.md).
+
+**What it did:**
+- Wrote a frozen acceptance set (`tests/test_acceptance.py`) with independently authored expectations and ran it against the unchanged code first, so every defect below has a recorded "before".
+- Changed the planning contract so compound criteria are listed in parts, made coverage per entity, made eligibility conjunctive per entity, tightened alias matching, and rebuilt the confidence rubric on the evidence that surviving claims cite.
+- Made code-detected conflicts quote both sides and flag themselves for review; shortened comparison headers in the UI.
+- Reproduced and fixed finalization under storage failure, made stream-slot release idempotent, and stopped exception text from reaching logs unless `LOG_CONTENT` is on.
+- Added the offline source-dependency drill (`predixion deps`, an API endpoint, and a drawer section) with tests showing it makes no provider calls.
+- Ran the fixture evaluation, the backend, frontend and browser suites, and a small live check within a $1 cap; results and their limits are in `docs/improvements.md`.
+- Updated the documentation that had gone stale (test counts, the removed branch, Groq evaluation claims) and this file.
+
+**What was not done:** no model change, no new provider, no change to the resource limits, and no human review. The held-out questions in `evals/heldout.md` were written before tuning; their results, where run, are reported as held-out only if no change was made because of them.
+
 ## Runtime LLM use
 
 **OpenAI model.** The application calls an OpenAI model through the Responses API with strict JSON-schema outputs.
