@@ -1,0 +1,47 @@
+[project]
+name = "predixion"
+version = "0.1.0"
+description = "Predixion AI: a bounded research agent that answers questions with evidence you can inspect."
+readme = "README.md"
+authors = [
+    { name = "Hardik182005", email = "148485624+Hardik182005@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "openai>=3.40.0",
+    "pydantic>=2.14.1",
+    "pydantic-settings>=2.16.1",
+    "uvicorn>=0.54.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.11,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1",
+    "ruff>=0.17.3",
+]
+
+[project.scripts]
+predixion = "predixion.cli:main"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["live: calls real providers; skipped unless PREDIXION_LIVE_TESTS=1"]
+
+[tool.ruff]
+line-length = 130
+target-version = "py313"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF", "ASYNC"]
+ignore = ["E501", "RUF001", "RUF002", "RUF003", "SIM105", "UP047", "ASYNC109"]
