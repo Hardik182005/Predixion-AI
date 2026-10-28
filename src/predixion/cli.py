@@ -5,6 +5,7 @@ predixion ask "question" [...]     run one research task and print the report
 predixion samples                  list fixture sample questions
 predixion token --user NAME        create an API token and its config line
 predixion eval [...]               run the evaluation suite
+predixion deps REPORT.json --source S3   what in a saved report depends on one source (offline)
 """
 
 from __future__ import annotations
@@ -143,6 +144,30 @@ def cmd_token(args: argparse.Namespace, _: Settings) -> int:
     return 0
 
 
+def cmd_deps(args: argparse.Namespace, _: Settings) -> int:
+    import json
+    from dataclasses import asdict
+
+    from .contracts import ResearchReport
+    from .dependencies import render_dependencies, source_dependencies
+
+    try:
+        report = ResearchReport.model_validate_json(Path(args.report).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        print(f"Could not read the report: {type(exc).__name__}.", file=sys.stderr)
+        return 2
+    try:
+        analysis = source_dependencies(report, args.source, include_duplicates=not args.no_duplicates)
+    except KeyError:
+        print(f"Unknown source id {args.source!r}; the report has {', '.join(s.id for s in report.sources)}.", file=sys.stderr)
+        return 2
+    if args.json:
+        print(json.dumps(asdict(analysis), indent=2, default=str))
+    else:
+        print(render_dependencies(analysis))
+    return 0
+
+
 def cmd_eval(args: argparse.Namespace, settings: Settings) -> int:
     from .evals import main as eval_main
 
@@ -174,6 +199,13 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("token", help="create an API token")
     p.add_argument("--user", required=True)
     p.set_defaults(func=cmd_token)
+
+    p = sub.add_parser("deps", help="offline source-dependency analysis of a saved report")
+    p.add_argument("report", help="report JSON (from --json, the API export, or --save-reports)")
+    p.add_argument("--source", required=True, help="source id to remove, e.g. S3")
+    p.add_argument("--no-duplicates", action="store_true", help="remove only this source, not its recorded copies")
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(func=cmd_deps)
 
     p = sub.add_parser("eval", help="run the evaluation suite")
     p.add_argument("--mode", choices=[m.value for m in Mode], default="fixture")

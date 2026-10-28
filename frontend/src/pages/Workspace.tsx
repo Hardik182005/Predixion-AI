@@ -262,6 +262,11 @@ function RunPage({ runId, config }: { runId: string; config: ServerConfig | null
         {(actionError || retryError) && (
           <Notice tone="error" role="alert" title={actionError ?? retryError ?? ""} />
         )}
+        {run.unsaved && (
+          <Notice tone="error" role="alert" title="The run finished, but its report could not be saved on the server.">
+            Nothing from this run is kept. Use Retry to run it again once the server's storage is working.
+          </Notice>
+        )}
         {error && view && (
           <Notice tone="error" role="alert" title="Lost the live connection to this run.">
             {error.message}{" "}

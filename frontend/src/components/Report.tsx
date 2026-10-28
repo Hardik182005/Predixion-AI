@@ -73,6 +73,15 @@ function StatusNotice({ report }: { report: ResearchReport }) {
   }
 }
 
+/** Table headers stay short; the full criterion text is available as a tooltip and to screen readers. */
+export function shortCriterion(text: string): string {
+  const head = text.split(/:\s|\s[—–-]\s/)[0]?.trim() ?? text;
+  if (head.length <= 48 && head.length < text.length) return head;
+  if (text.length <= 48) return text;
+  const cut = text.slice(0, 48);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), 24))}…`;
+}
+
 function SourceRow({ source }: { source: Source }) {
   return (
     <li className="flex flex-col gap-0.5 py-2 sm:flex-row sm:items-baseline sm:gap-3">
@@ -155,11 +164,16 @@ export function Report({ report }: { report: ResearchReport }) {
                     <th scope="col" className="p-3 font-semibold">
                       Option
                     </th>
-                    {report.comparison.criteria.map((id) => (
-                      <th key={id} scope="col" className="p-3 font-semibold">
-                        {criteria.get(id) ?? id}
-                      </th>
-                    ))}
+                    {report.comparison.criteria.map((id) => {
+                      const full = criteria.get(id) ?? id;
+                      const short = shortCriterion(full);
+                      return (
+                        <th key={id} scope="col" className="p-3 font-semibold" title={full}>
+                          {short}
+                          {short !== full && <span className="sr-only"> ({full})</span>}
+                        </th>
+                      );
+                    })}
                   </tr>
                 </thead>
                 <tbody>
@@ -241,10 +255,17 @@ export function Report({ report }: { report: ResearchReport }) {
             <ul className="space-y-3">
               {report.conflicts.map((c, i) => (
                 <li key={i} className="rounded-xl border-2 border-ink p-4 text-sm leading-relaxed">
+                  {c.review_needed && (
+                    <p className="mb-1 text-xs font-medium tracking-wide text-muted uppercase">Possible conflict, needs review</p>
+                  )}
                   <p>
                     {c.description} <Citations ids={c.evidence_ids} />
                   </p>
-                  {c.resolution && <p className="mt-1 text-muted">How the report handles it: {c.resolution}</p>}
+                  {c.resolution ? (
+                    <p className="mt-1 text-muted">How the report handles it: {c.resolution}</p>
+                  ) : (
+                    <p className="mt-1 text-muted">Unresolved: the report does not take a side.</p>
+                  )}
                 </li>
               ))}
             </ul>

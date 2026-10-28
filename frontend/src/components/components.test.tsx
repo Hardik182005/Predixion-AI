@@ -7,8 +7,9 @@ import type { RunState } from "../lib/useRun";
 import hrtechJson from "../test/report-hrtech.json";
 import sqliteJson from "../test/report-sqlite.json";
 import vectorJson from "../test/report-vector.json";
+import { sourceDependencies } from "./EvidenceDrawer";
 import { QuestionForm } from "./QuestionForm";
-import { Report } from "./Report";
+import { Report, shortCriterion } from "./Report";
 import { RunProgress } from "./RunProgress";
 
 const fixture = (json: unknown) => structuredClone(json) as ResearchReport;
@@ -178,6 +179,7 @@ function runState(overrides: Partial<RunState & { terminal: boolean }>): RunStat
     connection: "live",
     reconnectAttempt: 0,
     error: null,
+    unsaved: false,
     terminal: false,
     ...overrides,
   };
@@ -208,5 +210,32 @@ describe("RunProgress", () => {
     expect(screen.getByRole("status", { name: "" })).toBeDefined();
     expect(screen.getByText("Connection lost. Reconnecting…")).toBeInTheDocument();
     expect(screen.getByText(/Attempt 2\./)).toBeInTheDocument();
+  });
+});
+
+describe("evidence helpers", () => {
+  it("shortens comparison headers but keeps short ones whole", () => {
+    expect(shortCriterion("Licensing: whether the license permits proprietary use without viral obligations")).toBe("Licensing");
+    expect(shortCriterion("Open-source license")).toBe("Open-source license");
+    const long = shortCriterion("Community and ecosystem including release cadence, connectors and documentation quality");
+    expect(long.length).toBeLessThanOrEqual(49);
+    expect(long.endsWith("…")).toBe(true);
+  });
+
+  it("lists which claims depend on a source without calling anything", () => {
+    const report = vectorJson as unknown as ResearchReport;
+    const sourceId = report.evidence[0]!.source_id;
+    const deps = sourceDependencies(report, sourceId);
+    const sourceOf = new Map(report.evidence.map((e) => [e.id, e.source_id]));
+    for (const id of deps.only) {
+      const claim = report.claims!.find((c) => c.id === id)!;
+      expect(claim.evidence_ids.every((e) => sourceOf.get(e) === sourceId)).toBe(true);
+    }
+    for (const id of deps.shared) {
+      const claim = report.claims!.find((c) => c.id === id)!;
+      expect(claim.evidence_ids.some((e) => sourceOf.get(e) === sourceId)).toBe(true);
+      expect(claim.evidence_ids.every((e) => sourceOf.get(e) === sourceId)).toBe(false);
+    }
+    expect(sourceDependencies(report, "S999")).toEqual({ only: [], shared: [] });
   });
 });

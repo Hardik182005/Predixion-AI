@@ -16,7 +16,7 @@ OPENAI_BASE_URL = "https://api.openai.com/v1"
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 TAVILY_BASE_URL = "https://api.tavily.com"
 
-PROMPT_VERSION = "2026-10-28.3"
+PROMPT_VERSION = "2026-10-28.4"
 
 # Model task names (prompts.Task values), listed here so settings can be validated without importing prompts.
 MODEL_TASKS = frozenset({"plan", "extract", "follow_up", "synthesize", "verify", "repair", "baseline"})

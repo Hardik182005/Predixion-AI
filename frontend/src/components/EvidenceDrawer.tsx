@@ -56,6 +56,38 @@ function sourceCaveats(evidence: Evidence, source: Source | undefined): string[]
   return notes;
 }
 
+/** Claims that cite this evidence's source, split by whether the source is their only citation. Offline, from the report's own claim graph. */
+export function sourceDependencies(report: ResearchReport, sourceId: string) {
+  const sourceOf = new Map(report.evidence.map((e) => [e.id, e.source_id]));
+  const only: string[] = [];
+  const shared: string[] = [];
+  for (const claim of report.claims ?? []) {
+    const ids = claim.evidence_ids.filter((id) => sourceOf.has(id));
+    if (ids.length === 0 || !ids.some((id) => sourceOf.get(id) === sourceId)) continue;
+    (ids.every((id) => sourceOf.get(id) === sourceId) ? only : shared).push(claim.id);
+  }
+  return { only, shared };
+}
+
+function SourceDependencies({ report, sourceId }: { report: ResearchReport; sourceId: string }) {
+  const deps = sourceDependencies(report, sourceId);
+  const n = (k: number, word: string) => `${k} ${word}${k === 1 ? "" : "s"}`;
+  return (
+    <section aria-labelledby="ev-deps">
+      <h3 id="ev-deps" className="eyebrow">
+        Source dependencies
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-neutral-700">
+        {deps.only.length > 0
+          ? `${n(deps.only.length, "claim")} (${deps.only.join(", ")}) cite only this source and would lose every citation without it.`
+          : "No claim relies on this source alone."}
+        {deps.shared.length > 0 && ` ${n(deps.shared.length, "other claim")} also cite it alongside other sources.`}{" "}
+        <span className="text-muted">Source-dependency analysis, not a new fact check: a remaining citation may support only part of a claim.</span>
+      </p>
+    </section>
+  );
+}
+
 function EvidenceDrawer({
   evidence,
   source,
@@ -153,6 +185,8 @@ function EvidenceDrawer({
               <p className="mt-3 text-sm text-muted">No safe link is available for this source.</p>
             )}
           </section>
+
+          {source && (report.claims?.length ?? 0) > 0 && <SourceDependencies report={report} sourceId={source.id} />}
 
           <section aria-labelledby="ev-limits">
             <h3 id="ev-limits" className="eyebrow">

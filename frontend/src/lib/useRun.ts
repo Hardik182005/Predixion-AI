@@ -31,6 +31,8 @@ export interface RunState {
   connection: Connection;
   reconnectAttempt: number;
   error: ApiError | null;
+  /** The run ended but the server could not save its report (terminal event with persisted: false). */
+  unsaved: boolean;
 }
 
 type Action =
@@ -51,6 +53,7 @@ const initial: RunState = {
   connection: "idle",
   reconnectAttempt: 0,
   error: null,
+  unsaved: false,
 };
 
 const MAX_EVENTS_KEPT = 500;
@@ -69,6 +72,7 @@ function reducer(state: RunState, action: Action): RunState {
       const next: RunState = { ...state, events: [...state.events, event].slice(-MAX_EVENTS_KEPT) };
       const data = event.data ?? {};
       if (event.type === "status" && typeof data.status === "string") next.status = data.status as RunStatus;
+      if (event.type === "status" && data.terminal === true && data.persisted === false) next.unsaved = true;
       if (event.type === "stage" && event.stage) {
         next.currentStage = event.stage;
         if (!state.stagesSeen.includes(event.stage)) next.stagesSeen = [...state.stagesSeen, event.stage];

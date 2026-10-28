@@ -236,6 +236,9 @@ class Criterion(Model):
     needs_freshness: bool = False
     comparative: bool = False  # comparative/performance claims need independent evidence
     key_terms: list[str] = Field(default_factory=list, max_length=8)
+    # When the planner lists a compound requirement, each part becomes its own criterion and `group`
+    # names the parent, so a parent counts as covered only when every part has evidence.
+    group: str | None = None
 
 
 class PlannedQuery(Model):
@@ -381,6 +384,9 @@ class Conflict(Model):
     evidence_ids: list[str] = Field(default_factory=list)
     entity: str | None = None
     resolution: str | None = None
+    # True when the conflict was detected by code from opposite-polarity evidence and has not been
+    # characterized by the model: a possible conflict that needs a human read, not a settled one.
+    review_needed: bool = False
 
 
 class CriterionCoverage(Model):
@@ -392,6 +398,8 @@ class CriterionCoverage(Model):
     evidence_ids: list[str] = Field(default_factory=list)
     independent_sources: int = 0
     note: str | None = None
+    missing_entities: list[str] = Field(default_factory=list)  # entities with no evidence for this criterion
+    stale_entities: list[str] = Field(default_factory=list)  # entities whose only evidence is old or undated
 
 
 # ---------------------------------------------------------------------------

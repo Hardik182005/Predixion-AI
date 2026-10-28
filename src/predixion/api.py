@@ -20,6 +20,7 @@ from fastapi import Depends, FastAPI, Header, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, Response, StreamingResponse
+from starlette.background import BackgroundTask
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import __version__
@@ -36,7 +37,7 @@ from .contracts import (
     StartRunResponse,
 )
 from .fixtures import sample_questions
-from .logs import configure_logging, log
+from .logs import configure_logging, error_location, log
 from .render import render_markdown
 from .runs import RunError, RunManager
 from .store import Store
@@ -194,8 +195,17 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return _error(exc.status_code, code, str(exc.detail) if exc.status_code != 404 else "Not found.")
 
     @app.exception_handler(Exception)
-    async def _unhandled(_: Request, exc: Exception) -> JSONResponse:
-        logger.exception("unhandled error")
+    async def _unhandled(request: Request, exc: Exception) -> JSONResponse:
+        # Exception text can quote the request body; it is logged only with LOG_CONTENT on.
+        log(
+            logger,
+            logging.ERROR,
+            "unhandled error",
+            error=type(exc).__name__,
+            where=error_location(exc),
+            path=request.url.path,
+            **({"detail": str(exc)[:500]} if settings.log_content else {}),
+        )
         return _error(500, "internal_error", "Internal server error.")
 
     app.state.auth_mode = settings.auth_mode
@@ -298,7 +308,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         if last_event_id and last_event_id.isdigit():
             after_seq = max(after_seq, int(last_event_id))
         mgr = manager(request)
-        mgr.acquire_stream(run_id)
+        slot = mgr.acquire_stream(run_id)
 
         async def body() -> AsyncIterator[bytes]:
             try:
@@ -307,12 +317,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 async for event in mgr.stream(run_id, user, after_seq):
                     yield b": ping\n\n" if event is None else _sse(event)
             finally:
-                mgr.release_stream(run_id)
+                slot.release()
 
+        # The background task releases the slot even if the body generator is never started (a client
+        # that disconnects before the first byte); release is idempotent, so both paths are safe.
         return StreamingResponse(
             body(),
             media_type="text/event-stream",
             headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no", "Connection": "keep-alive"},
+            background=BackgroundTask(slot.release),
         )
 
     @app.post("/api/runs/{run_id}/cancel", status_code=202)
@@ -343,6 +356,26 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             media_type="text/markdown; charset=utf-8",
             headers={"Content-Disposition": disposition},
         )
+
+    @app.get("/api/runs/{run_id}/dependencies")
+    async def dependencies(
+        run_id: str, request: Request, user: Owner, source: Annotated[str, Query(min_length=2, max_length=8)]
+    ) -> dict[str, Any]:
+        """Offline source-dependency analysis of the stored report; no provider calls."""
+        from dataclasses import asdict
+
+        from .dependencies import source_dependencies
+
+        view = store(request).get_run(check_run_id(run_id), user)
+        if view is None:
+            raise APIError(404, "not_found", "Run not found.")
+        if view.report is None:
+            raise APIError(409, "report_not_ready", "The run has not produced a report yet.")
+        try:
+            analysis = source_dependencies(view.report, source)
+        except KeyError:
+            raise APIError(404, "unknown_source", "No such source in this report.") from None
+        return asdict(analysis)
 
     @app.delete("/api/runs/{run_id}", status_code=204)
     async def delete(run_id: str, request: Request, user: Owner) -> Response:

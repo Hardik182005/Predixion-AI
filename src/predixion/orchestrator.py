@@ -99,6 +99,8 @@ TIER_WEIGHT = {SourceTier.high: 0.2, SourceTier.medium: 0.1, SourceTier.low: 0.0
 MAX_PER_DOMAIN = 2
 NEAR_DUPLICATE_JACCARD = 0.85
 MIN_RESEARCH_SECONDS_FOR_ROUND = 25.0
+MAX_CRITERIA = 8  # contracts.ResearchPlan allows at most 8; compound criteria split into parts share this bound
+MAX_CRITERION_PARTS = 4
 PROVIDER_FAILURE_KINDS = {
     ErrorKind.auth: StopReason.provider_auth_error,
     ErrorKind.quota: StopReason.provider_unavailable,
@@ -384,7 +386,9 @@ class ResearchRun:
         async with self._stage(Stage.filter, "Filtering and ranking sources"):
             limit = self._round_page_limit(round_no)
             chosen = list(dict.fromkeys(reads))[:limit]
-            # Follow-up rounds favor sources that match the gap-closing queries.
+            if round_no > 1 and queries:
+                # Spread follow-up slots across the gaps: the best new hit of each gap query first, then by rank.
+                chosen += self._best_per_query(queries, limit - len(chosen), exclude=set(chosen))
             prefer = [q.text for q in queries] if round_no > 1 else None
             chosen += self._select_candidates(limit - len(chosen), exclude=set(chosen), prefer=prefer)
             granted = self.budget.reserve_pages(len(chosen))
@@ -492,6 +496,35 @@ class ResearchRun:
         self.by_canonical[canonical] = sid
         return sid
 
+    def _best_per_query(self, queries: list[PlannedQuery], limit: int, *, exclude: set[str]) -> list[str]:
+        chosen: list[str] = []
+        per_domain = self._domain_counts(exclude)
+        for q in queries:
+            if len(chosen) >= limit:
+                break
+            found = [
+                s
+                for s in self.sources.values()
+                if s.state == SourceState.candidate and q.id in s.query_ids and s.id not in exclude and s.id not in chosen
+            ]
+            found.sort(key=lambda s: s.rank_score + 0.3 * term_overlap(f"{s.title} {s.snippet}", [q.text]), reverse=True)
+            for s in found:
+                d = registrable_domain(s.url)
+                if per_domain.get(d, 0) >= MAX_PER_DOMAIN:
+                    continue
+                chosen.append(s.id)
+                per_domain[d] = per_domain.get(d, 0) + 1
+                break
+        return chosen
+
+    def _domain_counts(self, exclude: set[str]) -> dict[str, int]:
+        per_domain: dict[str, int] = {}
+        for s in self.sources.values():
+            if s.state in (SourceState.read, SourceState.duplicate) or s.id in exclude:
+                d = registrable_domain(s.url)
+                per_domain[d] = per_domain.get(d, 0) + 1
+        return per_domain
+
     def _select_candidates(self, limit: int, *, exclude: set[str], prefer: list[str] | None = None) -> list[str]:
         if limit <= 0:
             return []
@@ -500,11 +533,7 @@ class ResearchRun:
             for s in candidates:
                 s.rank_score = round(s.rank_score + 0.3 * term_overlap(f"{s.title} {s.snippet}", prefer), 4)
         candidates.sort(key=lambda s: s.rank_score, reverse=True)
-        per_domain: dict[str, int] = {}
-        for s in self.sources.values():
-            if s.state in (SourceState.read, SourceState.duplicate) or s.id in exclude:
-                d = registrable_domain(s.url)
-                per_domain[d] = per_domain.get(d, 0) + 1
+        per_domain = self._domain_counts(exclude)
         chosen = []
         for s in candidates:
             d = registrable_domain(s.url)
@@ -772,6 +801,7 @@ class ResearchRun:
         if not actions:
             actions = self._fallback_actions(gaps)
         queries, reads = self._validate_actions(actions, gap_ids, {c.id for c in candidates}, next_round)
+        queries = self._cover_untargeted_gaps(gaps, queries, reads, next_round)
         self.emit(
             EventType.plan,
             f"Follow-up: {len(queries)} search{'es' if len(queries) != 1 else ''}, {len(reads)} source read{'s' if len(reads) != 1 else ''} for {len(gaps)} gap{'s' if len(gaps) != 1 else ''}",
@@ -779,31 +809,70 @@ class ResearchRun:
         )
         return queries, reads
 
+    def _gap_query(self, gap: CriterionCoverage) -> str:
+        """A verification query for one gap: the first entity it is missing for, plus the criterion's terms."""
+        assert self.plan is not None
+        c = next(x for x in self.plan.criteria if x.id == gap.criterion_id)
+        subject = gap.missing_entities[0] if gap.missing_entities else ""
+        if not subject and gap.stale_entities:
+            subject = gap.stale_entities[0]
+        if not subject and self.plan.candidate_entities:
+            subject = " ".join(self.plan.candidate_entities[:2])
+        terms = " ".join(c.key_terms[:4]) or c.description
+        return f"{subject} {terms}".strip()[:200]
+
     def _fallback_actions(self, gaps: list[CriterionCoverage]) -> list[dict[str, Any]]:
         """Rule-based follow-up used when the model is unavailable or the budget is tight."""
-        assert self.plan is not None
-        crit = {c.id: c for c in self.plan.criteria}
-        actions = []
-        for gap in gaps[: self.settings.max_queries_per_round]:
-            c = crit[gap.criterion_id]
-            subject = ""
-            if gap.note and gap.note.startswith("No evidence for:"):
-                subject = gap.note.removeprefix("No evidence for:").strip(" .").split(",")[0]
-            elif self.plan.candidate_entities:
-                subject = " ".join(self.plan.candidate_entities[:2])
-            terms = " ".join(c.key_terms[:4]) or c.description
-            query = f"{subject} {terms}".strip()[:200]
-            actions.append(
-                {
-                    "tool": "search_web",
-                    "query": query,
-                    "topic": "general",
-                    "source_ids": [],
-                    "criterion_ids": [c.id],
-                    "reason": "rule-based gap query",
-                }
+        ordered = sorted(gaps, key=lambda g: (not g.required, g.status != CoverageStatus.missing))
+        return [
+            {
+                "tool": "search_web",
+                "query": self._gap_query(gap),
+                "topic": "general",
+                "source_ids": [],
+                "criterion_ids": [gap.criterion_id],
+                "reason": "rule-based gap query",
+            }
+            for gap in ordered[: self.settings.max_queries_per_round]
+        ]
+
+    def _cover_untargeted_gaps(
+        self, gaps: list[CriterionCoverage], queries: list[PlannedQuery], reads: list[str], next_round: int
+    ) -> list[PlannedQuery]:
+        """A required gap with no evidence at all gets a search even if the model spent its actions elsewhere.
+
+        Seen live: the model chose to read benchmark candidates while the licensing criterion, which no
+        candidate addressed, stayed missing. Reads cannot close a gap no candidate covers.
+        """
+        targeted = {cid for q in queries for cid in q.criterion_ids}
+        if reads:
+            for sid in reads:
+                targeted.update(self.sources[sid].query_ids and self._criteria_of_queries(self.sources[sid].query_ids))
+        previous = [set(tokenize(q.text)) for q in [*self.queries, *queries]]
+        for gap in gaps:
+            if len(queries) >= self.settings.max_queries_per_round:
+                break
+            if not gap.required or gap.status != CoverageStatus.missing or gap.criterion_id in targeted:
+                continue
+            text = self._gap_query(gap)
+            words = set(tokenize(text))
+            if len(text) < 2 or any(words and len(words & p) / max(1, len(words | p)) >= 0.8 for p in previous):
+                continue
+            previous.append(words)
+            queries.append(
+                PlannedQuery(
+                    id=f"Q{len(self.queries) + len(queries) + 1}",
+                    text=text,
+                    purpose="search for a required criterion that no action targeted",
+                    criterion_ids=[gap.criterion_id],
+                    round=next_round,
+                )
             )
-        return actions
+            targeted.add(gap.criterion_id)
+        return queries
+
+    def _criteria_of_queries(self, query_ids: list[str]) -> set[str]:
+        return {cid for q in self.queries if q.id in query_ids for cid in q.criterion_ids}
 
     def _validate_actions(
         self, actions: list[dict[str, Any]], gap_ids: set[str], candidate_ids: set[str], next_round: int
@@ -906,7 +975,7 @@ class ResearchRun:
                 await self._repair(failing)
 
         async with self._stage(Stage.finalize, "Finalizing report"):
-            removed = finalize_draft(draft)
+            removed = finalize_draft(draft, [c.id for c in self.plan.criteria if c.kind == CriterionKind.eligibility])
             verification.removed_claims = removed[:20]
             verification.claims_checked = len(refs)
             for ref in refs:
@@ -1124,10 +1193,15 @@ class ResearchRun:
             ref.claim.text, ref.claim.evidence_ids, ref.claim.repaired = text, ids, False
             apply_verdict(ref, verdict, issue)
 
+    def _polarity_conflicts(self) -> list[Conflict]:
+        criteria = {c.id: c for c in self.plan.criteria} if self.plan else {}
+        return polarity_conflicts(self.evidence, self.sources, criteria)
+
     def _merge_conflicts(self, model_conflicts: list[Conflict]) -> list[Conflict]:
+        """Model-described conflicts first; code-detected ones (flagged for review) fill in what the model missed."""
         conflicts = list(model_conflicts)
         covered = {(tuple(c.criterion_ids), c.entity) for c in conflicts}
-        for c in polarity_conflicts(self.evidence):
+        for c in self._polarity_conflicts():
             if (tuple(c.criterion_ids), c.entity) not in covered:
                 conflicts.append(c)
         return conflicts[:10]
@@ -1226,6 +1300,7 @@ class ResearchRun:
             sources=self.sources,
             conflicts=conflicts,
             verification_ran=verification_ran,
+            criteria=self.plan.criteria,
         )
         return ResearchReport(
             run_id=self.run_id,
@@ -1295,6 +1370,7 @@ class ResearchRun:
             sources=self.sources,
             conflicts=[],
             verification_ran=False,
+            criteria=plan.criteria if plan else None,
         )
         return ResearchReport(
             run_id=self.run_id,
@@ -1309,7 +1385,7 @@ class ResearchRun:
             evidence=self.evidence,
             coverage=coverage,
             unresolved_criteria=[c.criterion_id for c in coverage if c.required and c.status != CoverageStatus.supported],
-            conflicts=polarity_conflicts(self.evidence),
+            conflicts=self._polarity_conflicts(),
             confidence=confidence,
             limitations=self._limitations([], False),
             assumptions=(plan.assumptions if plan else []),
@@ -1378,30 +1454,41 @@ def normalize_plan(data: dict[str, Any], *, question: str, max_queries: int) -> 
     except ValueError:
         task_type = TaskType.explainer
     criteria: list[Criterion] = []
-    id_map: dict[str, str] = {}
+    id_map: dict[str, list[str]] = {}  # planner id -> application ids (several when a criterion was split into parts)
     for raw in (data.get("criteria") or [])[:6]:
         desc = text(raw.get("description"), 300)
         if not desc:
             continue
-        cid = f"K{len(criteria) + 1}"
-        id_map[str(raw.get("id") or cid)] = cid
         try:
             kind = CriterionKind(raw.get("kind"))
         except ValueError:
             kind = CriterionKind.general
-        criteria.append(
-            Criterion(
-                id=cid,
-                description=desc,
-                kind=kind,
-                required=bool(raw.get("required", True)),
-                needs_freshness=bool(raw.get("needs_freshness")),
-                comparative=bool(raw.get("comparative")),
-                key_terms=texts(raw.get("key_terms"), 6, 40),
+        parts = texts(raw.get("parts"), MAX_CRITERION_PARTS, 120)
+        # A compound requirement becomes one criterion per part; each part is tracked and reported on its own.
+        pieces = [(f"{desc}: {part}", desc) for part in parts] if len(parts) >= 2 else [(desc, None)]
+        planner_id = str(raw.get("id") or f"K{len(criteria) + 1}")
+        for description, group in pieces:
+            if len(criteria) >= MAX_CRITERIA:
+                break
+            cid = f"K{len(criteria) + 1}"
+            id_map.setdefault(planner_id, []).append(cid)
+            criteria.append(
+                Criterion(
+                    id=cid,
+                    description=description,
+                    kind=kind,
+                    required=bool(raw.get("required", True)),
+                    needs_freshness=bool(raw.get("needs_freshness")),
+                    comparative=bool(raw.get("comparative")),
+                    key_terms=texts(raw.get("key_terms"), 6, 40),
+                    group=group,
+                )
             )
-        )
     if not criteria:
         criteria = [Criterion(id="K1", description=text(question, 300), kind=CriterionKind.general, required=True)]
+    if not any(c.required for c in criteria):
+        # A plan with nothing required would count as satisfied with no evidence at all; every criterion is required instead.
+        criteria = [c.model_copy(update={"required": True}) for c in criteria]
     queries: list[PlannedQuery] = []
     seen: set[str] = set()
     for raw in data.get("queries") or []:
@@ -1409,7 +1496,7 @@ def normalize_plan(data: dict[str, Any], *, question: str, max_queries: int) -> 
         if len(q) < 2 or q.casefold() in seen:
             continue
         seen.add(q.casefold())
-        crit_ids = [id_map[c] for c in raw.get("criterion_ids") or [] if c in id_map]
+        crit_ids = [cid for c in raw.get("criterion_ids") or [] for cid in id_map.get(c, [])]
         queries.append(
             PlannedQuery(
                 id=f"Q{len(queries) + 1}",

@@ -77,6 +77,8 @@ export interface Criterion {
   description: string;
   kind: CriterionKind;
   required: boolean;
+  /** Parent requirement when the planner split a compound criterion into parts. */
+  group?: string | null;
 }
 
 export interface PlannedQuery {
@@ -170,6 +172,8 @@ export interface CriterionCoverage {
   evidence_ids: string[];
   independent_sources: number;
   note: string | null;
+  missing_entities?: string[];
+  stale_entities?: string[];
 }
 
 export interface Conflict {
@@ -178,6 +182,8 @@ export interface Conflict {
   evidence_ids: string[];
   entity: string | null;
   resolution: string | null;
+  /** Detected by code from opposite-polarity evidence; a possible conflict that needs a human read. */
+  review_needed?: boolean;
 }
 
 export interface VerificationSummary {
@@ -246,9 +252,20 @@ export interface ResearchReport {
   assumptions: string[];
   next_steps: string[];
   plan: ResearchPlan | null;
+  /** Every checked statement with its citations; used offline for source-dependency lookups. */
+  claims?: Claim[];
   verification: VerificationSummary;
   execution: ExecutionInfo;
   created_at: string;
+}
+
+export interface Claim {
+  id: string;
+  location: "short_answer" | "finding" | "comparison_cell" | "entity" | "eligibility";
+  kind: "fact" | "interpretation" | "recommendation";
+  text: string;
+  evidence_ids: string[];
+  verdict: SupportVerdict;
 }
 
 export interface RunEvent {

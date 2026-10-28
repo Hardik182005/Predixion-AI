@@ -57,14 +57,32 @@ EVIDENCE_ID_RE = re.compile(r"^E\d{1,4}$")
 # Evidence
 
 
+LEGAL_SUFFIXES = frozenset({"inc", "ltd", "limited", "llc", "pvt", "corp", "corporation", "co", "gmbh", "plc", "sa", "ag", "bv"})
+
+
+def _alias_token(name: str) -> str:
+    """Normalized name with trailing legal-form words removed ("Keka Technologies Pvt Ltd" -> "kekatechnologies")."""
+    words = [entity_token(w) for w in name.replace(",", " ").replace(".", " ").split()]
+    words = [w for w in words if w]
+    while len(words) > 1 and words[-1] in LEGAL_SUFFIXES:
+        words.pop()
+    return "".join(words)
+
+
 def canonical_entity(name: str | None, known: list[str]) -> str | None:
+    """Map a name to a known entity only when the names are the same after normalization.
+
+    Normalization lowercases, drops punctuation, and removes trailing legal-form words. Nothing
+    looser: "Kekatech" is not "Keka", "Milvus Lite" is not "Milvus", and "Zoho People" is kept
+    distinct from "Zoho". Different names stay separate entities with their own provenance.
+    """
     if not name or not name.strip():
         return None
     name = " ".join(name.split())[:80]
-    token = entity_token(name)
+    token = _alias_token(name)
     for k in known:
-        kt = entity_token(k)
-        if kt and (kt == token or (len(kt) >= 4 and (kt in token or token in kt))):
+        kt = _alias_token(k)
+        if kt and kt == token:
             return k
     return name
 
@@ -168,6 +186,15 @@ def _required_entities(plan: ResearchPlan) -> list[str]:
     return []
 
 
+MAX_NAMED_ENTITIES = 6
+
+
+def _names(entities: list[str]) -> str:
+    shown = entities[:MAX_NAMED_ENTITIES]
+    more = f" and {len(entities) - MAX_NAMED_ENTITIES} more" if len(entities) > MAX_NAMED_ENTITIES else ""
+    return ", ".join(shown) + more
+
+
 def compute_coverage(
     plan: ResearchPlan,
     evidence: list[Evidence],
@@ -176,12 +203,16 @@ def compute_coverage(
     today: date,
     extra_conflicts: list[Conflict] | None = None,
 ) -> list[CriterionCoverage]:
+    """Per-criterion coverage. For comparisons and discovery it is judged per entity: evidence for one
+    candidate never satisfies, or freshens, another candidate's requirement."""
     by_criterion: dict[str, list[Evidence]] = defaultdict(list)
     for e in evidence:
         for cid in e.criterion_ids:
             by_criterion[cid].append(e)
     conflicted = {cid for c in extra_conflicts or [] for cid in c.criterion_ids}
     entities = _required_entities(plan)
+    # Discovery: every entity seen in any evidence is a candidate whose eligibility must be established.
+    seen_entities = list(dict.fromkeys([*plan.candidate_entities, *(e.entity for e in evidence if e.entity)]))
     out: list[CriterionCoverage] = []
     for crit in plan.criteria:
         ev = by_criterion.get(crit.id, [])
@@ -189,8 +220,16 @@ def compute_coverage(
         domains = {registrable_domain(sources[e.source_id].url) for e in ev}
         status = CoverageStatus.supported
         note = None
+        missing_entities: list[str] = []
+        stale_entities: list[str] = []
         if not ev:
             status, note = CoverageStatus.missing, "No evidence found in reviewed sources."
+            if crit.kind == CriterionKind.dimension and entities:
+                missing_entities = list(entities)
+            elif plan.task_type == TaskType.entity_discovery and crit.kind == CriterionKind.eligibility:
+                missing_entities = list(seen_entities)
+            if missing_entities:
+                note = "Not established for: " + _names(missing_entities) + "."
         else:
             # Opposite polarity about the same entity is a conflict.
             polarity_by_entity: dict[str | None, set[str]] = defaultdict(set)
@@ -208,19 +247,36 @@ def compute_coverage(
                     status, note = CoverageStatus.weak, "Only low-suitability sources (aggregators, forums, listicles)."
                 elif crit.kind == CriterionKind.dimension and entities:
                     covered = {e.entity for e in supporting}
-                    missing = [name for name in entities if name not in covered]
-                    if missing:
-                        status, note = CoverageStatus.weak, "No evidence for: " + ", ".join(missing) + "."
+                    missing_entities = [name for name in entities if name not in covered]
+                    if missing_entities:
+                        status, note = CoverageStatus.weak, "Not established for: " + _names(missing_entities) + "."
                 elif plan.task_type == TaskType.entity_discovery and crit.kind == CriterionKind.eligibility:
                     found = {e.entity for e in supporting if e.entity}
+                    missing_entities = [name for name in seen_entities if name not in found]
                     target = plan.target_entity_count or 1
                     if len(found) < target:
-                        status, note = CoverageStatus.weak, f"Evidence for {len(found)} of {target} requested entities."
+                        status = CoverageStatus.weak
+                        note = f"Established for {len(found)} of {target} requested entities."
+                        if missing_entities:
+                            note += " Not established for: " + _names(missing_entities) + "."
                 if status == CoverageStatus.supported and crit.needs_freshness:
-                    freshness = [source_is_fresh(sources[e.source_id], plan.freshness_days, today) for e in supporting]
-                    if not any(f is True for f in freshness):
-                        window = f"{plan.freshness_days} days" if plan.freshness_days else "the freshness window"
-                        status, note = CoverageStatus.stale, f"No supporting source is dated within {window}."
+                    window = f"{plan.freshness_days} days" if plan.freshness_days else "the freshness window"
+                    per_entity = crit.kind == CriterionKind.dimension and entities
+                    groups = (
+                        {name: [e for e in supporting if e.entity == name] for name in entities}
+                        if per_entity
+                        else {None: supporting}
+                    )
+                    for name, group in groups.items():
+                        fresh = [source_is_fresh(sources[e.source_id], plan.freshness_days, today) for e in group]
+                        if group and not any(f is True for f in fresh):
+                            stale_entities.append(name or "")
+                    if stale_entities:
+                        status = CoverageStatus.stale
+                        if per_entity:
+                            note = f"No source dated within {window} for: " + _names(stale_entities) + "."
+                        else:
+                            note, stale_entities = f"No supporting source is dated within {window}.", []
         out.append(
             CriterionCoverage(
                 criterion_id=crit.id,
@@ -231,6 +287,8 @@ def compute_coverage(
                 evidence_ids=[e.id for e in ev],
                 independent_sources=len(domains),
                 note=note,
+                missing_entities=missing_entities[:20],
+                stale_entities=stale_entities[:20],
             )
         )
     return out
@@ -241,25 +299,55 @@ def gap_criteria(coverage: list[CriterionCoverage]) -> list[CriterionCoverage]:
 
 
 def required_satisfied(coverage: list[CriterionCoverage]) -> bool:
-    return all(c.status == CoverageStatus.supported for c in coverage if c.required)
+    """True only when there is at least one required criterion and every required criterion is supported."""
+    required = [c for c in coverage if c.required]
+    return bool(required) and all(c.status == CoverageStatus.supported for c in required)
 
 
-def polarity_conflicts(evidence: list[Evidence]) -> list[Conflict]:
-    """Deterministic conflicts: supporting and contradicting evidence for the same criterion and entity."""
-    groups: dict[tuple[str, str | None], dict[str, list[str]]] = defaultdict(lambda: defaultdict(list))
+def _side(e: Evidence, sources: dict[str, Source] | None) -> str:
+    src = sources.get(e.source_id) if sources else None
+    where = f"{src.domain}" if src else e.source_id
+    dated = f", dated {src.published_at}" if src and src.published_at else ", undated"
+    claim = e.claim.rstrip(".")
+    return f"{claim} ({e.id}, {where}{dated})"
+
+
+def polarity_conflicts(
+    evidence: list[Evidence],
+    sources: dict[str, Source] | None = None,
+    criteria: dict[str, Criterion] | None = None,
+) -> list[Conflict]:
+    """Possible conflicts detected by code: supporting and contradicting evidence for the same criterion and entity.
+
+    The description quotes each side's claim with its citation and date so the reader can judge the
+    disagreement. These are flagged `review_needed`: the code checks that both sides address the same
+    entity and criterion, not that they address the same version, period, or workload.
+    """
+    groups: dict[tuple[str, str | None], dict[str, list[Evidence]]] = defaultdict(lambda: defaultdict(list))
     for e in evidence:
         for cid in e.criterion_ids:
-            groups[(cid, e.entity)][e.polarity].append(e.id)
+            groups[(cid, e.entity)][e.polarity].append(e)
     conflicts = []
     for (cid, entity), pol in groups.items():
         if pol.get("supports") and pol.get("contradicts"):
-            who = f" about {entity}" if entity else ""
+            crit = criteria.get(cid) if criteria else None
+            topic = crit.description if crit else cid
+            who = f" for {entity}" if entity else ""
+            pro, con = pol["supports"][:2], pol["contradicts"][:2]
+            description = (
+                f'Possible conflict on "{topic}"{who}. One side: '
+                + "; ".join(_side(e, sources) for e in pro)
+                + ". The other side: "
+                + "; ".join(_side(e, sources) for e in con)
+                + ". The passages may describe different versions, dates, or conditions; read both before relying on either."
+            )
             conflicts.append(
                 Conflict(
-                    description=f"Sources disagree on {cid}{who}.",
+                    description=description[:900],
                     criterion_ids=[cid],
-                    evidence_ids=pol["supports"][:3] + pol["contradicts"][:3],
+                    evidence_ids=[e.id for e in pol["supports"][:3]] + [e.id for e in pol["contradicts"][:3]],
                     entity=entity,
+                    review_needed=True,
                 )
             )
     return conflicts
@@ -470,8 +558,12 @@ def apply_verdict(ref: ClaimRef, verdict: SupportVerdict, issue: str | None) -> 
         ref.target.note = "Not verified: the verification step could not run."
 
 
-def finalize_draft(draft: Draft) -> list[str]:
-    """Remove claims marked `removed` from the report. Returns the removed texts."""
+def finalize_draft(draft: Draft, eligibility_ids: list[str] | None = None) -> list[str]:
+    """Remove claims marked `removed` from the report. Returns the removed texts.
+
+    `eligibility_ids` are the plan's eligibility criteria: an entity stays included only when every one
+    of them is present and met for that entity, so a missing check cannot pass as a met one.
+    """
     removed: list[str] = []
     sa = draft.short_answer
     if sa.disposition == ClaimDisposition.removed or not sa.text:
@@ -518,6 +610,12 @@ def finalize_draft(draft: Draft) -> list[str]:
         if ent.included and any(chk.status != EligibilityStatus.met for chk in ent.eligibility):
             ent.included = False
             ent.exclusion_reason = ent.exclusion_reason or "Eligibility not confirmed by verified evidence."
+        if ent.included and eligibility_ids:
+            met = {chk.criterion_id for chk in ent.eligibility if chk.status == EligibilityStatus.met}
+            unchecked = [cid for cid in eligibility_ids if cid not in met]
+            if unchecked:
+                ent.included = False
+                ent.exclusion_reason = "Eligibility not established for: " + ", ".join(unchecked) + "."
     if draft.comparison and draft.entities:
         # In discovery runs the table compares only the entities that made the list.
         included = [e.name for e in draft.entities if e.included]
@@ -572,28 +670,83 @@ def assess_confidence(
     sources: dict[str, Source],
     conflicts: list[Conflict],
     verification_ran: bool,
+    criteria: list[Criterion] | None = None,
 ) -> ConfidenceAssessment:
-    """Deterministic High/Medium/Low rubric (documented in README and docs/evaluation.md)."""
+    """Deterministic High/Medium/Low rubric built from the evidence the final claims actually cite.
+
+    Only evidence cited by a claim that survived verification counts. Retrieved-but-uncited pages
+    cannot raise confidence, a copy of a cited page is not a second source, and a comparative
+    criterion needs independent (non-first-party) cited evidence. One authoritative primary source
+    can establish a narrow documented fact; a comparison needs more than one site. The rubric is
+    documented in docs/evaluation.md; it is not calibrated and shows no probabilities.
+    """
     required = [c for c in coverage if c.required] or coverage
     req_supported = sum(1 for c in required if c.status == CoverageStatus.supported)
     req_rate = req_supported / len(required) if required else 0.0
-    judged = [r for r in refs if r.claim.verdict != SupportVerdict.unchecked]
-    supported = sum(1 for r in judged if r.claim.verdict == SupportVerdict.supported)
-    support_rate = supported / len(judged) if judged else 0.0
-    cited_sources = {e.source_id for e in evidence}
-    domains = {registrable_domain(sources[s].url) for s in cited_sources if s in sources}
-    high_tier = sum(1 for s in cited_sources if sources[s].tier == SourceTier.high)
-    first_party_share = (sum(1 for e in evidence if e.first_party) / len(evidence)) if evidence else 0.0
-    unresolved_conflicts = [c for c in conflicts if not c.resolution]
     stale = sum(1 for c in required if c.status == CoverageStatus.stale)
     weak = sum(1 for c in required if c.status == CoverageStatus.weak)
+    unresolved_conflicts = [c for c in conflicts if not c.resolution]
+
+    kept = [r for r in refs if r.target.disposition != ClaimDisposition.removed]
+    removed_count = len(refs) - len(kept)
+    judged = [r for r in kept if r.claim.verdict != SupportVerdict.unchecked]
+    supported = sum(1 for r in judged if r.claim.verdict == SupportVerdict.supported)
+    support_rate = supported / len(judged) if judged else 0.0
+    answer = next((r for r in refs if r.claim.location == ClaimLocation.short_answer), None)
+    answer_supported = (
+        answer is not None
+        and answer.target.disposition != ClaimDisposition.removed
+        and answer.claim.verdict in (SupportVerdict.supported, SupportVerdict.partially_supported)
+        and bool(answer.target.evidence_ids)
+    )
+
+    cited_ids = {eid for r in kept for eid in r.target.evidence_ids}
+    cited = [e for e in evidence if e.id in cited_ids]
+    cited_source_ids = {e.source_id for e in cited if e.source_id in sources}
+    # Provenance: one site per registrable domain, and copies of the same content count once.
+    hashes: set[str] = set()
+    domains: set[str] = set()
+    for sid in cited_source_ids:
+        src = sources[sid]
+        if src.content_hash and src.content_hash in hashes:
+            continue
+        if src.content_hash:
+            hashes.add(src.content_hash)
+        domains.add(registrable_domain(src.url))
+    high_tier_cited = sum(1 for sid in cited_source_ids if sources[sid].tier == SourceTier.high)
+    first_party_share = (sum(1 for e in cited if e.first_party) / len(cited)) if cited else 0.0
+    by_criterion: dict[str, list[Evidence]] = defaultdict(list)
+    for e in cited:
+        for cid in e.criterion_ids:
+            by_criterion[cid].append(e)
+    crit_map = {c.id: c for c in criteria or []}
+    comparative_required = [c for c in required if crit_map.get(c.criterion_id) and crit_map[c.criterion_id].comparative]
+    comparative_without_independent = [
+        c.criterion_id for c in comparative_required if not any(not e.first_party for e in by_criterion.get(c.criterion_id, []))
+    ]
+    # A narrow documented fact: nothing comparative, nothing per-entity, and an authoritative cited source.
+    narrow_fact = (
+        not comparative_required
+        and all(
+            crit_map.get(c.criterion_id) is None or crit_map[c.criterion_id].kind != CriterionKind.dimension for c in required
+        )
+        and high_tier_cited >= 1
+    )
+    material_removal = (answer is not None and answer.target.disposition == ClaimDisposition.removed) or (
+        refs and removed_count / len(refs) > 0.25
+    )
 
     factors: dict[str, str | float | int] = {
         "required_criteria_supported": f"{req_supported}/{len(required)}",
         "claim_support_rate": round(support_rate, 2),
+        "claims_kept": len(kept),
+        "claims_removed": removed_count,
+        "short_answer_supported": "yes" if answer_supported else "no",
+        "cited_evidence": len(cited),
         "independent_domains": len(domains),
-        "high_suitability_sources": high_tier,
+        "high_suitability_sources": high_tier_cited,
         "first_party_evidence_share": round(first_party_share, 2),
+        "comparative_criteria_without_independent_evidence": len(comparative_without_independent),
         "unresolved_conflicts": len(unresolved_conflicts),
         "stale_required_criteria": stale,
         "weak_required_criteria": weak,
@@ -609,30 +762,40 @@ def assess_confidence(
         status == RunStatus.completed
         and req_rate == 1.0
         and support_rate >= 0.9
-        and len(domains) >= 3
+        and answer_supported
         and not unresolved_conflicts
         and stale == 0
-        and first_party_share <= 0.5
+        and not comparative_without_independent
+        and not material_removal
+        and (len(domains) >= 2 or narrow_fact)
     ):
         level = Confidence.high
-    elif req_rate >= 0.6 and support_rate >= 0.75 and len(domains) >= 2:
+    elif req_rate >= 0.6 and support_rate >= 0.75 and len(domains) >= 1 and (answer_supported or supported >= 1):
         level = Confidence.medium
     else:
         level = Confidence.low
 
     reasons = [
         f"{req_supported} of {len(required)} required criteria are supported",
-        f"{supported} of {len(judged)} checked claims are fully supported" if judged else "no claims could be checked",
-        f"evidence comes from {len(domains)} independent site{'s' if len(domains) != 1 else ''}",
+        f"{supported} of {len(judged)} kept claims are fully supported" if judged else "no claims could be checked",
+        f"the kept claims cite {len(cited)} passage{'s' if len(cited) != 1 else ''} from {len(domains)} independent site{'s' if len(domains) != 1 else ''}",
     ]
+    if not answer_supported and answer is not None:
+        reasons.append("the short answer was not supported by its citations")
+    if removed_count:
+        reasons.append(f"{removed_count} claim{'s were' if removed_count != 1 else ' was'} removed as unsupported")
     if unresolved_conflicts:
         reasons.append(f"{len(unresolved_conflicts)} unresolved conflict{'s' if len(unresolved_conflicts) != 1 else ''}")
     if stale:
         reasons.append(f"{stale} required criteri{'a are' if stale != 1 else 'on is'} supported only by old or undated sources")
     if weak:
         reasons.append(f"{weak} required criteri{'a have' if weak != 1 else 'on has'} only weak evidence")
-    if first_party_share > 0.5:
-        reasons.append("most evidence is first-party (vendor or company) material")
+    if comparative_without_independent:
+        reasons.append(
+            f"{len(comparative_without_independent)} comparative criteri{'a lack' if len(comparative_without_independent) != 1 else 'on lacks'} independent (non-vendor) evidence"
+        )
+    if level == Confidence.high and narrow_fact and len(domains) < 2:
+        reasons.append("a single authoritative source establishes a narrow documented fact")
     if not verification_ran:
         reasons.append("claim verification did not run")
     explanation = f"{level.value.capitalize()}: " + "; ".join(reasons) + "."

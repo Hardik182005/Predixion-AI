@@ -33,10 +33,14 @@ from .conftest import (
         ("agent_memory", RunStatus.completed, StopReason.criteria_satisfied, Confidence.high),
         ("ambiguous_mercury", RunStatus.completed, StopReason.criteria_satisfied, Confidence.high),
         ("contradictory_sqlite", RunStatus.partial, StopReason.rounds_exhausted, Confidence.medium),
-        ("hr_tech_india", RunStatus.completed, StopReason.criteria_satisfied, Confidence.medium),
+        # hr_tech_india and vector_databases were Medium under the earlier rubric only because more than half of
+        # their evidence was first-party. The rubric now penalizes first-party evidence only where it is the wrong
+        # kind (comparative criteria without independent support); company pages are the right evidence for a
+        # company's own headquarters and positioning, and the fixtures' comparative criteria have independent evidence.
+        ("hr_tech_india", RunStatus.completed, StopReason.criteria_satisfied, Confidence.high),
         ("multi_agent_support", RunStatus.completed, StopReason.criteria_satisfied, Confidence.high),
         ("nonexistent_entity", RunStatus.insufficient_evidence, StopReason.diminishing_returns, Confidence.low),
-        ("vector_databases", RunStatus.completed, StopReason.criteria_satisfied, Confidence.medium),
+        ("vector_databases", RunStatus.completed, StopReason.criteria_satisfied, Confidence.high),
     ],
 )
 async def test_scenario_outcomes(settings, scenario_id: str, status: RunStatus, stop: StopReason, confidence: Confidence) -> None:

@@ -95,6 +95,7 @@ Produce a research plan:
   - needs_freshness: true when the answer depends on current state (funding, pricing, versions, rankings, "latest").
   - comparative: true when the criterion involves superiority, performance, popularity, or market position. Such claims need independent sources, not only vendor pages.
   - key_terms: up to 6 short search terms specific to the criterion.
+  - parts: when one criterion bundles materially distinct requirements (for example "has an open-source core" and "its license is identified", or "headquartered in India" and "sells B2B SaaS"), list each requirement as a short part, at most 4. The parts are tracked separately and the criterion counts as covered only when every part has evidence. Leave parts empty for a single requirement.
 - freshness_days: how recent sources should be when freshness matters (for example 365), else null.
 - queries: up to {max_queries} first-round web search queries, each under 200 characters, plain keywords without search operators, together covering every required criterion. Use topic "news" only for recent events. criterion_ids lists the criteria a query targets.
 - steps: 3 to 6 short steps describing the research approach.
@@ -123,6 +124,7 @@ PLAN_SCHEMA = obj(
                     "needs_freshness": BOOL,
                     "comparative": BOOL,
                     "key_terms": arr(STR),
+                    "parts": arr(STR),
                 }
             )
         ),
@@ -176,7 +178,12 @@ Two tools are available:
 - "read_sources": read candidate sources already found but not yet read. Set source_ids to ids from the candidate list only.
 - "search_web": run a new web search. Set query to a specific query under 200 characters that differs from previous queries. Use topic "news" only for recent events.
 
-Choose at most {{max_actions}} actions. Each action must target gap criteria (criterion_ids) and give a short reason. Prefer reading a promising unread candidate over a new search. Set stop to true with no actions when the remaining gaps are unlikely to be resolved by public web sources, and explain why in stop_reason."""
+Choose at most {{max_actions}} actions. Each action must target gap criteria (criterion_ids) and give a short reason.
+- A gap whose note names specific entities ("Not established for: X, Y") is closed by verification: search for that entity and the missing condition together (for example "X headquarters founded"), or read a candidate page about that entity. Prefer the entity's own site or documentation for facts about itself.
+- A gap with status "missing" and no candidate that addresses it needs a new search; do not spend the action on a candidate that covers a different criterion.
+- Read a promising unread candidate instead of searching only when its title or snippet addresses the gap.
+- Do not repeat or lightly rephrase a previous query, and do not choose more listicle or "top N" pages for entities that already appear in the evidence.
+Set stop to true with no actions when the remaining gaps are unlikely to be resolved by public web sources, and explain why in stop_reason."""
 
 FOLLOW_UP_SCHEMA = obj(
     {

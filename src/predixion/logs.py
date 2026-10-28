@@ -73,3 +73,14 @@ def configure_logging(settings: Settings) -> None:
 
 def log(logger: logging.Logger, level: int, msg: str, **fields: Any) -> None:
     logger.log(level, msg, extra={"fields": fields})
+
+
+def error_location(exc: BaseException) -> str:
+    """'module.py:line' of the innermost application frame, for logs that must not carry exception text."""
+    import traceback
+    from pathlib import Path
+
+    frames = traceback.extract_tb(exc.__traceback__) if exc.__traceback__ else []
+    own = [f for f in frames if "predixion" in f.filename]
+    frame = (own or frames)[-1] if (own or frames) else None
+    return f"{Path(frame.filename).name}:{frame.lineno}" if frame else "unknown"

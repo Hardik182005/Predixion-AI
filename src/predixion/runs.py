@@ -35,7 +35,7 @@ from .contracts import (
 )
 from .fixtures import FixtureExtract, FixtureModel, FixtureSearch, match_scenario
 from .llm import GroqModel, ModelRoutes, OpenAIModel, live_routes
-from .logs import log
+from .logs import error_location, log
 from .orchestrator import Providers, ResearchRun
 from .store import Store
 from .tools import TavilyClient, TTLCache
@@ -54,6 +54,20 @@ class RunError(Exception):
         super().__init__(message)
         self.code = code
         self.message = message
+
+
+class StreamSlot:
+    """One event-stream connection's share of the stream limits. `release` is idempotent: both the
+    response body's `finally` and the response's background task call it, whichever runs."""
+
+    def __init__(self, manager: RunManager, run_id: str) -> None:
+        self._manager, self.run_id, self._released = manager, run_id, False
+
+    def release(self) -> None:
+        if self._released:
+            return
+        self._released = True
+        self._manager._release_stream(self.run_id)
 
 
 @dataclass
@@ -218,6 +232,19 @@ class RunManager:
     def _content(self, **fields: Any) -> dict[str, Any]:
         return fields if self.settings.log_content else {}
 
+    def _log_error(self, message: str, run_id: str, exc: BaseException) -> None:
+        """Error log without exception text: validation and provider errors can quote the request or a page.
+        The text is included only when LOG_CONTENT is on."""
+        log(
+            logger,
+            logging.ERROR,
+            message,
+            run_id=run_id,
+            error=type(exc).__name__,
+            where=error_location(exc),
+            **self._content(detail=str(exc)[:500]),
+        )
+
     # ------------------------------------------------------------------
     # Execution
 
@@ -250,12 +277,12 @@ class RunManager:
                     RunStatus.cancelled, StopReason.cancelled_by_user, "Cancelled by the user."
                 )
         except Exception as exc:
-            logger.exception("run failed unexpectedly", extra={"fields": {"run_id": run_id}})
+            self._log_error("run failed unexpectedly", run_id, exc)
             error = f"Internal error ({type(exc).__name__})."
             try:
                 report = active.research.snapshot_report(RunStatus.failed, StopReason.internal_error, error)
-            except Exception:
-                logger.exception("snapshot after failure also failed", extra={"fields": {"run_id": run_id}})
+            except Exception as exc2:
+                self._log_error("snapshot after failure also failed", run_id, exc2)
                 report = None
         finally:
             self._finish(active, report, error)
@@ -263,17 +290,48 @@ class RunManager:
     def _ensure_finished(self, active: ActiveRun) -> None:
         # A task cancelled before its first step never enters _run, so its finally block never runs.
         if not active.done:
-            report = active.research.snapshot_report(RunStatus.cancelled, StopReason.cancelled_by_user, "Cancelled by the user.")
+            try:
+                report = active.research.snapshot_report(
+                    RunStatus.cancelled, StopReason.cancelled_by_user, "Cancelled by the user."
+                )
+            except Exception as exc:
+                self._log_error("snapshot after cancellation failed", active.run_id, exc)
+                report = None
             self._finish(active, report, None)
 
     def _finish(self, active: ActiveRun, report: ResearchReport | None, error: str | None) -> None:
+        """Finalize once. Storage failures are logged and reported, never raised: the in-memory run is
+        always released, subscribers always get a terminal event, and that event says whether the
+        report was saved. A run whose terminal state could not be persisted is marked interrupted at
+        the next start, like any run the process left active."""
+        if active.done:
+            return
+        active.done = True
         run_id = active.run_id
+        persisted = True
         if report is not None:
-            self.store.save_report(run_id, report)
-            if error:
-                self.store.set_status(run_id, report.status, error=error)
-            status = report.status
-            stop_reason = report.stop_reason
+            status, stop_reason = report.status, report.stop_reason
+            try:
+                self.store.save_report(run_id, report)
+                if error:
+                    self.store.set_status(run_id, status, error=error)
+            except Exception as exc:
+                persisted = False
+                self._log_error("report persist failed", run_id, exc)
+                status, stop_reason = RunStatus.failed, StopReason.internal_error
+                error = "The run finished, but its report could not be saved."
+                try:
+                    self.store.set_status(run_id, status, stop_reason=stop_reason, error=error)
+                except Exception as exc2:
+                    self._log_error("status persist failed", run_id, exc2)
+        else:
+            status, stop_reason = RunStatus.failed, StopReason.internal_error
+            try:
+                self.store.set_status(run_id, status, stop_reason=stop_reason, error=error or "The run failed without a report.")
+            except Exception as exc:
+                persisted = False
+                self._log_error("status persist failed", run_id, exc)
+        if report is not None and persisted:
             self._emit(
                 active,
                 EventType.report,
@@ -287,19 +345,24 @@ class RunManager:
                     "sources": len(report.sources),
                 },
             )
-        else:
-            status, stop_reason = RunStatus.failed, StopReason.internal_error
-            self.store.set_status(run_id, status, stop_reason=stop_reason, error=error or "The run failed without a report.")
         self._emit(
             active,
             EventType.status,
             None,
-            _final_message(status),
-            {"status": status.value, "stop_reason": stop_reason.value if stop_reason else None, "terminal": True},
+            _final_message(status) if persisted else "Run finished, but its report could not be saved",
+            {
+                "status": status.value,
+                "stop_reason": stop_reason.value if stop_reason else None,
+                "terminal": True,
+                "persisted": persisted,
+            },
         )
-        active.done = True
         for queue in list(active.subscribers):
-            queue.put_nowait(None)
+            try:
+                queue.put_nowait(None)
+            except Exception as exc:  # a closed or full queue must not stop the other subscribers
+                self._log_error("subscriber notify failed", run_id, exc)
+        active.subscribers.clear()
         self._active.pop(run_id, None)
         metrics = report.execution.metrics if report else None
         log(
@@ -309,6 +372,7 @@ class RunManager:
             run_id=run_id,
             status=status.value,
             stop_reason=stop_reason.value if stop_reason else None,
+            persisted=persisted,
             duration_ms=metrics.duration_ms if metrics else None,
             model_calls=metrics.model_calls if metrics else None,
             cost_usd=metrics.estimated_cost_usd if metrics else None,
@@ -329,18 +393,23 @@ class RunManager:
         active.events.append(event)
         try:
             self.store.append_event(active.run_id, event)
-        except Exception:
-            logger.exception("event persist failed", extra={"fields": {"run_id": active.run_id, "seq": event.seq}})
+        except Exception as exc:
+            self._log_error("event persist failed", active.run_id, exc)
         for queue in list(active.subscribers):
-            queue.put_nowait(event)
+            try:
+                queue.put_nowait(event)
+            except Exception as exc:  # a closed or full queue is dropped; the run and the other clients continue
+                active.subscribers.discard(queue)
+                self._log_error("subscriber delivery failed", active.run_id, exc)
 
-    def acquire_stream(self, run_id: str) -> None:
+    def acquire_stream(self, run_id: str) -> StreamSlot:
         if self._sse_total >= self.settings.max_sse_total or self._sse_per_run.get(run_id, 0) >= self.settings.max_sse_per_run:
             raise RunError("too_many_streams", "Too many open event streams. Close one and retry.")
         self._sse_total += 1
         self._sse_per_run[run_id] = self._sse_per_run.get(run_id, 0) + 1
+        return StreamSlot(self, run_id)
 
-    def release_stream(self, run_id: str) -> None:
+    def _release_stream(self, run_id: str) -> None:
         self._sse_total = max(0, self._sse_total - 1)
         left = self._sse_per_run.get(run_id, 1) - 1
         if left > 0:
