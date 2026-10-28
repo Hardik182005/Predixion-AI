@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --color-ink: #0a0a0a;
+  --color-muted: #525252;
+  --color-line: #e5e5e5;
+  --color-soft: #f5f5f5;
+  --color-danger: #b91c1c;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white text-ink antialiased;
+    font-family: var(--font-sans);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: #0a0a0a;
+    color: #fff;
+  }
+}
+
+@layer components {
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-quiet {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-ink text-white hover:bg-neutral-800;
+  }
+  .btn-secondary {
+    @apply border border-ink bg-white text-ink hover:bg-soft;
+  }
+  .btn-quiet {
+    @apply text-ink hover:bg-soft;
+  }
+  .card {
+    @apply rounded-xl border border-line bg-white;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold tracking-wider text-muted uppercase;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Hero: a small CSS 3D composition of evidence cards. It drifts slowly while
+   on screen; .is-paused (set by an IntersectionObserver) stops it offscreen, and
+   reduced-motion users get a still image. */
+
+.evidence-stage {
+  perspective: 1200px;
+}
+
+.evidence-stack {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(14deg) rotateY(-22deg);
+  animation: stack-drift 14s ease-in-out infinite alternate;
+}
+
+.evidence-stack.is-paused,
+.evidence-stack.is-paused .evidence-card {
+  animation-play-state: paused;
+}
+
+.evidence-card {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-ink);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 24px 48px -24px rgb(0 0 0 / 0.35);
+  backface-visibility: hidden;
+}
+
+.evidence-card[data-depth="0"] {
+  transform: translateZ(0);
+}
+.evidence-card[data-depth="1"] {
+  transform: translate3d(28px, -34px, -70px);
+  animation: card-float 9s ease-in-out infinite alternate;
+}
+.evidence-card[data-depth="2"] {
+  transform: translate3d(56px, -68px, -140px);
+  background: var(--color-ink);
+  color: #fff;
+  animation: card-float 11s ease-in-out -3s infinite alternate;
+}
+
+@keyframes stack-drift {
+  from {
+    transform: rotateX(14deg) rotateY(-22deg);
+  }
+  to {
+    transform: rotateX(8deg) rotateY(-12deg);
+  }
+}
+
+@keyframes card-float {
+  to {
+    translate: 0 -6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .evidence-stack,
+  .evidence-card {
+    animation: none !important;
+  }
+  * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Native <dialog> drawer for evidence. */
+dialog.drawer {
+  margin: 0 0 0 auto;
+  height: 100dvh;
+  max-height: 100dvh;
+  width: min(100vw, 32rem);
+  max-width: 100vw;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--color-ink);
+}
+dialog.drawer::backdrop {
+  background: rgb(10 10 10 / 0.35);
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  50% {
+    opacity: 0.25;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot {
+    animation: none;
+  }
+}

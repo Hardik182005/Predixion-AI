@@ -1,0 +1,836 @@
+{
+  "run_id": "run_db8f0ab97a8b2f6f937fee52",
+  "question": "Is SQLite suitable for production web applications?",
+  "status": "partial",
+  "stop_reason": "rounds_exhausted",
+  "stop_detail": "Reached the limit of 2 research rounds.",
+  "mode": "fixture",
+  "short_answer": {
+    "claim_id": "C1",
+    "text": "It depends on the write load. SQLite works well for most low to medium traffic websites, and in WAL mode reading and writing can proceed concurrently, but it still allows only one writer at a time. Sources disagree on whether that limit causes problems in production: one team ran SQLite in WAL mode for two years without write contention problems, while another hit database is locked errors under bursts of concurrent writes. Applications that run on several servers usually need a client/server database.",
+    "evidence_ids": [
+      "E3",
+      "E1",
+      "E2",
+      "E5",
+      "E7",
+      "E10"
+    ],
+    "verdict": "supported",
+    "disposition": "kept",
+    "note": null
+  },
+  "key_findings": [
+    {
+      "claim_id": "C2",
+      "text": "One team reports serving a production web application from SQLite in WAL mode for two years without write contention problems.",
+      "evidence_ids": [
+        "E5"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "In WAL mode, SQLite readers and the writer do not block each other, so reading and writing can proceed concurrently.",
+      "evidence_ids": [
+        "E1"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "Backing up SQLite means copying one file with the online backup API or streaming it to object storage.",
+      "evidence_ids": [
+        "E6"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "text": "SQLite needs no separate server process, which removes a component to deploy and monitor.",
+      "evidence_ids": [
+        "E9"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2"
+      ]
+    },
+    {
+      "claim_id": "C6",
+      "text": "Applications that run on several servers usually need a client/server database, because SQLite is designed for access from a single machine.",
+      "evidence_ids": [
+        "E10"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C7",
+      "text": "A busy timeout and short write transactions reduce 'database is locked' errors but do not remove SQLite's single-writer limit.",
+      "evidence_ids": [
+        "E11"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K3"
+      ]
+    }
+  ],
+  "comparison": null,
+  "entities": [],
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://sqlite.example/whentouse",
+      "canonical_url": "https://sqlite.example/whentouse",
+      "domain": "sqlite.example",
+      "title": "Appropriate uses for SQLite",
+      "snippet": "SQLite works great as the database engine for most low to medium traffic websites.",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q3"
+      ],
+      "provider_score": 0.92,
+      "rank_score": 0.5968,
+      "retrieved_at": "2026-10-28T11:28:38.367147Z",
+      "published_at": "2026-02-01",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "ed7645d655d3458ba90baa1d35abf146afb117d58f03b515b744d5884715e687",
+      "content_chars": 228,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": true,
+      "round": 1
+    },
+    {
+      "id": "S2",
+      "url": "https://shipping-notes.example/blog/running-sqlite-in-production",
+      "canonical_url": "https://shipping-notes.example/blog/running-sqlite-in-production",
+      "domain": "shipping-notes.example",
+      "title": "Two years of running SQLite in production",
+      "snippet": "We have served our production web application from SQLite in WAL mode for two years.",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q2"
+      ],
+      "provider_score": 0.86,
+      "rank_score": 0.5808,
+      "retrieved_at": "2026-10-28T11:28:38.367367Z",
+      "published_at": "2026-05-14",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "66487cec52ed9eb95f44fe54fa85d219cea8ab4fef28116c37541e40d0cad161",
+      "content_chars": 265,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": true,
+      "round": 1
+    },
+    {
+      "id": "S3",
+      "url": "https://backend-pitfalls.example/posts/sqlite-locking-errors",
+      "canonical_url": "https://backend-pitfalls.example/posts/sqlite-locking-errors",
+      "domain": "backend-pitfalls.example",
+      "title": "Why we moved off SQLite",
+      "snippet": "Under bursts of concurrent writes, our web application returned database is locked errors.",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q2"
+      ],
+      "provider_score": 0.8,
+      "rank_score": 0.5756,
+      "retrieved_at": "2026-10-28T11:28:38.367581Z",
+      "published_at": "2026-03-27",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "52bdc7ad754a0a23eb23959609c954b5383979a200025cba7c03e752872137b2",
+      "content_chars": 212,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": true,
+      "round": 1
+    },
+    {
+      "id": "S4",
+      "url": "https://sqlite.example/docs/wal",
+      "canonical_url": "https://sqlite.example/docs/wal",
+      "domain": "sqlite.example",
+      "title": "Write-ahead logging",
+      "snippet": "In WAL mode, readers do not block writers and a writer does not block readers.",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.92,
+      "rank_score": 0.6359,
+      "retrieved_at": "2026-10-28T11:28:38.366705Z",
+      "published_at": "2026-02-01",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "da70c6b75c19aff549bd994432e8cd9aa302d90ad0c9733cd66e84034eb84072",
+      "content_chars": 285,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": true,
+      "round": 1
+    },
+    {
+      "id": "S5",
+      "url": "https://db-choices.example/articles/sqlite-vs-client-server",
+      "canonical_url": "https://db-choices.example/articles/sqlite-vs-client-server",
+      "domain": "db-choices.example",
+      "title": "SQLite or a client/server database?",
+      "snippet": "Applications that run on several servers usually need a client/server database.",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.86,
+      "rank_score": 0.5636,
+      "retrieved_at": "2026-10-28T11:28:38.367750Z",
+      "published_at": "2026-04-03",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "0da256afd96bccca68d8a66c6c8ddff01520105b1a26c24fccf03cc47cc38f93",
+      "content_chars": 272,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": true,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://ops-cookbook.example/recipes/sqlite-busy-timeout",
+      "canonical_url": "https://ops-cookbook.example/recipes/sqlite-busy-timeout",
+      "domain": "ops-cookbook.example",
+      "title": "Reducing 'database is locked' errors in SQLite",
+      "snippet": "Setting a busy timeout and keeping write transactions short reduces locking errors.",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.92,
+      "rank_score": 0.8078,
+      "retrieved_at": "2026-10-28T11:28:38.371370Z",
+      "published_at": "2026-06-09",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "ff694de339d60bb0dacd22c115c61a4ae3a7961ea7454f1dc8740c365515c059",
+      "content_chars": 283,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": true,
+      "round": 2
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "source_id": "S4",
+      "passage_id": "S4.P1",
+      "quote": "In WAL mode, readers do not block writers and a writer does not block readers, so reading and writing can proceed concurrently",
+      "claim": "In WAL mode, SQLite readers and the writer do not block each other, so reading and writing can proceed concurrently.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E2",
+      "source_id": "S4",
+      "passage_id": "S4.P1",
+      "quote": "WAL mode still allows only one writer at a time",
+      "claim": "Even in WAL mode, SQLite allows only one writer at a time.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E3",
+      "source_id": "S1",
+      "passage_id": "S1.P1",
+      "quote": "SQLite works great as the database engine for most low to medium traffic websites",
+      "claim": "SQLite's documentation says it works well as the database engine for most low to medium traffic websites.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E4",
+      "source_id": "S1",
+      "passage_id": "S1.P1",
+      "quote": "If many clients need to write to the database at the same instant, a client/server database may be a better choice",
+      "claim": "SQLite's documentation says a client/server database may be a better choice when many clients need to write at the same instant.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E5",
+      "source_id": "S2",
+      "passage_id": "S2.P1",
+      "quote": "We have served our production web application from SQLite in WAL mode for two years without write contention problems",
+      "claim": "One team reports serving a production web application from SQLite in WAL mode for two years without write contention problems.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E6",
+      "source_id": "S2",
+      "passage_id": "S2.P1",
+      "quote": "Backups are a matter of copying one file with the online backup API or streaming it to object storage",
+      "claim": "Backing up SQLite means copying one file with the online backup API or streaming it to object storage.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E7",
+      "source_id": "S3",
+      "passage_id": "S3.P1",
+      "quote": "Under bursts of concurrent writes, our web application returned database is locked errors until we moved to PostgreSQL",
+      "claim": "Another team reports 'database is locked' errors under bursts of concurrent writes until it moved to PostgreSQL.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SQLite",
+      "polarity": "contradicts",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E8",
+      "source_id": "S3",
+      "passage_id": "S3.P1",
+      "quote": "SQLite was not a good fit for our write-heavy production workload",
+      "claim": "That team found SQLite was not a good fit for its write-heavy production workload.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SQLite",
+      "polarity": "contradicts",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E9",
+      "source_id": "S5",
+      "passage_id": "S5.P1",
+      "quote": "SQLite needs no separate server process, which removes a component to deploy and monitor",
+      "claim": "SQLite needs no separate server process, which removes a component to deploy and monitor.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E10",
+      "source_id": "S5",
+      "passage_id": "S5.P1",
+      "quote": "Applications that run on several servers usually need a client/server database, because SQLite is designed to be accessed from a single machine",
+      "claim": "Applications that run on several servers usually need a client/server database, because SQLite is designed for access from a single machine.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E11",
+      "source_id": "S6",
+      "passage_id": "S6.P1",
+      "quote": "Setting a busy timeout and keeping write transactions short reduces database is locked errors, but it does not remove the single-writer limit",
+      "claim": "A busy timeout and short write transactions reduce 'database is locked' errors but do not remove SQLite's single-writer limit.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    }
+  ],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "SQLite handles the traffic and write concurrency of typical production web applications",
+      "kind": "general",
+      "required": true,
+      "status": "conflicting",
+      "evidence_ids": [
+        "E1",
+        "E3",
+        "E5",
+        "E7",
+        "E8"
+      ],
+      "independent_sources": 3,
+      "note": "Sources disagree."
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Operational simplicity and reliability",
+      "kind": "general",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E6",
+        "E9"
+      ],
+      "independent_sources": 2,
+      "note": null
+    },
+    {
+      "criterion_id": "K3",
+      "description": "Situations where a client/server database fits better",
+      "kind": "general",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E2",
+        "E4",
+        "E10",
+        "E11"
+      ],
+      "independent_sources": 3,
+      "note": null
+    }
+  ],
+  "unresolved_criteria": [
+    "K1"
+  ],
+  "conflicts": [
+    {
+      "description": "Production reports disagree on write concurrency: one team ran SQLite in WAL mode for two years without contention, while another hit 'database is locked' errors under bursts of concurrent writes.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "evidence_ids": [
+        "E1",
+        "E3",
+        "E7",
+        "E8"
+      ],
+      "entity": "SQLite",
+      "resolution": null
+    }
+  ],
+  "confidence": {
+    "level": "medium",
+    "explanation": "Medium: 2 of 3 required criteria are supported; 7 of 7 checked claims are fully supported; evidence comes from 5 independent sites; 1 unresolved conflict.",
+    "factors": {
+      "required_criteria_supported": "2/3",
+      "claim_support_rate": 1.0,
+      "independent_domains": 5,
+      "high_suitability_sources": 1,
+      "first_party_evidence_share": 0.36,
+      "unresolved_conflicts": 1,
+      "stale_required_criteria": 0,
+      "weak_required_criteria": 0,
+      "verification": "ran"
+    }
+  },
+  "limitations": [
+    "Fixture mode: sources and model outputs are synthetic test data, not live research.",
+    "Research stopped early: Reached the limit of 2 research rounds.",
+    "K1 (SQLite handles the traffic and write concurrency of typical production web applications): conflicting. Sources disagree.",
+    "The production reports are single-team experiences with different workloads, so they do not establish a general write-rate threshold."
+  ],
+  "assumptions": [
+    "\"Production web application\" means a server-side application serving real users, not a prototype."
+  ],
+  "next_steps": [
+    "Measure your application's peak concurrent write rate and test SQLite in WAL mode with a busy timeout under that load.",
+    "Choose a client/server database if the application must run on several servers."
+  ],
+  "plan": {
+    "objective": "Assess whether SQLite is suitable as the database for production web applications, and under what conditions.",
+    "task_type": "explainer",
+    "interpretation": "Evaluate SQLite for production web applications by looking at write concurrency, operational simplicity, and the situations where a client/server database fits better.",
+    "assumptions": [
+      "\"Production web application\" means a server-side application serving real users, not a prototype."
+    ],
+    "constraints": [],
+    "ambiguity_note": null,
+    "freshness_days": null,
+    "target_entity_count": null,
+    "candidate_entities": [
+      "SQLite"
+    ],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "SQLite handles the traffic and write concurrency of typical production web applications",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "concurrent",
+          "writes",
+          "writer",
+          "wal",
+          "locked",
+          "traffic"
+        ]
+      },
+      {
+        "id": "K2",
+        "description": "Operational simplicity and reliability",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "server",
+          "process",
+          "backup",
+          "file",
+          "deploy"
+        ]
+      },
+      {
+        "id": "K3",
+        "description": "Situations where a client/server database fits better",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "client/server",
+          "several",
+          "servers",
+          "write-heavy",
+          "many"
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "SQLite production web application",
+        "purpose": "Official guidance on appropriate uses",
+        "criterion_ids": [
+          "K1",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "SQLite concurrent writes WAL mode web traffic",
+        "purpose": "Write concurrency in practice",
+        "criterion_ids": [
+          "K1"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q3",
+        "text": "when to use a client server database instead of SQLite",
+        "purpose": "When to choose a client/server database",
+        "criterion_ids": [
+          "K2",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Read SQLite's own guidance on appropriate uses",
+      "Collect production experience reports, including negative ones",
+      "Identify the conditions that decide the answer"
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "location": "short_answer",
+      "kind": "interpretation",
+      "text": "It depends on the write load. SQLite works well for most low to medium traffic websites, and in WAL mode reading and writing can proceed concurrently, but it still allows only one writer at a time. Sources disagree on whether that limit causes problems in production: one team ran SQLite in WAL mode for two years without write contention problems, while another hit database is locked errors under bursts of concurrent writes. Applications that run on several servers usually need a client/server database.",
+      "evidence_ids": [
+        "E3",
+        "E1",
+        "E2",
+        "E5",
+        "E7",
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C2",
+      "location": "finding",
+      "kind": "fact",
+      "text": "One team reports serving a production web application from SQLite in WAL mode for two years without write contention problems.",
+      "evidence_ids": [
+        "E5"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C3",
+      "location": "finding",
+      "kind": "fact",
+      "text": "In WAL mode, SQLite readers and the writer do not block each other, so reading and writing can proceed concurrently.",
+      "evidence_ids": [
+        "E1"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C4",
+      "location": "finding",
+      "kind": "fact",
+      "text": "Backing up SQLite means copying one file with the online backup API or streaming it to object storage.",
+      "evidence_ids": [
+        "E6"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C5",
+      "location": "finding",
+      "kind": "fact",
+      "text": "SQLite needs no separate server process, which removes a component to deploy and monitor.",
+      "evidence_ids": [
+        "E9"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C6",
+      "location": "finding",
+      "kind": "fact",
+      "text": "Applications that run on several servers usually need a client/server database, because SQLite is designed for access from a single machine.",
+      "evidence_ids": [
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C7",
+      "location": "finding",
+      "kind": "fact",
+      "text": "A busy timeout and short write transactions reduce 'database is locked' errors but do not remove SQLite's single-writer limit.",
+      "evidence_ids": [
+        "E11"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    }
+  ],
+  "verification": {
+    "claims_checked": 7,
+    "supported": 7,
+    "partially_supported": 0,
+    "not_supported": 0,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": false,
+    "removed_claims": [],
+    "note": null
+  },
+  "execution": {
+    "mode": "fixture",
+    "model": "fixture-heuristic-v1",
+    "sdk_version": null,
+    "prompt_version": "2026-10-28.2",
+    "reasoning_effort": null,
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.6
+    },
+    "metrics": {
+      "started_at": "2026-10-28T11:28:38.363651Z",
+      "finished_at": "2026-10-28T11:28:38.374639Z",
+      "duration_ms": 11.0,
+      "first_event_ms": 0.1,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 0.3
+        },
+        {
+          "stage": "search",
+          "ms": 2.3
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 1.7
+        },
+        {
+          "stage": "extract",
+          "ms": 2.0
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "follow_up",
+          "ms": 0.3
+        },
+        {
+          "stage": "search",
+          "ms": 0.5
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 0.3
+        },
+        {
+          "stage": "extract",
+          "ms": 0.5
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "synthesize",
+          "ms": 1.1
+        },
+        {
+          "stage": "verify",
+          "ms": 1.0
+        },
+        {
+          "stage": "finalize",
+          "ms": 0.2
+        }
+      ],
+      "rounds": 2,
+      "search_calls": 4,
+      "extract_calls": 2,
+      "pages_requested": 6,
+      "pages_read": 6,
+      "model_calls": 6,
+      "model_attempts": 6,
+      "retries": 0,
+      "cache_hits": 0,
+      "cache_misses": 10,
+      "input_tokens": 6223,
+      "output_tokens": 2239,
+      "estimated_cost_usd": 0.0,
+      "cost_uncertain": false,
+      "tavily_credits": 0.0,
+      "sources_discovered": 6,
+      "sources_filtered": 0,
+      "evidence_accepted": 11,
+      "evidence_rejected": 0
+    }
+  },
+  "created_at": "2026-10-28T11:28:38.374674Z"
+}
