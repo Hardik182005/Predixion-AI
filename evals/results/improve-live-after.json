@@ -1,0 +1,280 @@
+{
+  "suite": "predixion-eval",
+  "mode": "live",
+  "run_at": "2026-10-28T17:42:09+00:00",
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "low",
+  "sdk_version": "3.40.0",
+  "prompt_version": "2026-10-28.4",
+  "git_commit": "b831e7a",
+  "prices": {
+    "model_input_usd_per_mtok": 1.0,
+    "model_output_usd_per_mtok": 5.0,
+    "tavily_usd_per_credit": 0.008
+  },
+  "routing": {
+    "groq_models_usd_per_mtok_in_out": {
+      "openai/gpt-oss-120b": [
+        0.15,
+        0.6
+      ],
+      "openai/gpt-oss-20b": [
+        0.075,
+        0.3
+      ]
+    },
+    "groq_tasks": [
+      "plan",
+      "follow_up"
+    ],
+    "groq_max_request_tokens": 8000,
+    "fallback": true
+  },
+  "limits": {
+    "max_rounds": 2,
+    "max_pages_per_run": 8,
+    "max_cost_usd_per_run": 0.6,
+    "max_model_attempts": 8,
+    "run_deadline_s": 120.0
+  },
+  "baseline": "one search, up to max_pages_per_run pages, one model call with quoted citations; same model",
+  "scoring": "lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge",
+  "max_spend_usd": 0.3,
+  "spent_usd": 0.2002,
+  "stopped_early": false,
+  "cases": [
+    {
+      "id": "hr_tech_discovery",
+      "category": "assignment_example",
+      "question": "Find five Indian B2B SaaS startups in HR tech and summarize their positioning.",
+      "expected": "Lists at most five companies and includes only those whose eligibility is backed by evidence; never pads the list.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Company is incorporated in India.",
+        "Company provides B2B SaaS solutions.",
+        "Company’s product focus is HR technology (e.g., recruiting, payroll, performance, employee engagement).",
+        "Company is still operating as a startup (founded ≤10 years, privately held, not a large public corporation).",
+        "Summary of positioning: target market segment, primary value proposition, and key differentiators."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "low",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "CompUp targets startups and technology companies in India and South Asia with compensation benchmarking, real-time data and integrations with HR and payroll systems.",
+            "verdict": "supported",
+            "issue": null,
+            "quotes": [
+              "CompUp ( ) is an API-driven compensation benchmarking tool designed to help companies optimize their people spend by providing real-time salary data and analytics. The platform integrates directly with HR and payroll systems, eliminating manual data entry and enabling organizations to make informed…",
+              "While many of these platforms provide comprehensive market data, CompUp distinguishes itself with its focus on real-time API-driven integrations, automation, and specific attention to the fast-paced startup and tech ecosystem in India and South Asia."
+            ],
+            "sources": [
+              "https://www.promptloop.com/directory/what-does-compup-do",
+              "https://www.promptloop.com/directory/what-does-compup-do"
+            ]
+          },
+          {
+            "text": "SalaryBook targets Indian SMEs with staff, payroll and expense management; its mobile attendance features include selfie and location marking.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "The company's platform allows easy control of employee wages and attendance tracking, and the mobile application includes features like selfies and location-based attendance marking, enabling Indian SMEs to manage their staff, payroll, and expenses all in one place.",
+              "Other Industries Financial Software Human Capital Services Vertical(s) HR Tech, SaaS, FinTech, Mobile"
+            ],
+            "sources": [
+              "https://pitchbook.com/profiles/company/481701-97",
+              "https://pitchbook.com/profiles/company/481701-97"
+            ]
+          },
+          {
+            "text": "SalaryBook was founded in 2020 and is listed as private, but its incorporation in India is not established in the reviewed evidence.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Year Founded 2020 Status Private Employees 4 Latest Deal Type Seed Latest Deal Amount $2M Investors 12"
+            ],
+            "sources": [
+              "https://pitchbook.com/profiles/company/481701-97"
+            ]
+          },
+          {
+            "text": "Tracxn identifies Ekincare, GreytHR, Xoxoday, PeopleStrong and Darwinbox as HR SaaS startups in India. The supplied evidence does not establish their incorporation, founding dates or current ownership status.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Here is the list of top HR SaaS startups in India 1. Ekincare Key facts about Ekincare 2. GreytHR Key facts about GreytHR 3. Xoxoday Key facts about Xoxoday 4. PeopleStrong Key facts about PeopleStrong 5. Darwinbox"
+            ],
+            "sources": [
+              "https://tracxn.com/d/explore/hr-saas-startups-in-india/__q32e6xCwi00Qado2PBsHsoCsImUVDS6Pf9jU9WoH-n0"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 1,
+        "criteria_total": 5,
+        "reported_criteria_supported": 0,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "entities_not_padded": true,
+          "eligibility_backed": true
+        },
+        "latency_s": 60.82,
+        "cost_usd": 0.09334,
+        "cost_uncertain": false,
+        "model_calls": 8,
+        "model_fallbacks": 0,
+        "models_used": {
+          "groq:openai/gpt-oss-120b": 2,
+          "openai:gpt-6.1-terra": 6
+        },
+        "input_tokens": 19305,
+        "output_tokens": 5386,
+        "search_calls": 6,
+        "pages_read": 8
+      }
+    },
+    {
+      "id": "vector_db_comparison",
+      "category": "assignment_example",
+      "question": "Compare the top three open-source vector databases for a startup building RAG products.",
+      "expected": "Compares three open-source vector databases; vendor claims stay attributed and unsupported superlatives are dropped.",
+      "fault": null,
+      "agent_plan_criteria": [
+        "Community size and activity (e.g., GitHub stars, contributors, release frequency).",
+        "Core features for RAG: support for hybrid search, metadata filtering, and easy integration with LLM frameworks.",
+        "Scalability and performance characteristics (e.g., index types, throughput, latency at scale).",
+        "Ease of deployment and operational overhead for a startup (Docker/K8s support, managed cloud options, documentation quality).",
+        "Licensing and commercial friendliness (permissive open‑source license, no restrictive clauses for SaaS)."
+      ],
+      "agent": {
+        "system": "agent",
+        "status": "partial",
+        "stop_reason": "rounds_exhausted",
+        "confidence": "low",
+        "error": null,
+        "abstained": false,
+        "claims": [
+          {
+            "text": "Consider Milvus for a distributed, large-scale use case: sources list several index types and a billion-scale use case, although some operational edge cases may require community help or reading source code.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Milvus | HNSW, IVF, IVF-PQ, SCANN | Yes | No | Apache 2.0 | Billion-scale, distributed",
+              "Milvus offers the most comprehensive indexing options, supporting HNSW, IVF (Inverted File), DiskANN, and several other algorithms. Built on a cloud-native architecture with separate compute and storage layers, Milvus excels in large-scale deployments requiring horizontal scaling.",
+              "But you'll hit edge cases that aren't documented, and solving them requires reading source code or asking in community channels."
+            ],
+            "sources": [
+              "https://redis.io/blog/best-open-source-vector-databases-comparison",
+              "https://onidel.com/blog/vector-database-benchmarks-vps",
+              "https://www.firecrawl.dev/blog/best-vector-databases"
+            ]
+          },
+          {
+            "text": "Consider Weaviate if built-in embedding and reranking modules are useful. It supports native hybrid search, but self-hosting and tuning at scale can require operational expertise.",
+            "verdict": "partially_supported",
+            "issue": "Parts of the claim go beyond the cited evidence.",
+            "quotes": [
+              "Weaviate | HNSW, Flat, Dynamic, HFresh | Yes (native) | No | BSD-3 | Built-in embedding & rerank modules",
+              "Requires more operational expertise to self-host Performance tuning can be complex at scale"
+            ],
+            "sources": [
+              "https://redis.io/blog/best-open-source-vector-databases-comparison",
+              "https://iternal.ai/insights/best-vector-databases-2026"
+            ]
+          },
+          {
+            "text": "Consider Qdrant for filtering-heavy retrieval, but verify the hybrid-search behavior needed by the application because the reviewed comparisons disagree on that capability.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "Qdrant | HNSW | Yes | No | Apache 2.0 | Filtering-heavy retrieval",
+              "Hybrid retrieval | ❌ | ✅RRF\\+RSF\\ | ✅In-table multi-vector hybrid",
+              "Flexible payloads with advanced filtering to tailor search criteria precisely."
+            ],
+            "sources": [
+              "https://redis.io/blog/best-open-source-vector-databases-comparison",
+              "https://www.zair.top/en/post/vector-database-compare",
+              "https://docs.cloud.google.com/kubernetes-engine/docs/tutorials/deploy-qdrant"
+            ]
+          },
+          {
+            "text": "The reported GitHub counts are incomplete and inconsistent across sources, so they do not establish a current top-three ranking or comparative community activity.",
+            "verdict": "not_supported",
+            "issue": "The cited evidence does not state this.",
+            "quotes": [
+              "42,000+ GitHub stars - largest open-source vector DB community Handles billion-scale similarity searches Supports multiple index types (IVF, HNSW, SCANN)",
+              "Open-source and self-hostable | ✅ | ✅ | ✅ Open-source license | Apache-2.0 | BSD | Apache-2.0 Development language | Rust | Go | Go, C++ Github Stars | 17k | 9.2k | 26.2k"
+            ],
+            "sources": [
+              "https://iternal.ai/insights/best-vector-databases-2026",
+              "https://www.zair.top/en/post/vector-database-compare"
+            ]
+          },
+          {
+            "text": "The comparisons list Milvus and Qdrant under Apache 2.0 and Weaviate under BSD-3; they do not independently establish whether every relevant component is free of SaaS restrictions.",
+            "verdict": "not_supported",
+            "issue": "The claim says 'every', which the cited evidence does not state.",
+            "quotes": [
+              "Milvus | HNSW, IVF, IVF-PQ, SCANN | Yes | No | Apache 2.0 | Billion-scale, distributed",
+              "Weaviate | HNSW, Flat, Dynamic, HFresh | Yes (native) | No | BSD-3 | Built-in embedding & rerank modules",
+              "Qdrant | HNSW | Yes | No | Apache 2.0 | Filtering-heavy retrieval"
+            ],
+            "sources": [
+              "https://redis.io/blog/best-open-source-vector-databases-comparison",
+              "https://redis.io/blog/best-open-source-vector-databases-comparison",
+              "https://redis.io/blog/best-open-source-vector-databases-comparison"
+            ]
+          }
+        ],
+        "invalid_citations": 0,
+        "criteria_covered": 3,
+        "criteria_total": 5,
+        "reported_criteria_supported": 1,
+        "checks": {
+          "answers": true,
+          "citations_resolve": true,
+          "comparison_table": true
+        },
+        "latency_s": 71.71,
+        "cost_usd": 0.10684,
+        "cost_uncertain": false,
+        "model_calls": 6,
+        "model_fallbacks": 0,
+        "models_used": {
+          "groq:openai/gpt-oss-120b": 2,
+          "openai:gpt-6.1-terra": 4
+        },
+        "input_tokens": 23294,
+        "output_tokens": 7746,
+        "search_calls": 5,
+        "pages_read": 8
+      }
+    }
+  ],
+  "summary": {
+    "agent": {
+      "runs": 2,
+      "checks_passed": 7,
+      "checks_total": 7,
+      "claims": 9,
+      "supported": 1,
+      "partially_supported": 4,
+      "not_supported": 4,
+      "supported_rate": 0.111,
+      "invalid_citations": 0,
+      "criteria_covered": 4,
+      "criteria_total": 10,
+      "reported_criteria_supported": 1,
+      "latency_s_median": 66.27,
+      "latency_s_total": 132.53,
+      "cost_usd_total": 0.2002,
+      "cost_uncertain": false
+    },
+    "baseline": null
+  }
+}

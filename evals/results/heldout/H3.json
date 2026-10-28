@@ -1,0 +1,977 @@
+{
+  "run_id": "run_67c06e2c3dd19f4b89765243",
+  "question": "Is Redis still open source?",
+  "status": "completed",
+  "stop_reason": "criteria_satisfied",
+  "stop_detail": "All required criteria have supporting evidence.",
+  "mode": "live",
+  "short_answer": {
+    "claim_id": "C1",
+    "text": "Redis 8 and later are offered under a choice of RSALv2, SSPLv1 or AGPLv3; earlier versions have different licensing. The reviewed evidence does not independently establish whether AGPLv3 is OSI-approved, so it does not conclusively answer the question under the requested definition of open source.",
+    "evidence_ids": [
+      "E4"
+    ],
+    "verdict": "supported",
+    "disposition": "kept",
+    "note": null
+  },
+  "key_findings": [
+    {
+      "claim_id": "C2",
+      "text": "For Redis 8 and later, the reported license choices are RSALv2, SSPLv1 and AGPLv3. Redis 7.2 and earlier are reported to use BSD-3.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "A source describes AGPLv3 as a copyleft license and reports that it became an option for Redis 8.0 Community Edition in April 2025. The reviewed evidence does not establish its OSI approval.",
+      "evidence_ids": [
+        "E3"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1",
+        "K2"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "The optional Leanvec and LVQ techniques are described as closed source and available with Redis Open Source only under RSALv2. The evidence does not establish when those components were introduced.",
+      "evidence_ids": [
+        "E1"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "text": "A source reports Redis licensing changes in March 2024 and April 2025. The evidence does not establish the research date or whether a licensing change occurred within the preceding 12 months.",
+      "evidence_ids": [
+        "E3"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K3"
+      ]
+    }
+  ],
+  "comparison": null,
+  "entities": [],
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://github.com/StackExchange/StackExchange.Redis/blob/master/LICENSE",
+      "canonical_url": "https://github.com/StackExchange/StackExchange.Redis/blob/master/LICENSE",
+      "domain": "github.com",
+      "title": "StackExchange.Redis/LICENSE at main · StackExchange/StackExchange.Redis · GitHub",
+      "snippet": "Creative Commons Attribution-ShareAlike 4.0 International license; full\n\ndetails are available here:\n\nThe development solution uses the Redis-64 package from nuget\n\n( by Microsoft Open Technologies, inc.\n\nThis is licensed under the BSD license; full details are available here:\n\nThis tool is not used in the release binaries.\n\nThe development solution uses the BookSleeve package from nuget\n\n( by Marc Gravell. This is licensed\n\nunder the Apache 2.0 license; full details are available here: [...] Permission is hereby granted, free of charge, to any person obtaining a copy\n\nof this software and ass",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.8820324,
+      "rank_score": 0.6552,
+      "retrieved_at": "2026-10-28T17:44:08.010886Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "84271cfdce654ea03a253826c308bde3809a0c55548eb3238d4075da91d10bcb",
+      "content_chars": 2839,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S2",
+      "url": "https://github.com/redis/redis",
+      "canonical_url": "https://github.com/redis/redis",
+      "domain": "github.com",
+      "title": "GitHub - redis/redis: For developers, who are building real-time data-driven applications, Redis is the preferred, fastest, and most feature-rich cache, data structure server, and document and vector query engine. · GitHub",
+      "snippet": "1. Version 7.2.x and prior releases are subject to BSDv3. These contributions to the original Redis core project are owned by their contributors and licensed under the 3BSDv3 license as referenced in the REDISCONTRIBUTIONS.txt file. Any copy of that license in this repository applies only to those contributions;\n2. Versions 7.4.x to 7.8.x are subject to your choice of RSALv2 or SSPLv1; and [...] 3. Version 8.0.x and subsequent releases are subject to the tri-license RSALv2/SSPLv1/AGPLv3 at your option as referenced in the LICENSE.txt file. [...] License Disclaimer If you are using Redis Open S",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.8624794,
+      "rank_score": 0.6562,
+      "retrieved_at": "2026-10-28T17:44:07.993953Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "67d3bf0e1ca2844174eda85e99cf3874e00913ad490040c036665ba92568e367",
+      "content_chars": 30397,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S7",
+      "url": "https://www.developersdigest.tech/vector-databases/redis",
+      "canonical_url": "https://developersdigest.tech/vector-databases/redis",
+      "domain": "developersdigest.tech",
+      "title": "Redis: pricing, limits, hybrid search and features (2026)",
+      "snippet": "Redis is listed under open source, self-hosted (deployment type: open source self-host). This entry covers the open-source engine. Redis Cloud plans are not vector-specific and are outside this entry, so no price is listed. Read from the vendor's own pages on October 18, 2026.\n\nRead from redis.io, raw.githubusercontent.com.Docs - License - Compare every vector database\n\n## Status\n\nAvailability label\n:   Not stated\n\n    No status label is stated on the page checked.\n\n## How Redischarges [...] Regions and clouds\n:   Not stated\n\n    Self-hosted engine; regions do not apply. Redis Cloud regions ar",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.8588255,
+      "rank_score": 0.5642,
+      "retrieved_at": "2026-10-28T17:44:08.037541Z",
+      "published_at": "2026-10-18",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "abed696fdaae3988975f7dd928e8ce9d822288a6414d25ebdb9539dc1c3ee995",
+      "content_chars": 4462,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S13",
+      "url": "https://tech-insider.org/redis-vs-memcached-2026",
+      "canonical_url": "https://tech-insider.org/redis-vs-memcached-2026",
+      "domain": "tech-insider.org",
+      "title": "Redis vs Memcached: 5 Benchmarks Show a Clear Winner [2026]",
+      "snippet": "The most disruptive change in the Redis vs Memcached landscape in 2025-2026 has nothing to do with performance or features – it is licensing. In March 2024, Redis Labs changed the Redis license from BSD to a dual license of RSALv2 and SSPLv1, effectively making Redis non-free for cloud providers and many commercial users. Then in April 2025, Redis 8.0 Community Edition shifted again to AGPLv3, a copyleft license that requires anyone who modifies Redis and provides it as a network service to [...] This licensing upheaval has had massive consequences. The Linux Foundation forked Redis 7.2.4 as V",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.9174287,
+      "rank_score": 0.5809,
+      "retrieved_at": "2026-10-28T17:44:08.013052Z",
+      "published_at": "2026-03-26",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "d1959b7e9aac761289de33b3112a1425672c8f2ad196dddfc6a405559acb5fea",
+      "content_chars": 49167,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S14",
+      "url": "https://tech-insider.org/valkey-vs-redis-2026",
+      "canonical_url": "https://tech-insider.org/valkey-vs-redis-2026",
+      "domain": "tech-insider.org",
+      "title": "Valkey vs Redis 2026: 8% Faster, 20% Cheaper [Tested]",
+      "snippet": "Redis Inc. course-corrected on May 1, 2025, when CEO Rowan Trollope announced that Redis 8.0 would ship under the more permissive Affero General Public License v3 (AGPLv3) alongside the existing Redis Source Available License. AGPL is OSI-approved, but it still imposes copyleft network distribution requirements that hyperscalers consider commercially incompatible. The damage was already done. Valkey had absorbed enterprise mindshare, Linux distributions had switched defaults, and AWS [...] The license posture is the single most important strategic factor. Valkey’s BSD-3-Clause guarantee under ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.8576849,
+      "rank_score": 0.554,
+      "retrieved_at": "2026-10-28T17:44:08.039988Z",
+      "published_at": "2026-05-07",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "fff4f3f402a85664000653d3f0c2409634632b38c94b543eb180465c05a32f9e",
+      "content_chars": 44989,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S3",
+      "url": "https://github.com/redis/redis/blob/unstable/LICENSE.txt",
+      "canonical_url": "https://github.com/redis/redis/blob/unstable/LICENSE.txt",
+      "domain": "github.com",
+      "title": "redis/LICENSE.txt at unstable · redis/redis · GitHub",
+      "snippet": "All rights granted under this License are granted for the term of\n\ncopyright on the Program, and are irrevocable provided the stated\n\nconditions are met. This License explicitly affirms your unlimited\n\npermission to run the unmodified Program. The output from running a\n\ncovered work is covered by this License only if the output, given its\n\ncontent, constitutes a covered work. This License acknowledges your\n\nrights of fair use or other equivalent, as provided by copyright law. [...] contributions governed by the updated Redis Software Grant and Contributor License Agreement.\n\nAfter this release",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.8573986,
+      "rank_score": 0.615,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S4",
+      "url": "https://github.com/redis/redis/discussions/13643",
+      "canonical_url": "https://github.com/redis/redis/discussions/13643",
+      "domain": "github.com",
+      "title": "Inquiring about the Redis Licensing · redis/redis · Discussion #13643 · GitHub",
+      "snippet": "|  |\n\n| Hi Community Members,  We are using Redis 7.4.2 in our production server. The configuration is attached below image Now with the license change   We are using Redis as a backend for our Metadata service within our organisation, it's not we are providing Redis as a service like cloud providers.  Need your guidance and clarification, before we explore other options like Valkey for instance  Thanks,  Susmit |\n\nYou must be logged in to vote\n\nAll reactions [...] | My bad it's 7.4.1, yes we comply with RSALv2, in other words  Using Redis 7.4.x or later versions within my organization should ",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.8190992,
+      "rank_score": 0.6269,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S5",
+      "url": "https://github.com/argoproj/argo-cd/discussions/17599",
+      "canonical_url": "https://github.com/argoproj/argo-cd/discussions/17599",
+      "domain": "github.com",
+      "title": "Redis changes it's license to source available · argoproj/argo-cd · Discussion #17599 · GitHub",
+      "snippet": "terms are available and can enable use cases beyond the RSALv2 or SSPLv1 license limitations. If you are building a solution that leverages Redis, but does not specifically compete with Redis itself, there is no impact. If you have specific concerns or questions that you wish to discuss, please email redis\\_licensing@redis.com.  1. I am the author of an open-source project that uses Redis in a non-competitive way. If someone else uses my project to produce a competitive product or hosted [...] | I agree that this change has no impact on most users of Argo CD, right now.  It mainly needs addres",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.78194773,
+      "rank_score": 0.6102,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://redis.io/legal/licenses",
+      "canonical_url": "https://redis.io/legal/licenses",
+      "domain": "redis.io",
+      "title": "Licenses | Redis",
+      "snippet": "We also stand behind our community. Whenever we introduce new features, we help onboard them with Redis Insight interactive guides and tutorials, support our community on a dedicated discord channel, are very attentive to community requests on Github, and help community members on Stack Overflow and Reddit. Our official documentation covers not just Redis APIs, but also all the client library APIs.\n\nFor further clarification, please reach us at redis\\_licensing@redis.com. [...] ## Full license information\n\n| Product | Version | License & Terms |\n --- \n| Redis (Open Source) | <= 7.2 | BSD-3-Cla",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.7237202,
+      "rank_score": 0.4743,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S8",
+      "url": "https://dev.to/jamilxt/valkey-vs-redis-in-2026-the-fork-quietly-won-most-of-the-market-2g0d",
+      "canonical_url": "https://dev.to/jamilxt/valkey-vs-redis-in-2026-the-fork-quietly-won-most-of-the-market-2g0d",
+      "domain": "dev.to",
+      "title": "Valkey vs Redis in 2026: The Fork Quietly Won Most of the Market - DEV Community",
+      "snippet": "So the framing \"Redis is not open source anymore\" stopped being accurate a year and a half ago. The real question in 2026 is different: given two healthy, actively developed, largely compatible engines, which one fits your workload, your legal department, and your cloud bill?\n\n## Performance: the gap is real but narrow [...] May 2025: Redis 8.0 added AGPLv3 as a third license option. AGPLv3 is OSI-approved, so by the standard definition, Redis is open source again. This is the detail most 2024 hot takes get wrong. [...] • \n\n Copy link\n\nThe AGPLv3 detail is the correction this debate needed, an",
+      "kind": "community",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.84027237,
+      "rank_score": 0.4365,
+      "retrieved_at": null,
+      "published_at": "2026-10-05",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S9",
+      "url": "https://acemq.com/blogs/redis-alternatives",
+      "canonical_url": "https://acemq.com/blogs/redis-alternatives",
+      "domain": "acemq.com",
+      "title": "Redis Alternatives: Open Source Options Compared (2026) | AceMQ",
+      "snippet": "Commercial cost. Redis Enterprise and Redis Cloud are paid subscriptions. Teams that bought them for one feature often find an open-source engine now covers what they use.\n End of life. Redis 7.0 is already out of support and Redis 6.2 reaches end of life on 1 April 2027. An upgrade that has to happen anyway is a natural moment to reconsider the engine; the dates by version are in Redis end of life. [...] The license. On 20 March 2024 Redis Ltd. announced that from Redis 7.4 the server would move from BSD-3-Clause to a choice of RSALv2 or SSPLv1, neither of which is an OSI-approved open source",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.8342047,
+      "rank_score": 0.5337,
+      "retrieved_at": null,
+      "published_at": "2026-10-09",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S10",
+      "url": "https://redis.io/blog",
+      "canonical_url": "https://redis.io/blog",
+      "domain": "redis.io",
+      "title": "Redis Blog - Read about what’s happening at Redis",
+      "snippet": "Vishal Bala\n\nAnnouncementsBenchmarksCompanyDBaasEngineeringFeaturesGuest BlogsHow To and TutorialsLaunchpadNew Product AnnouncementsNewsPartnersPodcastProduct ReleasesRedis ModulesRedis Open SourceRedis-CloudTechTech DETech Redis ModulesUncategorizedWhite Papers\n\nRedis OSS Is Now Available on AWS Marketplace\n\nTech\n\nOct 08,2026\n\nScale your workloads without paying all-RAM prices\n\nTech\n\nSep 30,2026\n\nRedis expands strategic collaboration agreement with AWS to accelerate real-time data and AI apps [...] Tech\n\nSep 14,2026\n\nPut Redis data and engineering guidance to work in ChatGPT Work\n\nTech\n\nSep 1",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.82288796,
+      "rank_score": 0.4995,
+      "retrieved_at": null,
+      "published_at": "2026-09-14",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S11",
+      "url": "https://scored.tools/blog/redis-review-2026",
+      "canonical_url": "https://scored.tools/blog/redis-review-2026",
+      "domain": "scored.tools",
+      "title": "Redis Review 2026: Pricing, Licensing and Limits",
+      "snippet": "Redis is the in-memory data store most backend teams reach for first when a database is too slow for a hot path. It keeps data in RAM, answers reads and writes in well under a millisecond, and has grown from a simple key-value cache into a general real-time data layer. In 2026 you can run it three ways: the open-source server you host yourself, Redis Cloud (a managed service with a free tier and two paid tiers), or Redis Software for on-prem clusters sold through sales. [...] Two things changed the picture over the last two years. The first is licensing. Per the README in the redis/redis repos",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.8184036,
+      "rank_score": 0.5266,
+      "retrieved_at": null,
+      "published_at": "2026-10-24",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S12",
+      "url": "https://www.versio.io/en/product-release-end-of-life-eol-redis-redis.html",
+      "canonical_url": "https://versio.io/en/product-release-end-of-life-eol-redis-redis.html",
+      "domain": "versio.io",
+      "title": "Redis releases, versions & end-of-life (EOL) dates",
+      "snippet": "The latest version of Redis is 8.10.2, released as part of the 8.10 release on 17 September 2026.\n\n#### Which Redis versions are still supported?\n\nRedis 8.10, Redis 8.8 and Redis 8.6 are supported as of 23 October 2026. All other releases have reached end of life and no longer receive fixes.\n\n#### Does Redis have long-term support (LTS) releases?\n\nNo. Redis does not designate long-term support releases; every release follows the standard maintenance period shown in the table. [...] | 7.2 | 2023-08-15 | 20 | 7.2.16 | 2026-08-17 | No |\n| 7.0 | 2022-04-27 | 19 | 7.0.15 | 2024-01-09 | No |\n| 6.2 |",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.64880073,
+      "rank_score": 0.4211,
+      "retrieved_at": null,
+      "published_at": "2026-09-17",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S15",
+      "url": "https://www.devclass.com/development/2025/04/01/one-year-ago-redis-changed-its-license-and-lost-most-of-its-external-contributors/1624450",
+      "canonical_url": "https://devclass.com/development/2025/04/01/one-year-ago-redis-changed-its-license-and-lost-most-of-its-external-contributors/1624450",
+      "domain": "devclass.com",
+      "title": "One year ago Redis changed its license – and lost most of its external contributors",
+      "snippet": "August 21, 2026\n\n## SvelteKit 3 puts heat on Next.js with radical approach to RPCs\n\nAugust 20, 2026\n\n## Almost nobody pays attention to web standards anymore\n\nAugust 18, 2026\n\n## ChainDrop worm crawls into npm supply chain, evades standard defenses\n\nAugust 16, 2026\n\n## Node.js creator liberates Durable Objects from Cloudflare\n\nAugust 13, 2026\n\nAI and ML\n\n## AI titans to tidy agent frontier with plugin prescription\n\nAugust 8, 2026\n\nPARTNER CONTENT [...] July 15, 2026\n\nA triangular road sign with a question mark on a pole against a blue sky.\n\n## HTTP gets a QUERY method so complex searches can s",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7997713,
+      "rank_score": 0.4891,
+      "retrieved_at": null,
+      "published_at": "2025-04-01",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S16",
+      "url": "https://www.zdnet.com/article/redis-returns-to-open-source-with-agplv3-license-but-not-everyone-is-happy",
+      "canonical_url": "https://zdnet.com/article/redis-returns-to-open-source-with-agplv3-license-but-not-everyone-is-happy",
+      "domain": "zdnet.com",
+      "title": "Redis returns to open source with AGPLv3 license but not everyone is happy - ZDNET",
+      "snippet": "07/30/2026\n\nAlso: Linus Torvalds built Git in 10 days – and never imagined it would last 20 years\n\nOfficially, Redis states that it is adding ASPLv3 because when founder Salvatore Sanfilippo returned to the company, he encouraged it to adopt the license to demonstrate “ongoing commitment to making a platform developers love.” Sanfillipo explained via his blog: “Many people, within the company, had the feeling that the AGPL was a better pick than SSPL.” [...] Last year, Redis dumped its three-clause Berkeley Software Distribution (BSD) license and replaced it with the read-only Redis Source Ava",
+      "kind": "news",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.78413767,
+      "rank_score": 0.5306,
+      "retrieved_at": null,
+      "published_at": "2025-05-02",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S17",
+      "url": "https://tech-insider.org/aws-elasticache-vs-azure-cache-vs-google-memorystore-2026",
+      "canonical_url": "https://tech-insider.org/aws-elasticache-vs-azure-cache-vs-google-memorystore-2026",
+      "domain": "tech-insider.org",
+      "title": "ElastiCache vs Azure Cache for Redis vs Memorystore",
+      "snippet": "Redis Inc. then reversed part of its own decision. On May 1, 2025, the company published a post titled “Redis is now available under the AGPLv3 open source license,” confirming that starting with Redis 8, customers get an OSI-approved open-source option again alongside the existing RSALv2/SSPLv1 terms, according to the official Redis blog. That partial about-face did not undo the fork. Valkey now ships independently, with its own release cadence, and AWS ElastiCache and Google Cloud Memorystore",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.67321366,
+      "rank_score": 0.4613,
+      "retrieved_at": null,
+      "published_at": "2026-09-17",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S18",
+      "url": "https://www.theregister.com/software/2025/05/01/redis-returns-to-open-source-with-agpl-license/757582",
+      "canonical_url": "https://theregister.com/software/2025/05/01/redis-returns-to-open-source-with-agpl-license/757582",
+      "domain": "theregister.com",
+      "title": "Redis 'returns' to open source with AGPL license",
+      "snippet": "Adding the GNU Affero General Public License (AGPL) as an additional licensing option for Redis, starting with Redis 8, the business said it is moving to a licensing model approved as open source by the Open Source Initiative (OSI) – as the Server Side Public License (SSPLv1) it switched to in March last year has remained outside the accepted definition of open source software. [...] Redis's source code had been available under the BSD 3-clause license, a permissive agreement which allows developers to make commercial use of the code without paying. But in March last year, the Redis company — ",
+      "kind": "news",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.6155738,
+      "rank_score": 0.4937,
+      "retrieved_at": null,
+      "published_at": "2025-05-01",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "source_id": "S2",
+      "passage_id": "S2.P47",
+      "quote": "The Leanvec and LVQ techniques are closed source and are only available for use with Redis Open Source when distributed under the RSALv2 license.",
+      "claim": "The optional Leanvec and LVQ techniques are closed source and available with Redis Open Source only under RSALv2.",
+      "criterion_ids": [
+        "K1",
+        "K3"
+      ],
+      "entity": "Redis",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E2",
+      "source_id": "S1",
+      "passage_id": "S1.P3",
+      "quote": "The Redis project ( is independent of this client library, and is licensed separately under the three clause BSD license.",
+      "claim": "The client library's license file says the separate Redis project is licensed under the three-clause BSD license.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Redis",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E3",
+      "source_id": "S13",
+      "passage_id": "S13.P21",
+      "quote": "In March 2024, Redis Labs changed the Redis license from BSD to a dual license of RSALv2 and SSPLv1, effectively making Redis non-free for cloud providers and many commercial users. Then in April 2025, Redis 8.0 Community Edition shifted again to AGPLv3, a copyleft license that requires anyone who modifies Redis and provides it as a network service to release their source code.",
+      "claim": "The source reports a change from BSD to RSALv2 and SSPLv1 in March 2024 and an AGPLv3 option for Redis 8.0 Community Edition in April 2025.",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3"
+      ],
+      "entity": "Redis",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E4",
+      "source_id": "S7",
+      "passage_id": "S7.P4",
+      "quote": "License : Redis 8+: RSALv2, SSPLv1 or AGPLv3 (your choice); 7.2 and earlier BSD-3",
+      "claim": "Redis 8 and later offer a choice of RSALv2, SSPLv1 or AGPLv3, while version 7.2 and earlier use BSD-3.",
+      "criterion_ids": [
+        "K1",
+        "K2"
+      ],
+      "entity": "Redis",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    }
+  ],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "The license governing the Redis source code (e.g., BSD, Apache, etc.)",
+      "kind": "dimension",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "independent_sources": 3,
+      "note": null,
+      "missing_entities": [],
+      "stale_entities": []
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Whether the core Redis server is still distributed under an OSI‑approved open‑source license",
+      "kind": "eligibility",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E3",
+        "E4"
+      ],
+      "independent_sources": 2,
+      "note": null,
+      "missing_entities": [],
+      "stale_entities": []
+    },
+    {
+      "criterion_id": "K3",
+      "description": "Any recent changes (within the last 12 months) to Redis licensing or the introduction of proprietary components",
+      "kind": "general",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E1",
+        "E3"
+      ],
+      "independent_sources": 2,
+      "note": null,
+      "missing_entities": [],
+      "stale_entities": []
+    }
+  ],
+  "unresolved_criteria": [],
+  "conflicts": [
+    {
+      "description": "A client library's license file describes the separate Redis project as BSD-3 licensed, whereas a later source reports different license choices for Redis 8 and later.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "evidence_ids": [
+        "E2",
+        "E4"
+      ],
+      "entity": "Redis",
+      "resolution": "The later, version-specific account is more useful for current versions. The undated client-library statement may describe an earlier version.",
+      "review_needed": false
+    }
+  ],
+  "confidence": {
+    "level": "high",
+    "explanation": "High: 3 of 3 required criteria are supported; 5 of 5 kept claims are fully supported; the kept claims cite 3 passages from 3 independent sites.",
+    "factors": {
+      "required_criteria_supported": "3/3",
+      "claim_support_rate": 1.0,
+      "claims_kept": 5,
+      "claims_removed": 0,
+      "short_answer_supported": "yes",
+      "cited_evidence": 3,
+      "independent_domains": 3,
+      "high_suitability_sources": 1,
+      "first_party_evidence_share": 0.0,
+      "comparative_criteria_without_independent_evidence": 0,
+      "unresolved_conflicts": 0,
+      "stale_required_criteria": 0,
+      "weak_required_criteria": 0,
+      "verification": "ran"
+    }
+  },
+  "limitations": [
+    "Publication dates are provider estimates or dates found in page text and may be inaccurate.",
+    "The reviewed sources do not directly establish AGPLv3's OSI-approved status.",
+    "The evidence does not date the introduction of the closed-source techniques or establish whether licensing changed in the past 12 months.",
+    "The current license choices are supported by a secondary source rather than a current official license file."
+  ],
+  "assumptions": [
+    "The question refers to the official Redis project maintained by Redis Ltd. (the company formerly known as Redis Labs).",
+    "Open source is interpreted as the core server being released under an OSI‑approved license that permits free use, modification, and distribution."
+  ],
+  "next_steps": [
+    "Check Redis's current server repository license file and the OSI's license list to verify the available license choices and AGPLv3's status.",
+    "Review Redis release notes and licensing announcements from the past 12 months to check for changes and component introduction dates."
+  ],
+  "plan": {
+    "objective": "Determine whether Redis remains open source as of the current date and identify its licensing model.",
+    "task_type": "explainer",
+    "interpretation": "Research the current open‑source status of Redis, including the license under which its core code is distributed.",
+    "assumptions": [
+      "The question refers to the official Redis project maintained by Redis Ltd. (the company formerly known as Redis Labs).",
+      "Open source is interpreted as the core server being released under an OSI‑approved license that permits free use, modification, and distribution."
+    ],
+    "constraints": [],
+    "ambiguity_note": null,
+    "freshness_days": 365,
+    "target_entity_count": null,
+    "candidate_entities": [],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "The license governing the Redis source code (e.g., BSD, Apache, etc.)",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "Redis license",
+          "Redis source code license",
+          "Redis open source license"
+        ],
+        "group": null
+      },
+      {
+        "id": "K2",
+        "description": "Whether the core Redis server is still distributed under an OSI‑approved open‑source license",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "Redis open source status",
+          "Redis open source 2026",
+          "Redis source code availability"
+        ],
+        "group": null
+      },
+      {
+        "id": "K3",
+        "description": "Any recent changes (within the last 12 months) to Redis licensing or the introduction of proprietary components",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "Redis licensing change 2025",
+          "Redis proprietary modules",
+          "Redis license update 2026"
+        ],
+        "group": null
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "Redis license GitHub",
+        "purpose": "Identify the current license listed in the official Redis repository.",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "Redis open source status 2026",
+        "purpose": "Find recent articles, blog posts, or announcements confirming whether Redis remains open source.",
+        "criterion_ids": [
+          "K2",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "news"
+      },
+      {
+        "id": "Q3",
+        "text": "Redis licensing change 2025 2026",
+        "purpose": "Detect any announcements of license changes or new proprietary modules introduced in the last year.",
+        "criterion_ids": [
+          "K3"
+        ],
+        "round": 1,
+        "topic": "news"
+      }
+    ],
+    "steps": [
+      "Search the official Redis GitHub repository (github.com/redis/redis) for the LICENSE file and note the license type.",
+      "Locate recent (2025‑2026) announcements from Redis Ltd., reputable tech news sites, or the Redis blog confirming the open‑source status and any licensing updates.",
+      "Cross‑check findings across multiple sources (e.g., official docs, community forums, and news articles) to verify that no proprietary licensing has been introduced to the core server.",
+      "Summarize the current license and state whether Redis continues to meet the definition of open source."
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "location": "short_answer",
+      "kind": "interpretation",
+      "text": "Redis 8 and later are offered under a choice of RSALv2, SSPLv1 or AGPLv3; earlier versions have different licensing. The reviewed evidence does not independently establish whether AGPLv3 is OSI-approved, so it does not conclusively answer the question under the requested definition of open source.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C2",
+      "location": "finding",
+      "kind": "fact",
+      "text": "For Redis 8 and later, the reported license choices are RSALv2, SSPLv1 and AGPLv3. Redis 7.2 and earlier are reported to use BSD-3.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C3",
+      "location": "finding",
+      "kind": "fact",
+      "text": "A source describes AGPLv3 as a copyleft license and reports that it became an option for Redis 8.0 Community Edition in April 2025. The reviewed evidence does not establish its OSI approval.",
+      "evidence_ids": [
+        "E3"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C4",
+      "location": "finding",
+      "kind": "fact",
+      "text": "The optional Leanvec and LVQ techniques are described as closed source and available with Redis Open Source only under RSALv2. The evidence does not establish when those components were introduced.",
+      "evidence_ids": [
+        "E1"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C5",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "A source reports Redis licensing changes in March 2024 and April 2025. The evidence does not establish the research date or whether a licensing change occurred within the preceding 12 months.",
+      "evidence_ids": [
+        "E3"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": true
+    }
+  ],
+  "verification": {
+    "claims_checked": 5,
+    "supported": 5,
+    "partially_supported": 0,
+    "not_supported": 0,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": true,
+    "removed_claims": [],
+    "note": null
+  },
+  "execution": {
+    "mode": "live",
+    "model": "gpt-6.1-terra",
+    "sdk_version": "3.40.0",
+    "prompt_version": "2026-10-28.4",
+    "reasoning_effort": "low",
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.15
+    },
+    "metrics": {
+      "started_at": "2026-10-28T17:44:01.929994Z",
+      "finished_at": "2026-10-28T17:44:30.183834Z",
+      "duration_ms": 28253.9,
+      "first_event_ms": 0.0,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 2632.8
+        },
+        {
+          "stage": "search",
+          "ms": 3221.2
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 278.4
+        },
+        {
+          "stage": "extract",
+          "ms": 6386.9
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "synthesize",
+          "ms": 9759.2
+        },
+        {
+          "stage": "verify",
+          "ms": 2940.3
+        },
+        {
+          "stage": "repair",
+          "ms": 3034.0
+        },
+        {
+          "stage": "finalize",
+          "ms": 0.4
+        }
+      ],
+      "rounds": 1,
+      "search_calls": 3,
+      "extract_calls": 1,
+      "pages_requested": 5,
+      "pages_read": 5,
+      "model_calls": 6,
+      "model_attempts": 6,
+      "retries": 0,
+      "model_fallbacks": 0,
+      "models_used": {
+        "groq:openai/gpt-oss-120b": 1,
+        "openai:gpt-6.1-terra": 5
+      },
+      "cache_hits": 0,
+      "cache_misses": 8,
+      "input_tokens": 10157,
+      "output_tokens": 2279,
+      "estimated_cost_usd": 0.04909,
+      "cost_uncertain": false,
+      "tavily_credits": 4.0,
+      "sources_discovered": 18,
+      "sources_filtered": 0,
+      "evidence_accepted": 4,
+      "evidence_rejected": 0
+    }
+  },
+  "created_at": "2026-10-28T17:44:30.183879Z"
+}

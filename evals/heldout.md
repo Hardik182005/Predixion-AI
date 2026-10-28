@@ -20,4 +20,4 @@ Live runs cost about $0.05–0.10 each. Record the model, routing, prompt versio
 
 ## Results
 
-None recorded yet.
+Run once each on 2026-10-28 after the improvement pass (commit `363844d`, prompt `2026-10-28.4`, `gpt-6.1-terra` low effort, Groq routing for plan and follow-up, `MAX_COST_USD_PER_RUN=0.15`). Reports are in `evals/results/heldout/`; the assessment against the criteria above is in [docs/improvements.md](../docs/improvements.md#held-out-questions). H1 mostly met (no comparison table because the planner chose entity discovery), H2 met, H3 met. No change was made because of these runs.

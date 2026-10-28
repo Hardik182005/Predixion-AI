@@ -1,0 +1,1918 @@
+{
+  "run_id": "run_41539028bd1d246decef063e",
+  "question": "Find three European fintech startups that offer invoice financing to small businesses.",
+  "status": "partial",
+  "stop_reason": "rounds_exhausted",
+  "stop_detail": "Reached the limit of 2 research rounds.",
+  "mode": "live",
+  "short_answer": {
+    "claim_id": "C1",
+    "text": "Factris, MatchPlace and Malcom Finance have documented invoice-financing services, but the reviewed evidence does not establish that their services were operating on the relevant 2026 date. Factris is headquartered in Amsterdam, and a profile reports it had 41 employees as of September 30, 2026; that count alone does not establish its service status.",
+    "evidence_ids": [
+      "E1",
+      "E4",
+      "E7",
+      "E9",
+      "E14"
+    ],
+    "verdict": "supported",
+    "disposition": "kept",
+    "note": null
+  },
+  "key_findings": [
+    {
+      "claim_id": "C2",
+      "text": "Factris is headquartered in Amsterdam and provides invoice financing for SMEs; it says it was founded in 2017.",
+      "evidence_ids": [
+        "E1",
+        "E6",
+        "E7"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "A company profile reports 41 Factris employees as of September 30, 2026. This suggests continued activity, but does not directly confirm that invoice financing remained available on October 28.",
+      "evidence_ids": [
+        "E14"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K4"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "MatchPlace launched a peer-to-peer invoice financing service in the UK after providing foreign exchange and payment services to SMEs.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "text": "Malcom Finance and Tatra banka launched an invoice-financing pilot for selected business customers, with a stated focus on improving access to cash for smaller companies.",
+      "evidence_ids": [
+        "E9",
+        "E10"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ]
+    }
+  ],
+  "comparison": {
+    "criteria": [
+      "K1",
+      "K2",
+      "K3",
+      "K4"
+    ],
+    "rows": [
+      {
+        "entity": "Factris",
+        "cells": [
+          {
+            "claim_id": "C6",
+            "text": "Headquartered in Amsterdam, Netherlands.",
+            "evidence_ids": [
+              "E7"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K1",
+            "unknown": false
+          },
+          {
+            "claim_id": "C7",
+            "text": "Provides invoice financing and factoring.",
+            "evidence_ids": [
+              "E6",
+              "E8"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K2",
+            "unknown": false
+          },
+          {
+            "claim_id": "C8",
+            "text": "Targets SMEs.",
+            "evidence_ids": [
+              "E6",
+              "E8"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K3",
+            "unknown": false
+          },
+          {
+            "claim_id": "C9",
+            "text": "A company profile reports employees in September 2026, indirectly suggesting continued activity.",
+            "evidence_ids": [
+              "E14"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K4",
+            "unknown": false
+          }
+        ]
+      }
+    ]
+  },
+  "entities": [
+    {
+      "name": "Factris",
+      "included": true,
+      "summary": {
+        "claim_id": "C10",
+        "text": "Amsterdam-based fintech providing invoice financing to SMEs; Factris says it was founded in 2017.",
+        "evidence_ids": [
+          "E1",
+          "E6",
+          "E7"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": "C11",
+          "text": "Headquartered in Amsterdam.",
+          "evidence_ids": [
+            "E7"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "met"
+        },
+        {
+          "claim_id": "C12",
+          "text": "Provides invoice financing and factoring.",
+          "evidence_ids": [
+            "E6",
+            "E8"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "met"
+        },
+        {
+          "claim_id": "C13",
+          "text": "Provides financing for SMEs.",
+          "evidence_ids": [
+            "E6",
+            "E8"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K3",
+          "status": "met"
+        },
+        {
+          "claim_id": "C14",
+          "text": "A profile reports employees in September 2026, although this is indirect evidence of operating status.",
+          "evidence_ids": [
+            "E14"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K4",
+          "status": "met"
+        }
+      ],
+      "exclusion_reason": null
+    },
+    {
+      "name": "MatchPlace",
+      "included": false,
+      "summary": {
+        "claim_id": "C15",
+        "text": "Launched a UK peer-to-peer invoice financing service after serving SMEs with foreign exchange and payments.",
+        "evidence_ids": [
+          "E4"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "European headquarters not established.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": "C16",
+          "text": "Launched an invoice financing service.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "met"
+        },
+        {
+          "claim_id": "C17",
+          "text": "Served SMEs.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K3",
+          "status": "met"
+        },
+        {
+          "claim_id": null,
+          "text": "Operating status in 2026 not established.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K4",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "European headquarters, founding date and 2026 operating status are not confirmed."
+    },
+    {
+      "name": "Malcom Finance",
+      "included": false,
+      "summary": {
+        "claim_id": "C18",
+        "text": "Participated in an invoice-financing pilot for selected business customers, aimed in part at improving access to cash for smaller companies.",
+        "evidence_ids": [
+          "E9",
+          "E10"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "European headquarters not established.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": "C19",
+          "text": "Provides invoice financing through a pilot and has invoice-financing experience.",
+          "evidence_ids": [
+            "E9",
+            "E11"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "met"
+        },
+        {
+          "claim_id": "C20",
+          "text": "The pilot addresses financing access for smaller companies.",
+          "evidence_ids": [
+            "E10"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K3",
+          "status": "met"
+        },
+        {
+          "claim_id": null,
+          "text": "Operating status in 2026 not established.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K4",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "European headquarters, founding date and 2026 operating status are not confirmed."
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.gtreview.com/news/digital-trade/fintech-startup-brings-new-invoice-finance-service-to-smes-across-europe",
+      "canonical_url": "https://gtreview.com/news/digital-trade/fintech-startup-brings-new-invoice-finance-service-to-smes-across-europe",
+      "domain": "gtreview.com",
+      "title": "Fintech startup brings new invoice finance service to SMEs across Europe | Global Trade Review (GTR)",
+      "snippet": "Skip to content\n\nGlobal Trade Review (GTR)\n\nDanske Bank\n\nAkbank\n\nGTR Issue 3\n\nGlobal Trade Review (GTR)\n\nSearch\n\nDigital Trade\n\n# Fintech startup brings new invoice finance service to SMEs across Europe\n\n  \n\n \n\nBy Sanne Wass\n\nA European fintech startup is entering the UK’s booming invoice financing market, with plans to expand to other European countries in the near future. [...] According to the firm’s CEO Benjamin Gedeon, MatchPlace’s decision to enter the invoice finance space was driven by the needs of its current customers, which include exporters and importers in the UK, France and Portu",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q3",
+        "Q4",
+        "Q6"
+      ],
+      "provider_score": 0.9061314,
+      "rank_score": 0.7314,
+      "retrieved_at": "2026-10-28T17:43:07.355833Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "8c2c224b3d7ee9a30aabaa21765d2ce4c84e9f24eba2ae3fc0068e41d76b9f94",
+      "content_chars": 6155,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S2",
+      "url": "https://www.factris.com/en",
+      "canonical_url": "https://factris.com/en",
+      "domain": "factris.com",
+      "title": "Invoice Financing for SMEs | Fast, Flexible Funding – Factris",
+      "snippet": "Founded in 2017, Factris is a European fintech helping SMEs turn unpaid invoices into fast, flexible working capital.  \nOur smart financing solutions empower businesses to grow—quickly and stress-free.\n\n 24h funding\n Local expert support\n Self-service platform\n Invoice insurance\n\nApply for Invoice Financing\n\n## How SMEs across Europe are thriving with Factris. [...] We’ve helped thousands of businesses unlock the cash they need to grow quickly, securely, and across Europe. Join the growing number of entrepreneurs transforming their business with Factris.\n\n1870+\n\ncustomer success cases\n\n> €2B\n\n",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q3",
+        "Q4",
+        "Q5"
+      ],
+      "provider_score": 0.8851659,
+      "rank_score": 0.7404,
+      "retrieved_at": "2026-10-28T17:43:07.352427Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "a4e28d551c603f25da0a3547b4ed6eb4a425035139618921ab107793a9bfa79a",
+      "content_chars": 5350,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S3",
+      "url": "https://www.iamsterdam.com/en/business/amsterdam-based-fintech-factris-secures-100m-funding-facility",
+      "canonical_url": "https://iamsterdam.com/en/business/amsterdam-based-fintech-factris-secures-100m-funding-facility",
+      "domain": "iamsterdam.com",
+      "title": "Amsterdam-based fintech Factris secures €100M funding facility | I amsterdam",
+      "snippet": "Factris, a European leader in SME financing that uses invoices as collateral, has launched a €100 million funding facility in partnership with the Dutch neo-bank. The facility will enable Factris to scale up its invoice factoring operations and help SMEs unlock working capital to manage growth. [...] Image from John Gundlach | Flying Holland\n\n# Amsterdam-based fintech Factris secures €100M funding facility\n\nLast updated on 18 September 2025 at 11:41\n\nReading time: 2 minutes\n\nAmsterdam’s fintech company Factris has struck a major funding deal with Brand New Day Bank to expand invoice financing ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.8727061,
+      "rank_score": 0.5756,
+      "retrieved_at": "2026-10-28T17:43:07.359486Z",
+      "published_at": "2025-09-18",
+      "published_at_origin": "page_text",
+      "content_hash": "c48a2d47a891c3717c18fbd23e66bce2ae03a3d505532f95fef7176a20713223",
+      "content_chars": 2380,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S16",
+      "url": "https://woadigital.eu/bank-fintech-partnerships-accelerate-access-to-factoring-for-smes",
+      "canonical_url": "https://woadigital.eu/bank-fintech-partnerships-accelerate-access-to-factoring-for-smes",
+      "domain": "woadigital.eu",
+      "title": "Bank–Fintech partnerships accelerate access to factoring for SMEs | WOA.digital",
+      "snippet": "Malcom Finance has been providing factoring for SMEs in logistics, transport, export, construction, and manufacturing since 2018. The company has financed more than 250,000 invoices for over 4,000 companies, with a total volume exceeding 7 billion CZK, and now operates in the Czech Republic, Slovakia, and Poland. It is also one of the fastest‑growing tech companies in Central and Eastern Europe (ranked 9th in the Deloitte Fast 50 CEE).",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3",
+        "Q4"
+      ],
+      "provider_score": 0.69498676,
+      "rank_score": 0.5088,
+      "retrieved_at": "2026-10-28T17:43:23.292146Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "af685b5b6a4855efc3a10f83bdae19f3d2ac8d6a85af44c551ca5fe58021d4cd",
+      "content_chars": 7960,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S20",
+      "url": "https://tracxn.com/d/companies/factris/__b48fXTuFUdx2iB6CcYlw2eA9vHaSUAWxZusemqwt5tc",
+      "canonical_url": "https://tracxn.com/d/companies/factris/__b48fXTuFUdx2iB6CcYlw2eA9vHaSUAWxZusemqwt5tc",
+      "domain": "tracxn.com",
+      "title": "Factris - 2026 Company Profile, Team, Funding & Competitors - Tracxn",
+      "snippet": "Online lending platform for invoice financing. Offers short-term working capital to businesses against their invoices. Users need to provide their basic details to apply for invoice finance. Once approved, users can upload their invoices on the platform & receive the funds directly to a linked bank account.\n\nBrian Reaves is the current CEO of Factris.\n\nAs of Sep 30, 2026, the latest employee count at Factris is 41. [...] Factris is a series C company based in Amsterdam (Netherlands), founded in 2017 by Marcel C Meije. It operates as an Online lending platform for invoice financing. Factris has",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q5"
+      ],
+      "provider_score": 0.8719229,
+      "rank_score": 0.466,
+      "retrieved_at": "2026-10-28T17:43:23.297306Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "9ad72d228e2a5302476cc9bd74d1385e8fa5fdd48d714bec702900a1827db0a7",
+      "content_chars": 11371,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S8",
+      "url": "https://techfundingnews.com/cleavr-raises-8m-seed-varsity-ai-invoice-collection",
+      "canonical_url": "https://techfundingnews.com/cleavr-raises-8m-seed-varsity-ai-invoice-collection",
+      "domain": "techfundingnews.com",
+      "title": "Cleavr raises €8M seed from Varsity to automate Europe's late invoice collection — TFN",
+      "snippet": "Rivalry is on the rise. The company Upflow, which was established in France, secured a Series A funding round of $15 million in 2021. In January 2026, Paraglide, based in Sweden, raised €4.2 million for receivables agents, and in November 2025, Donnerstag.ai, based in Frankfurt, raised €4.3 million. Lunos AI, based in New York, raised $5 million in September 2025. [...] Baptiste Nassoy, who previously worked as an analyst at Kima Ventures, set up Cleavr to enable finance teams to automate the process of collecting late invoices. The company announced a €8 million seed financing round, after ra",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.84027237,
+      "rank_score": 0.5518,
+      "retrieved_at": "2026-10-28T17:43:07.361518Z",
+      "published_at": "2026-10-06",
+      "published_at_origin": "provider_estimate",
+      "content_hash": "db6e5e900ea0baf7cdee5d42a1e57c5e03cbf637f17a6fac8908591a1603fa9f",
+      "content_chars": 5527,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S13",
+      "url": "https://big-picture.com/fintech/europe.html",
+      "canonical_url": "https://big-picture.com/fintech/europe.html",
+      "domain": "big-picture.com",
+      "title": "List of Europe Fintech companies",
+      "snippet": "Advanon\n\nAdvanon is an online platform where SMEs can find funds for their short-term financing needs by selling invoices to financial investors.\n\nLending\n\nSwitzerland | Zurich \n\nPayPlug\n\nSet up online payments on your website in only 1 minute.\n\nPayment\n\nFrance | Paris \n\nBitbond\n\nBitbond is a global peer-to-peer bitcoin lending platform.\n\nLending\n\nGermany | Berlin \n\nGinmon\n\nGinmon provides fully-automated online investment services to customers in Germany and Continential Europe. [...] Retail Banking\n\nGermany | Herrenberg \n\nBlockchain\n\nBlockchain is a web-based bitcoin platform that makes usin",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.8638634,
+      "rank_score": 0.544,
+      "retrieved_at": "2026-10-28T17:43:07.364296Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "a89f34ad1d876980361f5cc68e7f2501ac5888bd522c6e66bb0eaf4b7229501a",
+      "content_chars": 21085,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S21",
+      "url": "https://www.lendingtree.com/business/factoring-companies",
+      "canonical_url": "https://lendingtree.com/business/factoring-companies",
+      "domain": "lendingtree.com",
+      "title": "Best Invoice Factoring Companies in October 2026 | LendingTree",
+      "snippet": "For business owners who prefer in-person support, Riviera Finance offers more than 25 invoice factoring offices throughout the U.S. and Canada, in addition to online factoring services for all 50 states. Plus, if you need funds fast, Riviera Finance guarantees payment within 24 hours of verifying and approving your unpaid invoices. [...] In contrast, invoice financing (also called accounts receivable financing) is when a lender uses your invoices as collateral for a secured business loan. Payment still needs to be collected for your outstanding invoices, with the funds used to repay the busine",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q5",
+        "Q6"
+      ],
+      "provider_score": 0.5559422,
+      "rank_score": 0.4554,
+      "retrieved_at": "2026-10-28T17:43:23.304847Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "27a2ac703e6d3251ebd575a2227daa889440a144520ce8d57ea8829398dd1906",
+      "content_chars": 13810,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S4",
+      "url": "https://dealroom.co/lists/invoicing-startups-europe",
+      "canonical_url": "https://dealroom.co/lists/invoicing-startups-europe",
+      "domain": "dealroom.co",
+      "title": "Top invoicing startups in Europe, ranked by funding | Dealroom.co",
+      "snippet": "| 27 | Triver logoT  TriverFast growing AI invoice financing and cashflow streaming for UK SMEs | 2023 | London, United Kingdom | $60M |\n| 28 | sevDesk logoS  sevDesk$25M+ revenue Accounting easy and cheap online | 2007 | Offenburg, Germany | $58M |\n| 29 | Kalo logoK  Kalo A freelancer management platform that empowers the world’s most creative companies to manage and scale their freelance workforce | 2014 | London, United Kingdom | $58M | [...] | 35 | Finiata logoF  Finiata Finance platform targeting SMEs, freelancers, and the self-employed | 2016 | Berlin, Germany | $47M |\n| 36 | Haltian log",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.7065353,
+      "rank_score": 0.464,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S5",
+      "url": "https://www.getdefacto.com",
+      "canonical_url": "https://getdefacto.com/",
+      "domain": "getdefacto.com",
+      "title": "Defacto: Instant Invoice & Working Capital Financing for European SMBs",
+      "snippet": "A personalized offer based on your real-time data, evolving with our relationship and your growth.\n\nSee if I qualify\n\n### Take back control of your cash flow\n\nKeep control of your cash flow and choose exactly what you finance, with reduced fees for early repayment.\n\n### Stop wasting time\n\nInstant transfers and a fully online process to manage your cash flow.\n\n+€1.2Bn\n\nFinancing granted each year\n\nACPR\n\nDefacto is a regulated financial institution\n\n20,000+\n\nSMEs supported\n\n+40M€\n\nde fonds levés [...] Draw on your capacity by submitting customer receivables,   \n supplier invoices or requesting a",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.6356076,
+      "rank_score": 0.4597,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://www.smefinance.eu/en",
+      "canonical_url": "https://smefinance.eu/en",
+      "domain": "smefinance.eu",
+      "title": "smeGo",
+      "snippet": "Access funding at any time, from anywhere in the world, with a comprehensive financial service infrastructure designed to empower and support European SMEs, digital businesses, and freelancers.\n\nLive\n\nLithuania\n\nLatvia\n\nEstonia\n\nFinland\n\nNetherlands\n\nComing soon\n\nGermany\n\nSpain\n\nBelgium\n\nPoland\n\nItaly\n\nAustria\n\nSME Finance map\n\n#### Business loans, invoice finance, flexi finance\n\nSME FINANCE, UAB\n\nA.Tumėno g. 4-15, LT-01109\n\nCompany code: 304254910\n\nVAT LT100010246715\n\n+370 601 77777 [...] Tech.eu\n\nSME Finance’s funding pot grows with an extra €100 million credit from Fasanara CapitalFeatured ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.6266047,
+      "rank_score": 0.4557,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S7",
+      "url": "https://www.eu-startups.com/2026/07/paris-based-aria-raises-e7-million-and-launches-e240-million-debt-facility-to-tackle-europes-late-payment-crisis",
+      "canonical_url": "https://eu-startups.com/2026/07/paris-based-aria-raises-e7-million-and-launches-e240-million-debt-facility-to-tackle-europes-late-payment-crisis",
+      "domain": "eu-startups.com",
+      "title": "Paris-based Aria raises €7 million and launches €240 million debt facility to tackle Europe’s late-payment crisis | EU-Startups",
+      "snippet": "Aria highlighted that these announcements follow a year of rapid growth. The scale-up reported that it financed 1.7 million invoice advances in 2025, and over 1.1 million more so far in 2026. \n\nIt currently powers more than 70 of Europe’s largest B2B marketplaces and freelance platforms, including Malt and Job&Talent. Aria has financed over €1.5 billion in invoices since launching in 2020, while keeping its default rate below 0.1%. [...] Funding\n\n### German GenAI startup Blockbrain lands €17.5 million to advance enterprise-grade AI agents\n\nFrance-Startups\n\n### Paris-based Bitstack expands its ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.8488849,
+      "rank_score": 0.5281,
+      "retrieved_at": null,
+      "published_at": "2026-07-10",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S9",
+      "url": "https://www.bloomberg.com/news/articles/2026-03-12/funding-rounds-have-never-been-bigger-in-europe-thanks-to-us-cash",
+      "canonical_url": "https://bloomberg.com/news/articles/2026-03-12/funding-rounds-have-never-been-bigger-in-europe-thanks-to-us-cash",
+      "domain": "bloomberg.com",
+      "title": "Funding Rounds Have Never Been Bigger in Europe Thanks to US Cash - Bloomberg",
+      "snippet": "European funding rounds have never been bigger. Months-old startups without a product are surpassing $1 billion valuations, once a symbolic milestone attained after years of grind and multiple funding rounds. The median funding round for a European startup grew 32% between 2024 and 2025, the biggest leap since 2020, when the Covid-19 pandemic skewed fundraising and valuations, according to data from PitchBook. [...] # Funding Rounds Have Never Been Bigger in Europe Thanks to US Cash\n\n## Takeaways by Bloomberg AI\n\nJan Oberhauser’s funding round for his Berlin-based software startup n8n led to a",
+      "kind": "news",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.7355091,
+      "rank_score": 0.4862,
+      "retrieved_at": null,
+      "published_at": "2026-03-12",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S10",
+      "url": "https://www.eu-startups.com/2026/09/amsterdam-based-duqu-raises-e1-5-million-to-unlock-cash-tied-up-in-unpaid-invoices",
+      "canonical_url": "https://eu-startups.com/2026/09/amsterdam-based-duqu-raises-e1-5-million-to-unlock-cash-tied-up-in-unpaid-invoices",
+      "domain": "eu-startups.com",
+      "title": "Amsterdam-based Duqu raises €1.5 million to unlock cash tied up in unpaid invoices | EU-Startups",
+      "snippet": "Next article\n\niBeer: the App Store’s first viral sensation\n\nRahul Raj\n\nRahul Raj\n\nRahul is an experience tech journalist and the former Editor-in-Chief of SiliconCanals. In December of 2025 he joined EU-Startups as News Contributor, covering Europe's biggest startup stories on a daily basis.\n\nRELATED ARTICLES\n\nNorway-Startups\n\n### Norwegian open banking provider Neonomics secures €3.56 million after cutting operating costs by nearly half\n\nFrance-Startups [...] France-Startups\n\n### Paris-based Aria raises €7 million and launches €240 million debt facility to tackle Europe’s late-payment crisis\n",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.61834323,
+      "rank_score": 0.4151,
+      "retrieved_at": null,
+      "published_at": "2026-09-24",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S11",
+      "url": "https://www.startuprad.io/post/dach-startup-news-may-2025-unicorns-m-a-and-vc-surge",
+      "canonical_url": "https://startuprad.io/post/dach-startup-news-may-2025-unicorns-m-a-and-vc-surge",
+      "domain": "startuprad.io",
+      "title": "DACH Startup News May 2025: Unicorns, M&A, and VC Surge",
+      "snippet": "Munich based Remsburg secured €50,000,000 in a series a plus funding to expand its AI powered maintenance and asset operation software across Europe. Berlin's 7 Learnings secured €10,000,000 to expand their AI powered dynamic pricing solution to US retailers. And on March 25, German tech startup, NECT, n e c t, secured €2,500,000, from round two capital. The revenue based financing model allows NECT to drive their market expansion while retaining control over business shares. So they have [...] Startup HQ: Frankfurt, GermanySource: \n\n# Ecosystem\n\n### Europe\n\n●     💰 European Investment Bbank (",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.48718598,
+      "rank_score": 0.4021,
+      "retrieved_at": null,
+      "published_at": "2025-05-29",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S12",
+      "url": "https://fintech.global/2025/09/26/over-1-5bn-raised-across-30-fintech-deals-this-week-read-them-all-here",
+      "canonical_url": "https://fintech.global/2025/09/26/over-1-5bn-raised-across-30-fintech-deals-this-week-read-them-all-here",
+      "domain": "fintech.global",
+      "title": "Over $1.5bn raised across 30 FinTech deals this week - read them all here",
+      "snippet": "The funding round, spearheaded by ACE Ventures, also saw participation from notable industry figures including former Tableau CEO Mark Nelson and Ted Kummert, the former chief product development officer at UiPath.\n\nThe capital will be used to accelerate the company’s expansion across Europe and the United States. [...] Goodvest, a Paris-based responsible investment platform, has secured €12m in a Series B funding round, two years after completing its Series A.\n\nThe latest round was led by Serena, with contributions from business angels and existing investors Ring Capital, Polytechnique Ventur",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.22169629,
+      "rank_score": 0.2827,
+      "retrieved_at": null,
+      "published_at": "2025-09-26",
+      "published_at_origin": "provider_estimate",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S14",
+      "url": "https://www.mdfin.com/post/invoice-financing-and-its-opportunities-for-fintechs",
+      "canonical_url": "https://mdfin.com/post/invoice-financing-and-its-opportunities-for-fintechs",
+      "domain": "mdfin.com",
+      "title": "Invoice Financing and its Opportunities for Fintechs",
+      "snippet": "Look at the case of Paramago, a prominent non-banking finance company in Europe. Founded in 1992, Paramago started implementing its online strategy only in 2016. In 2024, the financier provided €572M in funding, financing 395K invoices for 21.5K customers. In September last year, Paramago commenced its international expansion by acquiring Omnicredit, a profitable non-banking invoice financing player in the Romanian market. Paramago is also listed on the Warsaw Stock Exchange. [...] The majority of invoice financing markets are dedicated to transparent regulation. The top 10 biggest invoice fin",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7944651,
+      "rank_score": 0.522,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S15",
+      "url": "https://www.fintechdatabase.eu/categories",
+      "canonical_url": "https://fintechdatabase.eu/categories",
+      "domain": "fintechdatabase.eu",
+      "title": "Fintech Categories — Browse European Fintechs by Sector | fintechdatabase.eu",
+      "snippet": "Accounting integrations connect financial platforms — banks, payment processors, expense management tools, and lending products — directly to accounting software like Xero, QuickBooks, and Sage. These integrations automatically sync transaction data, invoices, and reconciliation records, eliminating manual data entry and reducing the bookkeeping burden for small businesses. For fintechs, deep accounting integrations are a key driver of SME adoption and retention.\n\nBusiness accounts [...] 94 companies →\n\nSME Finance fintech provides financial products and services specifically designed for smal",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7898345,
+      "rank_score": 0.5199,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S17",
+      "url": "https://uk.linkedin.com/company/matchplace",
+      "canonical_url": "https://uk.linkedin.com/company/matchplace",
+      "domain": "uk.linkedin.com",
+      "title": "MatchPlace",
+      "snippet": "LinkedIn:  · 117 followers\nIndustry: Financial Services\nType: Privately Held\nHeadquarters: London, England, United Kingdom\nSocial Profiles: [...] Description: MatchPlace is a financial services platform for small and medium businesses integrating FX, domestic and foreign currencies payments at fair prices and very soon invoice funding. Leveraging on fintech solutions and experiences from the 1st wave of fintech, MatchPlace is a fintech 2.0 solution. We aggregate fintech and classic financial providers solutions to distribute the best services to customers on our platform. MatchPlace is a perma",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.6562404,
+      "rank_score": 0.3598,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S18",
+      "url": "https://www.privateequitywire.co.uk/matchplace-launches-peer-peer-invoice-financing-service",
+      "canonical_url": "https://privateequitywire.co.uk/matchplace-launches-peer-peer-invoice-financing-service",
+      "domain": "privateequitywire.co.uk",
+      "title": "MatchPlace launches peer-to-peer invoice financing service",
+      "snippet": "We funded our first invoice in London last December and we are now proud to fully open our Invoice Funding service to companies. We offer investment ...Read more",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.61168414,
+      "rank_score": 0.4121,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S19",
+      "url": "https://fintech.com",
+      "canonical_url": "https://fintech.com/",
+      "domain": "fintech.com",
+      "title": "The Business Automation Platform for Retail & Hospitality | Fintech®",
+      "snippet": "EDI-powered invoice automation for every vendor, distributor, and supplier. Any format, any purchase — captured, GL coded, and paid.\n Protect margins with an up-to-date product catalog. Transform fragmented catalogs and price books into a single dataset, surfacing cost discrepancies and delivering an accurate view of all product data. [...] Automated Invoice Payment Collection\n\n   \n\nGet paid on time every time with PaymentSource. Fintech facilitates automated electronic alcohol invoice payments – including regulated COD (cash on delivery) or term payments – between you and your retail partners",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.14025407,
+      "rank_score": 0.2184,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S22",
+      "url": "https://www.dripcapital.com/en-us/resources/blog/10-best-invoice-financing-companies-in-usa-or-drip-capital",
+      "canonical_url": "https://dripcapital.com/en-us/resources/blog/10-best-invoice-financing-companies-in-usa-or-drip-capital",
+      "domain": "dripcapital.com",
+      "title": "10 Best Invoice Financing Companies in USA (2026) | Drip Capital",
+      "snippet": "RTS Financial is a factoring provider with added tools for transportation companies:\n\n Advance Rates: Offers up to 97% on eligible invoices\n Funding Speed: Same-day funding available after the setup\n Service Options: Includes invoice factoring, fuel advances, and collections\n Technology: Mobile and web platforms for submitting invoices and managing accounts\n Best For: Trucking and transportation companies that also need fuel advances alongside factoring. [...] ### 3. Riviera Finance\n\nRiviera Finance delivers non-recourse invoice factoring with receivables management:\n\n Advance Rates: Typically",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q5"
+      ],
+      "provider_score": 0.55275756,
+      "rank_score": 0.2948,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S23",
+      "url": "https://www.ibisworld.com/united-states/number-of-businesses/invoice-factoring/5407",
+      "canonical_url": "https://ibisworld.com/united-states/number-of-businesses/invoice-factoring/5407",
+      "domain": "ibisworld.com",
+      "title": "Invoice Factoring in the US Number of Businesses Statistics for 2026 | IBISWorld",
+      "snippet": "There are xx businesses in the Invoice Factoring industry in the US, which is expected to decline at xx% over the next five years. Invoice factoring companies specialize in short-term debt financing. Factoring involves a company selling its account receivables to a third party to access cash to finance further business activity without having to wait for its debtors to pay them. Companies generate revenue through factor fees (the difference between the price paid for the invoice and money [...] ## Your industry answers engine\n\nWhen the stakes are high, you need intelligence that cuts through t",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q5"
+      ],
+      "provider_score": 0.5148644,
+      "rank_score": 0.4054,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S24",
+      "url": "https://www.nerdwallet.com/business/loans/learn/factoring-company",
+      "canonical_url": "https://nerdwallet.com/business/loans/learn/factoring-company",
+      "domain": "nerdwallet.com",
+      "title": "Best Factoring Companies of 2026 - NerdWallet",
+      "snippet": "RTS Financial specializes in invoice factoring for trucking businesses. The company also works with businesses in the distribution, staffing, textiles, manufacturing and oilfield services industries.\n\nWith RTS, you can access business capital within 24 hours using a web-based portal to upload your invoices and manage your account online. The company does not charge ACH payment or invoice-uploading fees on factoring services and offers discounts for veterans. [...] Invoice financing: A business uses unpaid invoices as a form of collateral when pursuing a loan or line of credit and the business ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q5"
+      ],
+      "provider_score": 0.5113512,
+      "rank_score": 0.3946,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S25",
+      "url": "https://www.finder.com/business-loans",
+      "canonical_url": "https://finder.com/business-loans",
+      "domain": "finder.com",
+      "title": "Compare Small Business Loans: Up to $5 Million (2026)",
+      "snippet": "| Invoice financing | 80% of the invoice amount | Invoice financing gives you an advance on your unpaid invoices. Costs are typically a percentage of the invoiced amount, and you’re expected to pay the advance back quickly after your invoice is due. |  A reasonably low-risk option for an established trader  Must have invoices due  Not an option for startups | [...] Invoice financing and factoring offer an advance on unpaid customer invoices. Invoice financing is generally available for invoice volumes under $20,000, though invoice factoring can run from around $20,000 to $10 million. Instead o",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q6"
+      ],
+      "provider_score": 0.5170594,
+      "rank_score": 0.3972,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S26",
+      "url": "https://www.biz2x.com/resources/best-small-business-loans-for-startups-a-complete-guide-to-funding-your-new-venture-in-2026",
+      "canonical_url": "https://biz2x.com/resources/best-small-business-loans-for-startups-a-complete-guide-to-funding-your-new-venture-in-2026",
+      "domain": "biz2x.com",
+      "title": "Best Small Business Loans for Startups: A Complete Guide to Funding Your New Venture in 2026",
+      "snippet": "### 4. Invoice Financing\n\nInvoice financing is a type of short-term loan that helps your secure funds against your pending invoices. This type of best small business loan for startups is useful for owners who often face longer payment cycles with Net-30 or Net-60 payment terms.\n\n### 5. SBA Loans [...] ### 2. Growth Stage: Match Funding with Revenue Patterns\n\nAs sales begin to stabilize, your financing needs may change. You might require working capital for hiring, inventory expansion, or marketing campaigns. The best small business loans for startup at this stage often support ongoing operatio",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q6"
+      ],
+      "provider_score": 0.4889428,
+      "rank_score": 0.3753,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S27",
+      "url": "https://ecapital.com/start-ups",
+      "canonical_url": "https://ecapital.com/start-ups",
+      "domain": "ecapital.com",
+      "title": "Invoice Financing for Startups | eCapital",
+      "snippet": "“The whole financial package is just perfect for small companies. eCapital Commercial Finance’s solution addressed all of our problems. Every small company should have a lender that will work with them to overcome obstacles, like eCapital does.”\n\nSee All Reviews\n\n## Let’s talk!\n\nGet a free quote\n\nIt’s easy to get started.\n\nGet a free quote  \n 855-635-3707\n\neCapital\n\nCopyright © 2026 eCapital Corp.\n\nTerms of Use | Privacy Policy | Your Privacy Choices [...] All California loans made or arranged pursuant to a California Finance Lenders Law License, CA Copyright © 2026 eCapital. All Rights Reserv",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q6"
+      ],
+      "provider_score": 0.3374442,
+      "rank_score": 0.2979,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S28",
+      "url": "https://ask-luca.com/blogs/start-up-business-loans",
+      "canonical_url": "https://ask-luca.com/blogs/start-up-business-loans",
+      "domain": "ask-luca.com",
+      "title": "Best Startup Business Loans of 2026: Compare Options, Rates, and How to Qualify | Luca",
+      "snippet": "| Invoice Factoring | B2B with receivables | 80% to 90% of invoices | 1% to 5%/month | 1 to 7 days | 500+ | ✅ Invoices | Customer-dependent |\n| MCA ⚠️ | Absolute last resort | $5K to $500K | 40% to 350% | 1 to 3 days | None | ❌ No | Extreme cost |\n| P2P Lending | Alternative credit paths | $1K to $50K | 7% to 36% | 1 to 2 weeks | 600+ | ❌ No | Less regulated |\n| Nonprofit Microloan | Pre-revenue, low credit | $1K to $15K | 0% to 8% | 2 to 8 weeks | None | ❌ No | Small amounts | [...] ### Invoice Factoring\n\nNot technically a loan. You sell outstanding invoices to a factoring company at a discou",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q6"
+      ],
+      "provider_score": 0.31380916,
+      "rank_score": 0.2965,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "source_id": "S2",
+      "passage_id": "S2.P3",
+      "quote": "Founded in 2017, Factris is a European fintech helping SMEs turn unpaid invoices into fast, flexible working capital.",
+      "claim": "Factris was founded in 2017 and provides working capital to SMEs using unpaid invoices.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E2",
+      "source_id": "S2",
+      "passage_id": "S2.P4",
+      "quote": "From transport to e-commerce, discover how flexible invoice financing empowers businesses to move faster and smarter.",
+      "claim": "Factris describes providing invoice financing to businesses in sectors including transport and e-commerce.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E3",
+      "source_id": "S2",
+      "passage_id": "S2.P7",
+      "quote": "After years of designing and programming, a replacement of Factris' FAB (Finance Automation for Business) platform has been released simultaneously across all five of Factris' markets.",
+      "claim": "Factris released a replacement for its FAB platform across its five markets.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E4",
+      "source_id": "S1",
+      "passage_id": "S1.P1",
+      "quote": "MatchPlace, a platform that has been offering foreign exchange and payment services for SMEs since 2016, has now launched a peer-to-peer invoice financing service in the UK, aiming to offer working capital at a lower cost than traditional lenders.",
+      "claim": "MatchPlace launched a peer-to-peer invoice financing service in the UK after offering foreign exchange and payment services to SMEs since 2016.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "MatchPlace",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E5",
+      "source_id": "S1",
+      "passage_id": "S1.P2",
+      "quote": "According to the firm's CEO Benjamin Gedeon, MatchPlace's decision to enter the invoice finance space was driven by the needs of its current customers, which include exporters and importers in the UK, France and Portugal, who were looking not just for easy access to financing, but also for a platform that could offer it as an integrated service.",
+      "claim": "According to its CEO, MatchPlace entered invoice finance in response to financing needs among its existing customers in the UK, France and Portugal.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "MatchPlace",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E6",
+      "source_id": "S3",
+      "passage_id": "S3.P1",
+      "quote": "Amsterdam's fintech company Factris has struck a major funding deal with Brand New Day Bank to expand invoice financing solutions for small and medium-sized enterprises (SMEs) across Europe.",
+      "claim": "In 2025, Amsterdam fintech Factris secured a funding deal to expand invoice financing for SMEs across Europe.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E7",
+      "source_id": "S3",
+      "passage_id": "S3.P2",
+      "quote": "Under the agreement, Factris, which is headquartered in Amsterdam with operational hubs in the Netherlands and Lithuania, will support sellers in nine countries and manage receivables from debtors in 27 European markets.",
+      "claim": "Factris is headquartered in Amsterdam and has operational hubs in the Netherlands and Lithuania.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E8",
+      "source_id": "S3",
+      "passage_id": "S3.P2",
+      "quote": "The facility will enable Factris to scale up its invoice factoring operations and help SMEs unlock working capital to manage growth.",
+      "claim": "The funding facility will enable Factris to expand invoice factoring for SMEs.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E9",
+      "source_id": "S16",
+      "passage_id": "S16.P4",
+      "quote": "A recent example is the pilot project launched by Tatra banka and the factoring fintech Malcom Finance. Through this collaboration, a selected group of Tatra banka's business customers can now test the Invoice Financing service - a fully digital solution that enables businesses to finance their issued invoices and quickly unlock cash directly within the Tatra banka mobile app.",
+      "claim": "Malcom Finance and Tatra banka launched a pilot allowing selected business customers to finance issued invoices through the bank's mobile app.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "Malcom Finance",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E10",
+      "source_id": "S16",
+      "passage_id": "S16.P5",
+      "quote": "With Tatra banka, we are testing how to jointly accelerate access to cash for smaller companies that historically struggled to access factoring,\"",
+      "claim": "Malcom Finance's CEO says its work with Tatra banka tests access to cash for smaller companies that historically struggled to access factoring.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "Malcom Finance",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E11",
+      "source_id": "S16",
+      "passage_id": "S16.P5",
+      "quote": "Malcom Finance brings extensive experience in invoice financing across the CEE region, together with its own automated risk-assessment technology.",
+      "claim": "Malcom Finance has invoice financing experience across Central and Eastern Europe and its own automated risk-assessment technology.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "Malcom Finance",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E12",
+      "source_id": "S20",
+      "passage_id": "S20.P2",
+      "quote": "Factris is a series C company based in Amsterdam (Netherlands), founded in 2017 by Marcel C Meije. It operates as an Online lending platform for invoice financing.",
+      "claim": "Factris is based in Amsterdam, was founded in 2017, and operates an online invoice financing platform.",
+      "criterion_ids": [
+        "K1",
+        "K2"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E13",
+      "source_id": "S20",
+      "passage_id": "S20.P13",
+      "quote": "Factris secures €100M to expand invoice factoring for European SMEsTech Funding News•Sep 09, 2025•Factris, brandnewday",
+      "claim": "A September 2025 news listing says Factris secured €100 million to expand invoice factoring for European SMEs.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E14",
+      "source_id": "S20",
+      "passage_id": "S20.P18",
+      "quote": "As of Sep 30, 2026, the latest employee count at Factris is 41.",
+      "claim": "The profile reports that Factris had 41 employees as of September 30, 2026.",
+      "criterion_ids": [
+        "K4"
+      ],
+      "entity": "Factris",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    }
+  ],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "Headquartered in a European country.",
+      "kind": "eligibility",
+      "required": true,
+      "status": "weak",
+      "evidence_ids": [
+        "E7",
+        "E12"
+      ],
+      "independent_sources": 2,
+      "note": "Established for 1 of 3 requested entities. Not established for: MatchPlace, Malcom Finance.",
+      "missing_entities": [
+        "MatchPlace",
+        "Malcom Finance"
+      ],
+      "stale_entities": []
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Provides invoice financing (including factoring or discounting) as a core product.",
+      "kind": "eligibility",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E8",
+        "E9",
+        "E11",
+        "E12",
+        "E13"
+      ],
+      "independent_sources": 5,
+      "note": null,
+      "missing_entities": [],
+      "stale_entities": []
+    },
+    {
+      "criterion_id": "K3",
+      "description": "Targets small‑business customers (SMEs).",
+      "kind": "eligibility",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E1",
+        "E2",
+        "E4",
+        "E6",
+        "E8",
+        "E10",
+        "E13"
+      ],
+      "independent_sources": 5,
+      "note": null,
+      "missing_entities": [],
+      "stale_entities": []
+    },
+    {
+      "criterion_id": "K4",
+      "description": "Company is still active and operating in 2026.",
+      "kind": "eligibility",
+      "required": true,
+      "status": "weak",
+      "evidence_ids": [
+        "E14"
+      ],
+      "independent_sources": 1,
+      "note": "Only low-suitability sources (aggregators, forums, listicles).",
+      "missing_entities": [],
+      "stale_entities": []
+    }
+  ],
+  "unresolved_criteria": [
+    "K1",
+    "K4"
+  ],
+  "conflicts": [],
+  "confidence": {
+    "level": "low",
+    "explanation": "Low: 2 of 4 required criteria are supported; 20 of 20 kept claims are fully supported; the kept claims cite 9 passages from 5 independent sites; 2 required criteria have only weak evidence.",
+    "factors": {
+      "required_criteria_supported": "2/4",
+      "claim_support_rate": 1.0,
+      "claims_kept": 20,
+      "claims_removed": 0,
+      "short_answer_supported": "yes",
+      "cited_evidence": 9,
+      "independent_domains": 5,
+      "high_suitability_sources": 0,
+      "first_party_evidence_share": 0.11,
+      "comparative_criteria_without_independent_evidence": 0,
+      "unresolved_conflicts": 0,
+      "stale_required_criteria": 0,
+      "weak_required_criteria": 2,
+      "verification": "ran"
+    }
+  },
+  "limitations": [
+    "Research stopped early: Reached the limit of 2 research rounds.",
+    "K1 (Headquartered in a European country.): weak. Established for 1 of 3 requested entities. Not established for: MatchPlace, Malcom Finance.",
+    "K4 (Company is still active and operating in 2026.): weak. Only low-suitability sources (aggregators, forums, listicles).",
+    "Publication dates are provider estimates or dates found in page text and may be inaccurate.",
+    "Only one candidate meets all four listed criteria, and its 2026 activity is supported indirectly by a low-tier company profile rather than direct evidence of current service availability.",
+    "The reviewed sources do not establish the headquarters, founding dates or 2026 operating status of MatchPlace and Malcom Finance.",
+    "The sources use terms such as SMEs and smaller companies without consistently specifying customer employee or revenue thresholds."
+  ],
+  "assumptions": [
+    "The term \"small businesses\" refers to companies with fewer than 250 employees or annual revenue under €50M.",
+    "Startups are defined as companies founded after 2010 and still operating as of the current date."
+  ],
+  "next_steps": [
+    "Check Factris’s current service availability directly and verify its operating status through a current company filing.",
+    "Check company registries for MatchPlace and Malcom Finance headquarters, incorporation dates and current status, then confirm their invoice-financing offerings and customer eligibility.",
+    "Find primary or independent sources for: Headquartered in a European country..",
+    "Find primary or independent sources for: Company is still active and operating in 2026.."
+  ],
+  "plan": {
+    "objective": "Identify three European fintech startups that provide invoice financing services to small businesses.",
+    "task_type": "entity_discovery",
+    "interpretation": "Search for fintech startups based in Europe that currently offer invoice financing solutions targeted at small business customers.",
+    "assumptions": [
+      "The term \"small businesses\" refers to companies with fewer than 250 employees or annual revenue under €50M.",
+      "Startups are defined as companies founded after 2010 and still operating as of the current date."
+    ],
+    "constraints": [],
+    "ambiguity_note": null,
+    "freshness_days": 365,
+    "target_entity_count": 3,
+    "candidate_entities": [],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "Headquartered in a European country.",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "European headquarters",
+          "based in Europe",
+          "location"
+        ],
+        "group": null
+      },
+      {
+        "id": "K2",
+        "description": "Provides invoice financing (including factoring or discounting) as a core product.",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "invoice financing",
+          "invoice factoring",
+          "invoice discounting",
+          "cash flow financing"
+        ],
+        "group": null
+      },
+      {
+        "id": "K3",
+        "description": "Targets small‑business customers (SMEs).",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "SME",
+          "small business",
+          "mid‑market",
+          "small enterprise"
+        ],
+        "group": null
+      },
+      {
+        "id": "K4",
+        "description": "Company is still active and operating in 2026.",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "2026",
+          "active",
+          "operating",
+          "latest news",
+          "funding round 2026"
+        ],
+        "group": null
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "European fintech startup invoice financing SME",
+        "purpose": "Identify fintech companies in Europe that offer invoice financing to small businesses.",
+        "criterion_ids": [
+          "K1",
+          "K2",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "invoice factoring startup Europe 2025 funding round",
+        "purpose": "Confirm the companies are still active in 2026 and gather recent news.",
+        "criterion_ids": [
+          "K4"
+        ],
+        "round": 1,
+        "topic": "news"
+      },
+      {
+        "id": "Q3",
+        "text": "list of European invoice financing fintechs for small businesses",
+        "purpose": "Cross‑check multiple sources for a concise list matching all criteria.",
+        "criterion_ids": [
+          "K1",
+          "K2",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Search using the first query to compile an initial list of European fintechs offering invoice financing.",
+      "Filter the list against criteria K1‑K3 by checking company profiles, product pages, and press releases for location, product focus, and target market.",
+      "Validate each remaining candidate’s operational status in 2026 using the news query (K4) and recent funding or activity reports.",
+      "Select the three most representative startups that satisfy all criteria and document sources for each."
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "location": "short_answer",
+      "kind": "interpretation",
+      "text": "Factris, MatchPlace and Malcom Finance have documented invoice-financing services, but the reviewed evidence does not establish that their services were operating on the relevant 2026 date. Factris is headquartered in Amsterdam, and a profile reports it had 41 employees as of September 30, 2026; that count alone does not establish its service status.",
+      "evidence_ids": [
+        "E1",
+        "E4",
+        "E7",
+        "E9",
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": true
+    },
+    {
+      "id": "C2",
+      "location": "finding",
+      "kind": "fact",
+      "text": "Factris is headquartered in Amsterdam and provides invoice financing for SMEs; it says it was founded in 2017.",
+      "evidence_ids": [
+        "E1",
+        "E6",
+        "E7"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C3",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "A company profile reports 41 Factris employees as of September 30, 2026. This suggests continued activity, but does not directly confirm that invoice financing remained available on October 28.",
+      "evidence_ids": [
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C4",
+      "location": "finding",
+      "kind": "fact",
+      "text": "MatchPlace launched a peer-to-peer invoice financing service in the UK after providing foreign exchange and payment services to SMEs.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C5",
+      "location": "finding",
+      "kind": "fact",
+      "text": "Malcom Finance and Tatra banka launched an invoice-financing pilot for selected business customers, with a stated focus on improving access to cash for smaller companies.",
+      "evidence_ids": [
+        "E9",
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C6",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Headquartered in Amsterdam, Netherlands.",
+      "evidence_ids": [
+        "E7"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C7",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Provides invoice financing and factoring.",
+      "evidence_ids": [
+        "E6",
+        "E8"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C8",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Targets SMEs.",
+      "evidence_ids": [
+        "E6",
+        "E8"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C9",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "A company profile reports employees in September 2026, indirectly suggesting continued activity.",
+      "evidence_ids": [
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C10",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Amsterdam-based fintech providing invoice financing to SMEs; Factris says it was founded in 2017.",
+      "evidence_ids": [
+        "E1",
+        "E6",
+        "E7"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C11",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Headquartered in Amsterdam.",
+      "evidence_ids": [
+        "E7"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C12",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Provides invoice financing and factoring.",
+      "evidence_ids": [
+        "E6",
+        "E8"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C13",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Provides financing for SMEs.",
+      "evidence_ids": [
+        "E6",
+        "E8"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C14",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "A profile reports employees in September 2026, although this is indirect evidence of operating status.",
+      "evidence_ids": [
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C15",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Launched a UK peer-to-peer invoice financing service after serving SMEs with foreign exchange and payments.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C16",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Launched an invoice financing service.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C17",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Served SMEs.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C18",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Participated in an invoice-financing pilot for selected business customers, aimed in part at improving access to cash for smaller companies.",
+      "evidence_ids": [
+        "E9",
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": true
+    },
+    {
+      "id": "C19",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Provides invoice financing through a pilot and has invoice-financing experience.",
+      "evidence_ids": [
+        "E9",
+        "E11"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C20",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "The pilot addresses financing access for smaller companies.",
+      "evidence_ids": [
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    }
+  ],
+  "verification": {
+    "claims_checked": 20,
+    "supported": 20,
+    "partially_supported": 0,
+    "not_supported": 0,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": true,
+    "removed_claims": [],
+    "note": null
+  },
+  "execution": {
+    "mode": "live",
+    "model": "gpt-6.1-terra",
+    "sdk_version": "3.40.0",
+    "prompt_version": "2026-10-28.4",
+    "reasoning_effort": "low",
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.15
+    },
+    "metrics": {
+      "started_at": "2026-10-28T17:43:02.859775Z",
+      "finished_at": "2026-10-28T17:44:01.114203Z",
+      "duration_ms": 58254.4,
+      "first_event_ms": 0.0,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 2467.6
+        },
+        {
+          "stage": "search",
+          "ms": 1760.9
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 287.6
+        },
+        {
+          "stage": "extract",
+          "ms": 9361.6
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "follow_up",
+          "ms": 3497.0
+        },
+        {
+          "stage": "search",
+          "ms": 2666.6
+        },
+        {
+          "stage": "filter",
+          "ms": 0.5
+        },
+        {
+          "stage": "read",
+          "ms": 410.0
+        },
+        {
+          "stage": "extract",
+          "ms": 7634.5
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "synthesize",
+          "ms": 19981.8
+        },
+        {
+          "stage": "verify",
+          "ms": 5956.5
+        },
+        {
+          "stage": "repair",
+          "ms": 4228.3
+        },
+        {
+          "stage": "finalize",
+          "ms": 0.5
+        }
+      ],
+      "rounds": 2,
+      "search_calls": 6,
+      "extract_calls": 2,
+      "pages_requested": 8,
+      "pages_read": 8,
+      "model_calls": 8,
+      "model_attempts": 8,
+      "retries": 0,
+      "model_fallbacks": 0,
+      "models_used": {
+        "groq:openai/gpt-oss-120b": 2,
+        "openai:gpt-6.1-terra": 6
+      },
+      "cache_hits": 0,
+      "cache_misses": 14,
+      "input_tokens": 19414,
+      "output_tokens": 4865,
+      "estimated_cost_usd": 0.09161,
+      "cost_uncertain": false,
+      "tavily_credits": 7.0,
+      "sources_discovered": 28,
+      "sources_filtered": 0,
+      "evidence_accepted": 14,
+      "evidence_rejected": 0
+    }
+  },
+  "created_at": "2026-10-28T17:44:01.114252Z"
+}

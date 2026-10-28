@@ -1,0 +1,1231 @@
+{
+  "run_id": "run_75309463c09cdcf10f8c9915",
+  "question": "Which open-source workflow orchestration tools (Airflow, Prefect, Dagster) support Python 3.13, and under which licenses?",
+  "status": "partial",
+  "stop_reason": "rounds_exhausted",
+  "stop_detail": "Reached the limit of 2 research rounds.",
+  "mode": "live",
+  "short_answer": {
+    "claim_id": "C1",
+    "text": "Airflow says it supports Python 3.13 starting with version 3.2.0, but the evidence does not identify its latest stable release. Prefect announced forthcoming Python 3.13 support and says its engine uses Apache 2.0; the evidence does not establish support in its latest stable release. Dagster’s Python 3.13 support and license were not established in the reviewed evidence, so no tool was confirmed against the strict latest-stable-release criterion.",
+    "evidence_ids": [
+      "E2",
+      "E5",
+      "E4"
+    ],
+    "verdict": "supported",
+    "disposition": "kept",
+    "note": null
+  },
+  "key_findings": [
+    {
+      "claim_id": "C2",
+      "text": "Airflow says Python 3.13 is supported starting with Airflow 3.2.0. The reviewed evidence does not identify the latest stable release.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "Prefect’s 3.2.15 announcement said the next release would include Python 3.13 support; it does not establish support in the latest stable release.",
+      "evidence_ids": [
+        "E5"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "Prefect says its engine is licensed under Apache 2.0.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2"
+      ]
+    }
+  ],
+  "comparison": null,
+  "entities": [
+    {
+      "name": "Apache Airflow",
+      "included": false,
+      "summary": {
+        "claim_id": "C5",
+        "text": "Airflow says it supports Python 3.13 starting with version 3.2.0.",
+        "evidence_ids": [
+          "E2"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "The latest stable release is not identified in the reviewed evidence.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "Support in the latest stable release was not confirmed."
+    },
+    {
+      "name": "Prefect",
+      "included": false,
+      "summary": {
+        "claim_id": "C6",
+        "text": "Prefect announced forthcoming Python 3.13 support and says its engine is Apache 2.0 licensed.",
+        "evidence_ids": [
+          "E5",
+          "E4"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "Support in the latest stable release was not established.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "Support in the latest stable release was not confirmed."
+    },
+    {
+      "name": "Dagster",
+      "included": false,
+      "summary": null,
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "Python 3.13 support was not found in the reviewed evidence.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "Python 3.13 support was not confirmed."
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://github.com/apache/airflow/discussions/51184",
+      "canonical_url": "https://github.com/apache/airflow/discussions/51184",
+      "domain": "github.com",
+      "title": "Python 3.13 support · apache/airflow · Discussion #51184 · GitHub",
+      "snippet": "|  |\n\n| WIP -> #46891 |\n\nYou must be logged in to vote\n\nAll reactions\n\n6 replies\n\n@potiuk\n\nComment options\n\n### Uh oh!\n\nThere was an error while loading. Please reload this page.\n\n#### potiuk Aug 18, 2025 Collaborator\n\n|  |\n\n| The support for 3.13 is coming in 3.1. We do not release support for new versions of Python in patch-level releases. |\n\nAll reactions\n\n@potiuk\n\nComment options\n\n### Uh oh!\n\nThere was an error while loading. Please reload this page.\n\n#### potiuk Aug 18, 2025 Collaborator [...] |  |\n\n| Given that Python 3.13 has been released since October 2024 (around 7 months ago), will ",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.7440808,
+      "rank_score": 0.6252,
+      "retrieved_at": "2026-10-28T17:42:32.791168Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "1416b56a011bb8368ecf20fef9b9f3c68a4a178b4593987e469aebc89a2fa111",
+      "content_chars": 3284,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S2",
+      "url": "https://airflow.apache.org/docs/apache-airflow/stable/start.html",
+      "canonical_url": "https://airflow.apache.org/docs/apache-airflow/stable/start.html",
+      "domain": "airflow.apache.org",
+      "title": "Quick Start — Airflow 3.3.2 Documentation",
+      "snippet": "References\n\n Operators and hooks\n CLI\n Templates\n Airflow public API\n Configurations\n Extra packages\n\nInternal DB details\n\n Database Migrations\n Database ERD Schema\n\n Home\n Quick Start\n\n`↑↓` Navigate `⏎` Select `Esc` Close\n\n# Quick Start\n\nThis quick start guide will help you bootstrap an Airflow standalone instance on your local machine.\n\nNote\n\nSuccessful installation requires a Python 3 environment. Starting with Airflow 3.2.0, Airflow supports Python 3.10, 3.11, 3.12, 3.13, 3.14.",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.6455898,
+      "rank_score": 0.5244,
+      "retrieved_at": "2026-10-28T17:42:32.793564Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "863ec49c273519e1a1a54b7217e6b1bd9da4ea1e0d88422b49a5e99fb5b064f1",
+      "content_chars": 6429,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S4",
+      "url": "https://github.com/apache/airflow/issues/57471",
+      "canonical_url": "https://github.com/apache/airflow/issues/57471",
+      "domain": "github.com",
+      "title": "apache-airflow-providers-fab missing in python3.13 constraints for airflow 3.1.X · Issue #57471 · apache/airflow · GitHub",
+      "snippet": "Issue body actions\n\n### Apache Airflow Provider(s)\n\nfab\n\n### Versions of Apache Airflow Providers\n\nI am using below command to add providers:\n\n```\nAIRFLOW_VERSION=3.1.1 PY_VERSION=3.13 pip install apache-airflow[fab,amazon,google,pagerduty,standard,cncf-kubernetes,s3fs]==${AIRFLOW_VERSION} --constraint \" \n```\n\npython3.13 constraints  is missing apache-airflow-providers-fab version and because of that fab provider is not installed.\n\n### Apache Airflow version\n\n3.1.1\n\n### Operating System [...] No milestone\n\nNone yet\n\nNo branches or pull requests\n\n## Issue actions\n\nYou can’t perform that action ",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.54608524,
+      "rank_score": 0.5022,
+      "retrieved_at": "2026-10-28T17:42:32.846973Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "3869b746520e4516cdc344fb5916c61ebbbb92af2f1ab8e33c1438da7f5856dc",
+      "content_chars": 2434,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S10",
+      "url": "https://www.prefect.io/prefect/open-source",
+      "canonical_url": "https://prefect.io/prefect/open-source",
+      "domain": "prefect.io",
+      "title": "Prefect Open Source - Python Workflow Orchestration",
+      "snippet": "Fully Permissive\n\n## Apache 2.0. No surprises.\n\nFork it. Modify it. Build commercial products on top. The Prefect engine is Apache 2.0—the freedom your team needs, forever.\n\nRead full license\n\nApache License\n\nVersion 2.0, January 2004\n\nPermissions:\n\n✓ Commercial use\n\n✓ Modification\n\n✓ Distribution\n\n✓ Patent use\n\n✓ Private use\n\n## The fastest way to deploy Prefect\n\nPrefect Cloud is a managed, high-availability deployment of Prefect OSS. Same developer experience, turnkey data platform. [...] One engine for Data, ML, and Agents. Unify your entire stack on a single control plane.\n\n### Agents\n\nTur",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.4237686,
+      "rank_score": 0.4036,
+      "retrieved_at": "2026-10-28T17:42:43.167724Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "4dfdadb948964a2a55fb25aa072b4cec57fa8221e5ee96a9c62d89da3e4e6a82",
+      "content_chars": 4405,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S20",
+      "url": "https://docs.prefect.io/v3/release-notes/oss/version-3-2",
+      "canonical_url": "https://docs.prefect.io/v3/release-notes/oss/version-3-2",
+      "domain": "docs.prefect.io",
+      "title": "3.2 - Prefect",
+      "snippet": "Documentation 📓\n\n docs(prefect-ray): change to Ray support for Python 3.13 is experimental by @hongbo-miao in #17339\n Add New MLB Pipeline Tutorial Series by @biancaines in #17321\n feat: Prefect on Modal tutorial documentation by @Ben-Epstein in #17345\n chore(docs): remove Helm reference on ECS page by @mitchnielsen in #17363\n\nFull Changelog:  \n\n## ​ 3.2.9 - Free Range Runners [...] > ## Documentation Index\n>\n> Fetch the complete documentation index at:</llms.txt>\n>\n> Use this file to discover all available pages before exploring further.\n\nPrefect home pagelight logodark logo\n\nGetting StartedC",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.784336,
+      "rank_score": 0.5981,
+      "retrieved_at": "2026-10-28T17:42:43.170711Z",
+      "published_at": "2025-03-28",
+      "published_at_origin": "page_text",
+      "content_hash": "6c221d480b86b4b201654bab16f793303a29e5fdbad12c6876fccf880a026e5b",
+      "content_chars": 23193,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S5",
+      "url": "https://airflow.apache.org/docs/apache-airflow-providers-papermill/stable/index.html",
+      "canonical_url": "https://airflow.apache.org/docs/apache-airflow-providers-papermill/stable/index.html",
+      "domain": "airflow.apache.org",
+      "title": "apache-airflow-providers-papermill — apache-airflow-providers-papermill Documentation",
+      "snippet": "Version: 3.13.3 \n\nNo matching versions\n\nBasics\n\n Home\n Changelog\n Security\n\nGuides\n\n Operators\n Connection types\n\nReferences\n\n Python API\n\nSystem tests\n\n System Tests\n\nResources\n\n Example Dags\n PyPI Repository\n Installing from sources\n\nCommits\n\n Detailed list of commits\n\nVersion: 3.13.3 \n\nNo matching versions\n\nBasics\n\n Home\n Changelog\n Security\n\nGuides\n\n Operators\n Connection types\n\nReferences\n\n Python API\n\nSystem tests\n\n System Tests\n\nResources [...] | PIP package | Version required |\n --- |\n| `apache-airflow` | `>=2.11.0` |\n| `apache-airflow-providers-common-compat` | `>=1.8.0` |\n| `papermil",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.52685463,
+      "rank_score": 0.471,
+      "retrieved_at": "2026-10-28T17:42:32.848666Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "78c592b5cb598218a807be6c01a00f380bff28058ac00975997326cb4fc201bf",
+      "content_chars": 2121,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S13",
+      "url": "https://docs.python.org/3/whatsnew/3.13.html",
+      "canonical_url": "https://docs.python.org/3/whatsnew/3.13.html",
+      "domain": "docs.python.org",
+      "title": "What’s New In Python 3.13 — Python 3.15.2 documentation",
+      "snippet": "Release schedule changes:\n\nPEP 602 (“Annual Release Cycle for Python”) has been updated to extend the full support (‘bugfix’) period for new releases to two years. This updated policy means that:\n\n Python 3.9–3.12 have one and a half years of full support, followed by three and a half years of security fixes.\n Python 3.13 and later have two years of full support, followed by three years of security fixes.\n\n## New Features¶\n\n### A better interactive interpreter¶ [...] © Copyright 2001 Python Software Foundation.   \n This page is licensed under the Python Software Foundation License Version 2.  ",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.53181785,
+      "rank_score": 0.5184,
+      "retrieved_at": "2026-10-28T17:42:32.797144Z",
+      "published_at": "2024-10-07",
+      "published_at_origin": "page_text",
+      "content_hash": "d5be96772cf6dcbf395e0729f6847829fa3c1dbded81c4f738f2889ef405ac0d",
+      "content_chars": 60000,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S23",
+      "url": "https://docs.dagster.io/deployment/troubleshooting/pex-compatibility-issues-github-actions",
+      "canonical_url": "https://docs.dagster.io/deployment/troubleshooting/pex-compatibility-issues-github-actions",
+      "domain": "docs.dagster.io",
+      "title": "Compatible Python interpreter and wheel dependency errors in GitHub Actions for Dagster+ | Dagster Docs",
+      "snippet": "## Solution​\n\nThe primary solution for PEX compatibility issues with Dagster+ GitHub Action, particularly around cryptography wheels or other dependencies, is to use a compatible GitHub Actions runner image. Dagster recommends and officially supports the `ubuntu-latest` or `ubuntu-22.04` runners.\n\nTo resolve these issues: [...] 1. Update your workflow YAML to use `ubuntu-latest` or `ubuntu-22.04` as the runner.\n2. Use Python 3.11 for better wheel compatibility.\n3. Add pip caching for improved performance. [...] !=  'skip' run: |  run:  |  python -m pip install --upgrade pip setuptools wheel py",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q5"
+      ],
+      "provider_score": 0.48060113,
+      "rank_score": 0.4614,
+      "retrieved_at": "2026-10-28T17:42:43.185089Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "637667a9d41fb1f5acbd595b59889e8ff5266bda97433e6b9245a9353f24caf3",
+      "content_chars": 1894,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S3",
+      "url": "https://airflow.apache.org/announcements",
+      "canonical_url": "https://airflow.apache.org/announcements",
+      "domain": "airflow.apache.org",
+      "title": "Announcements | Apache Airflow",
+      "snippet": "Thanks to all the contributors who made this possible.\n\n# November 14, 2025\n\nWe’ve just released Apache Airflow 3.1.3 and Task SDK 1.1.3 🎉\n\n📦 PyPI:    \n 📚 Docs:    \n 🛠 Release Notes:    \n 🐳 Docker Image: “docker pull apache/airflow:3.1.3”   \n 🚏 Constraints: \n\nThanks to all the contributors who made this possible.\n\n# November 11, 2025\n\n📣 We’ve just released Apache Airflow CTL 0.1.0 🎉\n\nThis is the first official release of the `airflowctl` - new tool to remotely interact with your Airflow 3 [...] # March 14, 2026\n\nWe’ve just released Apache Airflow 2.11.2 🎉\n\n📦 PyPI:    \n 📚 Docs:    \n 🛠 Release N",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.60245985,
+      "rank_score": 0.4276,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://stackoverflow.com/questions/76569146/python-version-used-within-the-apache-airflow-package-in-a-docker-image",
+      "canonical_url": "https://stackoverflow.com/questions/76569146/python-version-used-within-the-apache-airflow-package-in-a-docker-image",
+      "domain": "stackoverflow.com",
+      "title": "Python version used within the Apache Airflow package in a Docker image",
+      "snippet": "Save this question.\n\n PS E:\\my_project> docker pull apache/airflow\n```\n\nThen when I check the Python version used in airflow within the docker image:\n\nCopy\n\n```python\n(my_env) PS E:\\my_project> docker run apache/airflow airflow version   \n2.6.2\n(my_env) PS E:\\my_project> docker run apache/airflow python --version\nPython 3.7.17\n(my_env) PS E:\\my_project> python --version\nPython 3.11.3\n``` [...] Image 4: Chris's user avatar\n\nChris\n\n2,081 6 6 gold badges 35 35 silver badges 80 80 bronze badges\n\n1\n\n     I check on pypi that airflow supports python 3.7 and higher. Usually you do not need to worry a",
+      "kind": "community",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.5030035,
+      "rank_score": 0.2715,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S7",
+      "url": "https://github.com/PrefectHQ/prefect",
+      "canonical_url": "https://github.com/PrefectHQ/prefect",
+      "domain": "github.com",
+      "title": "GitHub - PrefectHQ/prefect: Prefect is a workflow orchestration framework for building resilient data pipelines in Python. · GitHub",
+      "snippet": "| Dockerfile | Dockerfile |  |  |\n| Dockerfile.sqlite-builder | Dockerfile.sqlite-builder |  |  |\n| LICENSE | LICENSE |  |  |\n| README.md | README.md |  |  |\n| REVIEW.md | REVIEW.md |  |  |\n| SECURITY.md | SECURITY.md |  |  |\n| hatch\\_build.py | hatch\\_build.py |  |  |\n| justfile | justfile |  |  |\n| pyproject.toml | pyproject.toml |  |  |\n| pyrightconfig-ci.json | pyrightconfig-ci.json |  |  |\n| renovate.json | renovate.json |  |  |\n| uv.lock | uv.lock |  |  |\n|  | [...] ## About\n\nPrefect is a workflow orchestration framework for building resilient data pipelines in Python.\n\nprefect.io\n\n### T",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.5134007,
+      "rank_score": 0.4875,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S8",
+      "url": "https://pyreadiness.org/3.13",
+      "canonical_url": "https://pyreadiness.org/3.13",
+      "domain": "pyreadiness.org",
+      "title": "Python 3.13 Readiness - Python 3.13 support table for most popular Python packages",
+      "snippet": "identify ✗   pexpect ✗   mpmath ✓   cfgv ✗   asn1crypto ✗   rapidfuzz ✓   google-cloud-secret-manager ✓   awscli ✓   msal-extensions ✗   pypdf ✓   narwhals ✓   jsonpointer ✓   aiofiles ✓   async-timeout ✗   librt ✓   pytest-xdist ✓   paramiko ✓   webencodings ✓   cloudpickle ✓   authlib ✓   ipython ✗   execnet ✗   sqlparse ✓   pydantic-ai-slim ✓   fastjsonschema ✓   google-cloud-batch ✓   pyproject-hooks ✗   datasets ✓   grpc-google-iam-v1 ✓   joserfc ✓   asgiref ✓   databricks-sdk ✓ [...] ✗   dbt-core ✓   flatbuffers ✗   nest-asyncio ✗   mdit-py-plugins ✗   termcolor ✓   tomli-w ✗   brotli ✗ ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5"
+      ],
+      "provider_score": 0.4942147,
+      "rank_score": 0.5063,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S9",
+      "url": "https://docs.prefect.io/v3/get-started/install",
+      "canonical_url": "https://docs.prefect.io/v3/get-started/install",
+      "domain": "docs.prefect.io",
+      "title": "Install Prefect - Prefect",
+      "snippet": "```\npip install -U prefect-client pip  install -U prefect-client\n```\n\nPrefect Cloud is compatible with all client versions. If you self-host a Prefect server, keep your client version compatible with the server (generally, client version less than or equal to server version). See Versioning and compatibility for the rules.\n\n## ​ Next steps\n\nYou also need an API server, either: [...] If you self-host a Prefect server, keep your client version compatible with the server (generally, client version less than or equal to server version). Prefect Cloud is compatible with all client versions. See Ver",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2",
+        "Q4"
+      ],
+      "provider_score": 0.43122545,
+      "rank_score": 0.4892,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S11",
+      "url": "https://pypi.org/project/prefect",
+      "canonical_url": "https://pypi.org/project/prefect",
+      "domain": "pypi.org",
+      "title": "prefect",
+      "snippet": "Prefect is a workflow orchestration framework for building data pipelines in Python. It's the simplest way to elevate a script into a production workflow. With",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.3399377,
+      "rank_score": 0.3981,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S12",
+      "url": "https://www.prefect.io/pricing",
+      "canonical_url": "https://prefect.io/pricing",
+      "domain": "prefect.io",
+      "title": "Pricing - Prefect Cloud",
+      "snippet": "| Trigger Prefect actions from external systems through an HTTP endpoint. |\n| API credentials for automation and CI/CD, separate from individual user logins. |\n| Rules that react to events in your workflows, like sending alerts or triggering runs. | 5 | 10 | 50 | 500+ |\n| Security |\n| Single sign-on. Let your team log in through your identity provider (SAML or OIDC). | SAML/OIDC |\n| Automatically provision and remove users by syncing with your identity provider. | Available | [...] ### Security\n\n| Feature | Hobby |\n --- |\n| SSO |\n| SCIM |\n| Audit Log Retention | None |\n| Run Retention | 7 days",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.12117549,
+      "rank_score": 0.1658,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S14",
+      "url": "https://dagster.io/pricing",
+      "canonical_url": "https://dagster.io/pricing",
+      "domain": "dagster.io",
+      "title": "Dagster Pricing | Flexible Plans for Every Data Team",
+      "snippet": "| Agent queues: multi-agent routing, multi-region failover | − | − |\n| EU data residency (Dagster+ EU) | − | − |\n| SIEM log export | − | − |\n| Compliance |\n| SOC 2 Type II |\n| GDPR |\n| Data portability |\n| HIPAA | − | − |\n| Custom security questionnaires | − | − |\n| Support |\n| Dagster community |\n| Support Center and Ask AI |\n| Billing support |\n| Dedicated Slack or Microsoft Teams channel | − | − |\n| Premium support | − | − |\n| Uptime SLAs | − | − | [...] | Features | Solo | Starter | Pro |\n| Core orchestration |\n| Asset-based orchestration |\n| Workflow-based orchestration |\n| Local developm",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3",
+        "Q5"
+      ],
+      "provider_score": 0.31983313,
+      "rank_score": 0.3278,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S15",
+      "url": "https://dagster.io/docs",
+      "canonical_url": "https://dagster.io/docs",
+      "domain": "dagster.io",
+      "title": "Overview | Dagster Docs",
+      "snippet": "Developing with AI? Check out our new AI skills!\n\n# Welcome to Dagster\n\nDagster is a data orchestrator built for data engineers, with integrated lineage, observability, a declarative programming model, and best-in-class testability.\n\ndefs/assets.py [...] ## GitHub\n\nStar our GitHub repository and follow our development through GitHub Discussions.\n\nWatch our latest videos on YouTube.\n\n## Dagster University\n\nLearn Dagster through interactive courses and hands-on tutorials.",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.3086594,
+      "rank_score": 0.3615,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S16",
+      "url": "https://www.youtube.com/watch?v=sKqDq4TFbmY",
+      "canonical_url": "https://youtube.com/watch?v=sKqDq4TFbmY",
+      "domain": "youtube.com",
+      "title": "Dagster - Data Orchestration and Pipelines with Python & DAGs",
+      "snippet": "# Dagster - Data Orchestration and Pipelines with Python & DAGs\n## Channel: BugBytes\n58.2K subscribers\n432 likes\n\n### Description\n14,811 views\nPosted: 2025-05-19\n🙏 Join our channel to get access to perks:\n   / @bugbytes3923  \n\n☕️ 𝗕𝘂𝘆 𝗺𝗲 𝗮 𝗰𝗼𝗳𝗳𝗲𝗲:\nTo support the channel and encourage new videos, please consider buying a coffee here: [...] In this video, we'll dive into Dagster for Python task orchestration and data engineering. We will look at core Dagster concepts, including Assets, Definitions, Dagster UI, Schedules and Jobs. [...] [27:52] in any of that, let me know in the comments. And fina",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.26908046,
+      "rank_score": 0.2662,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S17",
+      "url": "https://dagster.io/blog/data-engineering-in-python",
+      "canonical_url": "https://dagster.io/blog/data-engineering-in-python",
+      "domain": "dagster.io",
+      "title": "Move from Python Scripts to Dagster",
+      "snippet": "Dagster offers several key components to help users build and run their data pipelines, including Assets, Ops, and Jobs.\n\n‍ [...] ```\nfrom setuptools import find_packages, setup from  setuptools import find_packages, setup  setup(  name=\"dagster_tutorial\",  name= \"dagster_tutorial\",  packages=find_packages(exclude=[\"dagster_tutorial_tests\"]),  packages=find_packages(exclude=[\"dagster_tutorial_tests\"]),  install_requires=[  \"dagster\",  \"dagster\",  \"dagster-cloud\"  \"dagster-cloud\"   ],  extras_require={\"dev\": [\"dagit\", \"pytest\"]},  extras_require={\"dev\": [\"dagit\", \"pytest\"]}, ) \n``` [...] for CI",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3",
+        "Q5"
+      ],
+      "provider_score": 0.26665422,
+      "rank_score": 0.2926,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S18",
+      "url": "https://github.com/PrefectHQ/prefect/issues/18285",
+      "canonical_url": "https://github.com/PrefectHQ/prefect/issues/18285",
+      "domain": "github.com",
+      "title": "Python 3.13 support for Prefect 2.x · Issue #18285",
+      "snippet": "Prefect 3.x is supported on Python 3.13 - see #17577. Would it be possible to have support for Prefect 2.x versions as well? Currently install",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.8449346,
+      "rank_score": 0.648,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S19",
+      "url": "https://linen.prefect.io/t/34298768/ulva73b9p-we-are-in-the-midst-of-migrating-a-large-mono-repo",
+      "canonical_url": "https://linen.prefect.io/t/34298768/ulva73b9p-we-are-in-the-midst-of-migrating-a-large-mono-repo",
+      "domain": "linen.prefect.io",
+      "title": "< Marvin> we are in the midst of migrating a large mono ...",
+      "snippet": "Yes—*Prefect 3.6.28 officially supports both Python 3.10 and 3.13*. ... The metadata confirms Prefect core support; testing remains",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.838376,
+      "rank_score": 0.5224,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S21",
+      "url": "https://linen.prefect.io/t/34128439/ulva73b9p-which-python-version-should-i-use-for-the-running-",
+      "canonical_url": "https://linen.prefect.io/t/34128439/ulva73b9p-which-python-version-should-i-use-for-the-running-",
+      "domain": "linen.prefect.io",
+      "title": "Prefect - Workflow Orchestration for Data, ML, and Agents",
+      "snippet": "What is Prefect?\n:   Prefect is a workflow orchestration platform for data, ML, and agents. You write workflows as plain Python, and Prefect runs them durably in production: scheduling, retries, caching, and recovery are part of the platform rather than code you maintain. The open-source framework and Prefect Cloud share the same core engine. [...] Add @flow to your Python functions for state, logging, and automatic retries. No new framework to learn.\n\n## Never fly blind in production.\n\nSee every run across all your teams and infrastructure, and catch problems before they spread.\n\nintegration-",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.28173202,
+      "rank_score": 0.2832,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S22",
+      "url": "https://github.com/dagster-io/dagster",
+      "canonical_url": "https://github.com/dagster-io/dagster",
+      "domain": "github.com",
+      "title": "GitHub - dagster-io/dagster: An orchestration platform for the development, production, and observation of data assets. · GitHub",
+      "snippet": "The graph loaded into Dagster's web UI:\n\nAn example asset graph as rendered in the Dagster UI\n\nDagster is built to be used at every stage of the data development lifecycle - local development, unit tests, integration tests, staging environments, all the way up to production.\n\n## Quick Start:\n\nIf you're new to Dagster, we recommend checking out the docs or following the hands-on tutorial.\n\nDagster is available on PyPI and officially supports Python 3.9 through Python 3.14. [...] 🌟 Star us on GitHub\n 📥 Subscribe to our Newsletter\n 🐦 Follow us on Twitter\n 🕴️ Follow us on LinkedIn\n 📺 Subscribe to ",
+      "kind": "code_repository",
+      "tier": "high",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q5"
+      ],
+      "provider_score": 0.5521781,
+      "rank_score": 0.4824,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S24",
+      "url": "https://www.youtube.com/watch?v=i9ay8ddOqX0",
+      "canonical_url": "https://youtube.com/watch?v=i9ay8ddOqX0",
+      "domain": "youtube.com",
+      "title": "Dagster Tutorial: Dagster Installation and Getting Started with Asset",
+      "snippet": "[3:12] we are going to create a Python virtual  environment called `.pyenv`. Activate the  \n[3:18] Python environment using the activation  command. Now we can install the dagster  \n[3:25] and dagster-webserver modules. Then we can  create the python file `hello-dagster.py` and  \n[3:34] define our first asset. Now we can launch  dagster using the command `dagster dev -f  \n[3:46] hello-dagster.py`. The daster webserver  UI can be assessed locally at port 3000. [...] ### Transcript\n[0:00] Hello, everyone! This is coder2j. In this video,  I will show you how to install Dagster on macOS  \n[0:07] a",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q5"
+      ],
+      "provider_score": 0.25729635,
+      "rank_score": 0.2384,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "source_id": "S1",
+      "passage_id": "S1.P3",
+      "quote": "The support for 3.13 is coming in 3.1. We do not release support for new versions of Python in patch-level releases.",
+      "claim": "An Airflow collaborator said Python 3.13 support was coming in Airflow 3.1 and that support for new Python versions is not released in patch-level releases.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Apache Airflow",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E2",
+      "source_id": "S2",
+      "passage_id": "S2.P2",
+      "quote": "Starting with Airflow 3.2.0, Airflow supports Python 3.10, 3.11, 3.12, 3.13, 3.14.",
+      "claim": "Starting with Airflow 3.2.0, Airflow supports Python 3.13 among other listed versions.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Apache Airflow",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 1
+    },
+    {
+      "id": "E3",
+      "source_id": "S4",
+      "passage_id": "S4.P2",
+      "quote": "python3.13 constraints is missing apache-airflow-providers-fab version and because of that fab provider is not installed.",
+      "claim": "An Airflow 3.1.1 issue report says the Python 3.13 constraints were missing the FAB provider version, preventing the provider from being installed.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Apache Airflow",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E4",
+      "source_id": "S10",
+      "passage_id": "S10.P6",
+      "quote": "The Prefect engine is Apache 2.0-the freedom your team needs, forever.",
+      "claim": "The Prefect engine is licensed under Apache 2.0.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "Prefect",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E5",
+      "source_id": "S20",
+      "passage_id": "S20.P1",
+      "quote": "Released on March 28, 2025 Stay tuned, our next release will include Python 3.13 support!",
+      "claim": "Prefect 3.2.15 announced that the next release would include Python 3.13 support.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Prefect",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E6",
+      "source_id": "S20",
+      "passage_id": "S20.P14",
+      "quote": "docs(prefect-ray): change to Ray support for Python 3.13 is experimental by @hongbo-miao in #17339",
+      "claim": "The Prefect Ray integration documentation describes Ray support for Python 3.13 as experimental.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Prefect",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    }
+  ],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "Support for Python 3.13 (explicitly listed as a supported Python version for the latest stable release).",
+      "kind": "eligibility",
+      "required": true,
+      "status": "weak",
+      "evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E5",
+        "E6"
+      ],
+      "independent_sources": 3,
+      "note": "Established for 2 of 3 requested entities. Not established for: Dagster.",
+      "missing_entities": [
+        "Dagster"
+      ],
+      "stale_entities": []
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Open-source license under which the tool is released (e.g., Apache 2.0, MIT, etc.).",
+      "kind": "dimension",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E4"
+      ],
+      "independent_sources": 1,
+      "note": null,
+      "missing_entities": [],
+      "stale_entities": []
+    }
+  ],
+  "unresolved_criteria": [
+    "K1"
+  ],
+  "conflicts": [],
+  "confidence": {
+    "level": "low",
+    "explanation": "Low: 1 of 2 required criteria are supported; 6 of 6 kept claims are fully supported; the kept claims cite 3 passages from 2 independent sites; 1 required criterion has only weak evidence.",
+    "factors": {
+      "required_criteria_supported": "1/2",
+      "claim_support_rate": 1.0,
+      "claims_kept": 6,
+      "claims_removed": 0,
+      "short_answer_supported": "yes",
+      "cited_evidence": 3,
+      "independent_domains": 2,
+      "high_suitability_sources": 2,
+      "first_party_evidence_share": 1.0,
+      "comparative_criteria_without_independent_evidence": 0,
+      "unresolved_conflicts": 0,
+      "stale_required_criteria": 0,
+      "weak_required_criteria": 1,
+      "verification": "ran"
+    }
+  },
+  "limitations": [
+    "Research stopped early: Reached the limit of 2 research rounds.",
+    "K1 (Support for Python 3.13 (explicitly listed as a supported Python version for the latest stable release).): weak. Established for 2 of 3 requested entities. Not established for: Dagster.",
+    "Publication dates are provider estimates or dates found in page text and may be inaccurate.",
+    "The evidence does not identify the latest stable releases or explicitly establish their Python 3.13 support for all three tools.",
+    "No license evidence was provided for Airflow or Dagster.",
+    "The Prefect license evidence is a vendor claim."
+  ],
+  "assumptions": [
+    "The tools are actively maintained and have released versions that may claim Python 3.13 compatibility.",
+    "Licensing information is publicly available in repository metadata or official documentation."
+  ],
+  "next_steps": [
+    "Check the latest stable release metadata for each tool for an explicit Python 3.13 classifier or supported-version list.",
+    "Check the Airflow and Dagster repository license files and verify the scope of Prefect’s engine license.",
+    "Find primary or independent sources for: Support for Python 3.13 (explicitly listed as a supported Python version for the latest stable release).."
+  ],
+  "plan": {
+    "objective": "Identify which of the specified open-source workflow orchestration tools (Airflow, Prefect, Dagster) are compatible with Python 3.13 and list their licenses.",
+    "task_type": "entity_discovery",
+    "interpretation": "Determine for each of the three named tools whether they support Python 3.13 and what open-source license they are released under.",
+    "assumptions": [
+      "The tools are actively maintained and have released versions that may claim Python 3.13 compatibility.",
+      "Licensing information is publicly available in repository metadata or official documentation."
+    ],
+    "constraints": [],
+    "ambiguity_note": null,
+    "freshness_days": 365,
+    "target_entity_count": 3,
+    "candidate_entities": [
+      "Apache Airflow",
+      "Prefect",
+      "Dagster"
+    ],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "Support for Python 3.13 (explicitly listed as a supported Python version for the latest stable release).",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "Python 3.13 support",
+          "Airflow Python versions",
+          "Prefect Python 3.13",
+          "Dagster Python compatibility"
+        ],
+        "group": null
+      },
+      {
+        "id": "K2",
+        "description": "Open-source license under which the tool is released (e.g., Apache 2.0, MIT, etc.).",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": false,
+        "comparative": false,
+        "key_terms": [
+          "Airflow license",
+          "Prefect license",
+          "Dagster license",
+          "open source license"
+        ],
+        "group": null
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "Apache Airflow Python 3.13 support license",
+        "purpose": "Check Airflow's Python 3.13 compatibility and its license.",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "Prefect Python 3.13 compatibility license",
+        "purpose": "Find Prefect's support for Python 3.13 and its licensing information.",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q3",
+        "text": "Dagster Python 3.13 support license",
+        "purpose": "Determine Dagster's Python 3.13 support status and its open-source license.",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "round": 1,
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Locate the official repository or documentation page for each tool (Airflow, Prefect, Dagster).",
+      "Identify the latest stable release and review its release notes or compatibility matrix for supported Python versions, confirming inclusion of Python 3.13.",
+      "Find the licensing information, typically in a LICENSE file, repository header, or documentation, and record the exact license name.",
+      "Cross‑verify findings with secondary sources such as PyPI metadata, package distribution pages, or recent blog posts to ensure freshness.",
+      "Compile a concise table summarizing Python 3.13 support (yes/no) and the associated license for each tool."
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "location": "short_answer",
+      "kind": "interpretation",
+      "text": "Airflow says it supports Python 3.13 starting with version 3.2.0, but the evidence does not identify its latest stable release. Prefect announced forthcoming Python 3.13 support and says its engine uses Apache 2.0; the evidence does not establish support in its latest stable release. Dagster’s Python 3.13 support and license were not established in the reviewed evidence, so no tool was confirmed against the strict latest-stable-release criterion.",
+      "evidence_ids": [
+        "E2",
+        "E5",
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C2",
+      "location": "finding",
+      "kind": "fact",
+      "text": "Airflow says Python 3.13 is supported starting with Airflow 3.2.0. The reviewed evidence does not identify the latest stable release.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C3",
+      "location": "finding",
+      "kind": "fact",
+      "text": "Prefect’s 3.2.15 announcement said the next release would include Python 3.13 support; it does not establish support in the latest stable release.",
+      "evidence_ids": [
+        "E5"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C4",
+      "location": "finding",
+      "kind": "fact",
+      "text": "Prefect says its engine is licensed under Apache 2.0.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C5",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Airflow says it supports Python 3.13 starting with version 3.2.0.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C6",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Prefect announced forthcoming Python 3.13 support and says its engine is Apache 2.0 licensed.",
+      "evidence_ids": [
+        "E5",
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    }
+  ],
+  "verification": {
+    "claims_checked": 6,
+    "supported": 6,
+    "partially_supported": 0,
+    "not_supported": 0,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": false,
+    "removed_claims": [],
+    "note": null
+  },
+  "execution": {
+    "mode": "live",
+    "model": "gpt-6.1-terra",
+    "sdk_version": "3.40.0",
+    "prompt_version": "2026-10-28.4",
+    "reasoning_effort": "low",
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.15
+    },
+    "metrics": {
+      "started_at": "2026-10-28T17:42:28.245254Z",
+      "finished_at": "2026-10-28T17:43:02.026048Z",
+      "duration_ms": 33780.8,
+      "first_event_ms": 0.0,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 2250.0
+        },
+        {
+          "stage": "search",
+          "ms": 2123.6
+        },
+        {
+          "stage": "filter",
+          "ms": 0.1
+        },
+        {
+          "stage": "read",
+          "ms": 231.0
+        },
+        {
+          "stage": "extract",
+          "ms": 5280.1
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "follow_up",
+          "ms": 1943.6
+        },
+        {
+          "stage": "search",
+          "ms": 2942.4
+        },
+        {
+          "stage": "filter",
+          "ms": 0.4
+        },
+        {
+          "stage": "read",
+          "ms": 169.5
+        },
+        {
+          "stage": "extract",
+          "ms": 3873.8
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "synthesize",
+          "ms": 12587.2
+        },
+        {
+          "stage": "verify",
+          "ms": 2377.7
+        },
+        {
+          "stage": "finalize",
+          "ms": 0.6
+        }
+      ],
+      "rounds": 2,
+      "search_calls": 5,
+      "extract_calls": 2,
+      "pages_requested": 8,
+      "pages_read": 8,
+      "model_calls": 6,
+      "model_attempts": 6,
+      "retries": 0,
+      "model_fallbacks": 0,
+      "models_used": {
+        "groq:openai/gpt-oss-120b": 2,
+        "openai:gpt-6.1-terra": 4
+      },
+      "cache_hits": 0,
+      "cache_misses": 13,
+      "input_tokens": 13922,
+      "output_tokens": 3047,
+      "estimated_cost_usd": 0.07647,
+      "cost_uncertain": false,
+      "tavily_credits": 7.0,
+      "sources_discovered": 24,
+      "sources_filtered": 0,
+      "evidence_accepted": 6,
+      "evidence_rejected": 0
+    }
+  },
+  "created_at": "2026-10-28T17:43:02.026120Z"
+}
