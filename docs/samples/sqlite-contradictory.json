@@ -1,0 +1,1554 @@
+{
+  "run_id": "run_63400c3ed215eeb6319c58bc",
+  "question": "Is SQLite suitable for production web applications?",
+  "status": "partial",
+  "stop_reason": "rounds_exhausted",
+  "stop_detail": "Reached the limit of 2 research rounds.",
+  "mode": "live",
+  "short_answer": {
+    "claim_id": "C1",
+    "text": "Yes. SQLite can be suitable as the primary database for a production web application, particularly when the database is local to the application server and writes can take turns. The main uncertainty is whether its single-writer model and deployment constraints will meet your workload and recovery requirements.",
+    "evidence_ids": [
+      "E23",
+      "E5",
+      "E12",
+      "E13",
+      "E9"
+    ],
+    "verdict": "supported",
+    "disposition": "kept",
+    "note": null
+  },
+  "key_findings": [
+    {
+      "claim_id": "C2",
+      "text": "SQLite supports transactions and ACID properties. Production planning still needs a backup and recovery approach; a third-party replication tool such as Litestream is one option.",
+      "evidence_ids": [
+        "E27",
+        "E1",
+        "E9"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "In WAL mode, multiple readers can run concurrently with one writer. Writes are serialized and can queue under sustained load; multiple users writing through one application server does not by itself rule SQLite out.",
+      "evidence_ids": [
+        "E12",
+        "E3",
+        "E13",
+        "E5"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "SQLite says web capacity depends on database usage and that fewer than 100,000 hits per day should generally work, but calls that estimate conservative rather than a hard limit. Treat request counts as a rough signal, not a capacity guarantee.",
+      "evidence_ids": [
+        "E18",
+        "E19"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "text": "Embedding SQLite avoids a database server to manage, but it has no database network authentication layer. Protect database files with appropriate permissions and consider encryption for sensitive data.",
+      "evidence_ids": [
+        "E7",
+        "E11",
+        "E26"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "recommendation",
+      "criterion_ids": [
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C6",
+      "text": "Consider PostgreSQL or MySQL when write contention cannot be tolerated, or a database server when separate services need network access to shared data. Multi-server write requirements may also warrant a managed or extended SQLite option; separate databases per tenant are another possible architecture when the application permits it.",
+      "evidence_ids": [
+        "E3",
+        "E22",
+        "E30",
+        "E6",
+        "E10"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "recommendation",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ]
+    },
+    {
+      "claim_id": "C7",
+      "text": "For very large databases, SQLite says filesystem file-size limits matter and recommends considering a client/server engine. A later PostgreSQL migration also requires attention to schema differences.",
+      "evidence_ids": [
+        "E20",
+        "E21",
+        "E15"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2",
+        "K3",
+        "K4"
+      ]
+    }
+  ],
+  "comparison": null,
+  "entities": [],
+  "sources": [
+    {
+      "id": "S2",
+      "url": "https://oneuptime.com/blog/post/2026-02-02-sqlite-production-setup/view",
+      "canonical_url": "https://oneuptime.com/blog/post/2026-02-02-sqlite-production-setup/view",
+      "domain": "oneuptime.com",
+      "title": "How to Set Up SQLite for Production Use",
+      "snippet": "## Security Best Practices\n\nProduction databases require proper security measures to protect data.\n\n### File Permissions and Encryption\n\nSet appropriate file permissions and consider encryption for sensitive data: [...] `import sqlite3\nimport os\nimport stat\ndef secure_database_setup(db_path: str) -> None:\n\"\"\"\nConfigure secure file permissions for SQLite database.\nRestricts access to owner only and sets proper directory permissions.\n\"\"\"\ndb_dir = os.path.dirname(db_path)\n# Create directory with restricted permissions\nif not os.path.exists(db_dir):\nos.makedirs(db_dir, mode=0o700)\n# Create the dat",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.5232017,
+      "rank_score": 0.3774,
+      "retrieved_at": "2026-10-28T11:34:39.355164Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "cdd32e4fb07f40a7b659edeb3cd773738e8d6efebfe0530e492d35c23d080cd8",
+      "content_chars": 39040,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S7",
+      "url": "https://www.tinybird.co/blog/postgres-vs-sqlite",
+      "canonical_url": "https://tinybird.co/blog/postgres-vs-sqlite",
+      "domain": "tinybird.co",
+      "title": "Postgres vs SQLite | Tinybird",
+      "snippet": "SQLite in WAL (Write-Ahead Logging) mode supports one concurrent writer plus multiple concurrent readers. For a local application where a single process writes data and reads it back, SQLite's performance is excellent. The absence of network round-trips, authentication overhead, and connection management means simple read/write operations are faster than the equivalent Postgres query for single-client workloads. [...] ## When SQLite teams move to Postgres\n\nThe signal that it is time to move from SQLite to Postgres is concurrent write pressure: multiple application servers hitting the same data",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.7402687,
+      "rank_score": 0.4751,
+      "retrieved_at": "2026-10-28T11:34:16.334351Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "62cebfb2ac86bafb8230919167f0b2d4573e03d7cb97b7918d80560fe8e644cf",
+      "content_chars": 21723,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S8",
+      "url": "https://www.mindstudio.ai/blog/why-sqlite-is-a-better-default-database",
+      "canonical_url": "https://mindstudio.ai/blog/why-sqlite-is-a-better-default-database",
+      "domain": "mindstudio.ai",
+      "title": "Why SQLite Is a Better Default Database Than You Think | MindStudio",
+      "snippet": "Yes. With WAL mode enabled, SQLite handles thousands of read queries per second and hundreds of writes per second on modern hardware. Most web apps — including ones with significant user traffic — are well within these limits. The constraint is concurrent writes from multiple processes or servers, not raw throughput on a single server.\n\n### What’s the difference between SQLite and Postgres? [...] This eliminates the most common complaint about SQLite in web contexts. As long as you have one write-path (one application server writing to the database), WAL mode handles concurrent traffic just fi",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.67988104,
+      "rank_score": 0.4829,
+      "retrieved_at": "2026-10-28T11:34:16.303140Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "d58312964464ba3ed0d527c01e7d1909915508b8facde9c0b2870745a122c7f6",
+      "content_chars": 18283,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S10",
+      "url": "https://docs.servicestack.net/ormlite/scalable-sqlite",
+      "canonical_url": "https://docs.servicestack.net/ormlite/scalable-sqlite",
+      "domain": "docs.servicestack.net",
+      "title": "Scalable SQLite",
+      "snippet": "The primary limitation of SQLite is that it only supports a single concurrent writer, which means if you have multiple requests writing to the same database at the same time, they will need to coordinate access.\n\nAs long as we can overcome this limitation SQLite can be an excellent choice to power many Web Apps. In the previous ServiceStack v8.3 release we worked around this limitation by using MQ Command DTOs to route all DB Writes to be executed by a single Background MQ Thread. [...] ##### On This Page\n\n Single Concurrent Writer\n Multiple SQLite Databases \n  + Always use Synchronous APIs fo",
+      "kind": "official_docs",
+      "tier": "high",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.5479727,
+      "rank_score": 0.4816,
+      "retrieved_at": "2026-10-28T11:34:16.320973Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "403361651b6dbfca1a8f2f9a9ec7d6a651c43895081458efc2b861d82b2a37db",
+      "content_chars": 14451,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S12",
+      "url": "https://sesamedisk.com/sqlite-in-production-2026-benchmarks-limits",
+      "canonical_url": "https://sesamedisk.com/sqlite-in-production-2026-benchmarks-limits",
+      "domain": "sesamedisk.com",
+      "title": "SQLite in Production 2026: Real Benchmarks, Limits, and When to Migrate to Postgres - Sesame Disk",
+      "snippet": "The official SQLite documentation on appropriate uses states that the database engine is appropriate for “any site that gets fewer than 100K hits per day.” The SQLite website itself handles about 400K to 500K HTTP requests per day on a single VM that shares a physical server with 23 others and yet still keeps its load average below 0.1 most of the time, according to the same documentation (noting this data was current as of 2015 when the page was written). About 15-20% of those requests are [...] >  Teams get burned by write contention, multi-server assumptions, schema migration friction, and ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.76826453,
+      "rank_score": 0.4947,
+      "retrieved_at": "2026-10-28T11:34:16.285543Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "28189181ce6b8d0542f906d38a9cf42e5b8baff03647a541c3c11f280ecd45e3",
+      "content_chars": 17607,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S13",
+      "url": "https://www.sqlite.org/whentouse.html",
+      "canonical_url": "https://sqlite.org/whentouse.html",
+      "domain": "sqlite.org",
+      "title": "Appropriate Uses For SQLite",
+      "snippet": "SQLite will normally work fine as the database backend to a website. But if the website is write-intensive or is so busy that it requires multiple servers, then consider using an enterprise-class client/server database engine instead of SQLite.\n Very large datasets [...] A good rule of thumb is to avoid using SQLite in situations where the same database will be accessed directly (without an intervening application server) and simultaneously from many computers over a network.\n High-volume Websites [...] If there are many client programs sending SQL to the same database over a network, then use",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.6899958,
+      "rank_score": 0.4455,
+      "retrieved_at": "2026-10-28T11:34:39.343058Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "8c842311d1e63a75f1eaa2ce70474f584e49cdd99ea9ed11384fde7d3bce5a40",
+      "content_chars": 15261,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S14",
+      "url": "https://serverfault.com/questions/114524/sqlite-on-a-production-server",
+      "canonical_url": "https://serverfault.com/questions/114524/sqlite-on-a-production-server",
+      "domain": "serverfault.com",
+      "title": "SQLite on a production server?",
+      "snippet": "Using WAL or not, if your SQLite database is read only (or is batch updated) and it fits in RAM (your OS has enough spare RAM to keep it in buffers) it can scale very well on a production web application. I personally was very sceptic about its performance, scalability and robustness but now after nine months in production it has proven to run even the most complex parts of the system very well.\n\nShare\n\nShare a link to this answer \n\nCopy linkCC BY-SA 3.0\n\nShort permalink to this answer [...] on? It's not a good idea to use SQLite for a website when there are at least a dozen other better tools",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.68420124,
+      "rank_score": 0.4499,
+      "retrieved_at": "2026-10-28T11:34:16.354923Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "9f35b35a690bad2d9022390dbb40c06066379cdf83358d1b1fb2c37e74f2f080",
+      "content_chars": 17651,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S17",
+      "url": "https://xtom.com/blog/what-is-sqlite",
+      "canonical_url": "https://xtom.com/blog/what-is-sqlite",
+      "domain": "xtom.com",
+      "title": "What Is SQLite, and When Is It Enough Instead of a Full Database Server? | xTom",
+      "snippet": "### Is SQLite good enough for a production website?\n\nFor many small-to-medium sites, yes, particularly ones that are read-heavy. Several popular content management systems and self-hosted apps support SQLite in production for exactly this reason, especially once WAL mode is enabled.\n\n### Can multiple people use a SQLite database at the same time? [...] This single setting change is responsible for most of the concurrency improvements that have made SQLite viable for a much wider range of production use cases than it was a decade ago. Enabling it is a single command:\n\n```\nPRAGMA journal_mode=WA",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.5465209,
+      "rank_score": 0.3879,
+      "retrieved_at": "2026-10-28T11:34:39.385724Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "0d2ec50512cbbe82a850628b6c24f8f1688d02fbb05986207704220504569c32",
+      "content_chars": 12050,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S1",
+      "url": "https://dev.to/shayy/everyone-is-wrong-about-sqlite-4gjf",
+      "canonical_url": "https://dev.to/shayy/everyone-is-wrong-about-sqlite-4gjf",
+      "domain": "dev.to",
+      "title": "Everyone Is Wrong About SQLite - DEV Community",
+      "snippet": "Learned to code in the wild west time of php 4, also the time xml and xpath where the new hot thing.\n\n Location\n\n  Belgium\n Joined\n\n• \n\n Copy link\n\nYou are right about the file permissions. That is just the first step in the sqlite security plan. But it is not the security risk I'm hinting at.\n\nBecause it is not needed to authenticate, there is no way of tracking who corrupted the data if that happens.   \n Most database systems also come with permissions. This improves the security even more. [...] But these 'security risks' are at a level above SQLite itself–you can have the same security ris",
+      "kind": "community",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q2"
+      ],
+      "provider_score": 0.5325473,
+      "rank_score": 0.3246,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S3",
+      "url": "https://www.k-innovations.net/articles/2023/10/01/using-sqlite-in-production.html",
+      "canonical_url": "https://k-innovations.net/articles/2023/10/01/using-sqlite-in-production.html",
+      "domain": "k-innovations.net",
+      "title": "Using SQLite in Production",
+      "snippet": "ACID Compliant: SQLite transactions are ACID compliant, ensuring data integrity even after system crashes or power failures. Atomic, consistent, isolated, and durable (ACID). It's true that SQLite has come a long way in terms of integrity and reliability of handling the data. However, with system crashes or power failures, database corruptions can occur especially on systems where RAID systems are configured improperly. If the RAID cache is set to write-back, you get better performance but [...] Limited Security: SQLite doesn’t have built-in support for user management or access control, makin",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.4604593,
+      "rank_score": 0.3562,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S4",
+      "url": "https://www.mindstudio.ai/blog/what-is-sqlite",
+      "canonical_url": "https://mindstudio.ai/blog/what-is-sqlite",
+      "domain": "mindstudio.ai",
+      "title": "What Is SQLite? The Database That Runs Inside Your App | MindStudio",
+      "snippet": "SQLite is a real database with full ACID transactions, real SQL support, and proven reliability at scale. It runs inside browsers, operating systems, and production applications serving millions of users. “Just for prototypes” is a common misconception driven by old benchmarks and the single-writer limitation. With WAL mode and modern hardware, SQLite handles production workloads for the vast majority of web applications.\n\n### Can SQLite handle multiple users at the same time? [...] SQLite is a self-contained, serverless database engine that runs inside your application and stores everything i",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.4581311,
+      "rank_score": 0.3762,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S5",
+      "url": "https://medium.com/data-science/sqlite-in-production-dreams-becoming-reality-94557bec095b",
+      "canonical_url": "https://medium.com/data-science/sqlite-in-production-dreams-becoming-reality-94557bec095b",
+      "domain": "medium.com",
+      "title": "SQLite in Modern Web Production: Dreams Becoming Reality",
+      "snippet": "The first option for creating a backup is the simplest. Since the SQLite database is just a file, you can essentially copy and paste your database into a folder on your computer, or upload it to a cloud service like AWS S3 buckets for more reliability. For small databases with infrequent writes this is a great option. As a simple example (taken from the Litestream docs), here is a bash script creating a backup: [...] For the uninitiated, SQLite is the Platonic ideal of databases. As opposed to running an entire server to manage the access to data, this database is housed entirely within a sing",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.40896168,
+      "rank_score": 0.347,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://freebsdsoftware.org/blog/sqlite-freebsd-review.html",
+      "canonical_url": "https://freebsdsoftware.org/blog/sqlite-freebsd-review.html",
+      "domain": "freebsdsoftware.org",
+      "title": "SQLite on FreeBSD: Embedded Database Review",
+      "snippet": "The key to using SQLite well is understanding its concurrency model. Enable WAL mode, set a busy timeout, batch writes in transactions, and stay within the single-writer constraint. Within those boundaries, SQLite is fast, reliable, and effectively maintenance-free.\n\n## Frequently Asked Questions\n\nIs SQLite suitable for a production web application on FreeBSD? [...] Serverless -- no daemon, no network listener, no configuration file. The database is a file.\n Zero configuration -- no setup, no user accounts, no permissions beyond filesystem ACLs.\n Self-contained -- the entire engine is a single",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.266622,
+      "rank_score": 0.304,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S9",
+      "url": "https://www.youtube.com/watch?v=t20KyfjtUs4",
+      "canonical_url": "https://youtube.com/watch?v=t20KyfjtUs4",
+      "domain": "youtube.com",
+      "title": "Everyone Is Wrong About SQLite (Here’s When It Beats Postgres)",
+      "snippet": "Highlights\n\nWhy “embedded DB” ≠ “toy” and how SQLite removes an entire class of failures. \n\nWAL mode = concurrent readers + faster writes; common myths debunked. \n\nReal-world proof points (yes, big money moves on SQLite) and how edge platforms benefit. \n\nBackup/restore that’s literally just files + streaming for point-in-time recovery. \n\nWhen you still want Postgres/MySQL (multi-writer, server-side ACLs, built-in replication). \n\nTimestamps / Chapters [...] [3:35] Yes, Postgress can push higher numbers with multiple writers. But ask yourself, is your SAS really doing more than thousand writes p",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.55883324,
+      "rank_score": 0.3935,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S11",
+      "url": "https://news.ycombinator.com/item?id=44565664",
+      "canonical_url": "https://news.ycombinator.com/item?id=44565664",
+      "domain": "news.ycombinator.com",
+      "title": "> *If you're querying a multi-GB SQLite database* In which case SQLite is probab... | Hacker News",
+      "snippet": "seen it once (in a shared server, network filesystem(??) context, probably because sqlite really doesn't like network filesystems often having unreliable implementations for some of the primitives sqlite needs for proper synchronization) as other comments pointed out enabling WAL mode will (probably) fix your issues | | | |  |  |  |  ---  |  |  | Groxx on July 14, 2025  | root | parent | prev | next (javascript:void(0))   They can't write concurrently, but generally speaking yes, they can: [...] | |  |  |  |  ---  |  |  | anarazel on July 15, 2025  | root | parent | next (javascript:void(0))  ",
+      "kind": "community",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.5053471,
+      "rank_score": 0.2624,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S15",
+      "url": "https://daily.dev/blog/sqlite-production-guide-when-how-to-use-beyond-prototyping",
+      "canonical_url": "https://daily.dev/blog/sqlite-production-guide-when-how-to-use-beyond-prototyping",
+      "domain": "daily.dev",
+      "title": "SQLite for Production: When and How to Use It Beyond Prototyping | daily.dev",
+      "snippet": "Finally, perform rigorous integrity checks on both databases before making the final switch. This ensures a smooth cutover with minimal disruption.\n\n## Conclusion\n\nSQLite stands out as a solid option for production workloads. Its embedded design is particularly well-suited for read-heavy applications, single-server setups, and edge computing environments, offering sub-millisecond read times while keeping infrastructure simple. [...] On modern NVMe SSDs, SQLite can handle between 10,000 and 50,000 writes per second . For reads, a single server equipped with NVMe storage can process over 100,000",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.65597594,
+      "rank_score": 0.4302,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S16",
+      "url": "https://stackoverflow.com/questions/913067/sqlite-as-a-production-database-for-a-low-traffic-site",
+      "canonical_url": "https://stackoverflow.com/questions/913067/sqlite-as-a-production-database-for-a-low-traffic-site",
+      "domain": "stackoverflow.com",
+      "title": "SQLite as a production database for a low-traffic site",
+      "snippet": "A comment from 2017 - major writing STILL requires moving away from sqlite (or some kind of queuing, in that situation moving to a client/server would still probably be less work). Running in to that issue now with my badly written web app, probably due to too many writes at the same time.\n\n2017-07-15T20:05:13.977Z+00:00\n\n0\n\nReply\n\n   Copy link\n\n.\n\nShare\n\nShare a link to this answer \n\nCopy linkCC BY-SA 4.0\n\nShort permalink to this answer\n\nImprove this answer\n\n Follow [...] So I think the long and short of it is, go for it, and if it's not working well for you, making the transition to an enter",
+      "kind": "community",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.6407488,
+      "rank_score": 0.3373,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "source_id": "S12",
+      "passage_id": "S12.P9",
+      "quote": "Native replication | None (requires Litestream/LiteFS) | Built-in streaming replication",
+      "claim": "The passage states that SQLite has no native replication and requires Litestream or LiteFS for it.",
+      "criterion_ids": [
+        "K1",
+        "K2"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E2",
+      "source_id": "S12",
+      "passage_id": "S12.P21",
+      "quote": "The daily.dev production guide explicitly warns that SQLite \"struggles with write-heavy workloads\" and recommends Postgres for apps that \"need thousands of concurrent write transactions per second.\"",
+      "claim": "According to the cited guide, SQLite struggles with write-heavy workloads, and Postgres is recommended for thousands of concurrent write transactions per second.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E3",
+      "source_id": "S8",
+      "passage_id": "S8.P15",
+      "quote": "Even with WAL mode, if you're processing thousands of writes per second with high contention, Postgres or MySQL will serve you better. WAL mode handles concurrent reads fine but writes are still serialized.",
+      "claim": "The passage recommends Postgres or MySQL for thousands of writes per second with high contention and says WAL mode still serializes writes.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E4",
+      "source_id": "S8",
+      "passage_id": "S8.P22",
+      "quote": "With WAL mode enabled, SQLite handles thousands of read queries per second and hundreds of writes per second on modern hardware.",
+      "claim": "The passage says SQLite in WAL mode handles thousands of reads and hundreds of writes per second on modern hardware.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E5",
+      "source_id": "S8",
+      "passage_id": "S8.P27",
+      "quote": "Multiple users can write through a single application server - that's the normal case.",
+      "claim": "The passage says multiple users can write through a single application server.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "contradicts",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E6",
+      "source_id": "S8",
+      "passage_id": "S8.P27",
+      "quote": "If you need multi-server writes, that's when you'd look at managed database options like Supabase or Turso (which extends SQLite for multi-region scenarios).",
+      "claim": "The passage suggests Supabase or Turso as options when multi-server writes are needed, noting that Turso extends SQLite for multi-region scenarios.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E7",
+      "source_id": "S8",
+      "passage_id": "S8.P28",
+      "quote": "The operational simplicity of SQLite - no server to manage, trivial backups, automatic migrations - reduces overhead significantly.",
+      "claim": "The passage attributes reduced operational overhead to SQLite's lack of a server to manage, backups, and migrations.",
+      "criterion_ids": [
+        "K1",
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E8",
+      "source_id": "S10",
+      "passage_id": "S10.P15",
+      "quote": "To avoid SQLite concurrency write exceptions all DB Writes should be executed within its database lock or a named worker.",
+      "claim": "The passage recommends executing writes within a database lock or named worker to avoid concurrency write exceptions.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E9",
+      "source_id": "S10",
+      "passage_id": "S10.P16",
+      "quote": "That's about it, by using any of the above techniques to guard against concurrent writes you can take advantage of the simplicity, value and performance benefits of SQLite in your Apps and utilize a solution like litestream.io for real-time replication of your SQLite databases to highly reliable managed storage.",
+      "claim": "The passage suggests guarding against concurrent writes and using Litestream for real-time replication to managed storage.",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E10",
+      "source_id": "S10",
+      "passage_id": "S10.P18",
+      "quote": "In the rare cases where you need to scale beyond a single server you'll initially be able to scale out your different App databases onto different servers. Beyond that, if your App permits you may be able to adopt a multi-tenant architecture like Bluesky Social with each tenant having their own SQLite database to effectively enable infinite scaling.",
+      "claim": "The passage suggests distributing separate application databases across servers or using a database per tenant if the application permits.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E11",
+      "source_id": "S7",
+      "passage_id": "S7.P15",
+      "quote": "SQLite is a C library embedded directly in your application process. There is no server, no network protocol, no authentication layer, and no concurrent write access from multiple processes.",
+      "claim": "SQLite is embedded in the application process and has no server, network protocol, or authentication layer; the passage also says it has no concurrent write access from multiple processes.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E12",
+      "source_id": "S7",
+      "passage_id": "S7.P18",
+      "quote": "SQLite in WAL (Write-Ahead Logging) mode supports one concurrent writer plus multiple concurrent readers.",
+      "claim": "SQLite in WAL mode supports one concurrent writer and multiple concurrent readers.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E13",
+      "source_id": "S7",
+      "passage_id": "S7.P20",
+      "quote": "SQLite's single-writer constraint means concurrent writes queue up, and under high write load, throughput degrades.",
+      "claim": "The passage says SQLite's single-writer constraint queues concurrent writes and degrades throughput under high write load.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E14",
+      "source_id": "S7",
+      "passage_id": "S7.P20",
+      "quote": "Any application with more than one writer, whether multiple application servers hitting the same database, background workers alongside a web server, or multiple users modifying shared data, needs Postgres.",
+      "claim": "The passage asserts that any application with more than one writer needs Postgres.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "contradicts",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E15",
+      "source_id": "S7",
+      "passage_id": "S7.P30",
+      "quote": "The migration from SQLite to Postgres is relatively straightforward because both use SQL, but schema differences (strict types, explicit primary keys with UUID vs ROWID, TIMESTAMPTZ vs TEXT dates) require attention.",
+      "claim": "The passage says migration to Postgres is relatively straightforward but requires attention to schema differences.",
+      "criterion_ids": [
+        "K3",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E16",
+      "source_id": "S14",
+      "passage_id": "S14.P7",
+      "quote": "If you are generally only _reading_ data then you get good performance in my experience. So, SQLite can be used as a caching system to store database server reads, particulary remote ones or complex queries.",
+      "claim": "The author reports good performance for predominantly read workloads and suggests SQLite as a cache for database server reads.",
+      "criterion_ids": [
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E17",
+      "source_id": "S14",
+      "passage_id": "S14.P19",
+      "quote": "You absolutely do not want to try to use it as some sort of standalone MySQL/PostgreSQL/MS-SQL replacement in a multiuser enviroment because the entire DB is locked on write. You'll be dealing with contention issues on even a light load which will destroy performance.",
+      "claim": "The author argues that SQLite is unsuitable as a standalone database server replacement in a multiuser environment because of write locking and contention, even under light load.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "contradicts",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E18",
+      "source_id": "S13",
+      "passage_id": "S13.P7",
+      "quote": "Generally speaking, any site that gets fewer than 100K hits/day should work fine with SQLite. The 100K hits/day figure is a conservative estimate, not a hard upper bound.",
+      "claim": "SQLite's documentation estimates that sites receiving fewer than 100,000 hits per day should generally work fine, while noting that this is not a hard upper bound.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E19",
+      "source_id": "S13",
+      "passage_id": "S13.P7",
+      "quote": "The amount of web traffic that SQLite can handle depends on how heavily the website uses its database.",
+      "claim": "The web traffic SQLite can handle depends on how heavily a site uses its database.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E20",
+      "source_id": "S13",
+      "passage_id": "S13.P25",
+      "quote": "And even if it could handle larger databases, SQLite stores the entire database in a single disk file and many filesystems limit the maximum size of files to something less than this.",
+      "claim": "SQLite stores the database in a single disk file, whose size may be limited by the filesystem.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E21",
+      "source_id": "S13",
+      "passage_id": "S13.P25",
+      "quote": "So if you are contemplating databases of this magnitude, you would do well to consider using a client/server database engine that spreads its content across multiple disk files, and perhaps across multiple volumes.",
+      "claim": "The passage recommends considering a client/server database for databases of very large size.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E22",
+      "source_id": "S13",
+      "passage_id": "S13.P28",
+      "quote": "If many threads and/or processes need to write the database at the same instant (and they cannot queue up and take turns) then it is best to select a database engine that supports that capability, which always means a client/server database engine.",
+      "claim": "A client/server engine is recommended when many threads or processes must write simultaneously and cannot queue.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E23",
+      "source_id": "S13",
+      "passage_id": "S13.P28",
+      "quote": "If the \"application\" is an application server and if the content resides on the same physical machine as the application server, then SQLite might still be appropriate even though the end user is another network hop away.",
+      "claim": "SQLite may be appropriate when the application server and data reside on the same physical machine, even if end users connect over a network.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": true,
+      "round": 2
+    },
+    {
+      "id": "E24",
+      "source_id": "S2",
+      "passage_id": "S2.P4",
+      "quote": "Many high-traffic applications run SQLite in production successfully, including some serving millions of requests per day.",
+      "claim": "According to the passage, some applications use SQLite successfully in production while serving millions of requests per day.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E25",
+      "source_id": "S2",
+      "passage_id": "S2.P28",
+      "quote": "WAL mode enables a simple form of point-in-time recovery. The WAL file contains recent transactions that have not been checkpointed:",
+      "claim": "The passage says WAL mode enables a simple form of point-in-time recovery and that the WAL file contains recent uncheckpointed transactions.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E26",
+      "source_id": "S2",
+      "passage_id": "S2.P46",
+      "quote": "Set appropriate file permissions and consider encryption for sensitive data:",
+      "claim": "The passage recommends appropriate file permissions and considering encryption for sensitive data.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E27",
+      "source_id": "S17",
+      "passage_id": "S17.P4",
+      "quote": "Despite that simplicity, SQLite supports the vast majority of standard SQL: transactions, joins, indexes, triggers, views, and full ACID compliance (atomicity, consistency, isolation, durability).",
+      "claim": "The passage says SQLite supports transactions and full ACID compliance, among other SQL features.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E28",
+      "source_id": "S17",
+      "passage_id": "S17.P8",
+      "quote": "Modern SQLite deployments almost always enable WAL (write-ahead logging) mode instead, which writes changes to a separate log file first and lets readers continue accessing the main database file without blocking.",
+      "claim": "The passage says WAL mode writes changes to a separate log and allows readers to continue accessing the main database file without blocking.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E29",
+      "source_id": "S17",
+      "passage_id": "S17.P12",
+      "quote": "If multiple processes or many simultaneous users are writing to the database constantly, SQLite's single-writer model will eventually queue those writes and slow things down, even in WAL mode.",
+      "claim": "Constant writes from multiple processes or many users can queue and slow down under SQLite's single-writer model, even in WAL mode.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E30",
+      "source_id": "S17",
+      "passage_id": "S17.P12",
+      "quote": "If you need several separate services connecting to the same database over a network, you need a real database server that can manage concurrent client connections properly.",
+      "claim": "The passage recommends a database server when several separate services need network access to the same database.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "SQLite",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    }
+  ],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "Establish production reliability, transactions, durability, and backup and recovery considerations.",
+      "kind": "general",
+      "required": true,
+      "status": "stale",
+      "evidence_ids": [
+        "E1",
+        "E7",
+        "E9",
+        "E25",
+        "E27"
+      ],
+      "independent_sources": 5,
+      "note": "No supporting source is dated within 730 days."
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Assess concurrency, write throughput, and scaling constraints, including deployment across servers.",
+      "kind": "general",
+      "required": true,
+      "status": "conflicting",
+      "evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E28",
+        "E29",
+        "E30"
+      ],
+      "independent_sources": 8,
+      "note": "Sources disagree."
+    },
+    {
+      "criterion_id": "K3",
+      "description": "Identify operational benefits and limitations, including security, maintenance, and hosting.",
+      "kind": "general",
+      "required": true,
+      "status": "stale",
+      "evidence_ids": [
+        "E7",
+        "E8",
+        "E9",
+        "E11",
+        "E15",
+        "E26"
+      ],
+      "independent_sources": 4,
+      "note": "No supporting source is dated within 730 days."
+    },
+    {
+      "criterion_id": "K4",
+      "description": "Identify suitable and unsuitable workload patterns and practical alternatives or migration triggers.",
+      "kind": "general",
+      "required": true,
+      "status": "conflicting",
+      "evidence_ids": [
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E10",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E29",
+        "E30"
+      ],
+      "independent_sources": 8,
+      "note": "Sources disagree."
+    }
+  ],
+  "unresolved_criteria": [
+    "K1",
+    "K2",
+    "K3",
+    "K4"
+  ],
+  "conflicts": [
+    {
+      "description": "One source says any application with more than one writer needs PostgreSQL, and another warns of contention even under light multiuser load. Other sources say multiple users can write through one application server and describe writes as serialized rather than prohibited.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "evidence_ids": [
+        "E14",
+        "E17",
+        "E5",
+        "E12",
+        "E22"
+      ],
+      "entity": "SQLite",
+      "resolution": "SQLite's own guidance distinguishes writers that can queue from simultaneous writes that cannot. This supports the narrower conclusion that multiple potential writers are not automatically disqualifying, while contention remains workload-dependent."
+    },
+    {
+      "description": "Sources disagree on K2 about SQLite.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E5",
+        "E14",
+        "E17"
+      ],
+      "entity": "SQLite",
+      "resolution": null
+    },
+    {
+      "description": "Sources disagree on K4 about SQLite.",
+      "criterion_ids": [
+        "K4"
+      ],
+      "evidence_ids": [
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E14",
+        "E17"
+      ],
+      "entity": "SQLite",
+      "resolution": null
+    }
+  ],
+  "confidence": {
+    "level": "low",
+    "explanation": "Low: 0 of 4 required criteria are supported; 7 of 7 checked claims are fully supported; evidence comes from 8 independent sites; 2 unresolved conflicts; 2 required criteria are supported only by old or undated sources.",
+    "factors": {
+      "required_criteria_supported": "0/4",
+      "claim_support_rate": 1.0,
+      "independent_domains": 8,
+      "high_suitability_sources": 1,
+      "first_party_evidence_share": 0.2,
+      "unresolved_conflicts": 2,
+      "stale_required_criteria": 2,
+      "weak_required_criteria": 0,
+      "verification": "ran"
+    }
+  },
+  "limitations": [
+    "Research stopped early: Reached the limit of 2 research rounds.",
+    "K1 (Establish production reliability, transactions, durability, and backup and recovery considerations.): stale. No supporting source is dated within 730 days.",
+    "K2 (Assess concurrency, write throughput, and scaling constraints, including deployment across servers.): conflicting. Sources disagree.",
+    "K3 (Identify operational benefits and limitations, including security, maintenance, and hosting.): stale. No supporting source is dated within 730 days.",
+    "K4 (Identify suitable and unsuitable workload patterns and practical alternatives or migration triggers.): conflicting. Sources disagree.",
+    "Publication dates are provider estimates or dates found in page text and may be inaccurate.",
+    "The reviewed evidence does not establish transaction durability under specific storage and configuration choices or provide a tested backup and restore procedure.",
+    "Throughput figures lack workload and benchmark details, so they cannot establish capacity for a particular application.",
+    "The supporting sources have no publication dates in the provided evidence; freshness cannot be verified.",
+    "The evidence does not establish the security, availability, or operational properties of the named replication and managed-service alternatives."
+  ],
+  "assumptions": [
+    "The question concerns SQLite as the primary database for a typical web application, rather than solely as a cache or embedded client-side database.",
+    "Suitability depends on workload and deployment; the research will address common scenarios rather than assume a particular application size."
+  ],
+  "next_steps": [
+    "Benchmark representative reads, writes and peak contention on the intended hardware and deployment topology.",
+    "Choose and test a backup and restore process against the application's recovery requirements.",
+    "Review file access controls, encryption needs and hosting constraints before deployment.",
+    "Define migration triggers for unacceptable write queues, shared network access or database size, and assess schema changes needed for an alternative.",
+    "Find primary or independent sources for: Establish production reliability, transactions, durability, and backup and recovery considerations..",
+    "Find primary or independent sources for: Identify operational benefits and limitations, including security, maintenance, and hosting.."
+  ],
+  "plan": {
+    "objective": "Assess when SQLite is suitable for production web applications and when another database is preferable.",
+    "task_type": "pros_cons",
+    "interpretation": "Research SQLite’s production capabilities, limitations, and operational trade-offs for web workloads, and identify workload characteristics that affect suitability.",
+    "assumptions": [
+      "The question concerns SQLite as the primary database for a typical web application, rather than solely as a cache or embedded client-side database."
+    ],
+    "constraints": [
+      "Distinguish SQLite limitations from limitations of particular deployment architectures.",
+      "Support comparative performance claims with independent evidence."
+    ],
+    "ambiguity_note": "Suitability depends on workload and deployment; the research will address common scenarios rather than assume a particular application size.",
+    "freshness_days": 730,
+    "target_entity_count": null,
+    "candidate_entities": [],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "Establish production reliability, transactions, durability, and backup and recovery considerations.",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "ACID",
+          "durability",
+          "backups",
+          "recovery"
+        ]
+      },
+      {
+        "id": "K2",
+        "description": "Assess concurrency, write throughput, and scaling constraints, including deployment across servers.",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": true,
+        "key_terms": [
+          "concurrent writes",
+          "WAL",
+          "throughput",
+          "multi-server"
+        ]
+      },
+      {
+        "id": "K3",
+        "description": "Identify operational benefits and limitations, including security, maintenance, and hosting.",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "serverless database",
+          "file permissions",
+          "deployment",
+          "maintenance"
+        ]
+      },
+      {
+        "id": "K4",
+        "description": "Identify suitable and unsuitable workload patterns and practical alternatives or migration triggers.",
+        "kind": "general",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": true,
+        "key_terms": [
+          "web workload",
+          "high write traffic",
+          "client server database",
+          "migration"
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "SQLite production web application reliability ACID backups security deployment file permissions",
+        "purpose": "Find authoritative guidance on reliability and operations.",
+        "criterion_ids": [
+          "K1",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "SQLite concurrent writes WAL web application multi server scalability benchmarks PostgreSQL",
+        "purpose": "Investigate concurrency, scaling, and independently measured trade-offs.",
+        "criterion_ids": [
+          "K2",
+          "K4"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q3",
+        "text": "SQLite when to use production website workload limitations client server database migration",
+        "purpose": "Find workload-specific suitability guidance and migration considerations.",
+        "criterion_ids": [
+          "K3",
+          "K4"
+        ],
+        "round": 1,
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Consult current SQLite documentation on production use, concurrency, durability, and backups.",
+      "Find independent evidence on web workload performance and deployment trade-offs.",
+      "Check security and operational requirements for typical hosting architectures.",
+      "Synthesize suitable and unsuitable scenarios, noting assumptions and migration triggers."
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "location": "short_answer",
+      "kind": "interpretation",
+      "text": "Yes. SQLite can be suitable as the primary database for a production web application, particularly when the database is local to the application server and writes can take turns. The main uncertainty is whether its single-writer model and deployment constraints will meet your workload and recovery requirements.",
+      "evidence_ids": [
+        "E23",
+        "E5",
+        "E12",
+        "E13",
+        "E9"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C2",
+      "location": "finding",
+      "kind": "fact",
+      "text": "SQLite supports transactions and ACID properties. Production planning still needs a backup and recovery approach; a third-party replication tool such as Litestream is one option.",
+      "evidence_ids": [
+        "E27",
+        "E1",
+        "E9"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C3",
+      "location": "finding",
+      "kind": "fact",
+      "text": "In WAL mode, multiple readers can run concurrently with one writer. Writes are serialized and can queue under sustained load; multiple users writing through one application server does not by itself rule SQLite out.",
+      "evidence_ids": [
+        "E12",
+        "E3",
+        "E13",
+        "E5"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C4",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "SQLite says web capacity depends on database usage and that fewer than 100,000 hits per day should generally work, but calls that estimate conservative rather than a hard limit. Treat request counts as a rough signal, not a capacity guarantee.",
+      "evidence_ids": [
+        "E18",
+        "E19"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C5",
+      "location": "finding",
+      "kind": "recommendation",
+      "text": "Embedding SQLite avoids a database server to manage, but it has no database network authentication layer. Protect database files with appropriate permissions and consider encryption for sensitive data.",
+      "evidence_ids": [
+        "E7",
+        "E11",
+        "E26"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C6",
+      "location": "finding",
+      "kind": "recommendation",
+      "text": "Consider PostgreSQL or MySQL when write contention cannot be tolerated, or a database server when separate services need network access to shared data. Multi-server write requirements may also warrant a managed or extended SQLite option; separate databases per tenant are another possible architecture when the application permits it.",
+      "evidence_ids": [
+        "E3",
+        "E22",
+        "E30",
+        "E6",
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C7",
+      "location": "finding",
+      "kind": "fact",
+      "text": "For very large databases, SQLite says filesystem file-size limits matter and recommends considering a client/server engine. A later PostgreSQL migration also requires attention to schema differences.",
+      "evidence_ids": [
+        "E20",
+        "E21",
+        "E15"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    }
+  ],
+  "verification": {
+    "claims_checked": 7,
+    "supported": 7,
+    "partially_supported": 0,
+    "not_supported": 0,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": false,
+    "removed_claims": [],
+    "note": null
+  },
+  "execution": {
+    "mode": "live",
+    "model": "gpt-6.1-terra",
+    "sdk_version": "3.40.0",
+    "prompt_version": "2026-10-28.2",
+    "reasoning_effort": "low",
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.55758
+    },
+    "metrics": {
+      "started_at": "2026-10-28T11:34:01.761583Z",
+      "finished_at": "2026-10-28T11:35:07.741168Z",
+      "duration_ms": 65979.6,
+      "first_event_ms": 0.0,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 10345.9
+        },
+        {
+          "stage": "search",
+          "ms": 3355.8
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 912.4
+        },
+        {
+          "stage": "extract",
+          "ms": 17926.2
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "follow_up",
+          "ms": 3748.8
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 1341.6
+        },
+        {
+          "stage": "extract",
+          "ms": 13648.9
+        },
+        {
+          "stage": "assess",
+          "ms": 0.2
+        },
+        {
+          "stage": "synthesize",
+          "ms": 12326.5
+        },
+        {
+          "stage": "verify",
+          "ms": 2371.7
+        },
+        {
+          "stage": "finalize",
+          "ms": 0.7
+        }
+      ],
+      "rounds": 2,
+      "search_calls": 3,
+      "extract_calls": 2,
+      "pages_requested": 8,
+      "pages_read": 8,
+      "model_calls": 6,
+      "model_attempts": 6,
+      "retries": 0,
+      "cache_hits": 0,
+      "cache_misses": 11,
+      "input_tokens": 18995,
+      "output_tokens": 4694,
+      "estimated_cost_usd": 0.07447,
+      "cost_uncertain": false,
+      "tavily_credits": 4.0,
+      "sources_discovered": 17,
+      "sources_filtered": 0,
+      "evidence_accepted": 30,
+      "evidence_rejected": 0
+    }
+  },
+  "created_at": "2026-10-28T11:35:07.741220Z"
+}

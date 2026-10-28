@@ -1,0 +1,1485 @@
+{
+  "run_id": "run_2f541217edf5f563a32343dd",
+  "question": "Compare the top three open-source vector databases for a startup building RAG products.",
+  "status": "completed",
+  "stop_reason": "criteria_satisfied",
+  "stop_detail": "All required criteria have supporting evidence.",
+  "mode": "live",
+  "short_answer": {
+    "claim_id": "C1",
+    "text": "Qdrant, Weaviate and Milvus are reasonable open-source vector database candidates to shortlist for a startup’s RAG product, rather than a definitive ranked top three. All three are described as supporting hybrid search and flexible deployment; Weaviate also has documented LangChain and LlamaIndex integrations in the reviewed evidence. The main uncertainties are their exact licenses, comparative adoption and workload-specific performance.",
+    "evidence_ids": [
+      "E4",
+      "E8",
+      "E12"
+    ],
+    "verdict": "supported",
+    "disposition": "kept",
+    "note": null
+  },
+  "key_findings": [
+    {
+      "claim_id": "C2",
+      "text": "The selection is based on their inclusion in a vector database comparison and their documented RAG-relevant features, not a measured adoption ranking. Adoption figures were not found.",
+      "evidence_ids": [
+        "E8",
+        "E12"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "All three are described as open-source vector databases, but the reviewed evidence does not identify their licenses.",
+      "evidence_ids": [
+        "E3",
+        "E7",
+        "E13"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "All three are described as supporting hybrid search and metadata filtering. The reviewed evidence names LangChain and LlamaIndex integrations for Weaviate, but does not establish comparable integration coverage for the other two.",
+      "evidence_ids": [
+        "E4",
+        "E8",
+        "E11",
+        "E12"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "text": "Qdrant is a candidate to test for frequently updated workloads; the reviewed article says it handles frequent updates well, while Milvus needs an index rebuild for optimal performance after large bulk updates.",
+      "evidence_ids": [
+        "E10"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K3",
+        "K4"
+      ]
+    },
+    {
+      "claim_id": "C6",
+      "text": "Milvus is a candidate for larger-scale workloads, but a reviewed guide says it requires engineering resources. Weaviate and Qdrant also have managed and self-hosted options.",
+      "evidence_ids": [
+        "E1",
+        "E3",
+        "E4",
+        "E13"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K4"
+      ]
+    },
+    {
+      "claim_id": "C7",
+      "text": "Benchmark the shortlist on the startup’s own data, filters, update patterns and tail-latency targets before choosing.",
+      "evidence_ids": [
+        "E6",
+        "E10"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "recommendation",
+      "criterion_ids": [
+        "K3",
+        "K4"
+      ]
+    }
+  ],
+  "comparison": {
+    "criteria": [
+      "K1",
+      "K2",
+      "K3",
+      "K4"
+    ],
+    "rows": [
+      {
+        "entity": "Qdrant",
+        "cells": [
+          {
+            "claim_id": "C8",
+            "text": "Described as an open-source vector database; exact license not found in reviewed sources.",
+            "evidence_ids": [
+              "E3"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K1",
+            "unknown": false
+          },
+          {
+            "claim_id": "C9",
+            "text": "Included in a multi-database comparison and described as supporting hybrid search. Adoption figures were not found.",
+            "evidence_ids": [
+              "E8",
+              "E12"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K2",
+            "unknown": false
+          },
+          {
+            "claim_id": "C10",
+            "text": "Filtering and hybrid search are documented; an article says it handles frequent updates well. Specific integrations and comparable benchmark results were not found.",
+            "evidence_ids": [
+              "E3",
+              "E10",
+              "E12"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K3",
+            "unknown": false
+          },
+          {
+            "claim_id": "C11",
+            "text": "Managed and self-hosted options are available. The reviewed evidence does not quantify operating costs or scaling limits.",
+            "evidence_ids": [
+              "E3"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K4",
+            "unknown": false
+          }
+        ]
+      },
+      {
+        "entity": "Weaviate",
+        "cells": [
+          {
+            "claim_id": "C12",
+            "text": "Described as an open-source vector database; exact license not found in reviewed sources.",
+            "evidence_ids": [
+              "E7"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K1",
+            "unknown": false
+          },
+          {
+            "claim_id": "C13",
+            "text": "Included in a multi-database comparison; one source dates its open-source vector search to 2018. Adoption figures were not found.",
+            "evidence_ids": [
+              "E8",
+              "E9"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K2",
+            "unknown": false
+          },
+          {
+            "claim_id": "C14",
+            "text": "Hybrid search, filtering and LangChain and LlamaIndex integrations are documented. One guide reports efficient performance to 50 million vectors, but provides no comparable benchmark results here.",
+            "evidence_ids": [
+              "E2",
+              "E4"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K3",
+            "unknown": false
+          },
+          {
+            "claim_id": "C15",
+            "text": "Managed and self-hosted options are available, including Docker and Kubernetes deployment. One guide reports increasing resource requirements beyond 100 million vectors; prices were not found.",
+            "evidence_ids": [
+              "E2",
+              "E9"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K4",
+            "unknown": false
+          }
+        ]
+      },
+      {
+        "entity": "Milvus",
+        "cells": [
+          {
+            "claim_id": "C16",
+            "text": "Described as an open-source vector database; exact license not found in reviewed sources.",
+            "evidence_ids": [
+              "E13"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K1",
+            "unknown": false
+          },
+          {
+            "claim_id": "C17",
+            "text": "Included in a multi-database comparison and described as supporting hybrid search. Adoption figures were not found.",
+            "evidence_ids": [
+              "E8",
+              "E12"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K2",
+            "unknown": false
+          },
+          {
+            "claim_id": "C18",
+            "text": "Hybrid search and metadata filtering are documented. One author ran a 10 million-vector microbenchmark, but the reviewed evidence does not provide its results; specific integrations were not found.",
+            "evidence_ids": [
+              "E8",
+              "E11",
+              "E12",
+              "E14"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K3",
+            "unknown": false
+          },
+          {
+            "claim_id": "C19",
+            "text": "Zilliz Cloud is a managed service built on Milvus. A guide describes billion-vector scale but says engineering resources are needed; an article says large bulk updates require an index rebuild for optimal performance. Specific prices were not found.",
+            "evidence_ids": [
+              "E1",
+              "E10",
+              "E13"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K4",
+            "unknown": false
+          }
+        ]
+      }
+    ]
+  },
+  "entities": [],
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.firecrawl.dev/blog/best-vector-databases",
+      "canonical_url": "https://firecrawl.dev/blog/best-vector-databases",
+      "domain": "firecrawl.dev",
+      "title": "Best Vector Databases in 2026: A Complete Comparison Guide",
+      "snippet": "The vector database market has grown from $1.73 billion in 2024 to a projected $10.6 billion by 2032, reflecting the rapid adoption of RAG and semantic search in production applications. Open-source adoption has accelerated alongside this growth: Milvus leads with over 44,000 GitHub stars, followed by Qdrant, Weaviate, and ChromaDB with thousands more (figures approximate; GitHub star counts shift rapidly). [...] The integration ecosystem is mature. LangChain and LlamaIndex both have first-class Pinecone support for building RAG applications. Most RAG frameworks and AI tools integrate without ",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q2"
+      ],
+      "provider_score": 0.8745175,
+      "rank_score": 0.6065,
+      "retrieved_at": "2026-10-28T11:39:23.113468Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "dfb7749f9d6394599224c95e098dce53019cc4258dc85b920ce3937f1432cfe8",
+      "content_chars": 60000,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S4",
+      "url": "https://www.cake.ai/blog/best-vector-databases",
+      "canonical_url": "https://cake.ai/blog/best-vector-databases",
+      "domain": "cake.ai",
+      "title": "7 Most Popular Vector Databases: A 2026 Guide",
+      "snippet": "Vector databases are essential infrastructure for modern AI: They power search, memory, and retrieval across RAG, agentic, and multimodal systems.\n Open-source options provide better control, scalability, and integration: Milvus, Weaviate, Qdrant, and others support hybrid search, flexible deployment, and production-grade performance. [...] Why 90% of Agentic RAG Projects Fail (and How Cake Changes That)\n What Is Agentic AI? (And Why It Changes Everything)\n How to Cut AI Model Deployment Time by 4X\n LLMOps Explained\n\n## Frequently asked questions\n\n### Which vector databases are open source vs.",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.71995544,
+      "rank_score": 0.515,
+      "retrieved_at": "2026-10-28T11:39:23.215043Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "af6459fd33b756ab8b6df8f0e9a744a813b011310347c67e596333026d1905a6",
+      "content_chars": 32052,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S5",
+      "url": "https://www.pingcap.com/compare/best-vector-database",
+      "canonical_url": "https://pingcap.com/compare/best-vector-database",
+      "domain": "pingcap.com",
+      "title": "Best Vector Databases for RAG: Top Picks for 2026 | TiDB",
+      "snippet": "| Redis (Vector) | Both | License varies | Limited | Basic–Strong (pattern-dependent) | HNSW (common) | LangChain | Cloud + self-hosted |\n| MongoDB Atlas Vector Search | Managed | SSPL/source-available | Limited | Strong (doc model) | Vector search index options | LangChain | Usage-based (Atlas) | [...] Weaviate is an open-source vector database (with managed deployment options) used to store embeddings and perform vector similarity search, often alongside metadata filtering.\n\n#### Best For\n\nTeams that want an open source vector database with a strong developer experience and ecosystem.\n\n#### ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q2"
+      ],
+      "provider_score": 0.69746524,
+      "rank_score": 0.5689,
+      "retrieved_at": "2026-10-28T11:39:23.182593Z",
+      "published_at": "2026-02-25",
+      "published_at_origin": "page_text",
+      "content_hash": "da347ceb38755b224d9ced70c874062a969e95f0d3d243651bffb08164b7d4db",
+      "content_chars": 25892,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S11",
+      "url": "https://deploybase.ai/articles/vector-database-comparison",
+      "canonical_url": "https://deploybase.ai/articles/vector-database-comparison",
+      "domain": "deploybase.ai",
+      "title": "Vector Database Comparison: Performance, Pricing & Scaling | Deploybase",
+      "snippet": "### Best For\n\nStartups, scaleups, and teams that prioritize velocity over cost. Worst for teams with massive query volume (>10B queries/month) where infrastructure costs become material. Teams already managing cloud infrastructure may find self-hosted options more economical.\n\n## Weaviate: Open-Source with Managed Option\n\nWeaviate is open-source vector search (since 2018). Available self-hosted on Kubernetes/Docker or via Weaviate Cloud Service (WCS) managed offering. [...] ### Cost-Per-Million-Vector\n\n| Database | Per-Million Cost | Notes |\n --- \n| Pinecone | $7.22/month | Serverless, include",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7825466,
+      "rank_score": 0.5221,
+      "retrieved_at": "2026-10-28T11:39:23.198882Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "b62726860773796f4dd45ebc8f4ab5c3cc46e2b8a671843bcf89ff03f4468c2b",
+      "content_chars": 19961,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S12",
+      "url": "https://medium.com/@aefselinates/scaling-vector-search-my-hands-on-comparison-of-self-hosted-and-managed-solutions-8efb68fe8c8e",
+      "canonical_url": "https://medium.com/@aefselinates/scaling-vector-search-my-hands-on-comparison-of-self-hosted-and-managed-solutions-8efb68fe8c8e",
+      "domain": "medium.com",
+      "title": "Scaling Vector Search: My Hands-On Comparison of Self-Hosted and Managed Solutions",
+      "snippet": "## Final Reflections\n\nIn the end, the choice between a self-hosted vector database and a managed cloud service comes down to your team’s expertise, workload demands, and tolerance for operational complexity.\n\nIf you love fine-tuning and want to optimize every layer of the stack, Milvus gives you that power — but be prepared to invest in cluster management. If you want a production-ready, hands-off experience, Zilliz Cloud offers scalability and reliability at a premium. [...] 1️⃣ Operational Complexity: You’re responsible for cluster management, node failures, backups, and upgrades. On my loca",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7803451,
+      "rank_score": 0.5072,
+      "retrieved_at": "2026-10-28T11:39:23.242447Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "25d8b31ad6546c7195d8a43c54caa4e52ec88704f4159edf29586c0c5c12babf",
+      "content_chars": 6759,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S2",
+      "url": "https://www.zenml.io/blog/vector-databases-for-rag",
+      "canonical_url": "https://zenml.io/blog/vector-databases-for-rag",
+      "domain": "zenml.io",
+      "title": "We Tried and Tested 10 Best Vector Databases for RAG Pipelines - ZenML Blog",
+      "snippet": "Qdrant: An open-source Rust vector database. Excels at real-time embedding search with rich JSON-based payload filtering.\n Milvus (Zilliz Cloud): Open-source, GPU-accelerated vector DB. Optimized for massive scale and high-throughput serving.\n Vespa: A full-featured search platform with vector support. Designed for billion-scale deployments.\n pgvector (PostgreSQL): A Postgres extension for vector columns. Brings HNSW/IVF indexing to PostgreSQL’s relational engine. [...] For teams looking for an open-source solution with strong performance and advanced metadata filtering, Qdrant is hard to beat",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1",
+        "Q2"
+      ],
+      "provider_score": 0.78846955,
+      "rank_score": 0.4678,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S3",
+      "url": "https://www.instaclustr.com/education/vector-database/top-10-open-source-vector-databases",
+      "canonical_url": "https://instaclustr.com/education/vector-database/top-10-open-source-vector-databases",
+      "domain": "instaclustr.com",
+      "title": "What Is a Vector Database? Top 10 Open Source Options",
+      "snippet": "## Open source vector databases\n\nHere are some of the most popular open source vector databases.\n\n### 1. OpenSearch\n\nOpenSearch is an Apache 2.0-licensed search and analytics suite built on Apache Lucene. Its Vector Engine stores, indexes, and searches embeddings for similarity search, semantic search, hybrid search, multimodal search, sparse vector search, RAG, recommendations, and anomaly detection.\n\nRepo:   \n License: Apache-2.0 license  \n GitHub stars: ~13K  \n Contributors: 450+ [...] Qdrant dashboard screenshot  \n Source: Qdrant\n\n### 6. Weaviate\n\nWeaviate is an open source vector database",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.7686816,
+      "rank_score": 0.4159,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://community.openai.com/t/best-vector-database-to-use-with-rag/615350",
+      "canonical_url": "https://community.openai.com/t/best-vector-database-to-use-with-rag/615350",
+      "domain": "community.openai.com",
+      "title": "Best vector database to use with RAG - ChatGPT - OpenAI Developer Community",
+      "snippet": "Yes, I used (qdrant, chroma, and faiss) I think Pinecone is good but I didn’t use it  \n-I have big data to deal with and right now I use qdrant  \n-I need it Open Source  \n@Macha\n\nI really appreciate your help. Thank you.  \n@chbussler\n\nSoo, this?\n\n### Qdrant - Vector Database\n\nQdrant is an Open-Source Vector Database and Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API.\n\nYes, I am using it for my data.\n\n@Macha [...] Are you looking for Free? Open Source? Enterprise Grade / organization / business? Ease of use? How big is th",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.6729558,
+      "rank_score": 0.4588,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S7",
+      "url": "https://www.instaclustr.com/education/vector-database/how-vector-databases-enable-rag-and-9-tools-to-know-in-2026",
+      "canonical_url": "https://instaclustr.com/education/vector-database/how-vector-databases-enable-rag-and-9-tools-to-know-in-2026",
+      "domain": "instaclustr.com",
+      "title": "How Vector Databases Enable RAG and 9 Tools to Know in 2026",
+      "snippet": "Qdrant\n\n### 9. Weaviate\n\nWeaviate is an open source, AI-native vector database to simplify the development of applications. With support for vector and hybrid search, integration with popular machine learning models, and features like multi-tenancy and native filtering, it enables developers to quickly build, test, and scale AI-powered systems.\n\nKey features include: [...] ### 5. Chroma\n\nChroma is an open source vector database for AI applications that require fast, reliable, and scalable retrieval. It supports vector, full-text, metadata, and regex search, making it suitable for diverse use c",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.7152057,
+      "rank_score": 0.4988,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S8",
+      "url": "https://www.braintrust.dev/articles/best-vector-databases-for-rag-2026",
+      "canonical_url": "https://braintrust.dev/articles/best-vector-databases-for-rag-2026",
+      "domain": "braintrust.dev",
+      "title": "Best vector databases for RAG in 2026 - Articles - Braintrust",
+      "snippet": "Commonly used for: Weaviate works well for RAG apps that need hybrid search, configurable retrieval, and multi-tenant data isolation while keeping an open-source foundation.\n\nWorth noting: Weaviate gives teams more control than a managed-only service, but self-hosting still requires attention to configuration, scaling, monitoring, and performance tuning.\n\n### Qdrant [...] ### Qdrant\n\nWhat it is: Qdrant is an open-source vector database and similarity search engine written in Rust. It stores vectors with metadata payloads and supports similarity search with structured filtering.\n\nHosting model:",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.6219319,
+      "rank_score": 0.4639,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S9",
+      "url": "https://redis.io/blog/best-open-source-vector-databases-comparison",
+      "canonical_url": "https://redis.io/blog/best-open-source-vector-databases-comparison",
+      "domain": "redis.io",
+      "title": "Comparing the best open source vector databases (2026)",
+      "snippet": "Hybrid search: The FT.HYBRID command combines vector similarity with filtering on geographic, numeric, tag, or text data. Redis 8.4 adds multiple ranking algorithms (Reciprocal Rank Fusion and linear combination) for score fusion. [...] Redis provides the same hybrid search capabilities through the FT.HYBRID command, combining vector similarity with filtering on geographic, numeric, tag, or text data. The difference: Redis Query Engine uses familiar Redis command patterns rather than GraphQL, and Redis handles caching and operational data alongside vectors in one platform rather than requiring",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.5189612,
+      "rank_score": 0.3965,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S10",
+      "url": "https://data4ai.com/blog/tool-comparisons/best-vector-databases?md=1",
+      "canonical_url": "https://data4ai.com/blog/tool-comparisons/best-vector-databases?md=1",
+      "domain": "data4ai.com",
+      "title": "Best 8 Vector Databases in 2026",
+      "snippet": "title: \"Best 8 Vector Databases in 2026\". description: \"This guide compares the best vector databases in 2026 for RAG, semantic search, and production AI retrieval. Learn how Pinecone, Qdrant, Weaviate, Milvus, pgvector, Chroma, and LanceDB differ on filtering, scaling, deployment, and cost.\". The real differences show up when you need strict metadata filtering, predictable latency, multitenancy, hybrid search, or a deployment model that matches your security and ops constraints. For AI teams building RAG systems, semantic search, recommendation engines, and retrieval pipelines, the database c",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.8548001,
+      "rank_score": 0.4757,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S13",
+      "url": "https://theaidatabaseblog.com/learn/self-hosted-vs-managed-vector-databases",
+      "canonical_url": "https://theaidatabaseblog.com/learn/self-hosted-vs-managed-vector-databases",
+      "domain": "theaidatabaseblog.com",
+      "title": "Self-Hosted vs Managed Vector Databases — The AI Database Blog",
+      "snippet": "Self-hosted vector databases give teams the most control over infrastructure, data placement, configuration, and long-term cost, but they also make the team responsible for deployment, scaling, monitoring, backups, upgrades, security, and incident response. Managed vector databases reduce that operational burden and usually help teams move faster, but they can cost more at scale and may limit some infrastructure choices. Bring your own cloud, often called BYOC, sits between the two by running [...] BYOC is worth considering when the organization wants managed help but has firm requirements aro",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7327644,
+      "rank_score": 0.4857,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S14",
+      "url": "https://aicalculatorpro.com/ai-stack/vector-databases",
+      "canonical_url": "https://aicalculatorpro.com/ai-stack/vector-databases",
+      "domain": "aicalculatorpro.com",
+      "title": "Vector Databases Compared (11 Tools) (2026) | AI Calculator Pro",
+      "snippet": "| Milvus / Zilliz Scalable open-source vector database for billion-scale search. | Open source (Apache-2.0) | Managed, Self-hosted | Open source (free) | Yes | Cloud | No |\n| MongoDB Atlas Vector Search Vector search built into MongoDB Atlas documents. | Source available (MongoDB core is SSPL; Atlas Vector Search is a managed Atlas feature) | Managed | Free tier + paid | Yes | Atlas | No | [...] | Weaviate Open-source vector database with built-in hybrid search and modules. | Open source (BSD-3-Clause) | Managed, Self-hosted | Open source (free) | Yes | Cloud | Yes | [...] | pgvector Vector si",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.69622743,
+      "rank_score": 0.4833,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S15",
+      "url": "https://costbench.com/software/vector-databases/lancedb",
+      "canonical_url": "https://costbench.com/software/vector-databases/lancedb",
+      "domain": "costbench.com",
+      "title": "LanceDB Pricing 2026: Free Open Source & Cloud Plans",
+      "snippet": "Use the interactive pricing calculator to estimate your exact cost based on team size and requirements.\n\n Free tier:  Yes\n\nLanceDB offers 3 pricing tiers: Open Source (Self-Hosted), LanceDB Cloud (Usage-Based), Enterprise. The LanceDB Cloud (Usage-Based) plan is developers who want managed hosting without a monthly commitment.\n\nCompared to other vector databases software, LanceDB is positioned at the mid-market price point. [...] View all features by plan (compare side-by-side)\n\n#### Open Source (Self-Hosted)\n\n Free forever\n Apache 2.0 license\n Embedded, in-process vector database\n Python, Jav",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.6554468,
+      "rank_score": 0.458,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "source_id": "S1",
+      "passage_id": "S1.P1",
+      "quote": "Milvus / Zilliz Cloud: billions of vectors at lower cost; requires engineering resources.",
+      "claim": "The guide characterizes Milvus and Zilliz Cloud as supporting billions of vectors at lower cost but requiring engineering resources.",
+      "criterion_ids": [
+        "K4"
+      ],
+      "entity": "Milvus",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E2",
+      "source_id": "S1",
+      "passage_id": "S1.P57",
+      "quote": "Both open-source and managed deployment options provide flexibility. Performance scales efficiently to 50 million vectors, though resource requirements increase beyond 100 million.",
+      "claim": "The guide says Weaviate has open-source and managed deployment options and reports efficient performance to 50 million vectors, with increasing resource requirements beyond 100 million.",
+      "criterion_ids": [
+        "K3",
+        "K4"
+      ],
+      "entity": "Weaviate",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E3",
+      "source_id": "S1",
+      "passage_id": "S1.P57",
+      "quote": "Qdrant Budget-friendly vector database with the best free tier and excellent filtering for moderate-scale projects Type | Open-source, Rust-based, managed and self-hosted options",
+      "claim": "The guide describes Qdrant as an open-source vector database with filtering and both managed and self-hosted options.",
+      "criterion_ids": [
+        "K1",
+        "K3",
+        "K4"
+      ],
+      "entity": "Qdrant",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E4",
+      "source_id": "S5",
+      "passage_id": "S5.P4",
+      "quote": "Weaviate | Managed + self-hosted | Yes | Yes | Strong | HNSW (+ hybrid features) | LangChain, LlamaIndex | Cloud + self-hosted",
+      "claim": "The table lists Weaviate as open source, managed or self-hosted, with hybrid search, strong filtering, HNSW and LangChain and LlamaIndex integrations.",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3",
+        "K4"
+      ],
+      "entity": "Weaviate",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E5",
+      "source_id": "S5",
+      "passage_id": "S5.P4",
+      "quote": "Pinecone | Managed | No | Yes | Strong | Managed ANN options | LangChain, LlamaIndex | Usage-based + tiers",
+      "claim": "The table lists Pinecone as not open source.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "Pinecone",
+      "polarity": "contradicts",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E6",
+      "source_id": "S5",
+      "passage_id": "S5.P16",
+      "quote": "Use these snapshots to shortlist 2-3 candidates, then benchmark them on your own data and real query patterns, especially the filters and tail-latency targets your app will live or die by.",
+      "claim": "The article recommends benchmarking shortlisted candidates on the team's data, query patterns, filters and tail-latency targets.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E7",
+      "source_id": "S5",
+      "passage_id": "S5.P20",
+      "quote": "Weaviate is an open-source vector database (with managed deployment options) used to store embeddings and perform vector similarity search, often alongside metadata filtering.",
+      "claim": "Weaviate is described as an open-source vector database with managed options and vector similarity search alongside metadata filtering.",
+      "criterion_ids": [
+        "K1",
+        "K3",
+        "K4"
+      ],
+      "entity": "Weaviate",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E8",
+      "source_id": "S11",
+      "passage_id": "S11.P1",
+      "quote": "Compare Pinecone, Weaviate, Qdrant, Milvus, and ChromaDB.",
+      "claim": "Deploybase includes Weaviate, Qdrant and Milvus in its vector database comparison.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E9",
+      "source_id": "S11",
+      "passage_id": "S11.P7",
+      "quote": "Weaviate is open-source vector search (since 2018). Available self-hosted on Kubernetes/Docker or via Weaviate Cloud Service (WCS) managed offering.",
+      "claim": "Weaviate has been open-source vector search since 2018 and is available self-hosted or through a managed cloud service.",
+      "criterion_ids": [
+        "K2",
+        "K4"
+      ],
+      "entity": "Weaviate",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E10",
+      "source_id": "S11",
+      "passage_id": "S11.P30",
+      "quote": "Pinecone and Qdrant handle frequent updates well. Milvus requires index rebuild for optimal performance after large bulk updates.",
+      "claim": "The article says Qdrant handles frequent updates well and Milvus requires an index rebuild for optimal performance after large bulk updates.",
+      "criterion_ids": [
+        "K3",
+        "K4"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E11",
+      "source_id": "S11",
+      "passage_id": "S11.P30",
+      "quote": "All databases support metadata filtering during vector search. Store metadata (tags, timestamps, URLs) alongside vectors.",
+      "claim": "The article says all databases it lists support metadata filtering during vector search.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E12",
+      "source_id": "S4",
+      "passage_id": "S4.P6",
+      "quote": "Open-source options provide better control, scalability, and integration: Milvus, Weaviate, Qdrant, and others support hybrid search, flexible deployment, and production-grade performance.",
+      "claim": "The guide lists Milvus, Weaviate and Qdrant as open-source options supporting hybrid search and flexible deployment.",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3",
+        "K4"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E13",
+      "source_id": "S12",
+      "passage_id": "S12.P3",
+      "quote": "Specifically, I focused on Milvus (an open-source vector database) and Zilliz Cloud (a fully managed service built on Milvus).",
+      "claim": "Milvus is an open-source vector database and Zilliz Cloud is a fully managed service built on it.",
+      "criterion_ids": [
+        "K1",
+        "K4"
+      ],
+      "entity": "Milvus",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E14",
+      "source_id": "S12",
+      "passage_id": "S12.P4",
+      "quote": "To ground my exploration in something concrete, I ran microbenchmarks on a 10 million-vector dataset using VectorDBBench, an open-source Python tool for benchmarking vector databases.",
+      "claim": "The author reports running VectorDBBench microbenchmarks on a 10 million-vector dataset.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "Milvus",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    }
+  ],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "Verify that each candidate is a vector database with an open-source core and identify its license.",
+      "kind": "eligibility",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E3",
+        "E4",
+        "E5",
+        "E7",
+        "E12",
+        "E13"
+      ],
+      "independent_sources": 4,
+      "note": null
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Establish a transparent basis for selecting three leading candidates using adoption, ecosystem maturity, and RAG relevance.",
+      "kind": "dimension",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E4",
+        "E8",
+        "E9",
+        "E12"
+      ],
+      "independent_sources": 3,
+      "note": null
+    },
+    {
+      "criterion_id": "K3",
+      "description": "Compare retrieval capabilities relevant to RAG, including filtering, hybrid search, integrations, and documented performance.",
+      "kind": "dimension",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E2",
+        "E3",
+        "E4",
+        "E6",
+        "E7",
+        "E10",
+        "E11",
+        "E12",
+        "E14"
+      ],
+      "independent_sources": 5,
+      "note": null
+    },
+    {
+      "criterion_id": "K4",
+      "description": "Compare deployment, operational complexity, scalability, managed options, and cost considerations for a startup.",
+      "kind": "dimension",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E7",
+        "E9",
+        "E10",
+        "E12",
+        "E13"
+      ],
+      "independent_sources": 5,
+      "note": null
+    }
+  ],
+  "unresolved_criteria": [],
+  "conflicts": [],
+  "confidence": {
+    "level": "high",
+    "explanation": "High: 4 of 4 required criteria are supported; 19 of 19 checked claims are fully supported; evidence comes from 5 independent sites.",
+    "factors": {
+      "required_criteria_supported": "4/4",
+      "claim_support_rate": 1.0,
+      "independent_domains": 5,
+      "high_suitability_sources": 0,
+      "first_party_evidence_share": 0.0,
+      "unresolved_conflicts": 0,
+      "stale_required_criteria": 0,
+      "weak_required_criteria": 0,
+      "verification": "ran"
+    }
+  },
+  "limitations": [
+    "Publication dates are provider estimates or dates found in page text and may be inaccurate.",
+    "The reviewed evidence does not identify the core licenses, so recognized-license eligibility remains unverified for all three.",
+    "No adoption figures or systematic ecosystem comparison were provided; the shortlist is not a defensible universal ranking.",
+    "Comparable benchmark results, detailed pricing and specific integration evidence for Qdrant and Milvus were not provided.",
+    "Some operational and scale claims come from undated guides, and managed-offering terms were not reviewed."
+  ],
+  "assumptions": [
+    "“Top three” means leading current options selected using a combination of adoption, ecosystem maturity, and relevance to RAG.",
+    "Open source refers to the core database having a recognized open-source license; managed offerings may have different terms.",
+    "The question does not define “top”; the research will use a transparent selection process rather than a single popularity ranking."
+  ],
+  "next_steps": [
+    "Check each core repository’s current license and the terms of any managed offering before committing.",
+    "Benchmark shortlisted products on representative RAG data, filters, update patterns and tail-latency targets.",
+    "Obtain current managed-service quotes and estimate self-hosting infrastructure and engineering costs.",
+    "Verify the integrations and deployment requirements needed by the startup’s stack."
+  ],
+  "plan": {
+    "objective": "Identify and compare three leading open-source vector databases for a startup building RAG products.",
+    "task_type": "comparison",
+    "interpretation": "Discover three leading open-source vector databases and compare their suitability for a startup's RAG workloads. Use transparent, evidence-backed selection criteria rather than assuming a definitive universal ranking.",
+    "assumptions": [
+      "“Top three” means leading current options selected using a combination of adoption, ecosystem maturity, and relevance to RAG.",
+      "Open source refers to the core database having a recognized open-source license; managed offerings may have different terms."
+    ],
+    "constraints": [
+      "Select exactly three databases.",
+      "Distinguish independently supported comparisons from vendor claims."
+    ],
+    "ambiguity_note": "The question does not define “top”; the research will use a transparent selection process rather than a single popularity ranking.",
+    "freshness_days": 365,
+    "target_entity_count": 3,
+    "candidate_entities": [],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "Verify that each candidate is a vector database with an open-source core and identify its license.",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "vector database",
+          "open source",
+          "license",
+          "repository"
+        ]
+      },
+      {
+        "id": "K2",
+        "description": "Establish a transparent basis for selecting three leading candidates using adoption, ecosystem maturity, and RAG relevance.",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": true,
+        "key_terms": [
+          "adoption",
+          "community",
+          "ecosystem",
+          "RAG"
+        ]
+      },
+      {
+        "id": "K3",
+        "description": "Compare retrieval capabilities relevant to RAG, including filtering, hybrid search, integrations, and documented performance.",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": true,
+        "key_terms": [
+          "hybrid search",
+          "metadata filtering",
+          "RAG integrations",
+          "benchmarks"
+        ]
+      },
+      {
+        "id": "K4",
+        "description": "Compare deployment, operational complexity, scalability, managed options, and cost considerations for a startup.",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": true,
+        "key_terms": [
+          "deployment",
+          "scaling",
+          "managed pricing",
+          "operational overhead"
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "leading open source vector databases RAG adoption community licenses comparison",
+        "purpose": "Discover candidates and assess eligibility and selection evidence.",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "open source vector databases RAG hybrid search metadata filtering integrations independent benchmark",
+        "purpose": "Compare RAG capabilities and find independent performance evidence.",
+        "criterion_ids": [
+          "K2",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q3",
+        "text": "open source vector databases self hosted managed cloud pricing operational complexity scaling",
+        "purpose": "Investigate deployment, scaling, and startup cost trade-offs.",
+        "criterion_ids": [
+          "K4"
+        ],
+        "round": 1,
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Discover leading candidates and verify their core licenses and database scope.",
+      "Select three using documented adoption, maturity, and RAG relevance, noting limitations of the evidence.",
+      "Check current documentation for retrieval features, integrations, deployment, and pricing.",
+      "Cross-check comparative and performance claims against independent sources and benchmark methodologies.",
+      "Summarize trade-offs and identify which startup scenarios favor each option."
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "location": "short_answer",
+      "kind": "interpretation",
+      "text": "Qdrant, Weaviate and Milvus are reasonable open-source vector database candidates to shortlist for a startup’s RAG product, rather than a definitive ranked top three. All three are described as supporting hybrid search and flexible deployment; Weaviate also has documented LangChain and LlamaIndex integrations in the reviewed evidence. The main uncertainties are their exact licenses, comparative adoption and workload-specific performance.",
+      "evidence_ids": [
+        "E4",
+        "E8",
+        "E12"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C2",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "The selection is based on their inclusion in a vector database comparison and their documented RAG-relevant features, not a measured adoption ranking. Adoption figures were not found.",
+      "evidence_ids": [
+        "E8",
+        "E12"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C3",
+      "location": "finding",
+      "kind": "fact",
+      "text": "All three are described as open-source vector databases, but the reviewed evidence does not identify their licenses.",
+      "evidence_ids": [
+        "E3",
+        "E7",
+        "E13"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C4",
+      "location": "finding",
+      "kind": "fact",
+      "text": "All three are described as supporting hybrid search and metadata filtering. The reviewed evidence names LangChain and LlamaIndex integrations for Weaviate, but does not establish comparable integration coverage for the other two.",
+      "evidence_ids": [
+        "E4",
+        "E8",
+        "E11",
+        "E12"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C5",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "Qdrant is a candidate to test for frequently updated workloads; the reviewed article says it handles frequent updates well, while Milvus needs an index rebuild for optimal performance after large bulk updates.",
+      "evidence_ids": [
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C6",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "Milvus is a candidate for larger-scale workloads, but a reviewed guide says it requires engineering resources. Weaviate and Qdrant also have managed and self-hosted options.",
+      "evidence_ids": [
+        "E1",
+        "E3",
+        "E4",
+        "E13"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C7",
+      "location": "finding",
+      "kind": "recommendation",
+      "text": "Benchmark the shortlist on the startup’s own data, filters, update patterns and tail-latency targets before choosing.",
+      "evidence_ids": [
+        "E6",
+        "E10"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C8",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Described as an open-source vector database; exact license not found in reviewed sources.",
+      "evidence_ids": [
+        "E3"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C9",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Included in a multi-database comparison and described as supporting hybrid search. Adoption figures were not found.",
+      "evidence_ids": [
+        "E8",
+        "E12"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C10",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Filtering and hybrid search are documented; an article says it handles frequent updates well. Specific integrations and comparable benchmark results were not found.",
+      "evidence_ids": [
+        "E3",
+        "E10",
+        "E12"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C11",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Managed and self-hosted options are available. The reviewed evidence does not quantify operating costs or scaling limits.",
+      "evidence_ids": [
+        "E3"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C12",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Described as an open-source vector database; exact license not found in reviewed sources.",
+      "evidence_ids": [
+        "E7"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C13",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Included in a multi-database comparison; one source dates its open-source vector search to 2018. Adoption figures were not found.",
+      "evidence_ids": [
+        "E8",
+        "E9"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C14",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Hybrid search, filtering and LangChain and LlamaIndex integrations are documented. One guide reports efficient performance to 50 million vectors, but provides no comparable benchmark results here.",
+      "evidence_ids": [
+        "E2",
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C15",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Managed and self-hosted options are available, including Docker and Kubernetes deployment. One guide reports increasing resource requirements beyond 100 million vectors; prices were not found.",
+      "evidence_ids": [
+        "E2",
+        "E9"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C16",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Described as an open-source vector database; exact license not found in reviewed sources.",
+      "evidence_ids": [
+        "E13"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C17",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Included in a multi-database comparison and described as supporting hybrid search. Adoption figures were not found.",
+      "evidence_ids": [
+        "E8",
+        "E12"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C18",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Hybrid search and metadata filtering are documented. One author ran a 10 million-vector microbenchmark, but the reviewed evidence does not provide its results; specific integrations were not found.",
+      "evidence_ids": [
+        "E8",
+        "E11",
+        "E12",
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C19",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "Zilliz Cloud is a managed service built on Milvus. A guide describes billion-vector scale but says engineering resources are needed; an article says large bulk updates require an index rebuild for optimal performance. Specific prices were not found.",
+      "evidence_ids": [
+        "E1",
+        "E10",
+        "E13"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    }
+  ],
+  "verification": {
+    "claims_checked": 19,
+    "supported": 19,
+    "partially_supported": 0,
+    "not_supported": 0,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": false,
+    "removed_claims": [],
+    "note": null
+  },
+  "execution": {
+    "mode": "live",
+    "model": "gpt-6.1-terra",
+    "sdk_version": "3.40.0",
+    "prompt_version": "2026-10-28.3",
+    "reasoning_effort": "low",
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.19029
+    },
+    "metrics": {
+      "started_at": "2026-10-28T11:39:06.121255Z",
+      "finished_at": "2026-10-28T11:40:04.891439Z",
+      "duration_ms": 58770.2,
+      "first_event_ms": 0.1,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 11247.0
+        },
+        {
+          "stage": "search",
+          "ms": 4076.5
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 1805.3
+        },
+        {
+          "stage": "extract",
+          "ms": 15094.1
+        },
+        {
+          "stage": "assess",
+          "ms": 0.2
+        },
+        {
+          "stage": "synthesize",
+          "ms": 20667.5
+        },
+        {
+          "stage": "verify",
+          "ms": 5878.6
+        },
+        {
+          "stage": "finalize",
+          "ms": 0.3
+        }
+      ],
+      "rounds": 1,
+      "search_calls": 3,
+      "extract_calls": 1,
+      "pages_requested": 5,
+      "pages_read": 5,
+      "model_calls": 4,
+      "model_attempts": 4,
+      "retries": 0,
+      "cache_hits": 0,
+      "cache_misses": 8,
+      "input_tokens": 12439,
+      "output_tokens": 4187,
+      "estimated_cost_usd": 0.06537,
+      "cost_uncertain": false,
+      "tavily_credits": 4.0,
+      "sources_discovered": 15,
+      "sources_filtered": 0,
+      "evidence_accepted": 14,
+      "evidence_rejected": 0
+    }
+  },
+  "created_at": "2026-10-28T11:40:04.891463Z"
+}

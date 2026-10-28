@@ -1,0 +1,53 @@
+# Submission notes
+
+## Links
+
+| Item | Status |
+|---|---|
+| Repository | https://github.com/Hardik182005/Predixion-AI, branch `feature/research-agent` |
+| Repository access | On 2026-10-28, an unauthenticated request to the repository page returned 404, so the repository is private or not public yet. Evaluators need collaborator access, or the owner needs to make it public. Visibility was checked, not changed. |
+| Demo video | **Pending.** Not recorded yet. Follow [demo-script.md](demo-script.md), then add the link here. |
+| Hosted deployment | None. The app runs locally or in Docker; see the [README](../README.md#quick-start). |
+| Evaluation | [evaluation.md](evaluation.md), raw results in [`evals/results/`](../evals/results/) |
+| Sample reports | [samples/](samples/): live runs labeled with mode, date, model, and prompt version |
+| Requirements traceability | [requirements.md](requirements.md) |
+| Security model | [security.md](security.md) |
+| AI usage disclosure | [AI_USAGE.md](../AI_USAGE.md) |
+
+## How to run it
+
+The [README quick start](../README.md#quick-start) has the full steps. In short:
+
+```bash
+uv sync
+cp .env.example .env
+uv run predixion ask "Compare the top three open-source vector databases for a startup building RAG products." --mode fixture
+```
+
+Fixture mode needs no keys and makes no provider calls. Live mode needs `OPENAI_API_KEY` and `TAVILY_API_KEY` in `.env`.
+
+## What was verified, and what was not
+
+Verified locally on 2026-10-28 (Windows 11, Python 3.13, uv 0.10.11, Node.js 24):
+
+- `uv run ruff check .` and `uv run ruff format --check .`: clean.
+- `uv run pytest`: 191 passed, 1 skipped. The skipped test is the opt-in live test.
+- Frontend: `npm run build`, `npm test` (24 Vitest tests), and `npm run e2e` (7 Playwright tests, including axe accessibility scans).
+- `uv run predixion eval --mode fixture`: 20 of 20 agent checks pass.
+- Live evaluation with real OpenAI and Tavily calls; see [evaluation.md](evaluation.md).
+- `pip-audit` and `npm audit --audit-level=high`: no known vulnerabilities.
+
+Not verified:
+
+- **Docker image build.** The Docker daemon was not running on the development machine. The `docker build` job in CI is the first real check.
+- **CI workflow.** `.github/workflows/ci.yml` has not run on GitHub yet.
+- **Owner review.** The owner has not reviewed the code, the evaluation, or the sample reports; see [AI_USAGE.md](../AI_USAGE.md). The live claims spot-checked in [evaluation.md](evaluation.md) were checked by the AI development assistant.
+
+## Before submitting
+
+- [ ] Record the demo video and add the link above.
+- [ ] Give evaluators access to the repository, or make it public.
+- [ ] Open a pull request from `feature/research-agent` and confirm CI passes, including the Docker build.
+- [ ] Choose a license. None is included, and that decision belongs to the owner.
+- [ ] Read [AI_USAGE.md](../AI_USAGE.md), the residual risks in [security.md](security.md), and the evaluation caveats in [evaluation.md](evaluation.md).
+- [ ] Check the model prices in `config.py` and `.env.example` against current list prices; cost caps depend on them.

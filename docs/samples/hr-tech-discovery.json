@@ -1,0 +1,1794 @@
+{
+  "run_id": "run_50abd0d1277e41f708353939",
+  "question": "Find five Indian B2B SaaS startups in HR tech and summarize their positioning.",
+  "status": "partial",
+  "stop_reason": "rounds_exhausted",
+  "stop_detail": "Reached the limit of 2 research rounds.",
+  "mode": "live",
+  "short_answer": {
+    "claim_id": "C1",
+    "text": "SalaryBook is listed as an active company in Bengaluru and offers payroll, attendance and expense management for Indian SMEs. CompUp offers compensation benchmarking, but the reviewed evidence does not establish that it meets the India and startup criteria.",
+    "evidence_ids": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "verdict": "supported",
+    "disposition": "kept",
+    "note": null
+  },
+  "key_findings": [
+    {
+      "claim_id": "C2",
+      "text": "CompUp offers API-driven compensation benchmarking that integrates with HR and payroll systems and updates in real time. The evidence does not specify a narrower target customer segment.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "SalaryBook targets Indian SMEs with a one-stop app for payroll, attendance and expenses; its attendance features include selfie- and location-based marking.",
+      "evidence_ids": [
+        "E4",
+        "E5"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "fact",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "Darwinbox and Eightfold appear on a tracker of SaaS companies described as being out of India, with Indian bases listed. That does not clearly establish that either was founded or is headquartered in India.",
+      "evidence_ids": [
+        "E12",
+        "E13",
+        "E14"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K1"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "text": "The reviewed evidence describes HR-related offerings from Xoxoday, Keka and greytHR, but does not establish their Indian origin or headquarters and startup status.",
+      "evidence_ids": [
+        "E6",
+        "E8",
+        "E9",
+        "E10",
+        "E11"
+      ],
+      "verdict": "supported",
+      "disposition": "kept",
+      "note": null,
+      "kind": "interpretation",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3"
+      ]
+    }
+  ],
+  "comparison": {
+    "criteria": [
+      "K3"
+    ],
+    "rows": [
+      {
+        "entity": "SalaryBook",
+        "cells": [
+          {
+            "claim_id": "C7",
+            "text": "A one-stop payroll, attendance and expense app for Indian SMEs, including selfie- and location-based attendance.",
+            "evidence_ids": [
+              "E4",
+              "E5"
+            ],
+            "verdict": "supported",
+            "disposition": "kept",
+            "note": null,
+            "criterion_id": "K3",
+            "unknown": false
+          }
+        ]
+      }
+    ]
+  },
+  "entities": [
+    {
+      "name": "CompUp",
+      "included": false,
+      "summary": {
+        "claim_id": "C8",
+        "text": "Compensation benchmarking integrated with HR and payroll systems.",
+        "evidence_ids": [
+          "E2"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": "C9",
+          "text": "Not verified in reviewed sources",
+          "evidence_ids": [],
+          "verdict": "not_supported",
+          "disposition": "removed",
+          "note": "The directory is described in E1, but neither cited passage shows CompUp listed in it.",
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": "C10",
+          "text": "CompUp's compensation benchmarking tool integrates with existing HR and payroll systems.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "met"
+        }
+      ],
+      "exclusion_reason": "Eligibility not confirmed by verified evidence."
+    },
+    {
+      "name": "SalaryBook",
+      "included": true,
+      "summary": {
+        "claim_id": "C11",
+        "text": "Payroll, attendance and expense management for Indian SMEs.",
+        "evidence_ids": [
+          "E4"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": "C12",
+          "text": "Listed in a directory of YC-funded SaaS startups headquartered in India, with Bengaluru as its location.",
+          "evidence_ids": [
+            "E1",
+            "E3"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "met"
+        },
+        {
+          "claim_id": "C13",
+          "text": "The SaaS startup offers an HR-related app for SMEs.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "met"
+        }
+      ],
+      "exclusion_reason": null
+    },
+    {
+      "name": "Darwinbox",
+      "included": false,
+      "summary": {
+        "claim_id": "C14",
+        "text": "An end-to-end HR operations management company listed with a Hyderabad base.",
+        "evidence_ids": [
+          "E13"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "The tracker lists a Hyderabad base and describes its companies as being out of India, but does not clearly establish an Indian founding or headquarters.",
+          "evidence_ids": [
+            "E12",
+            "E13"
+          ],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": "C15",
+          "text": "Listed as a SaaS company offering HR operations management.",
+          "evidence_ids": [
+            "E12",
+            "E13"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "met"
+        }
+      ],
+      "exclusion_reason": "Indian founding or headquarters is not confirmed."
+    },
+    {
+      "name": "Eightfold",
+      "included": false,
+      "summary": {
+        "claim_id": "C16",
+        "text": "Offers AI-based talent intelligence for enterprises and is listed with a Noida base.",
+        "evidence_ids": [
+          "E14"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "The tracker lists a Noida base and describes its companies as being out of India, but does not clearly establish an Indian founding or headquarters.",
+          "evidence_ids": [
+            "E12",
+            "E14"
+          ],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": "C17",
+          "text": "Listed as a SaaS company offering talent intelligence to enterprises.",
+          "evidence_ids": [
+            "E12",
+            "E14"
+          ],
+          "verdict": "supported",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "met"
+        }
+      ],
+      "exclusion_reason": "Indian founding or headquarters is not confirmed."
+    },
+    {
+      "name": "Xoxoday",
+      "included": false,
+      "summary": {
+        "claim_id": "C18",
+        "text": "Offers business software including employee rewards and recognition for HR leaders.",
+        "evidence_ids": [
+          "E6"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "Indian founding or headquarters and startup status were not established in the reviewed evidence.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": null,
+          "text": "Business HR software is described, but its SaaS delivery is not explicitly established.",
+          "evidence_ids": [
+            "E6"
+          ],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "Indian startup eligibility and SaaS delivery are not confirmed."
+    },
+    {
+      "name": "Keka",
+      "included": false,
+      "summary": {
+        "claim_id": "C19",
+        "text": "Offers performance management, appraisal workflows and structured feedback, with visual dashboards for HR teams.",
+        "evidence_ids": [
+          "E8",
+          "E9"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "Indian founding or headquarters and startup status were not established in the reviewed evidence.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": null,
+          "text": "HR modules are described, but SaaS delivery is not explicitly established.",
+          "evidence_ids": [
+            "E9"
+          ],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "Indian startup eligibility and SaaS delivery are not confirmed."
+    },
+    {
+      "name": "greytHR",
+      "included": false,
+      "summary": {
+        "claim_id": "C20",
+        "text": "Focuses on Indian payroll compliance and statutory management, with attendance and leave tracking.",
+        "evidence_ids": [
+          "E10",
+          "E11"
+        ],
+        "verdict": "supported",
+        "disposition": "kept",
+        "note": null
+      },
+      "eligibility": [
+        {
+          "claim_id": null,
+          "text": "Indian founding or headquarters and startup status were not established in the reviewed evidence.",
+          "evidence_ids": [],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K1",
+          "status": "unknown"
+        },
+        {
+          "claim_id": null,
+          "text": "An HR and payroll platform is described, but SaaS delivery is not explicitly established.",
+          "evidence_ids": [
+            "E10",
+            "E11"
+          ],
+          "verdict": "unchecked",
+          "disposition": "kept",
+          "note": null,
+          "criterion_id": "K2",
+          "status": "unknown"
+        }
+      ],
+      "exclusion_reason": "Indian startup eligibility and SaaS delivery are not confirmed."
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.ycombinator.com/companies/industry/saas/india",
+      "canonical_url": "https://ycombinator.com/companies/industry/saas/india",
+      "domain": "ycombinator.com",
+      "title": "SaaS Startups funded by Y Combinator (YC) in India 2026 | Y Combinator",
+      "snippet": "hr-tech\n\n  human-resources\n\n  b2b\n\n  saas](/companies/compup) [Cone\n\n  Cone\n\n  S2022\n\n   • Active • 8 employees • Hyderabad, Telangana, India\n\n  Cone is an AI-powered work operating system that unifies accounting workflows — proposals, tasks, billing, payments, and client engagement into one platform\n\n  b2b\n\n  saas\n\n  workflow-automation](/companies/cone) [Peoplebox.ai\n\n  Peoplebox.ai\n\n  S2022\n\n   • Active • 35 employees • Bengaluru [...] saas\n\n  b2b\n\n  hr-tech\n\n  recruiting\n\n  ai](/companies/peoplebox) [SALT\n\n  SALT\n\n  W2022\n\n   • Active • 14 employees • Bengaluru\n\n  Salt is a neo banking sol",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.81665546,
+      "rank_score": 0.5064,
+      "retrieved_at": "2026-10-28T11:53:09.126252Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "e16e06979c63aa9db922009fe1ff2ace513bf84d3f313517181c320eda947ef9",
+      "content_chars": 19108,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S3",
+      "url": "https://cutshort.io/companies/saas",
+      "canonical_url": "https://cutshort.io/companies/saas",
+      "domain": "cutshort.io",
+      "title": "Software as a Service (SAAS) Companies/Startups in India",
+      "snippet": "AT XL ADVISORS, WE PUT PEOPLE FIRST! XL Advisors, one of the fastest growing HR Solutions Providers in India. In the year 2010, it was co-founded by an IIT Kanpur Alumni. Our employee friendly work culture have made us one of the preferred employer. We bring substantial and distinctive experience to the task because we solely concentrate on complete human resources solutions. Our end-to-end tailored recruitment solutions and talent advisory have benefited 300+ clients. Market Mapping, [...] Backed by influential industry leaders like PayTM and Indian Angel Network and with partners like IBM, M",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.74785584,
+      "rank_score": 0.4884,
+      "retrieved_at": "2026-10-28T11:53:09.146249Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "a0441b96b67d141d8fab634f0848743f11e8de95466b49ddb0bcf55c2625a430",
+      "content_chars": 37316,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S4",
+      "url": "https://www.mewurk.com/blog/top-hr-software-in-india-for-it-saas-companies",
+      "canonical_url": "https://mewurk.com/blog/top-hr-software-in-india-for-it-saas-companies",
+      "domain": "mewurk.com",
+      "title": "Top HR Software in India for SaaS & IT Firms (2026 Guide)",
+      "snippet": "Generally speaking, established SaaS companies with multiple offices will prefer HR software companies in India that have already established a good reputation among customers. Darwinbox targets such companies.\n\nIts end-to-end HR management solutions cover recruitment, onboarding, payroll, performance, and engagement under one roof. Large engineering teams benefit from detailed workflows and advanced reporting tools. [...] Mewurk works well for IT and SaaS companies that are scaling fast but do not want a bulky HR system. Many tech startups need flexible attendance options because teams work r",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.6010557,
+      "rank_score": 0.4223,
+      "retrieved_at": "2026-10-28T11:53:09.209639Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "b093d4be72c08df44587b25a2d1fb8eaefc7a8cfcc5764f083599cb31957d7fc",
+      "content_chars": 13635,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S5",
+      "url": "https://saasboomi.org/india-saas-unicorn-tracker",
+      "canonical_url": "https://saasboomi.org/india-saas-unicorn-tracker",
+      "domain": "saasboomi.org",
+      "title": "SaaS Unicorn Tracker - SaaSBoomi",
+      "snippet": "| Chargebee | Cloud-based subscription billing and revenue management solutions for businesses | 3,500 M | 480 M | Pune | 2011 | April, 2021 | Series H |\n| CommerceIQ | Provider of SaaS and AI-based analytics software for e-commerce businesses | 1,000 M | 195 M | Bengaluru | 2012 | March, 2022 | Series D |\n| Darwinbox | Tech company offering end-to-end HR operations management solutions | 1,000 M | 135 M | Hyderabad | 2015 | January, 2022 | Series D | [...] This is a curated list of SaaS companies valued at $1B+ out of India. SaaSBoomi sources data from research firm Tracxn for the list which ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.5634506,
+      "rank_score": 0.4054,
+      "retrieved_at": "2026-10-28T11:53:09.220385Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "aa6cc634c0a1c07d0871bf61065caaa10fcb5afdc851c66e35aa76d4ee7607e3",
+      "content_chars": 5691,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S7",
+      "url": "https://savvyhrms.com/blog/best-hr-software-for-growing-startups-in-india",
+      "canonical_url": "https://savvyhrms.com/blog/best-hr-software-for-growing-startups-in-india",
+      "domain": "savvyhrms.com",
+      "title": "7 Best HR Software for Growing Startups in India (2026)",
+      "snippet": "HR software is a digital platform that helps businesses manage employee information and automate human resource processes such as recruitment, onboarding, attendance, leave, payroll, performance management, employee records, and compliance.\n\nFor startups, HR software becomes particularly valuable as the workforce grows. What can be handled manually with 10 or 20 employees can become time-consuming and error-prone when the company reaches 50, 100, or several hundred employees. [...] Core HR: Centralizes employee records, HR information, workflows, and essential workforce processes.\n Payroll Man",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.75442725,
+      "rank_score": 0.3784,
+      "retrieved_at": "2026-10-28T11:53:35.963443Z",
+      "published_at": "2026-09-11",
+      "published_at_origin": "page_text",
+      "content_hash": "35dc4db1c24efb8a2959a65e070efa5cff93ec9511c851bdd673b79e5f9abe0c",
+      "content_chars": 28051,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S12",
+      "url": "https://engagedly.com/blog/hr-saas-platforms-redefining-employee-experience",
+      "canonical_url": "https://engagedly.com/blog/hr-saas-platforms-redefining-employee-experience",
+      "domain": "engagedly.com",
+      "title": "10 Best HR SaaS Platforms for 2026 (Features & Pricing)",
+      "snippet": "HR SaaS (Software as a Service) platforms are cloud-based applications that help organizations manage HR processes such as payroll, hiring, onboarding, performance management, employee records, and workforce analytics through a subscription model.  \n  \nKey features include:  \nCloud-based access from any device without on-premise installation.  \nAutomated updates, security patches, and compliance improvements.  \nCentralized employee data and HR workflows. [...] Payroll processing and tax compliance, employee onboarding and offboarding, performance reviews and goal tracking, benefits administrat",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.47986987,
+      "rank_score": 0.2548,
+      "retrieved_at": "2026-10-28T11:53:35.988767Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "f7f3a4df0912de83a1e2ffd4e4e725e668bcc0584c05dda093c802764e34e237",
+      "content_chars": 23025,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S2",
+      "url": "https://www.softwaresuggest.com/blog/top-saas-companies-in-india-that-are-going-global",
+      "canonical_url": "https://softwaresuggest.com/blog/top-saas-companies-in-india-that-are-going-global",
+      "domain": "softwaresuggest.com",
+      "title": "Top 40 SaaS Companies In India: A Comprehensive List [2026]",
+      "snippet": "Visit Website\n\nKeka is a prominent player among top B2B SaaS companies in India that offers cloud-based HR management software solutions. Its customizable HR software in India helps businesses streamline their HR tasks, such as payroll processing, performance appraisals, and leave management. \n\nKeka’s software prioritizes user-friendliness and ease of use, besides including reporting and analytics tools that provide valuable insights into HR operations.\n\nKeka Founder/s: Vijay Yalamanchili [...] Founding Year: Keka was founded in 2015.\n\nExpertise: Keka specializes in simplifying HR tasks and im",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.8091708,
+      "rank_score": 0.4289,
+      "retrieved_at": "2026-10-28T11:53:09.174208Z",
+      "published_at": "2026-04-14",
+      "published_at_origin": "page_text",
+      "content_hash": "7ca502ad20ddab243a3e48ab024642fc68ad513549e93783881745dbc0271629",
+      "content_chars": 42578,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S8",
+      "url": "https://employwise.com/articles/top-10-hr-tech-companies-in-india",
+      "canonical_url": "https://employwise.com/articles/top-10-hr-tech-companies-in-india",
+      "domain": "employwise.com",
+      "title": "Top 10 HR Tech Companies in India: Enhancing HR Operations",
+      "snippet": "### 1. EmployWise\n\nEmployWise is recognized as one of the best HR tech companies in India. It offers a comprehensive HR management system that integrates various functions, including recruitment, employee management, and payroll processing. \n\nKey Features: [...] | Darwinbox | Mobile-first platform | Custom pricing |\n| SAP SuccessFactors | Talent management, analytics | Tiered pricing |\n| PeopleStrong | Intuitive HR platform | Subscription-based |\n| Quikchex | Payroll processing, compliance | Tiered pricing | [...] EmployWise stands out for its commitment to providing scalable solutions that ca",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "read",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.6429039,
+      "rank_score": 0.3541,
+      "retrieved_at": "2026-10-28T11:53:35.982394Z",
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": "f29e5a70b0b10e85d4511c9e891b23e615bc0e4d384bb983917e20a2f3ae427c",
+      "content_chars": 10444,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S6",
+      "url": "https://builtin.com/articles/saas-companies-in-india",
+      "canonical_url": "https://builtin.com/articles/saas-companies-in-india",
+      "domain": "builtin.com",
+      "title": "36 SaaS Companies in India to Know in 2026 | Built In",
+      "snippet": "Shopify\n Intuit\n Toast\n Notion\n Blackline\n Chargebee\n Zoho\n\nRead MoreIT Companies in India to Know\n\n## SaaS Companies in India\n\n\n\n### Zoho\n\nView Profile\n\nChennai-based Zoho is a prolific developer of SaaS platforms. Its products include CRMs, inventory management, data platforms, meeting software and email. In total, the company develops over 50 products used by millions. Zoho was launched in 1996 and opened several offices throughout India before expanding to the United States. [...] We are hiring\n\nNotion is a web-based productivity platform used for note-taking and other business needs, such",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q1"
+      ],
+      "provider_score": 0.49523994,
+      "rank_score": 0.3747,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S9",
+      "url": "https://hrtechsaas.com",
+      "canonical_url": "https://hrtechsaas.com/",
+      "domain": "hrtechsaas.com",
+      "title": "HR Tech SaaS | HR Software & AI HR Tools",
+      "snippet": "All Startup HR\n\n ### Lyra vs Spring Health vs Modern Health\n ### Workhuman vs Achievers vs Bonusly\n ### Contract Labour Attendance Management Software in India: 7 Systems Compared (2026)\n ### Degreed vs Docebo vs 360learning\n ### 6 Best EOR Platforms Hiring India\n ### Employee Relations RFP Template\n ### 7 Best HR Software Construction\n ### 7 Best HR Software Manufacturing\n\n## Recruiting\n\nSee all\n\n ### 5 Best Job Posting Data Providers for Recruiting Platforms and Agencies [...] AI in HR\n\n  ### Workday Payroll by Neeyamo Explained: India Payroll Inside the Workday Contract (2026)\n AI in HR\n\n  ",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.56719416,
+      "rank_score": 0.3941,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S10",
+      "url": "https://itechcraft.com/blog/top-hr-tech-startups",
+      "canonical_url": "https://itechcraft.com/blog/top-hr-tech-startups",
+      "domain": "itechcraft.com",
+      "title": "10 Must-Know HR Tech Startups",
+      "snippet": "The platform provides intuitive functionality and easy-to-navigate menus, letting managers track multiple candidates and job openings. Recruiters and HR managers can email candidates from the same platform, saving time switching between different software.\n\nAlso, managers can perform:\n\n job posting across multiple job boards\n initial sourcing\n candidate interviews\n background check\n application tracking\n insights and analytics\n\nand more. [...] This startup has been in the market since 2013; it raised an impressive $140M in Series E round in July 2024.  \n\nRating: 5.0 (Capterra).\n\nAlternatives: ",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.50886196,
+      "rank_score": 0.3808,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S11",
+      "url": "https://peopleforce.io",
+      "canonical_url": "https://peopleforce.io/",
+      "domain": "peopleforce.io",
+      "title": "All-in-One HR platform PeopleForce",
+      "snippet": "From startups to enterprises, PeopleForce simplifies both daily routines and complex HR tasks for every team member – creating a system that everyone enjoys using.\n\nlogo [...] + API documentationBuild and integrate with our API.",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q2"
+      ],
+      "provider_score": 0.48191768,
+      "rank_score": 0.3428,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 1
+    },
+    {
+      "id": "S13",
+      "url": "https://tracxn.com/d/explore/hr-saas-startups-in-india/__q32e6xCwi00Qado2PBsHsoCsImUVDS6Pf9jU9WoH-n0",
+      "canonical_url": "https://tracxn.com/d/explore/hr-saas-startups-in-india/__q32e6xCwi00Qado2PBsHsoCsImUVDS6Pf9jU9WoH-n0",
+      "domain": "tracxn.com",
+      "title": "List of 3,573 HR SaaS Startups in India & Market Trends (Sep 2026) - Tracxn",
+      "snippet": "| College | Total Funding |\n --- |\n| IIT Delhi | $543M |\n| IIT Bombay | $538M |\n| University of California (Berkeley) | $397M |\n| IIT Madras | $229M |\n| Indian Institute Of Management–Lucknow | $144M |\n| BITS Mesra | $99.8M |\n| BIT Mesra | $99.7M |\n| Kellogg School of Management | $97.9M |\n| MIT Sloan School of Management | $89.5M |\n| Massachusetts Institute of Technology | $89.5M |\n\n## Top News in HR SaaS in India\n\n## FAQs about HR SaaS sector in India [...] Out of the total 3,573 HR SaaS companies in India, 325 have secured funding. Among them, 102 have reached Series A or higher, and 69 to ",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.86954874,
+      "rank_score": 0.4561,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S14",
+      "url": "https://growthlist.co/hr-startups",
+      "canonical_url": "https://growthlist.co/hr-startups",
+      "domain": "growthlist.co",
+      "title": "900+ Funded HR Startups 2026 | Verified Contacts & HR Tech Data",
+      "snippet": "Number of HR startups in our database: 1,056\n   Number of verified email addresses in our database: 1,569\n   Number of social profiles in our database: 2,867\n   Other data points stored: 14,572\n   Total funding raised in 2025: $3,935,175,932 \n       Seed: $289,812,269\n       Series A: $468,132,892\n       Series B: $1,196,538,157\n       Series C: $160,676,955\n       Other funding: $1,820,015,659\n\n   Total funding raised in 2026: $1,853,923,206 [...] | BIPO |  | Human Resources, SaaS, Cloud Computing, Enterprise Software | Singapore | $50,000,000 | Private Equity | Jun 2026 |\n| Sloneek |  | Huma",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3",
+        "Q4"
+      ],
+      "provider_score": 0.74273956,
+      "rank_score": 0.5231,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S15",
+      "url": "https://hrone.cloud/blog/peoplestrong-review-india",
+      "canonical_url": "https://hrone.cloud/blog/peoplestrong-review-india",
+      "domain": "hrone.cloud",
+      "title": "PeopleStrong Review 2026: Is It The Right HRMS For Enterprise India?",
+      "snippet": "| Axis | HROne | PeopleStrong | Darwinbox | Keka | greytHR | ZingHR | SAP SF | Workday | factoHR |\n ---  ---  ---  ---  --- |\n| Core HR depth | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |\n| India payroll depth | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |\n| AI and autonomous workflows | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | [...] For 100 to 5,000-employee Indian enterprises, HROne leads on action-first task velocity, India-tuned compliance, and go-live billing. PeopleStrong and Darwinbox dominate hierarchical breadth at 2,000+. Keka wins on su",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7123327,
+      "rank_score": 0.4465,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S16",
+      "url": "https://gethirex.com/blog/15-human-resources-startups-2026",
+      "canonical_url": "https://gethirex.com/blog/15-human-resources-startups-2026",
+      "domain": "gethirex.com",
+      "title": "15 Human Resources Startups Changing Hiring in 2026",
+      "snippet": "With this landscape evolving at breakneck speed, we've identified 15 promising HR tech startups positioned to change how companies manage their most valuable asset, their people. Let's dive into what makes each of these companies worth watching! 👀\n\n  \n\n## 1. Hirex: AI-Powered Recruiting Assistant\n\nScreenshot 2025-12-23 at 00.28.04.png [...] Screenshot 2025-12-23 at 00.26.42.png\n\nTalent has no borders, but finding it sure feels like it does sometimes.\n\nAndela emerges as a pioneering hr tech startup that's redefining how companies build their engineering teams. Their global talent marketplace cu",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.7023877,
+      "rank_score": 0.455,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S17",
+      "url": "https://fundraiseinsider.com/blog/hr-tech-companies",
+      "canonical_url": "https://fundraiseinsider.com/blog/hr-tech-companies",
+      "domain": "fundraiseinsider.com",
+      "title": "List of Funded HR Tech Companies (2026) - Fundraise Insider",
+      "snippet": "# List of Funded HR Tech Companies (2026)\n\nChris Walker\n\nJuly 23, 2026 \n\nFunded List\n\nInvestment in HR Tech Companies has demonstrated consistent momentum as investors recognize the sector’s growth potential and operational scalability. Capital flowing into HR startups signals confidence in the business models and market opportunities these companies address. This sustained funding reflects investor belief that HR tech companies can achieve meaningful scale in competitive markets. [...] HR tech companies develop talent management platforms, payroll systems, benefits administration tools, and r",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3",
+        "Q4"
+      ],
+      "provider_score": 0.66959417,
+      "rank_score": 0.5032,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S18",
+      "url": "https://www.failory.com/startups/human-resources",
+      "canonical_url": "https://failory.com/startups/human-resources",
+      "domain": "failory.com",
+      "title": "Top 100 Human Resources Startups to Watch in 2026",
+      "snippet": "### 1. Paradox\n\nAI Human Resources ML Recruiting\n\nParadox develops conversational AI software that helps companies automate their recruiting processes, from capturing candidates to screening and scheduling. Their assistant handles candidate questions and streamlines communication to create a faster, more engaging hiring experience. [...] ### 7. Gusto\n\nBookkeeping and Payroll Employee Benefits Enterprise Software Financial Services FinTech Human Resources SaaS Software\n\nGusto built an all-in-one platform to help small businesses handle payroll, benefits, and HR. Their software streamlines these",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q3"
+      ],
+      "provider_score": 0.6260562,
+      "rank_score": 0.4206,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S19",
+      "url": "https://www.ycombinator.com/companies/industry/hr-tech",
+      "canonical_url": "https://ycombinator.com/companies/industry/hr-tech",
+      "domain": "ycombinator.com",
+      "title": "HR Tech Startups funded by Y Combinator (YC) 2026 | Y Combinator",
+      "snippet": "is an API-driven compensation benchmarking tool. We integrate with your existing HR/payroll systems, removing the need for manual data entry, and also getting updated in real-time. CompUp provides the most accurate real-time compensation benchmarking data which helps you make the right offer to the candidate. The platform allows you to make better compensation decisions such as annual increments, candidate offers using internal and external data. This has the following advantages : - All the [...] With over 500M white-collared job offers rolled out annually, companies find it very difficult to",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.75181264,
+      "rank_score": 0.4902,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S20",
+      "url": "https://projectstartups.com/pages/hrtech",
+      "canonical_url": "https://projectstartups.com/pages/hrtech",
+      "domain": "projectstartups.com",
+      "title": "HR Tech Recently Funded Startups | ProjectStartups",
+      "snippet": "Provides on-demand home services such as cleaning, dishwashing, and laundry\n\nMarketplace Consumer\n\nBengaluru, Karnataka, India\n\n### Wenite\n\n€1.8M · 2026-04-23\n\nInvestors: Imec.iStart\n\nProvides unified infrastructure for HR consultants to manage client relationships and employee data\n\nHRTech SaaS/Software\n\nGhent, Belgium\n\n### Worki\n\nPre-Seed $2.75M · 2026-04-16\n\nInvestors: Redesign Health, Healthliant Ventures\n\nBuilds AI workforce unifying infrastructure for healthcare operations [...] Global platform for employment, payroll, and spend management for distributed teams\n\nFintech HRTech\n\nLondon, E",
+      "kind": "company_site",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.62879556,
+      "rank_score": 0.4348,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S21",
+      "url": "https://www.landbase.com/blog/fastest-growing-hr-tech-companies",
+      "canonical_url": "https://landbase.com/blog/fastest-growing-hr-tech-companies",
+      "domain": "landbase.com",
+      "title": "11 Fastest Growing HR Tech Companies and Startups | Landbase",
+      "snippet": "HR tech funding surged to $3 billion+ in H1 2025, representing 60% growth over H1 2024 and validating market confidence in AI-powered HR solutions.\n AI adoption in HR has doubled, with 42% of organizations now using AI in HR functions compared to 26% in 2024, accelerating growth of AI-native platforms.\n Mega-funded market leaders like Rippling ($450M Series G) and Deel ($679M total funding) have established themselves as comprehensive platforms serving thousands of enterprise customers. [...] ### Leadership:\n\n CEO: Abhik Pramanik – Building analytics-first recruiting platforms\n Key Background:",
+      "kind": "blog",
+      "tier": "medium",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.62000114,
+      "rank_score": 0.4309,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    },
+    {
+      "id": "S22",
+      "url": "https://news.crunchbase.com/venture/ai-hr-software-startup-funding-ma",
+      "canonical_url": "https://news.crunchbase.com/venture/ai-hr-software-startup-funding-ma",
+      "domain": "news.crunchbase.com",
+      "title": "Funding To HR Software Startups Rises As M&A Activity Heats Up",
+      "snippet": "# Funding To HR Software Startups Rises As M&A Activity Heats Up\n\nMary Ann Azevedo\n\nSeptember 19, 2025\n\nIllustration of man shaking hand of woman on monitor.\n\nMary Ann Azevedo, freelance reporter for Crunchbase News. Mary Ann Azevedo\n\n2 Shares\n\n Email\n Facebook\n Twitter\n LinkedIn\n\nIt’s been a good year for human resources software startups. [...] Indeed, a few huge deals have taken place in 2025. San Francisco-based HR tech startup Rippling in May raised a $450 million Series G round at a $16.8 billion valuation. At that time, the 9-year-old company also announced it was conducting a $200 mill",
+      "kind": "aggregator",
+      "tier": "low",
+      "state": "candidate",
+      "state_reason": null,
+      "query_ids": [
+        "Q4"
+      ],
+      "provider_score": 0.5622973,
+      "rank_score": 0.2919,
+      "retrieved_at": null,
+      "published_at": null,
+      "published_at_origin": "unknown",
+      "content_hash": null,
+      "content_chars": 0,
+      "duplicate_of": null,
+      "injection_suspected": false,
+      "fixture": false,
+      "round": 2
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "source_id": "S1",
+      "passage_id": "S1.P1",
+      "quote": "Browse 33 of the top SaaS startups funded by Y Combinator. Headquartered in India, these are some of the hottest and fastest-growing startups.",
+      "claim": "The directory describes its listed companies as Y Combinator-funded SaaS startups headquartered in India.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E2",
+      "source_id": "S1",
+      "passage_id": "S1.P5",
+      "quote": "CompUp is an API-driven compensation benchmarking tool. We integrate with your existing HR/payroll systems, removing the need for manual data entry, and also getting updated in real-time.",
+      "claim": "CompUp offers API-driven compensation benchmarking that integrates with HR and payroll systems and updates in real time.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "CompUp",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E3",
+      "source_id": "S1",
+      "passage_id": "S1.P15",
+      "quote": "SalaryBook S2021 • Active • 7 employees • Bengaluru",
+      "claim": "SalaryBook is listed as an active company with seven employees in Bengaluru.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": "SalaryBook",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E4",
+      "source_id": "S1",
+      "passage_id": "S1.P15",
+      "quote": "SalaryBook is an payroll, employee attendance and Expense management app for 60 million Indian SMEs. SMBs see in our app a one stop solution for running their business.",
+      "claim": "SalaryBook offers payroll, attendance and expense management for Indian SMEs, positioning the app as a one-stop business solution.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "SalaryBook",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E5",
+      "source_id": "S1",
+      "passage_id": "S1.P15",
+      "quote": "Our app includes some cool features like selfie & location based attendance marking.",
+      "claim": "SalaryBook includes selfie- and location-based attendance marking.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "SalaryBook",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E6",
+      "source_id": "S3",
+      "passage_id": "S3.P44",
+      "quote": "Xoxoday offers business software products to solve problems around employee rewards and recognition, channel sales incentives and consumer promotions. The software products are used by HR leaders, channel managers and brand marketers across 700+ global companies to engage their employees, channel partners and consumers.",
+      "claim": "Xoxoday offers business software for employee rewards and recognition, among other uses, and says its products are used by HR leaders and other managers across more than 700 global companies.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Xoxoday",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E7",
+      "source_id": "S3",
+      "passage_id": "S3.P44",
+      "quote": "All of Xoxoday's software products - Empuls, Compass and Plum - are plug and play, highly scalable, easy to use, and help achieve tangible business outcomes.",
+      "claim": "Xoxoday describes Empuls, Compass and Plum as plug-and-play, scalable and easy-to-use products.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "Xoxoday",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E8",
+      "source_id": "S4",
+      "passage_id": "S4.P6",
+      "quote": "Keka has built a good reputation among Indian tech companies. Its interface feels modern and appeals to HR teams that prefer visual dashboards over dense data tables.",
+      "claim": "According to Mewurk, Keka has a reputation among Indian tech companies and offers visual dashboards for HR teams.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "Keka",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E9",
+      "source_id": "S4",
+      "passage_id": "S4.P6",
+      "quote": "For them, Keka's performance management modules are impeccably suitable. The system supports appraisal workflows and structured feedback processes.",
+      "claim": "Keka supports performance management, appraisal workflows and structured feedback processes.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Keka",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E10",
+      "source_id": "S4",
+      "passage_id": "S4.P10",
+      "quote": "greytHR focuses heavily on compliance and statutory management in India. Many IT service firms choose it for payroll accuracy.",
+      "claim": "According to Mewurk, greytHR focuses on Indian compliance and statutory management and is used by many IT service firms for payroll.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "greytHR",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E11",
+      "source_id": "S4",
+      "passage_id": "S4.P10",
+      "quote": "The platform handles PF, ESI, professional tax, and TDS efficiently. Attendance and leave tracking are available, though the system feels more payroll-centric than performance-driven.",
+      "claim": "greytHR handles Indian statutory payroll items and offers attendance and leave tracking; Mewurk describes it as more payroll-centric than performance-driven.",
+      "criterion_ids": [
+        "K3"
+      ],
+      "entity": "greytHR",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E12",
+      "source_id": "S5",
+      "passage_id": "S5.P1",
+      "quote": "This is a curated list of SaaS companies valued at $1B+ out of India.",
+      "claim": "SaaSBoomi describes its unicorn tracker as a list of SaaS companies out of India valued at $1 billion or more.",
+      "criterion_ids": [
+        "K1"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E13",
+      "source_id": "S5",
+      "passage_id": "S5.P3",
+      "quote": "Darwinbox | Tech company offering end-to-end HR operations management solutions | 1,000 M | 135 M | Hyderabad | 2015 | January, 2022 | Series D",
+      "claim": "SaaSBoomi lists Darwinbox as an end-to-end HR operations management company with an India base in Hyderabad, founded in 2015.",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3"
+      ],
+      "entity": "Darwinbox",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E14",
+      "source_id": "S5",
+      "passage_id": "S5.P3",
+      "quote": "Eightfold | AI-based talent intelligence solutions for enterprises | 2,100 M | 410 M | Noida | 2016 | October, 2020 | Series E",
+      "claim": "SaaSBoomi lists Eightfold as offering AI-based talent intelligence for enterprises, with an India base in Noida and a 2016 founding year.",
+      "criterion_ids": [
+        "K1",
+        "K2",
+        "K3"
+      ],
+      "entity": "Eightfold",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 1
+    },
+    {
+      "id": "E15",
+      "source_id": "S7",
+      "passage_id": "S7.P40",
+      "quote": "Savvy HRMS, Darwinbox, Keka, Zoho People, greytHR, Zimyo and Qandle each offer different combinations of HR, payroll, workforce and employee-management capabilities.",
+      "claim": "Darwinbox offers a combination of HR, payroll, workforce and employee-management capabilities.",
+      "criterion_ids": [
+        "K2",
+        "K3"
+      ],
+      "entity": "Darwinbox",
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    },
+    {
+      "id": "E16",
+      "source_id": "S12",
+      "passage_id": "S12.P4",
+      "quote": "An HR SaaS (Software as a Service) platform is a cloud-hosted solution that centralizes and automates core human resource functions.",
+      "claim": "An HR SaaS platform is a cloud-hosted solution that centralizes and automates core HR functions.",
+      "criterion_ids": [
+        "K2"
+      ],
+      "entity": null,
+      "polarity": "supports",
+      "first_party": false,
+      "round": 2
+    }
+  ],
+  "coverage": [
+    {
+      "criterion_id": "K1",
+      "description": "Establish Indian origin or headquarters and evidence that each company is a startup.",
+      "kind": "eligibility",
+      "required": true,
+      "status": "weak",
+      "evidence_ids": [
+        "E1",
+        "E3",
+        "E12",
+        "E13",
+        "E14"
+      ],
+      "independent_sources": 2,
+      "note": "Evidence for 3 of 5 requested entities."
+    },
+    {
+      "criterion_id": "K2",
+      "description": "Verify that each company offers B2B SaaS in HR technology.",
+      "kind": "eligibility",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E2",
+        "E4",
+        "E6",
+        "E9",
+        "E10",
+        "E13",
+        "E14",
+        "E15",
+        "E16"
+      ],
+      "independent_sources": 6,
+      "note": null
+    },
+    {
+      "criterion_id": "K3",
+      "description": "Identify each company’s product focus, target customers and stated positioning or differentiators.",
+      "kind": "dimension",
+      "required": true,
+      "status": "supported",
+      "evidence_ids": [
+        "E2",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E13",
+        "E14",
+        "E15"
+      ],
+      "independent_sources": 5,
+      "note": null
+    }
+  ],
+  "unresolved_criteria": [
+    "K1"
+  ],
+  "conflicts": [],
+  "confidence": {
+    "level": "medium",
+    "explanation": "Medium: 2 of 3 required criteria are supported; 19 of 20 checked claims are fully supported; evidence comes from 6 independent sites; 1 required criterion has only weak evidence.",
+    "factors": {
+      "required_criteria_supported": "2/3",
+      "claim_support_rate": 0.95,
+      "independent_domains": 6,
+      "high_suitability_sources": 0,
+      "first_party_evidence_share": 0.0,
+      "unresolved_conflicts": 0,
+      "stale_required_criteria": 0,
+      "weak_required_criteria": 1,
+      "verification": "ran"
+    }
+  },
+  "limitations": [
+    "Research stopped early: Reached the limit of 2 research rounds.",
+    "K1 (Establish Indian origin or headquarters and evidence that each company is a startup.): weak. Evidence for 3 of 5 requested entities.",
+    "Publication dates are provider estimates or dates found in page text and may be inaccurate.",
+    "Only two candidates are confirmed against the required eligibility criteria, short of the requested five.",
+    "Indian bases listed for Darwinbox and Eightfold do not clearly establish where either was founded or headquartered.",
+    "The reviewed evidence does not specify CompUp’s target customer segment beyond its integration with HR and payroll systems.",
+    "Several company descriptions are undated; current status and positioning may have changed."
+  ],
+  "assumptions": [
+    "Indian means founded in India or headquartered in India.",
+    "Startup status will be assessed from company descriptions and independent reporting rather than a fixed age or funding cutoff.",
+    "The question does not define Indian or startup; the research will use Indian origin or headquarters and a practical assessment of startup status."
+  ],
+  "next_steps": [
+    "Check founding locations and headquarters in company histories or independent profiles, especially for Darwinbox and Eightfold.",
+    "Verify SaaS delivery and startup status for Xoxoday, Keka and greytHR using current company and independent sources.",
+    "Check CompUp’s current customer profile and product positioning.",
+    "Find primary or independent sources for: Establish Indian origin or headquarters and evidence that each company is a startup.."
+  ],
+  "plan": {
+    "objective": "Find five Indian B2B SaaS startups in HR tech and summarize their positioning.",
+    "task_type": "entity_discovery",
+    "interpretation": "Identify five startups with an Indian origin or headquarters that sell SaaS HR technology to businesses, and summarize each company’s target customers and positioning.",
+    "assumptions": [
+      "Indian means founded in India or headquartered in India.",
+      "Startup status will be assessed from company descriptions and independent reporting rather than a fixed age or funding cutoff."
+    ],
+    "constraints": [
+      "Include five distinct companies.",
+      "Do not treat a consumer-only HR product or a services-only firm as a B2B SaaS startup."
+    ],
+    "ambiguity_note": "The question does not define Indian or startup; the research will use Indian origin or headquarters and a practical assessment of startup status.",
+    "freshness_days": 365,
+    "target_entity_count": 5,
+    "candidate_entities": [],
+    "criteria": [
+      {
+        "id": "K1",
+        "description": "Establish Indian origin or headquarters and evidence that each company is a startup.",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "Indian startup",
+          "founding",
+          "headquarters"
+        ]
+      },
+      {
+        "id": "K2",
+        "description": "Verify that each company offers B2B SaaS in HR technology.",
+        "kind": "eligibility",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "B2B",
+          "HR tech",
+          "SaaS",
+          "business customers"
+        ]
+      },
+      {
+        "id": "K3",
+        "description": "Identify each company’s product focus, target customers and stated positioning or differentiators.",
+        "kind": "dimension",
+        "required": true,
+        "needs_freshness": true,
+        "comparative": false,
+        "key_terms": [
+          "HR platform",
+          "target market",
+          "product positioning",
+          "features"
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q1",
+        "text": "Indian HR tech B2B SaaS startups companies founded India",
+        "purpose": "Discover candidates and initial evidence of origin and eligibility.",
+        "criterion_ids": [
+          "K1",
+          "K2"
+        ],
+        "round": 1,
+        "topic": "general"
+      },
+      {
+        "id": "Q2",
+        "text": "India HR SaaS startups employers platform recruitment payroll employee management positioning",
+        "purpose": "Find candidates across HR product categories and investigate their target customers and positioning.",
+        "criterion_ids": [
+          "K1",
+          "K2",
+          "K3"
+        ],
+        "round": 1,
+        "topic": "general"
+      }
+    ],
+    "steps": [
+      "Discover a pool of Indian HR tech SaaS companies using industry coverage and startup directories.",
+      "Verify each candidate’s origin or headquarters, startup status and B2B SaaS HR offering.",
+      "Consult current company product pages for target customers, product focus and positioning.",
+      "Select five qualifying companies and summarize their positioning with supporting sources."
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "location": "short_answer",
+      "kind": "interpretation",
+      "text": "SalaryBook is listed as an active company in Bengaluru and offers payroll, attendance and expense management for Indian SMEs. CompUp offers compensation benchmarking, but the reviewed evidence does not establish that it meets the India and startup criteria.",
+      "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": true
+    },
+    {
+      "id": "C2",
+      "location": "finding",
+      "kind": "fact",
+      "text": "CompUp offers API-driven compensation benchmarking that integrates with HR and payroll systems and updates in real time. The evidence does not specify a narrower target customer segment.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C3",
+      "location": "finding",
+      "kind": "fact",
+      "text": "SalaryBook targets Indian SMEs with a one-stop app for payroll, attendance and expenses; its attendance features include selfie- and location-based marking.",
+      "evidence_ids": [
+        "E4",
+        "E5"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C4",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "Darwinbox and Eightfold appear on a tracker of SaaS companies described as being out of India, with Indian bases listed. That does not clearly establish that either was founded or is headquartered in India.",
+      "evidence_ids": [
+        "E12",
+        "E13",
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C5",
+      "location": "finding",
+      "kind": "interpretation",
+      "text": "The reviewed evidence describes HR-related offerings from Xoxoday, Keka and greytHR, but does not establish their Indian origin or headquarters and startup status.",
+      "evidence_ids": [
+        "E6",
+        "E8",
+        "E9",
+        "E10",
+        "E11"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C6",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "API-driven compensation benchmarking for integration with existing HR and payroll systems; a specific customer segment is not identified.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C7",
+      "location": "comparison_cell",
+      "kind": "fact",
+      "text": "A one-stop payroll, attendance and expense app for Indian SMEs, including selfie- and location-based attendance.",
+      "evidence_ids": [
+        "E4",
+        "E5"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C8",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Compensation benchmarking integrated with HR and payroll systems.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C9",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Listed in a directory of YC-funded SaaS startups headquartered in India.",
+      "evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "verdict": "not_supported",
+      "issue": "The directory is described in E1, but neither cited passage shows CompUp listed in it.",
+      "repaired": false
+    },
+    {
+      "id": "C10",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "CompUp's compensation benchmarking tool integrates with existing HR and payroll systems.",
+      "evidence_ids": [
+        "E2"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": true
+    },
+    {
+      "id": "C11",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Payroll, attendance and expense management for Indian SMEs.",
+      "evidence_ids": [
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C12",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Listed in a directory of YC-funded SaaS startups headquartered in India, with Bengaluru as its location.",
+      "evidence_ids": [
+        "E1",
+        "E3"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C13",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "The SaaS startup offers an HR-related app for SMEs.",
+      "evidence_ids": [
+        "E1",
+        "E4"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C14",
+      "location": "entity",
+      "kind": "fact",
+      "text": "An end-to-end HR operations management company listed with a Hyderabad base.",
+      "evidence_ids": [
+        "E13"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C15",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Listed as a SaaS company offering HR operations management.",
+      "evidence_ids": [
+        "E12",
+        "E13"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C16",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Offers AI-based talent intelligence for enterprises and is listed with a Noida base.",
+      "evidence_ids": [
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C17",
+      "location": "eligibility",
+      "kind": "fact",
+      "text": "Listed as a SaaS company offering talent intelligence to enterprises.",
+      "evidence_ids": [
+        "E12",
+        "E14"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C18",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Offers business software including employee rewards and recognition for HR leaders.",
+      "evidence_ids": [
+        "E6"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C19",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Offers performance management, appraisal workflows and structured feedback, with visual dashboards for HR teams.",
+      "evidence_ids": [
+        "E8",
+        "E9"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    },
+    {
+      "id": "C20",
+      "location": "entity",
+      "kind": "fact",
+      "text": "Focuses on Indian payroll compliance and statutory management, with attendance and leave tracking.",
+      "evidence_ids": [
+        "E10",
+        "E11"
+      ],
+      "verdict": "supported",
+      "issue": null,
+      "repaired": false
+    }
+  ],
+  "verification": {
+    "claims_checked": 20,
+    "supported": 19,
+    "partially_supported": 0,
+    "not_supported": 1,
+    "unchecked": 0,
+    "invalid_references_removed": 0,
+    "repair_attempted": true,
+    "removed_claims": [
+      "CompUp: Listed in a directory of YC-funded SaaS startups headquartered in India."
+    ],
+    "note": null
+  },
+  "execution": {
+    "mode": "live",
+    "model": "gpt-6.1-terra",
+    "sdk_version": "3.40.0",
+    "prompt_version": "2026-10-28.3",
+    "reasoning_effort": "low",
+    "limits": {
+      "max_rounds": 2,
+      "max_queries_per_round": 3,
+      "max_pages_per_run": 8,
+      "max_concurrency": 3,
+      "max_model_attempts": 8,
+      "max_repair_cycles": 1,
+      "run_deadline_s": 120.0,
+      "finalize_reserve_s": 20.0,
+      "max_tokens_per_run": 150000,
+      "max_cost_usd_per_run": 0.35
+    },
+    "metrics": {
+      "started_at": "2026-10-28T11:52:55.941572Z",
+      "finished_at": "2026-10-28T11:54:23.071141Z",
+      "duration_ms": 87129.6,
+      "first_event_ms": 0.1,
+      "stage_timings": [
+        {
+          "stage": "validate",
+          "ms": 0.0
+        },
+        {
+          "stage": "plan",
+          "ms": 9861.3
+        },
+        {
+          "stage": "search",
+          "ms": 2490.8
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 930.6
+        },
+        {
+          "stage": "extract",
+          "ms": 15346.8
+        },
+        {
+          "stage": "assess",
+          "ms": 1.9
+        },
+        {
+          "stage": "follow_up",
+          "ms": 6941.8
+        },
+        {
+          "stage": "search",
+          "ms": 3637.8
+        },
+        {
+          "stage": "filter",
+          "ms": 0.0
+        },
+        {
+          "stage": "read",
+          "ms": 851.0
+        },
+        {
+          "stage": "extract",
+          "ms": 7392.8
+        },
+        {
+          "stage": "assess",
+          "ms": 0.1
+        },
+        {
+          "stage": "synthesize",
+          "ms": 28412.4
+        },
+        {
+          "stage": "verify",
+          "ms": 6038.7
+        },
+        {
+          "stage": "repair",
+          "ms": 5220.6
+        },
+        {
+          "stage": "finalize",
+          "ms": 2.1
+        }
+      ],
+      "rounds": 2,
+      "search_calls": 4,
+      "extract_calls": 2,
+      "pages_requested": 8,
+      "pages_read": 8,
+      "model_calls": 8,
+      "model_attempts": 8,
+      "retries": 0,
+      "cache_hits": 0,
+      "cache_misses": 12,
+      "input_tokens": 19694,
+      "output_tokens": 5840,
+      "estimated_cost_usd": 0.08889,
+      "cost_uncertain": false,
+      "tavily_credits": 5.0,
+      "sources_discovered": 22,
+      "sources_filtered": 0,
+      "evidence_accepted": 16,
+      "evidence_rejected": 2
+    }
+  },
+  "created_at": "2026-10-28T11:54:23.071204Z"
+}
