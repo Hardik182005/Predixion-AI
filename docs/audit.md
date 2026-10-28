@@ -7,14 +7,14 @@ An independent verification and hardening review of Predixion AI, run after the 
 | Date | 2026-10-28 |
 | Reviewer | Claude Code in a cloud session, Claude Fable 5.1 model (an AI, not the owner) |
 | Starting commit | `ca97a75` on `main` (the cloud feature branch pointed at the same commit); working tree clean |
-| Final tested code commit | `dcbb588` |
-| Documentation-only commits after it | two: one adding this file and the documentation corrections listed under [Documentation](#documentation), one recording the CI result below |
+| Final tested code commit | `4ffdd3d` (the first fixes are in `dcbb588`) |
+| Documentation-only commits after it | one, recording the live results below (earlier documentation commits sit between the two code commits) |
 | Runtime used for the review | Linux container, Python 3.13.17, uv 0.11.32, Node.js 22.22.0, npm 10.9.4, Playwright 1.64.1 with the container's preinstalled Chromium 1243 |
-| Credentials | `OPENAI_API_KEY`, `TAVILY_API_KEY`, `GROQ_API_KEY` were present as environment variables and were never printed |
-| Network | Outbound HTTPS goes through the sandbox's egress proxy, which refused `api.openai.com`, `api.groq.com` and `api.tavily.com` (HTTP 403 on CONNECT). Live checks are therefore **BLOCKED** below. |
-| Docker | Client 29.9.2 present, no daemon. The Docker build is **BLOCKED** locally; it passed in GitHub Actions on `ca97a75` and again on the audit commits (run 23, all four jobs green). |
+| Credentials | `OPENAI_API_KEY`, `TAVILY_API_KEY`, `GROQ_API_KEY` were present as environment variables and were never printed. All three accepted the live calls. |
+| Network | Outbound HTTPS goes through the sandbox's egress proxy. It first refused `api.openai.com`, `api.groq.com` and `api.tavily.com` (HTTP 403 on CONNECT); the owner then allowed the three hosts, and the live checks in section 8 ran. |
+| Docker | Client 29.9.2 present, no daemon. The Docker build is **BLOCKED** locally; it passed in GitHub Actions on `ca97a75` and again on the audit commits (run 23 and later, all four jobs green). |
 
-**Verdict: ready for submission with stated limitations.** The application does what the assignment asks, the checks that could be run from a clean container all pass, and three real defects found during the review are fixed with regression tests. What remains is human work: record the demo video, give evaluators repository access, and read the documents the owner is expected to explain.
+**Verdict: ready for submission with stated limitations.** The application does what the assignment asks, every documented check passes from a clean container, the live path works against the real providers, and four real defects found during the review are fixed with regression tests. What remains is human work: record the demo video, give evaluators repository access, and read the documents the owner is expected to explain.
 
 Status values in the tables: **PASS** (verified by running or inspecting it), **FAIL**, **BLOCKED** (could not be verified in this environment), **N/A**.
 
@@ -22,14 +22,14 @@ Status values in the tables: **PASS** (verified by running or inspecting it), **
 
 Read in full: the assignment brief (via the build and audit briefs that restate it), `CLAUDE.md`, `README.md`, `AI_USAGE.md`, every file in `docs/`, `pyproject.toml`, `uv.lock`, `frontend/package.json`, `.github/workflows/ci.yml`, `Dockerfile`, `compose.yaml`, `.env.example`, and every backend module, frontend module, and test file.
 
-Remote state at the start: repository private, default branch `main`, two remote branches (`main` and a Dependabot branch whose change was already on `main`), one open Dependabot pull request (superseded), CI green on `ca97a75` for all four jobs (backend, frontend, secrets scan, Docker).
+Remote state at the start: repository private, default branch `main`, two remote branches (`main` and a Dependabot branch whose change was already on `main`), one open Dependabot pull request (superseded), CI green on `ca97a75` for all four jobs (backend, frontend, secrets scan, Docker). At the owner's request the Dependabot pull request was closed, the audit work was merged into `main`, and the audit commits were re-authored under the owner's identity. A temporary branch `main-reauthored` (same commit as `main`) could not be deleted from the session, because its git gateway refuses ref deletions; the owner deletes it.
 
 ## 2. Assignment requirements
 
 | Requirement | Implementation evidence | Verification performed | Result | Remaining action |
 |---|---|---|---|---|
 | A real agentic workflow | `orchestrator.ResearchRun.execute`: plan, up to 2 rounds of search, filter, read, extract, assess, model-chosen follow-up, synthesize, verify, repair, finalize | Traced the code; ran fixture runs and watched the stage events; `tests/test_orchestrator.py` | PASS | – |
-| At least two distinct tools | `tools.ToolRunner.search_web` (Tavily Search) and `read_sources` (Tavily Extract), separate endpoints and result shapes | `tests/test_providers.py` with `httpx.MockTransport`; live call blocked | PASS (adapter level); live BLOCKED | Owner: one live run confirms the keys still work |
+| At least two distinct tools | `tools.ToolRunner.search_web` (Tavily Search) and `read_sources` (Tavily Extract), separate endpoints and result shapes | `tests/test_providers.py` with `httpx.MockTransport`; live runs in section 8 used both (3–5 searches and 8 pages read per run) | PASS | – |
 | Task-dependent tool selection | Follow-up stage: the model picks `search_web` or `read_sources` from an allowlist per gap; code validates and caps (`_validate_actions`); rule-based fallback when the model is unavailable | `tests/test_plan_contracts.py::test_follow_up_actions_are_restricted`, `::test_follow_up_respects_query_cap` | PASS | – |
 | Visible planning and orchestration | `plan` event with criteria and queries; `stage` events; UI stage list, plan panel and activity log; CLI prints stages | Playwright run test; screenshots in the review session | PASS | – |
 | Relevant retrieval and source filtering | URL safety, canonical de-duplication, non-text filter, low-relevance filter, paywall and short-page rejection, exact and near-duplicate content detection, per-domain cap, source tiers | `tests/test_sources_urls.py`; audit probe: a copy of a page on a second domain was marked `duplicate` and never counted as an independent source | PASS | – |
@@ -43,8 +43,8 @@ Remote state at the start: repository private, default branch `main`, two remote
 | Deterministic output structure | Pydantic contracts with `extra="forbid"`; IDs assigned by code; Markdown export escapes untrusted text | Schema tests; `tests/test_render.py` | PASS | – |
 | Tracing | Numbered, persisted events; stage timings, model attempts, retries, fallbacks, tokens, credits, cost per run; structured JSON logs without content | Event stream read via the API; logs seen while serving | PASS | – |
 | Cost and latency decisions | Per-run token and cost reservation before each call, reconciled afterwards; conservative when usage is unknown; Tavily credits counted; cheaper models routed for small tasks; measured in `docs/evaluation.md` | `tests/test_reliability.py` budget tests; `test_cost_budget_is_enforced_before_the_first_call` | PASS | – |
-| Evaluation document with ≥5 queries, expected behavior, actual outcomes, strengths and failures | `docs/evaluation.md`, 8 cases, expected vs actual per case, strengths and failures sections, raw results in `evals/results/` | Fixture suite re-run from a clean container: 20/20 agent checks, identical to the committed result. Live numbers come from the build session and could not be re-run here. | PASS (live re-run BLOCKED) | – |
-| Two or three sample outputs | `docs/samples/`: three live reports labeled with mode, date, model and prompt version, generated by the app's exporter | Headers checked; references validated; claims read against quotes | PASS | – |
+| Evaluation document with ≥5 queries, expected behavior, actual outcomes, strengths and failures | `docs/evaluation.md`, 8 cases, expected vs actual per case, strengths and failures sections, raw results in `evals/results/` | Fixture suite re-run from a clean container: 20/20 agent checks, identical to the committed result. Two live cases re-run in this review (section 8); the full live suite was not repeated. | PASS | – |
+| Two or three sample outputs | `docs/samples/`: four live reports labeled with mode, date, model and prompt version, generated by the app's exporter (the fourth, an abstention on a nonexistent product, was saved during this review) | Headers checked; references validated; claims read against quotes | PASS | – |
 | README: setup, architecture, tradeoffs, limitations, production considerations | `README.md` with a Mermaid diagram and explicit answers to the assignment's questions | Followed the quick start from a clean container | PASS | – |
 | 3–5 minute demo with a success and a failure case | `docs/demo-script.md` covers both | No video exists | BLOCKED (human task) | Owner records and links it in `docs/submission.md` |
 | Repository accessible to evaluators | Repository is private (checked through the GitHub API during the review) | – | FAIL until access is granted | Owner adds evaluators as collaborators or makes the repository public |
@@ -124,7 +124,7 @@ Confidence is computed by `grounding.assess_confidence` from coverage, verifier 
 
 Follow-up research targets gaps: the follow-up prompt receives only the unmet criteria, previous queries and unread candidates; near-repeats of earlier queries are discarded in code; a round that adds no evidence stops the run (`diminishing_returns`); budget and deadline stops are tested.
 
-Manual claim inspection (by the reviewer, an AI): the first four findings of the HR-tech and SQLite sample reports were read against their quoted passages. All eight say only what the quotes say, including the hedges ("does not establish", "conservative estimate, not a hard limit"). The lexical scorer marks several of them unsupported, which confirms the documented bias of that scorer rather than a grounding problem. The vector-database report was inspected in the build session.
+Manual claim inspection (by the reviewer, an AI): the first four findings of the HR-tech and SQLite sample reports were read against their quoted passages. All eight say only what the quotes say, including the hedges ("does not establish", "conservative estimate, not a hard limit"). The lexical scorer marks several of them unsupported, which confirms the documented bias of that scorer rather than a grounding problem. The vector-database report was inspected in the build session. The live run of the same question in this review (section 8) produced 12 claims, all verified; its five findings were read against their quotes and say only what the quotes say, including "the reviewed evidence cannot establish that they are the top three".
 
 ## 6. Security review
 
@@ -177,11 +177,14 @@ In every case the report carries a readable explanation, no findings are invente
 | Suite | Conditions | Result |
 |---|---|---|
 | Fixture, 8 cases, agent and baseline | Offline, scripted model, re-run in this review | Agent 20/20 checks, 34/35 claims (circular, see `docs/evaluation.md`), 16/27 criteria, median latency 0.0 s, $0. Baseline 11/14, 16/20, 7/27. Identical to the committed `evals/results/fixture.md`. |
-| Live smoke, 2 cases (`vector_db_comparison`, `nonexistent_product`), no baseline, `--max-spend 0.30` | Real keys present; sandbox network refused all three provider hosts | Both runs `failed` / `provider_unavailable` in about 2 s after the fallback chain (Groq 120b → Groq 20b → OpenAI, 5 attempts, 2 retries); estimated cost $0.045 each is the conservative worst-case reservation for connection errors, flagged `cost_uncertain`; nothing was billed by any provider. BLOCKED as an evaluation; PASS as failure handling. Results are in the gitignored `evals/results/scratch/` on the review machine only. |
+| Live smoke while the network was blocked (same 2 cases) | Real keys present; sandbox refused all three provider hosts | Both runs `failed` / `provider_unavailable` in about 2 s after the fallback chain (Groq 120b → Groq 20b → OpenAI, 5 attempts, 2 retries); estimated cost $0.045 each is the conservative worst-case reservation for connection errors, flagged `cost_uncertain`; nothing was billed. PASS as failure handling; kept out of the repository. |
+| Live smoke, 2 cases (`vector_db_comparison`, `nonexistent_product`), no baseline, `--max-spend 0.30`, after the hosts were allowed | `gpt-6.1-terra` low effort, Groq routing on (`plan`, `follow_up` on `openai/gpt-oss-120b`), prompt `2026-10-28.3`, commit `5e37466`, 2026-10-28 17:02 UTC; [`evals/results/audit-live-smoke.md`](../evals/results/audit-live-smoke.md) | Vector: `partial` / `rounds_exhausted`, Low confidence, 12 of 12 claims verified, comparison table with 3 rows (Milvus, pgvector, Weaviate), 1 of 5 planned criteria supported, 52 s, $0.072, 3 searches, 8 pages. Checks 3/3. Nonexistent product: `partial`, 1 of 4 claims verified (3 removed), 27 s, $0.063; check `abstains` FAILED, which exposed defect D4 below. Suite $0.135. |
+| Live recheck of `nonexistent_product` after the D4 fix, `--max-spend 0.15` | Same settings, commit `5e37466` plus the fix; [`evals/results/audit-live-nonexistent-recheck.md`](../evals/results/audit-live-nonexistent-recheck.md) | `insufficient_evidence` / `diminishing_returns`, Low confidence, 8 pages read, no evidence extracted, no answer invented, 14 s, $0.056. Check 1/1. This run abstained through the zero-evidence path, so the new status rule is proven by its unit test rather than by this run. Saved as `docs/samples/nonexistent-product`. |
+| Opt-in live test | `PREDIXION_LIVE_TESTS=1 uv run pytest tests/test_live.py` | PASS: one live run on an explainer question, within its $0.20 cap, with every finding citing evidence that exists |
 | Live, all 8 cases, agent vs baseline, both models | From the build session on 2026-10-28, single runs each | Not re-run. Numbers and caveats stand as written in `docs/evaluation.md`. |
 | Concurrency mechanics under mocked load | 25 submissions, 4 slots, 16 queue places, fixture providers | 20 accepted, 5 refused with `429`, all completed in 0.2 s; separate from live provider latency |
 
-Sample sizes are small and single-run; no p95 is claimed. The lexical judge is a lower bound; representative claims were read by hand (section 5).
+Sample sizes are small and single-run; no p95 is claimed. The lexical judge is a lower bound; representative claims were read by hand (section 5). Total live spend in the review: about $0.33 estimated, plus about $0.09 of worst-case reservations for the blocked attempts that were never billed.
 
 ## 9. Interface
 
@@ -235,6 +238,14 @@ All three are confirmed (reproduced before the fix, regression test added, test 
 
 No fixture evaluation case changed status as a result (the fixture results re-run after the fix are identical).
 
+### D4. Unanswered run labelled "partial" — severity medium, confidence high
+
+- **Observed.** In the live smoke run, the nonexistent-product question ended `partial`. Verification had removed the short answer and two of three findings; the surviving finding only said the pages describe a different project; every required criterion was `missing` or `stale`. The UI would have shown "Partial answer" for a report that answered nothing, and the evaluation's `abstains` check failed.
+- **Reproduction.** `evals/results/audit-live-smoke.md`, case `nonexistent_product`; deterministic unit reproduction in the new test.
+- **Root cause.** `grounding.decide_status` returned `partial` whenever at least one claim was supported, without looking at whether the short answer survived or any required criterion was supported.
+- **Fix.** When verification ran, the short answer failed, and no required criterion is supported, the status is `insufficient_evidence`. A surviving short answer or one supported required criterion still gives `partial`.
+- **Test.** `tests/test_grounding.py::test_unanswered_report_with_only_a_caveat_finding_is_insufficient_evidence`. The fixture suite is unchanged (20/20); the live recheck abstained.
+
 ### Documentation
 
 Corrected to match the code: the question length limit is 8–1000 characters (documents said 10–2000); the backend test count (191 → 216 at the end of the build, 219 now) and Vitest count (24 → 25). Added the status semantics to the README, this review to `AI_USAGE.md`, the audit outcome to `docs/evaluation.md`, `docs/requirements.md` and `docs/submission.md`.
@@ -250,7 +261,7 @@ Corrected to match the code: the question length limit is 8–1000 characters (d
 
 ## Residual risks and untested behavior
 
-- No live run was possible in this review; the live evaluation numbers are single runs from the build session.
+- Live coverage in this review is three runs (two smoke cases and one recheck) plus the opt-in test; the full live suite numbers are still single runs from the build session.
 - The Docker image was not built here; CI built it.
 - A manual screen-reader pass has not been done.
 - Grounding checks claims against quotes, not quotes against the world; a wrong page can produce a well-cited wrong claim.
@@ -274,6 +285,6 @@ Corrected to match the code: the question length limit is 8–1000 characters (d
 
 1. Record the 3–5 minute demo (happy path plus a failure case) following `docs/demo-script.md`, and add the link to `docs/submission.md`.
 2. Grant evaluators access to the private repository, or make it public.
-3. Run one live research question with the real keys to confirm the credentials and network still work from the owner's machine.
+3. Delete the leftover `main-reauthored` branch on GitHub (it points at the same commit as `main`; the review session's git gateway refused the deletion).
 4. Read `AI_USAGE.md`, the residual risks in `docs/security.md`, the caveats in `docs/evaluation.md`, and this file before presenting the work.
 5. Choose a license.

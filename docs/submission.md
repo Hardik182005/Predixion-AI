@@ -45,7 +45,7 @@ Verified locally on 2026-10-28 (Windows 11, Python 3.13, uv 0.10.11, Node.js 24)
 
 Verified on GitHub on 2026-10-28: the CI run for commit `31b8e31` passed all four jobs (backend, frontend, secrets scan, Docker build) on `main` and on `feature/research-agent`. The CI run for `ca97a75` (the commit the audit started from) also passed all four jobs.
 
-Verified by the independent audit session on 2026-10-28, from a fresh cloud container (Linux, Python 3.13.17, uv 0.11.32, Node.js 22.22.0): lint, 219 backend tests, the fixture evaluation (20 of 20 checks), the frontend build, 25 Vitest tests, 7 Playwright tests, `pip-audit`, and `npm audit`. Live provider calls and the Docker build were blocked in that sandbox; see [audit.md](audit.md).
+Verified by the independent audit session on 2026-10-28, from a fresh cloud container (Linux, Python 3.13.17, uv 0.11.32, Node.js 22.22.0): lint, 219 backend tests, the fixture evaluation (20 of 20 checks), the frontend build, 25 Vitest tests, 7 Playwright tests, `pip-audit`, and `npm audit`. After the sandbox network was opened for the provider hosts, the audit also ran the opt-in live test and three live evaluation runs (results in `evals/results/audit-live-*.md`). The Docker build was not possible in the sandbox; CI built it. See [audit.md](audit.md).
 
 Not verified:
 
@@ -58,6 +58,7 @@ Not verified:
 - [ ] Give evaluators access to the repository, or make it public.
 - [x] Confirm the CI run on `main` passes on GitHub. Checked on 2026-10-28; see above.
 - [x] Set `main` as the repository's default branch in GitHub settings. Done on 2026-10-28.
+- [ ] Delete the leftover `main-reauthored` branch on GitHub (same commit as `main`; the audit session could not delete it).
 - [ ] Choose a license. None is included, and that decision belongs to the owner.
 - [ ] Read [AI_USAGE.md](../AI_USAGE.md), the residual risks in [security.md](security.md), and the evaluation caveats in [evaluation.md](evaluation.md).
 - [ ] Check the model prices in `config.py` and `.env.example` against current list prices; cost caps depend on them.

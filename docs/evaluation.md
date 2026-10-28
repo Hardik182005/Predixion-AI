@@ -235,7 +235,17 @@ Live runs will not reproduce these numbers exactly, because search results and m
 
 ## Independent audit (2026-10-28)
 
-The audit session ([audit.md](audit.md)) re-ran the fixture suite from a fresh container (20 of 20 agent checks, 34 of 35 claims, 16 of 27 criteria, identical to the committed result). It could not add live results: the sandbox's network policy refused connections to the OpenAI, Groq and Tavily hosts, so a two-case live smoke run ended `failed` / `provider_unavailable` after the model fallback chain (Groq 120b, Groq 20b, OpenAI) was exhausted. That outcome is the designed behavior for an outage; it says nothing about answer quality. The audit also fixed how runs that are cut off before any evidence is extracted are labelled: they are now `failed` with the limit that stopped them, not `insufficient_evidence`. No case in this suite changed status as a result.
+The audit session ([audit.md](audit.md)) re-ran the fixture suite from a fresh container (20 of 20 agent checks, 34 of 35 claims, 16 of 27 criteria, identical to the committed result) and three live runs with Groq routing enabled (`plan` and `follow_up` on `openai/gpt-oss-120b`, everything else on `gpt-6.1-terra`), prompt `2026-10-28.3`, 2026-10-28 around 17:00 UTC:
+
+| Case | Result | Latency | Cost | Source |
+|---|---|---|---|---|
+| `vector_db_comparison` | `partial`, Low confidence, 12 of 12 claims verified, comparison table with 3 rows; the answer says the evidence cannot establish a "top three"; 1 of 5 planned criteria supported | 52 s | $0.072 | [`audit-live-smoke.md`](../evals/results/audit-live-smoke.md) |
+| `nonexistent_product` (before the fix below) | `partial` with one caveat finding after 3 claims were removed; `abstains` check failed | 27 s | $0.063 | same file |
+| `nonexistent_product` (recheck after the fix) | `insufficient_evidence`, no evidence extracted from 8 pages, no price invented | 14 s | $0.056 | [`audit-live-nonexistent-recheck.md`](../evals/results/audit-live-nonexistent-recheck.md), saved as [sample](samples/nonexistent-product.md) |
+
+The first nonexistent-product run exposed a status defect: a report whose short answer failed verification and whose required criteria all lacked support was still labelled `partial`. `decide_status` now returns `insufficient_evidence` in that case. The audit also fixed how runs cut off before any evidence is extracted are labelled: `failed` with the limit that stopped them, not `insufficient_evidence`. No fixture case changed status under either fix.
+
+These are single runs with a Groq-planned criteria set, which was broader than terra's plans in the build session (five criteria for the vector question, including licensing terms), so the lower coverage is not comparable with the earlier table. While the sandbox network was still blocked, the same two cases ended `failed` / `provider_unavailable` within 2 s, which is the designed outage behavior.
 
 ## Limits of this evaluation
 

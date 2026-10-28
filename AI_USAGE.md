@@ -44,11 +44,12 @@ This project used AI in two separate ways:
   - A run's time limit and duration clock started when the run was queued, not when it got an execution slot (`Deadline.restart`).
   - A cost stop after pages were read but before extraction was reported as `insufficient_evidence`.
   - A deadline stop before any page was read was relabelled `no_relevant_sources`.
+  - A report whose short answer and required criteria all failed verification was labelled `partial` (found in a live run).
 - Ran adversarial fixture probes for prompt injection in titles, snippets and tool errors, duplicate articles on different domains, oversized pages, vendor-only comparative claims, outdated and undated sources, conflicts, and fault injection in production.
 - Verified the interface in a real browser at desktop and mobile widths, with and without reduced motion.
 - Corrected documentation that disagreed with the code (question length limits, test counts) and wrote `docs/audit.md`.
 
-**What it could not do:** live provider calls. The cloud sandbox's network policy refused connections to the OpenAI, Groq and Tavily hosts, so the live smoke run failed at the network layer (the app reported `failed` / `provider_unavailable` as designed). No live result in this repository comes from the review session. Docker was also unavailable in the sandbox; the Docker build was verified only through the GitHub Actions run on commit `ca97a75`.
+**Live checks:** the sandbox's network policy first refused the OpenAI, Groq and Tavily hosts (the app reported `failed` / `provider_unavailable` as designed). After the owner allowed the hosts, the session ran the opt-in live test and three live evaluation runs (about $0.33 estimated), which exposed and fixed a fourth defect: an unanswered run labelled `partial` instead of `insufficient_evidence`. Those results are in `evals/results/audit-live-*.md` and `docs/samples/nonexistent-product.md`. Docker was unavailable in the sandbox; the Docker build was verified through the GitHub Actions runs.
 
 **Review status.** The review session read representative claims in the committed sample reports against their quoted passages. That is again an AI checking AI output, not a human review.
 
