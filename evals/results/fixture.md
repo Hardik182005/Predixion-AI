@@ -1,8 +1,8 @@
 # Evaluation results: fixture mode
 
-- Run at: 2026-10-28T11:45:20+00:00 (UTC)
+- Run at: 2026-10-28T13:25:58+00:00 (UTC)
 - Model: fixture-heuristic-v1
-- Prompt version: 2026-10-28.3; git commit: uncommitted
+- Prompt version: 2026-10-28.3; git commit: 5a30e16
 - Baseline: one search, up to max_pages_per_run pages, one model call with quoted citations; same model
 - Scoring: lexical support of each claim by its cited quotes (fixtures.judge_support); no LLM judge
 - Spend: $0.0000 of $3.00 limit
@@ -12,14 +12,14 @@
 
 | Case | Category | Agent status | Agent supported / claims | Baseline supported / claims | Criteria covered (agent / baseline) | Latency s (agent / baseline) | Cost $ (agent / baseline) |
 |---|---|---|---|---|---|---|---|
-| memory_comparison | assignment_example | completed (criteria_satisfied) | 5/5 | 6/6 | 3/4 / 2/4 | 0.0 / 0.0 | 0.0000 / 0.0000 |
-| vector_db_comparison | assignment_example | completed (criteria_satisfied) | 5/6 | 2/6 | 1/4 / 1/4 | 0.0 / 0.0 | 0.0000 / 0.0000 |
-| hr_tech_discovery | assignment_example | completed (criteria_satisfied) | 7/7 | 0/0 | 3/3 / 0/3 | 0.0 / 0.0 | 0.0000 / 0.0000 |
-| multi_agent_pros_cons | assignment_example | completed (criteria_satisfied) | 5/5 | 0/0 | 3/4 / 0/4 | 0.0 / 0.0 | 0.0000 / 0.0000 |
+| memory_comparison | assignment_example | completed (criteria_satisfied) | 5/5 | 6/6 | 3/4 / 2/4 | 0.1 / 0.0 | 0.0000 / 0.0000 |
+| vector_db_comparison | assignment_example | completed (criteria_satisfied) | 5/6 | 2/6 | 1/4 / 1/4 | 0.1 / 0.0 | 0.0000 / 0.0000 |
+| hr_tech_discovery | assignment_example | completed (criteria_satisfied) | 7/7 | 0/0 | 3/3 / 0/3 | 0.1 / 0.0 | 0.0000 / 0.0000 |
+| multi_agent_pros_cons | assignment_example | completed (criteria_satisfied) | 5/5 | 0/0 | 3/4 / 0/4 | 0.1 / 0.0 | 0.0000 / 0.0000 |
 | nonexistent_product | nonexistent_entity | insufficient_evidence (diminishing_returns) | 0/0 | 0/0 | 0/2 / 0/2 | 0.0 / 0.0 | 0.0000 / 0.0000 |
-| ambiguous_mercury | ambiguous_request | completed (criteria_satisfied) | 6/6 | 6/6 | 3/3 / 3/3 | 0.0 / 0.0 | 0.0000 / 0.0000 |
-| contradictory_sqlite | contradictory_evidence | partial (rounds_exhausted) | 6/6 | 2/2 | 3/3 / 1/3 | 0.0 / 0.0 | 0.0000 / 0.0000 |
-| search_provider_down | provider_failure | failed (provider_unavailable) | 0/0 | 0/0 | 0/4 / 0/4 | 1.0 / 0.2 | 0.0000 / 0.0000 |
+| ambiguous_mercury | ambiguous_request | completed (criteria_satisfied) | 6/6 | 6/6 | 3/3 / 3/3 | 0.1 / 0.0 | 0.0000 / 0.0000 |
+| contradictory_sqlite | contradictory_evidence | partial (rounds_exhausted) | 6/6 | 2/2 | 3/3 / 1/3 | 0.1 / 0.0 | 0.0000 / 0.0000 |
+| search_provider_down | provider_failure | failed (provider_unavailable) | 0/0 | 0/0 | 0/4 / 0/4 | 1.4 / 1.2 | 0.0000 / 0.0000 |
 
 ## Summary
 
@@ -37,8 +37,8 @@
 | criteria_covered | 16 | 7 |
 | criteria_total | 27 | 27 |
 | reported_criteria_supported | 20 | None |
-| latency_s_median | 0.01 | 0.0 |
-| latency_s_total | 1.11 | 0.22 |
+| latency_s_median | 0.1 | 0.01 |
+| latency_s_total | 2.02 | 1.19 |
 | cost_usd_total | 0.0 | 0.0 |
 
 ## Expected vs actual

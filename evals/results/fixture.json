@@ -1,13 +1,14 @@
 {
   "suite": "predixion-eval",
   "mode": "fixture",
-  "run_at": "2026-10-28T11:45:20+00:00",
+  "run_at": "2026-10-28T13:25:58+00:00",
   "model": "fixture-heuristic-v1",
   "reasoning_effort": null,
   "sdk_version": null,
   "prompt_version": "2026-10-28.3",
-  "git_commit": null,
+  "git_commit": "5a30e16",
   "prices": null,
+  "routing": null,
   "limits": {
     "max_rounds": 2,
     "max_pages_per_run": 8,
@@ -108,10 +109,14 @@
           "citations_resolve": true,
           "comparison_table": true
         },
-        "latency_s": 0.02,
+        "latency_s": 0.09,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 6,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 6
+        },
         "input_tokens": 8269,
         "output_tokens": 3111,
         "search_calls": 4,
@@ -201,10 +206,14 @@
           "citations_resolve": true,
           "comparison_table": null
         },
-        "latency_s": 0.0,
+        "latency_s": 0.01,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 1,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 1
+        },
         "input_tokens": 879,
         "output_tokens": 499,
         "search_calls": 1,
@@ -309,10 +318,14 @@
           "citations_resolve": true,
           "comparison_table": true
         },
-        "latency_s": 0.02,
+        "latency_s": 0.12,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 8,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 8
+        },
         "input_tokens": 13710,
         "output_tokens": 3877,
         "search_calls": 4,
@@ -402,10 +415,14 @@
           "citations_resolve": false,
           "comparison_table": null
         },
-        "latency_s": 0.0,
+        "latency_s": 0.01,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 1,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 1
+        },
         "input_tokens": 494,
         "output_tokens": 303,
         "search_calls": 1,
@@ -527,10 +544,14 @@
           "entities_not_padded": true,
           "eligibility_backed": true
         },
-        "latency_s": 0.01,
+        "latency_s": 0.13,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 6,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 6
+        },
         "input_tokens": 7067,
         "output_tokens": 3072,
         "search_calls": 4,
@@ -558,6 +579,8 @@
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 0,
+        "model_fallbacks": 0,
+        "models_used": {},
         "input_tokens": 0,
         "output_tokens": 0,
         "search_calls": 1,
@@ -648,10 +671,14 @@
           "answers": true,
           "citations_resolve": true
         },
-        "latency_s": 0.01,
+        "latency_s": 0.1,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 6,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 6
+        },
         "input_tokens": 6638,
         "output_tokens": 2310,
         "search_calls": 4,
@@ -677,6 +704,8 @@
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 0,
+        "model_fallbacks": 0,
+        "models_used": {},
         "input_tokens": 0,
         "output_tokens": 0,
         "search_calls": 1,
@@ -708,10 +737,14 @@
         "checks": {
           "abstains": true
         },
-        "latency_s": 0.0,
+        "latency_s": 0.03,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 3,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 3
+        },
         "input_tokens": 1597,
         "output_tokens": 451,
         "search_calls": 4,
@@ -736,6 +769,8 @@
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 0,
+        "model_fallbacks": 0,
+        "models_used": {},
         "input_tokens": 0,
         "output_tokens": 0,
         "search_calls": 1,
@@ -837,10 +872,14 @@
           "answers": true,
           "citations_resolve": true
         },
-        "latency_s": 0.01,
+        "latency_s": 0.06,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 4,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 4
+        },
         "input_tokens": 4341,
         "output_tokens": 1671,
         "search_calls": 3,
@@ -930,10 +969,14 @@
           "answers": true,
           "citations_resolve": true
         },
-        "latency_s": 0.0,
+        "latency_s": 0.01,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 1,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 1
+        },
         "input_tokens": 768,
         "output_tokens": 414,
         "search_calls": 1,
@@ -1035,10 +1078,14 @@
           "answers": true,
           "citations_resolve": true
         },
-        "latency_s": 0.01,
+        "latency_s": 0.07,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 6,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 6
+        },
         "input_tokens": 6223,
         "output_tokens": 2239,
         "search_calls": 4,
@@ -1088,6 +1135,10 @@
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 1,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 1
+        },
         "input_tokens": 429,
         "output_tokens": 200,
         "search_calls": 1,
@@ -1125,10 +1176,14 @@
         "checks": {
           "fails_closed": true
         },
-        "latency_s": 1.03,
+        "latency_s": 1.42,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 1,
+        "model_fallbacks": 0,
+        "models_used": {
+          "fixture:fixture-heuristic-v1": 1
+        },
         "input_tokens": 323,
         "output_tokens": 614,
         "search_calls": 3,
@@ -1149,10 +1204,12 @@
         "checks": {
           "fails_closed": true
         },
-        "latency_s": 0.22,
+        "latency_s": 1.16,
         "cost_usd": 0.0,
         "cost_uncertain": false,
         "model_calls": 0,
+        "model_fallbacks": 0,
+        "models_used": {},
         "input_tokens": 0,
         "output_tokens": 0,
         "search_calls": 1,
@@ -1174,8 +1231,8 @@
       "criteria_covered": 16,
       "criteria_total": 27,
       "reported_criteria_supported": 20,
-      "latency_s_median": 0.01,
-      "latency_s_total": 1.11,
+      "latency_s_median": 0.1,
+      "latency_s_total": 2.02,
       "cost_usd_total": 0.0,
       "cost_uncertain": false
     },
@@ -1192,8 +1249,8 @@
       "criteria_covered": 7,
       "criteria_total": 27,
       "reported_criteria_supported": null,
-      "latency_s_median": 0.0,
-      "latency_s_total": 0.22,
+      "latency_s_median": 0.01,
+      "latency_s_total": 1.19,
       "cost_usd_total": 0.0,
       "cost_uncertain": false
     }
