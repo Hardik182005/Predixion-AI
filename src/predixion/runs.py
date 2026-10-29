@@ -21,6 +21,7 @@ from collections import deque
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 from .config import Settings
@@ -50,6 +51,7 @@ HARD_TIMEOUT_GRACE_S = 15.0
 PURGE_INTERVAL_S = 3600.0
 HOUR_S = 3600.0
 DAY_S = 86_400.0
+LEDGER_UNAVAILABLE = "Live research is unavailable right now. Fixture mode still works."
 
 
 class RunError(Exception):
@@ -114,9 +116,11 @@ class RunManager:
         self._purge_task: asyncio.Task[None] | None = None
         self._sse_total = 0
         self._sse_per_run: dict[str, int] = {}
-        # Start times (monotonic) of recent live runs, for the admission limits.
+        # Start times (Unix seconds) of recent live runs, for the admission limits. The service-wide list is also
+        # written to LIVE_LEDGER_PATH when that is set, so the daily limit holds across restarts.
         self._live_by_owner: dict[str, deque[float]] = {}
         self._live_today: deque[float] = deque()
+        self._ledger_read = self._load_live_ledger()
 
     # ------------------------------------------------------------------
     # Lifecycle
@@ -239,7 +243,12 @@ class RunManager:
         per_user, per_day = self.settings.live_runs_per_user_per_hour, self.settings.live_runs_per_day
         if not per_user and not per_day:
             return
-        now = time.monotonic()
+        if not self._ledger_read:
+            # Read again on each attempt: a passing storage error recovers, a damaged file keeps live runs off.
+            self._ledger_read = self._load_live_ledger()
+            if not self._ledger_read:
+                raise RunError("live_unavailable", LEDGER_UNAVAILABLE)
+        now = time.time()
         recent = self._live_by_owner.setdefault(owner, deque())
         while recent and now - recent[0] >= HOUR_S:
             recent.popleft()
@@ -255,9 +264,49 @@ class RunManager:
             raise RunError("rate_limited", f"You can start {per_user} live runs per hour. Try again later.", wait)
         recent.append(now)
         self._live_today.append(now)
+        try:
+            self._save_live_ledger()
+        except OSError as exc:
+            # Without a durable record the daily limit could be exceeded after a restart, so refuse instead.
+            recent.pop()
+            self._live_today.pop()
+            log(logger, logging.ERROR, "live ledger write failed", error=type(exc).__name__)
+            raise RunError("live_unavailable", LEDGER_UNAVAILABLE) from exc
         # Forget owners whose newest live run is over an hour old, so visitor ids cannot grow this without bound.
         for key in [k for k, starts in self._live_by_owner.items() if now - starts[-1] >= HOUR_S]:
             del self._live_by_owner[key]
+
+    def _load_live_ledger(self) -> bool:
+        """Loads live-run start times of the last day from LIVE_LEDGER_PATH. False when the file cannot be read.
+
+        A missing file is an empty ledger. An unreadable one is not treated as empty, since that would reset the
+        daily limit; live runs stay refused until it can be read (or an operator removes it).
+        """
+        path = self.settings.live_ledger_path
+        if not path:
+            return True
+        try:
+            raw = json.loads(Path(path).read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            raw = []
+        except (OSError, ValueError) as exc:
+            log(logger, logging.ERROR, "live ledger unreadable", error=type(exc).__name__)
+            return False
+        if not isinstance(raw, list) or not all(isinstance(t, int | float) for t in raw):
+            log(logger, logging.ERROR, "live ledger unreadable", error="unexpected content")
+            return False
+        now = time.time()
+        self._live_today = deque(sorted(float(t) for t in raw if 0 <= now - t < DAY_S))
+        return True
+
+    def _save_live_ledger(self) -> None:
+        path = self.settings.live_ledger_path
+        if not path:
+            return
+        target = Path(path)
+        partial = target.with_name(target.name + ".tmp")
+        partial.write_text(json.dumps(list(self._live_today)), encoding="utf-8")
+        partial.replace(target)
 
     @staticmethod
     def _start_response(run_id: str, status: RunStatus, *, reused: bool) -> StartRunResponse:

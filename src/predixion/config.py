@@ -84,9 +84,13 @@ class Settings(BaseSettings):
     max_sse_per_run: int = Field(5, alias="MAX_SSE_PER_RUN", ge=1)
     max_sse_total: int = Field(50, alias="MAX_SSE_TOTAL", ge=1)
     max_events_per_run: int = Field(400, alias="MAX_EVENTS_PER_RUN", ge=50)
-    # Admission limits for new live runs; 0 turns a limit off. The counters live in memory, so a restart resets them.
+    # Admission limits for new live runs; 0 turns a limit off. They are counted in memory, so a restart resets them,
+    # except the daily count when LIVE_LEDGER_PATH is set.
     live_runs_per_user_per_hour: int = Field(0, alias="LIVE_RUNS_PER_USER_PER_HOUR", ge=0)
     live_runs_per_day: int = Field(0, alias="LIVE_RUNS_PER_DAY", ge=0)
+    # File that keeps live-run start times so LIVE_RUNS_PER_DAY holds across restarts (on Cloud Run, a Cloud Storage
+    # volume). When it cannot be written, live runs are refused. Unset keeps the counts in memory only.
+    live_ledger_path: str | None = Field(None, alias="LIVE_LEDGER_PATH")
 
     db_path: str = Field("data/predixion.sqlite3", alias="PREDIXION_DB_PATH")
     retention_days: float = Field(7.0, alias="RUN_RETENTION_DAYS", gt=0)

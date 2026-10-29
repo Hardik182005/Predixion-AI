@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+import time
 from collections.abc import Iterator
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
@@ -315,6 +317,33 @@ def test_live_run_limits(monkeypatch: pytest.MonkeyPatch) -> None:
         daily = client.post("/api/runs", json=live, headers=ALICE)
         assert daily.status_code == 429 and _error_code(daily) == "rate_limited"
         assert int(daily.headers["retry-after"]) > 80_000
+
+
+def test_daily_live_limit_survives_a_restart_through_the_ledger(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    ledger = tmp_path / "ledger.json"
+    ledger.write_text(json.dumps([time.time() - 90_000]))  # older than a day: no longer counts
+    live = {"question": QUESTION, "mode": "live"}
+    with _public_client(monkeypatch, "live", LIVE_RUNS_PER_DAY=2, LIVE_LEDGER_PATH=str(ledger)) as client:
+        _start(client, live, headers=VISITOR_A)
+        _start(client, live, headers=VISITOR_B)
+    assert len(json.loads(ledger.read_text())) == 2
+
+    with _public_client(monkeypatch, "live", LIVE_RUNS_PER_DAY=2, LIVE_LEDGER_PATH=str(ledger)) as client:
+        refused = client.post("/api/runs", json=live, headers=ALICE)
+        assert refused.status_code == 429 and _error_code(refused) == "rate_limited"
+
+
+@pytest.mark.parametrize("broken", ["unwritable", "damaged"])
+def test_live_runs_are_refused_when_the_ledger_is_unusable(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, broken: str) -> None:
+    if broken == "unwritable":
+        ledger = tmp_path / "missing-dir" / "ledger.json"
+    else:
+        ledger = tmp_path / "ledger.json"
+        ledger.write_text("[1, 2")  # a damaged file must not reset the daily count
+    with _public_client(monkeypatch, "live", LIVE_RUNS_PER_DAY=5, LIVE_LEDGER_PATH=str(ledger)) as client:
+        refused = client.post("/api/runs", json={"question": QUESTION, "mode": "live"}, headers=VISITOR_A)
+        assert refused.status_code == 503 and _error_code(refused) == "live_unavailable"
+        _start(client, {"question": QUESTION, "mode": "fixture"}, headers=VISITOR_A)
 
 
 def test_hsts_is_sent_only_when_configured(client: TestClient) -> None:
