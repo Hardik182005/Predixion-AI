@@ -40,6 +40,19 @@ describe("api", () => {
     const headers = fetchMock.mock.calls[0]![1].headers as Record<string, string>;
     expect(headers.Authorization).toBe("Bearer pdx_secret");
     expect(headers["Idempotency-Key"]).toBe("key-1");
+    expect(headers["X-Visitor-Id"]).toBeUndefined();
+  });
+
+  it("sends the same random visitor id on every request when there is no token", async () => {
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(new Response("{}")));
+    vi.stubGlobal("fetch", fetchMock);
+    setToken(null);
+    await api.config();
+    await api.samples();
+    const [first, second] = fetchMock.mock.calls.map((call) => call[1].headers as Record<string, string>);
+    expect(first!["X-Visitor-Id"]).toMatch(/^[0-9a-f]{32}$/);
+    expect(second!["X-Visitor-Id"]).toBe(first!["X-Visitor-Id"]);
+    expect(first!.Authorization).toBeUndefined();
   });
 });
 

@@ -304,6 +304,8 @@ export interface ServerConfig {
   version: string;
   default_mode: Mode;
   live_available: boolean;
+  /** The server lets this visitor run fixture mode only; live research needs an access token. */
+  live_needs_token: boolean;
   model: string;
   auth_mode: "none" | "token";
   fault_injection: boolean;

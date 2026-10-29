@@ -20,6 +20,7 @@ export function QuestionForm({
   error,
   initialQuestion = "",
   onSubmit,
+  onRequestToken,
 }: {
   config: ServerConfig | null;
   samples: SampleQuestion[];
@@ -27,6 +28,7 @@ export function QuestionForm({
   error: string | null;
   initialQuestion?: string;
   onSubmit: (request: ResearchRequest) => void;
+  onRequestToken?: () => void;
 }) {
   const ids = useId();
   const [question, setQuestion] = useState(initialQuestion);
@@ -37,7 +39,9 @@ export function QuestionForm({
   const min = config?.limits.question_min_chars ?? 3;
   const max = config?.limits.question_max_chars ?? 2000;
   const liveAvailable = config?.live_available ?? false;
-  const selectedMode: Mode = mode ?? (liveAvailable ? (config?.default_mode ?? "fixture") : "fixture");
+  const needsToken = liveAvailable && (config?.live_needs_token ?? false);
+  const liveUsable = liveAvailable && !needsToken;
+  const selectedMode: Mode = mode ?? (liveUsable ? (config?.default_mode ?? "fixture") : "fixture");
   const length = question.trim().length;
   const invalid = length < min ? `Enter a question of at least ${min} characters.` : length > max ? `Keep the question under ${max} characters.` : null;
   const shownError = (touched && invalid) || error;
@@ -107,14 +111,14 @@ export function QuestionForm({
         <legend className="text-sm font-medium">Mode</legend>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           <label
-            className={`flex gap-3 rounded-xl border p-3 ${selectedMode === "live" ? "border-ink" : "border-line"} ${liveAvailable ? "cursor-pointer" : "opacity-60"}`}
+            className={`flex gap-3 rounded-xl border p-3 ${selectedMode === "live" ? "border-ink" : "border-line"} ${liveUsable ? "cursor-pointer" : "opacity-60"}`}
           >
             <input
               type="radio"
               name="mode"
               value="live"
               checked={selectedMode === "live"}
-              disabled={!liveAvailable}
+              disabled={!liveUsable}
               onChange={() => setMode("live")}
               className="mt-1 accent-ink"
               aria-describedby={`${ids}-live`}
@@ -122,9 +126,11 @@ export function QuestionForm({
             <span>
               <span className="block text-sm font-medium">Live web research</span>
               <span id={`${ids}-live`} className="block text-xs text-muted">
-                {liveAvailable
-                  ? `Searches the web and calls ${config?.model ?? "the model"}. Up to ${Math.round((config?.limits.run_deadline_s ?? 0) / 60)} minutes and $${config?.limits.max_cost_usd_per_run ?? 0} per run.`
-                  : "Unavailable: the server has no search or model credentials configured."}
+                {needsToken
+                  ? "Needs an access token: live research calls paid providers, so this server limits it to invited users."
+                  : liveAvailable
+                    ? `Searches the web and calls ${config?.model ?? "the model"}. Up to ${Math.round((config?.limits.run_deadline_s ?? 0) / 60)} minutes and $${config?.limits.max_cost_usd_per_run ?? 0} per run.`
+                    : "Unavailable: the server has no search or model credentials configured."}
               </span>
             </span>
           </label>
@@ -146,6 +152,11 @@ export function QuestionForm({
             </span>
           </label>
         </div>
+        {needsToken && onRequestToken && (
+          <button type="button" className="mt-2 text-sm font-medium underline" onClick={onRequestToken}>
+            Enter an access token
+          </button>
+        )}
       </fieldset>
 
       {config?.fault_injection && (

@@ -4,7 +4,7 @@ import { ModeBadge, Notice, StatusBadge } from "../components/Badges";
 import { QuestionForm } from "../components/QuestionForm";
 import { Report } from "../components/Report";
 import { RunProgress } from "../components/RunProgress";
-import { ApiError, api, downloadExport, newIdempotencyKey, setToken } from "../lib/api";
+import { ApiError, api, downloadExport, getToken, newIdempotencyKey, setToken } from "../lib/api";
 import { formatDateTime, STOP_REASON_TEXT } from "../lib/format";
 import { Link, navigate } from "../lib/router";
 import type { ResearchRequest, RunSummary, SampleQuestion, ServerConfig } from "../lib/types";
@@ -14,7 +14,11 @@ function errorText(error: unknown): string {
   return error instanceof ApiError ? error.message : "Something went wrong. Try again.";
 }
 
-function TokenPrompt({ onSaved }: { onSaved: () => void }) {
+/**
+ * Asks for an API token. `optional` is set when the visitor chose to enter one (to unlock live research);
+ * `onSkip` drops any saved token and carries on without one.
+ */
+function TokenPrompt({ optional, onSaved, onSkip }: { optional: boolean; onSaved: () => void; onSkip?: () => void }) {
   const [value, setValue] = useState("");
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -24,9 +28,10 @@ function TokenPrompt({ onSaved }: { onSaved: () => void }) {
   }
   return (
     <form onSubmit={submit} className="card mx-auto max-w-md space-y-4 p-6">
-      <h1 className="text-xl font-semibold">Access token required</h1>
+      <h1 className="text-xl font-semibold">{optional ? "Enter an access token" : "Access token required"}</h1>
       <p className="text-sm text-muted">
-        This server requires an API token. It is kept in this browser tab only and sent with each request.
+        {optional ? "An access token unlocks live research on this server." : "This server requires an API token."} It is kept in
+        this browser tab only and sent with each request.
       </p>
       <div>
         <label htmlFor="token" className="text-sm font-medium">
@@ -41,9 +46,16 @@ function TokenPrompt({ onSaved }: { onSaved: () => void }) {
           className="mt-2 block w-full rounded-lg border border-neutral-400 p-2.5"
         />
       </div>
-      <button type="submit" className="btn-primary">
-        Continue
-      </button>
+      <div className="flex flex-wrap gap-2">
+        <button type="submit" className="btn-primary">
+          Continue
+        </button>
+        {onSkip && (
+          <button type="button" className="btn-secondary" onClick={onSkip}>
+            Continue without a token
+          </button>
+        )}
+      </div>
     </form>
   );
 }
@@ -113,7 +125,15 @@ function RecentRuns({ refreshKey }: { refreshKey: number }) {
   );
 }
 
-function NewResearch({ config, samples }: { config: ServerConfig | null; samples: SampleQuestion[] }) {
+function NewResearch({
+  config,
+  samples,
+  onRequestToken,
+}: {
+  config: ServerConfig | null;
+  samples: SampleQuestion[];
+  onRequestToken: () => void;
+}) {
   const { start, busy, error } = useStartRun();
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
@@ -122,7 +142,14 @@ function NewResearch({ config, samples }: { config: ServerConfig | null; samples
         Ask a question that needs several sources. The report cites a quoted passage for every claim and says what it could not find.
       </p>
       <div className="mt-8">
-        <QuestionForm config={config} samples={samples} busy={busy} error={error} onSubmit={start} />
+        <QuestionForm
+          config={config}
+          samples={samples}
+          busy={busy}
+          error={error}
+          onSubmit={start}
+          onRequestToken={onRequestToken}
+        />
       </div>
       <RecentRuns refreshKey={0} />
     </div>
@@ -319,6 +346,7 @@ export function Workspace({ runId, sampleId }: { runId: string | null; sampleId:
   const [config, setConfig] = useState<ServerConfig | null>(null);
   const [samples, setSamples] = useState<SampleQuestion[] | null>(null);
   const [needsToken, setNeedsToken] = useState(false);
+  const [askToken, setAskToken] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
 
@@ -343,10 +371,27 @@ export function Workspace({ runId, sampleId }: { runId: string | null; sampleId:
     };
   }, [attempt]);
 
-  if (needsToken) {
+  if (needsToken || askToken) {
+    const reload = () => {
+      setAskToken(false);
+      setAttempt((n) => n + 1);
+    };
+    // A rejected saved token can be dropped; servers that admit visitors then work without one.
+    const canSkip = askToken || getToken() !== null;
     return (
       <div className="px-4 py-14 sm:px-6">
-        <TokenPrompt onSaved={() => setAttempt((n) => n + 1)} />
+        <TokenPrompt
+          optional={askToken && !needsToken}
+          onSaved={reload}
+          onSkip={
+            canSkip
+              ? () => {
+                  setToken(null);
+                  reload();
+                }
+              : undefined
+          }
+        />
       </div>
     );
   }
@@ -368,7 +413,7 @@ export function Workspace({ runId, sampleId }: { runId: string | null; sampleId:
       ) : sampleId ? (
         <SampleStarter sampleId={sampleId} samples={loadError ? [] : samples} />
       ) : (
-        <NewResearch config={config} samples={samples ?? []} />
+        <NewResearch config={config} samples={samples ?? []} onRequestToken={() => setAskToken(true)} />
       )}
     </>
   );

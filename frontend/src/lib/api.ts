@@ -27,6 +27,32 @@ export function setToken(token: string | null): void {
   }
 }
 
+const VISITOR_KEY = "predixion.visitor";
+let pageVisitorId: string | null = null;
+
+/**
+ * A random id that scopes this browser's runs on a server that lets visitors in without a token.
+ * It is not a credential: it only keeps one visitor's history apart from another's.
+ */
+export function visitorId(): string {
+  try {
+    const stored = localStorage.getItem(VISITOR_KEY);
+    if (stored && /^[0-9a-f]{32}$/.test(stored)) return stored;
+  } catch {
+    // Storage can be unavailable (private mode); the id then lasts for this page only.
+  }
+  if (!pageVisitorId) {
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    pageVisitorId = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+    try {
+      localStorage.setItem(VISITOR_KEY, pageVisitorId);
+    } catch {
+      // See above.
+    }
+  }
+  return pageVisitorId;
+}
+
 export class ApiError extends Error {
   readonly status: number;
   readonly code: string;
@@ -41,7 +67,7 @@ export class ApiError extends Error {
 
 export function authHeaders(): Record<string, string> {
   const token = getToken();
-  return token ? { Authorization: `Bearer ${token}` } : {};
+  return token ? { Authorization: `Bearer ${token}` } : { "X-Visitor-Id": visitorId() };
 }
 
 /** Turns any non-2xx response into an ApiError with the server's error code and message. */
