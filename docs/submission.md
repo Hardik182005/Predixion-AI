@@ -4,7 +4,7 @@
 
 | Item | Status |
 |---|---|
-| Repository | https://github.com/Hardik182005/Predixion-AI, branch `main`. The deployment work is on `feature/cloud-run-deploy`, in a pull request awaiting review. |
+| Repository | https://github.com/Hardik182005/Predixion-AI, branch `main`. The deployment work (pull request #10, `feature/cloud-run-deploy`) was merged into `main` on 2026-10-29. |
 | Repository access | Private (`gh repo view` on 2026-10-29). Evaluators need collaborator access, or the owner needs to make it public. Visibility was checked, not changed. |
 | Demo video | https://www.youtube.com/watch?v=WW-NYzoHdD0 |
 | Hosted deployment | https://predixion-ai-8840249691.asia-south1.run.app on Google Cloud Run. Fixture runs are free; live runs are open to everyone within 20 a day in total and 3 per visitor an hour. History lasts only while the instance runs. See [deployment.md](deployment.md). |
@@ -14,6 +14,7 @@
 | Security model | [security.md](security.md) |
 | AI usage disclosure | [AI_USAGE.md](../AI_USAGE.md) |
 | Independent audit | [audit.md](audit.md): verification of every requirement, defects fixed, residual risks |
+| Deployment verification | [deployment-audit.md](deployment-audit.md): independent check of the public URL, headers, access control, isolation, CI, docs; cloud-side checks marked blocked |
 | Improvement pass | [improvements.md](improvements.md): evidence accounting, confidence, conflicts, finalization under storage failure, with before/after results |
 
 ## How to run it
@@ -48,7 +49,7 @@ Verified on GitHub on 2026-10-28: the CI run for commit `31b8e31` passed all fou
 
 Verified by the independent audit session on 2026-10-28, from a fresh cloud container (Linux, Python 3.13.17, uv 0.11.32, Node.js 22.22.0): lint, 219 backend tests, the fixture evaluation (20 of 20 checks), the frontend build, 25 Vitest tests, 7 Playwright tests, `pip-audit`, and `npm audit`. After the sandbox network was opened for the provider hosts, the audit also ran the opt-in live test and three live evaluation runs (results in `evals/results/audit-live-*.md`). The Docker build was not possible in the sandbox; CI built it. See [audit.md](audit.md).
 
-Verified for the Cloud Run deployment on 2026-10-29, on `feature/cloud-run-deploy`:
+Verified by the deployment session on 2026-10-29, on `feature/cloud-run-deploy` (merged as pull request #10):
 - Lint is clean.
 - 266 backend tests pass and 1 is skipped.
 - The fixture evaluation passes 20 of 20 checks.
@@ -58,6 +59,8 @@ Verified for the Cloud Run deployment on 2026-10-29, on `feature/cloud-run-deplo
 - QuantFolio was not changed.
 
 The full list of checks is in [deployment.md](deployment.md#verification).
+
+Verified by an independent review session on 2026-10-29, from a fresh cloud container without Google Cloud credentials, on `main` at `04807e6` (CI run 42 green): lint, 266 backend tests, the fixture evaluation, the frontend build, 29 Vitest and 7 Playwright tests, and the public URL's headers, access control, visitor isolation, fixture runs, exports and SSE, in Chromium at desktop and mobile widths. The deployed commit `034ae88` differs from `main` only in documentation. Traffic routing, Secret Manager bindings, runtime IAM, logs and QuantFolio isolation could not be checked without credentials and are marked blocked. No live run was started. See [deployment-audit.md](deployment-audit.md).
 
 Not verified:
 
@@ -85,7 +88,9 @@ Every item in the assignment brief, with where it is met. Checked against `main`
 ## Before submitting
 
 - [x] Record the demo video and add the link above.
-- [ ] Review and merge the deployment pull request (`feature/cloud-run-deploy`). The service already runs that branch's code.
+- [x] Review and merge the deployment pull request (`feature/cloud-run-deploy`). Merged as pull request #10 on 2026-10-29; the service runs `034ae88` from that branch, which differs from `main` only in documentation.
+- [ ] Review and merge the deployment verification pull request (`feature/deployment-verification`), or leave it unmerged if the audit record is not wanted on `main`.
+- [ ] With Google Cloud access, reproduce the blocked checks in [deployment-audit.md](deployment-audit.md): traffic to `predixion-ai-00004-jbb`, secret references, runtime IAM, and QuantFolio's unchanged configuration.
 - [ ] Set monthly usage limits in the OpenAI, Tavily, and Groq dashboards. The app caps live spend at about $6 a day, and a provider-side limit is a second line of defense.
 - [x] Confirm the CI run on `main` passes for the audit commits. Run 23 (the same tree, before the audit commits were re-authored under the owner's identity) passed all four jobs (backend, frontend, secrets scan, Docker build) on 2026-10-28.
 - [ ] Give evaluators access to the repository, or make it public.

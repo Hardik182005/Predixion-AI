@@ -80,6 +80,32 @@ This project used AI in two separate ways:
 
 **What was not done:** no model change, no new provider, no change to the resource limits, and no human review. The held-out questions in `evals/heldout.md` were written before tuning; their results, where run, are reported as held-out only if no change was made because of them.
 
+## Deployment session
+
+**Tool:** Claude Code in a cloud session (claude.ai/code), Claude Fable 5.1 model, on 2026-10-29, starting from `main` after the improvement pass, on the branch `feature/cloud-run-deploy` (merged as pull request #10). This entry is written from the commit history and [docs/deployment.md](docs/deployment.md), because that session did not update this file itself.
+
+**What it did (from the commits):**
+- Added visitor access for token-mode servers (`PUBLIC_ACCESS`, `X-Visitor-Id`, owner keys derived from a hash of the id) and live-run admission limits (`LIVE_RUNS_PER_DAY`, `LIVE_RUNS_PER_USER_PER_HOUR`, 429 with `Retry-After`), with tests.
+- Kept the daily live-run count in a ledger file that fails closed, and mounted a Cloud Storage volume for it on Cloud Run.
+- Wrote `deploy/deploy.sh` and `deploy/cloudbuild.yaml`, which build one commit from `git archive` and deploy it by image digest with Secret Manager references.
+- Deployed the service `predixion-ai` in `asia-south1` of the existing project `quantfolio-511108`, as a separate service with its own service accounts, and verified it with scripted checks against the public URL (its table is in `docs/deployment.md`). It reported about $0.06 of provider spend and no change to the existing QuantFolio service.
+- Documented the architecture, limits, costs, operations and caveats, and added README badges and the demo-video link.
+
+**What was not checked by that session's own account:** nothing in the repository says a person reviewed the deployment; its evidence is the session's own verification table.
+
+## Deployment verification session
+
+**Tool:** Claude Code in a cloud session (claude.ai/code), Claude Fable 5.1 model, on 2026-10-29, starting from `main` at `04807e6`, on the branch `feature/deployment-verification`. The report is [docs/deployment-audit.md](docs/deployment-audit.md).
+
+**What it did:**
+- Re-ran lint, the backend tests (266 passed, 1 skipped), the fixture evaluation, the frontend build, Vitest and Playwright from a fresh container, and read the CI run for `04807e6`.
+- Checked the public URL with fresh synthetic visitor ids: security headers, readiness, authentication without and with wrong credentials, visitor isolation across every run route, idempotency, deletion, CORS, fault-injection and oversized-body refusals, a fixture run with its SSE stream and exports, and the UI in Chromium at desktop and mobile widths. It started no live run and spent nothing on providers.
+- Scanned the served bundle, the deployment commits and CI for key-shaped strings (none found in the places looked at).
+- Compared the deployed commit with `main` (documentation-only drift) and read the visitor and ledger code against its tests (no defect found).
+- Fixed stale documentation: the submission notes still described the deployment as an unmerged pull request, the demo script said the video did not exist and the project was not deployed, the README had no Windows instructions, and this file had no deployment entry.
+
+**What it could not do:** the session had no Google Cloud credentials, so traffic routing, the revision and image digest, Secret Manager bindings, runtime IAM, logs and the QuantFolio comparison are marked blocked in the report, and the deployment session's table is cited as reported history. The demo video was confirmed to exist (title and author from YouTube's metadata), not watched.
+
 ## Runtime LLM use
 
 **OpenAI model.** The application calls an OpenAI model through the Responses API with strict JSON-schema outputs.

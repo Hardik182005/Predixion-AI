@@ -3,6 +3,7 @@
 [![Live demo](https://img.shields.io/badge/live_demo-Cloud_Run-4285F4?logo=googlecloud&logoColor=white)](https://predixion-ai-8840249691.asia-south1.run.app)
 [![Demo video](https://img.shields.io/badge/demo_video-YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=WW-NYzoHdD0)
 [![CI](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml)
+<!-- The CI badge renders only for people with access to this private repository. -->
 <br>
 [![Python 3.13](https://img.shields.io/badge/python-3.13-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -31,6 +32,7 @@ The hosted demo runs on Google Cloud Run. Fixture runs are free and unlimited. L
 - [Deployment on Cloud Run](docs/deployment.md): architecture, access model, limits, costs, and operations
 - [Demo script](docs/demo-script.md) · [Submission notes](docs/submission.md) · [AI usage](AI_USAGE.md)
 - [Independent audit](docs/audit.md): requirement-by-requirement verification, defects found and fixed, and what remains
+- [Deployment verification](docs/deployment-audit.md): independent check of the hosted service, with cloud-side checks marked blocked
 
 ## Quick start
 
@@ -46,6 +48,21 @@ cd frontend && npm ci && npm run build && cd ..
 # In .env: SERVE_FRONTEND_DIR=frontend/dist
 uv run predixion serve                    # http://127.0.0.1:8000
 ```
+
+On Windows, the same steps in PowerShell:
+
+```powershell
+uv sync
+Copy-Item .env.example .env
+uv run predixion samples
+uv run predixion ask "Compare the top three open-source vector databases for a startup building RAG products." --mode fixture
+
+cd frontend; npm ci; npm run build; cd ..
+# In .env: SERVE_FRONTEND_DIR=frontend/dist
+uv run predixion serve
+```
+
+The `predixion` commands take the same arguments on every platform. Prefer `--out file.json` and `uv run predixion metrics file.json` over shell pipes, which differ between PowerShell and bash. `deploy/deploy.sh` is a bash script; on Windows run it from Git Bash or WSL.
 
 For frontend development, run `uv run predixion serve` and, in `frontend/`, `npm run dev` (http://127.0.0.1:5173, proxies `/api` to port 8000).
 
