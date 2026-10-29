@@ -88,7 +88,7 @@ Every item in the assignment brief, with where it is met. Checked against `main`
 ## Before submitting
 
 - [x] Record the demo video and add the link above.
-- [x] Review and merge the deployment pull request (`feature/cloud-run-deploy`). Merged as pull request #10 on 2026-10-29; the service runs `034ae88` from that branch, which differs from `main` only in documentation.
+- [x] Review and merge the deployment pull request (`feature/cloud-run-deploy`). Merged as pull request #10 on 2026-10-29; the service then ran `034ae88` from that branch, which differs from `main` only in documentation. It now runs `ab4ab22` from pull request #13, which adds the small-live-budget note; see [deployment.md](deployment.md).
 - [ ] Review and merge the deployment verification pull request (`feature/deployment-verification`), or leave it unmerged if the audit record is not wanted on `main`.
 - [ ] With Google Cloud access, reproduce the blocked checks in [deployment-audit.md](deployment-audit.md): traffic to `predixion-ai-00004-jbb`, secret references, runtime IAM, and QuantFolio's unchanged configuration.
 - [ ] Set monthly usage limits in the OpenAI, Tavily, and Groq dashboards. The app caps live spend at about $6 a day, and a provider-side limit is a second line of defense.

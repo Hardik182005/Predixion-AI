@@ -6,9 +6,9 @@ Predixion AI runs as its own Cloud Run service, `predixion-ai`, in the existing 
 
 | Deployed | Value |
 |---|---|
-| Revision | `predixion-ai-00004-jbb`, serving 100% of traffic |
-| Commit | `034ae88` on `feature/cloud-run-deploy`. Later commits on the branch change documentation only. |
-| Image | `asia-south1-docker.pkg.dev/quantfolio-511108/predixion-ai/predixion-ai@sha256:a19121d92d5485cc7aeb6e9489407d34e1db195ad2a4302dd5f31ce979a638b5` |
+| Revision | `predixion-ai-00005-9wh`, serving 100% of traffic |
+| Commit | `ab4ab22` on `feature/live-budget-note` (pull request #13). It adds the small-live-budget note to the question form and `live_runs_per_day` to `/api/config`. |
+| Image | `asia-south1-docker.pkg.dev/quantfolio-511108/predixion-ai/predixion-ai@sha256:9f03da4af441e2dce64ea743008df6f9459497f330286db28f0b9dc64c50d182` |
 | Verified | 2026-10-29; see [Verification](#verification) |
 
 ## Architecture
@@ -186,7 +186,9 @@ gcloud iam service-accounts delete predixion-build@quantfolio-511108.iam.gservic
 
 These checks ran on 2026-10-29. A script called the public URL with fresh random visitor ids. It read the owner token from Secret Manager into memory and never printed it.
 
-The free checks ran on the final revision, `predixion-ai-00004-jbb`. The paid live checks and the restart check ran on revisions `-00002-brv` and `-00003-tmf`. Those have the same application code; the final commit changes only the layout of `deploy/deploy.sh`.
+The free checks ran on revision `predixion-ai-00004-jbb` (commit `034ae88`). The paid live checks and the restart check ran on revisions `-00002-brv` and `-00003-tmf`. Those have the same application code; `034ae88` changes only the layout of `deploy/deploy.sh`.
+
+Revision `predixion-ai-00005-9wh` (commit `ab4ab22`) changes only the question form's live-budget note and one `/api/config` field. The same free checks passed on it on 2026-10-29. The served bundle contains the note, and `/api/config` reports `live_runs_per_day: 20`. No paid live runs were made for it.
 
 | Check | Result |
 |---|---|
