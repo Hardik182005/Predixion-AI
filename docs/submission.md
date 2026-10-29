@@ -6,7 +6,7 @@
 |---|---|
 | Repository | https://github.com/Hardik182005/Predixion-AI, branch `main` (the only branch; the audit work was merged into it) |
 | Repository access | Private (`gh repo view` on 2026-10-28). Evaluators need collaborator access, or the owner needs to make it public. Visibility was checked, not changed. |
-| Demo video | **Pending.** Not recorded yet. Follow [demo-script.md](demo-script.md), then add the link here. |
+| Demo video | **Pending.** Not recorded yet. Follow the full script in [demo-script.md](demo-script.md), then add the link here. |
 | Hosted deployment | None. The app runs locally or in Docker; see the [README](../README.md#quick-start). |
 | Evaluation | [evaluation.md](evaluation.md), raw results in [`evals/results/`](../evals/results/) |
 | Sample reports | [samples/](samples/): live runs labeled with mode, date, model, and prompt version |
@@ -51,6 +51,25 @@ Verified by the independent audit session on 2026-10-28, from a fresh cloud cont
 Not verified:
 
 - **Owner review.** The owner has not reviewed the code, the evaluation, or the sample reports; see [AI_USAGE.md](../AI_USAGE.md). The live claims spot-checked in [evaluation.md](evaluation.md) were checked by the AI development assistant.
+
+## Assignment checklist
+
+Every item in the assignment brief, with where it is met. Checked against `main` at `236e030` on 2026-10-29.
+
+| Brief item | Where | Status |
+|---|---|---|
+| Accept a question; plan; decide tools; gather and filter; structured final response; confidence, assumptions, limitations | `orchestrator.py` stages, `contracts.ResearchReport` | Done |
+| Working agentic workflow with at least two tools | `tools.py`: `search_web` (Tavily Search), `read_sources` (Tavily Extract) | Done |
+| Visible planning or orchestration | `plan` and `stage` events; UI plan panel and stage list; CLI stage log | Done |
+| Structured final output with the seven fields (question, short answer, key findings, sources, confidence, limitations or assumptions, next steps) | `ResearchReport`; Markdown and JSON export | Done |
+| Basic failure handling: timeouts, retries, malformed tool output, weak sources, hallucination risk, prompt injection, deterministic structure, logging and tracing, cost and latency | `reliability.py`, `llm.py`, `sources.py`, `urls.py`, `grounding.py`, `logs.py`; see [security.md](security.md) and [audit.md](audit.md) | Done |
+| Short evaluation framework with at least five test queries, expected behavior, what worked and what did not | [evaluation.md](evaluation.md), 8 cases, `evals/results/`; plus [improvements.md](improvements.md) and `evals/heldout.md` | Done |
+| README with setup, architecture, design decisions, known limitations, future improvements, and the seven README questions | [README](../README.md) | Done |
+| Two or three sample outputs | [samples/](samples/): four live reports labelled by mode, date, model | Done |
+| Demo video, 3–5 minutes, one happy path and one failure or edge case | Script in [demo-script.md](demo-script.md) | **Pending: record and link** |
+| Source code repository accessible to evaluators | Private repository | **Pending: grant access or make public** |
+| Stretch: citation grounding, evaluator or judge step, caching, async tool execution, guardrails for low-confidence answers, comparison with a non-agentic baseline | Quote and reference checks plus a verifier; `TTLCache`; asyncio with a semaphore; status and confidence rules, removal of unsupported claims; `evals.run_baseline` | Done |
+| Stretch: memory for follow-up questions | Not implemented (optional); listed under future improvements | Not done |
 
 ## Before submitting
 
