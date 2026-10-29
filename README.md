@@ -3,7 +3,7 @@
 [![Live demo](https://img.shields.io/badge/live_demo-Cloud_Run-4285F4?logo=googlecloud&logoColor=white)](https://predixion-ai-8840249691.asia-south1.run.app)
 [![Demo video](https://img.shields.io/badge/demo_video-YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=WW-NYzoHdD0)
 [![CI](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml)
-<br>
+
 [![Python 3.13](https://img.shields.io/badge/python-3.13-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](frontend/package.json)
