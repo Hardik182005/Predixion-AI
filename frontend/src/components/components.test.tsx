@@ -101,6 +101,7 @@ const config: ServerConfig = {
   version: "test",
   default_mode: "live",
   live_available: false,
+  live_needs_token: false,
   model: "gpt-test",
   auth_mode: "none",
   fault_injection: false,
@@ -140,6 +141,27 @@ describe("QuestionForm", () => {
     await user.click(screen.getByRole("button", { name: samples[0]!.question }));
     await user.click(screen.getByRole("button", { name: "Start research" }));
     expect(onSubmit).toHaveBeenCalledWith({ question: samples[0]!.question, mode: "fixture" });
+  });
+
+  it("explains that live research needs a token and offers to enter one", async () => {
+    const user = userEvent.setup();
+    const onRequestToken = vi.fn();
+    render(
+      <QuestionForm
+        config={{ ...config, live_available: true, live_needs_token: true, default_mode: "fixture" }}
+        samples={[]}
+        busy={false}
+        error={null}
+        onSubmit={vi.fn()}
+        onRequestToken={onRequestToken}
+      />,
+    );
+    const live = screen.getByRole("radio", { name: /Live web research/ });
+    expect(live).toBeDisabled();
+    expect(live).toHaveAccessibleDescription(expect.stringContaining("Needs an access token"));
+    expect(screen.getByRole("radio", { name: /Fixture demo/ })).toBeChecked();
+    await user.click(screen.getByRole("button", { name: "Enter an access token" }));
+    expect(onRequestToken).toHaveBeenCalledOnce();
   });
 
   it("offers failure simulation only when the server enables it", async () => {

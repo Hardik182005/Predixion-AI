@@ -6,10 +6,15 @@ Predixion AI is a bounded research agent. It takes a question that needs several
 
 It has a web UI, a REST + Server-Sent Events API, and a CLI. A fixture mode runs the full pipeline offline against synthetic sources, for demos and tests, at no cost.
 
+**Try it: https://predixion-ai-8840249691.asia-south1.run.app** · **[Demo video](https://www.youtube.com/watch?v=WW-NYzoHdD0)**
+
+The hosted demo runs on Google Cloud Run. Fixture runs are free and unlimited. Live web research is open to everyone within a shared limit of 20 live runs a day and 3 per visitor an hour. Run history lasts only while the server instance is up (it scales to zero after about 15 idle minutes), so export reports you want to keep. See [docs/deployment.md](docs/deployment.md).
+
 - [Requirements and how they map to the code](docs/requirements.md)
 - [Security model](docs/security.md)
 - [Evaluation method and results](docs/evaluation.md)
 - [Sample reports](docs/samples/)
+- [Deployment on Cloud Run](docs/deployment.md): architecture, access model, limits, costs, and operations
 - [Demo script](docs/demo-script.md) · [Submission notes](docs/submission.md) · [AI usage](AI_USAGE.md)
 - [Independent audit](docs/audit.md): requirement-by-requirement verification, defects found and fixed, and what remains
 
@@ -84,7 +89,7 @@ All errors use the shape `{"error": {"code": "...", "message": "..."}}`.
 | `GET /api/runs/{run_id}/dependencies?source=S3` | Offline source-dependency analysis of the stored report: which claims would lose every citation without that source (and its recorded copies). No provider calls. |
 | `DELETE /api/runs/{run_id}` | Delete a run. |
 | `GET /api/config`, `GET /api/samples` | UI configuration and sample questions. |
-| `GET /healthz`, `GET /readyz` | Liveness and readiness. |
+| `GET /healthz`, `GET /readyz` | Liveness and readiness. On Cloud Run, Google's front end reserves `/healthz`; use `/readyz`. |
 
 Run IDs match `^run_[0-9a-f]{24}$`. Anything else is rejected before any lookup.
 
@@ -208,7 +213,7 @@ These measures check that claims match their sources. They cannot check that the
 ### What remains before public production use?
 
 - **Durable job execution.** A queue and worker, so runs survive restarts and can scale beyond one process.
-- **Identity and abuse controls.** Real user accounts or SSO instead of static tokens, per-user quotas and spend limits, and rate limiting at the edge.
+- **Identity and abuse controls.** Real user accounts or SSO instead of static tokens and browser-generated visitor ids, durable per-user quotas, and rate limiting at the edge. Today live runs have a service-wide daily limit that survives restarts and a per-user hourly limit held in memory, which a visitor can sidestep by changing id.
 - **Isolated fetching.** An SSRF-hardened fetch path, if pages are ever fetched by this service instead of by the provider.
 - **Larger evaluation.** A bigger evaluation set with human-labelled answers. The current suite is small, was used during development, and is scored by a lexical heuristic.
 - **Accuracy and policy work.** Price and model drift checks, source licensing review, and privacy review of stored questions and reports.
@@ -246,6 +251,10 @@ Everything is set through environment variables or `.env`; see [.env.example](.e
 | `GROQ_MAX_REQUEST_TOKENS`, `MODEL_FALLBACK` | 8000, `true` | Largest request sent to Groq; whether a failed task moves on to the next model. |
 | `MAX_ROUNDS`, `MAX_PAGES_PER_RUN`, `RUN_DEADLINE_S`, `MAX_COST_USD_PER_RUN` | 2, 8, 120, 0.60 | Per-run limits. |
 | `AUTH_MODE`, `API_TOKEN_HASHES` | `none` | `none` is refused on non-loopback binds unless `ALLOW_UNAUTHENTICATED_BIND=true`. |
+| `PUBLIC_ACCESS` | `none` | With token auth, what callers without a token may do: `none`, `fixture`, or `live`. Their runs are scoped by a random id the browser sends. |
+| `LIVE_RUNS_PER_DAY`, `LIVE_RUNS_PER_USER_PER_HOUR` | 0, 0 (off) | Admission limits for live runs; over a limit returns 429 with `Retry-After`. The daily limit times `MAX_COST_USD_PER_RUN` bounds daily provider spend. |
+| `LIVE_LEDGER_PATH` | unset | File that keeps the daily live-run count across restarts. If it cannot be read or written, live runs are refused. |
+| `HSTS_MAX_AGE_S` | 0 | Sends `Strict-Transport-Security` when above 0. HTTPS deployments only. |
 | `SERVE_FRONTEND_DIR` | unset | Serve the built UI from the API process. |
 | `ENABLE_FAULT_INJECTION` | `false` | Testing only; ignored in production. |
 
@@ -274,7 +283,7 @@ CI (`.github/workflows/ci.yml`) runs:
 - Groq routing has only a few live runs behind it (the audit and improvement runs in `evals/results/`); plans and follow-ups from the Groq-hosted models may differ in quality from OpenAI's. The full suite was run before routing existed.
 - Confidence depends on the planner listing the parts of a compound criterion. If it bundles two requirements into one criterion without parts, coverage is judged on the pair as one; the prompt asks for parts, and the live samples before this change show what the bundling looked like ([docs/evaluation.md](docs/evaluation.md#spot-check-of-live-claims)).
 - Discovery questions can return far fewer entities than requested, because entities are included only when the pages read state every condition.
-- Runs are not durable across restarts (see [Execution guarantees](#api)).
+- Runs are not durable across restarts (see [Execution guarantees](#api)). On the hosted demo, history and reports disappear when the instance scales to zero or is redeployed.
 - The evaluation suite is small (8 scenarios). It was used during development, so its results are optimistic for unseen questions.
 
 ## Future improvements

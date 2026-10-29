@@ -4,10 +4,10 @@
 
 | Item | Status |
 |---|---|
-| Repository | https://github.com/Hardik182005/Predixion-AI, branch `main` (the only branch; the audit work was merged into it) |
-| Repository access | Private (`gh repo view` on 2026-10-28). Evaluators need collaborator access, or the owner needs to make it public. Visibility was checked, not changed. |
-| Demo video | **Pending.** Not recorded yet. Follow the full script in [demo-script.md](demo-script.md), then add the link here. |
-| Hosted deployment | None. The app runs locally or in Docker; see the [README](../README.md#quick-start). |
+| Repository | https://github.com/Hardik182005/Predixion-AI, branch `main`. The deployment work is on `feature/cloud-run-deploy`, in a pull request awaiting review. |
+| Repository access | Private (`gh repo view` on 2026-10-29). Evaluators need collaborator access, or the owner needs to make it public. Visibility was checked, not changed. |
+| Demo video | https://www.youtube.com/watch?v=WW-NYzoHdD0 |
+| Hosted deployment | https://predixion-ai-8840249691.asia-south1.run.app on Google Cloud Run. Fixture runs are free; live runs are open to everyone within 20 a day in total and 3 per visitor an hour. History lasts only while the instance runs. See [deployment.md](deployment.md). |
 | Evaluation | [evaluation.md](evaluation.md), raw results in [`evals/results/`](../evals/results/) |
 | Sample reports | [samples/](samples/): live runs labeled with mode, date, model, and prompt version |
 | Requirements traceability | [requirements.md](requirements.md) |
@@ -48,6 +48,17 @@ Verified on GitHub on 2026-10-28: the CI run for commit `31b8e31` passed all fou
 
 Verified by the independent audit session on 2026-10-28, from a fresh cloud container (Linux, Python 3.13.17, uv 0.11.32, Node.js 22.22.0): lint, 219 backend tests, the fixture evaluation (20 of 20 checks), the frontend build, 25 Vitest tests, 7 Playwright tests, `pip-audit`, and `npm audit`. After the sandbox network was opened for the provider hosts, the audit also ran the opt-in live test and three live evaluation runs (results in `evals/results/audit-live-*.md`). The Docker build was not possible in the sandbox; CI built it. See [audit.md](audit.md).
 
+Verified for the Cloud Run deployment on 2026-10-29, on `feature/cloud-run-deploy`:
+- Lint is clean.
+- 266 backend tests pass and 1 is skipped.
+- The fixture evaluation passes 20 of 20 checks.
+- The frontend build, 29 Vitest tests, and 7 Playwright tests pass.
+- The public URL passed checks of its security headers, access control, visitor isolation, fixture and live runs, and the live-run limits. The daily limit survived a restart.
+- The logs contained no keys and no question text.
+- QuantFolio was not changed.
+
+The full list of checks is in [deployment.md](deployment.md#verification).
+
 Not verified:
 
 - **Owner review.** The owner has not reviewed the code, the evaluation, or the sample reports; see [AI_USAGE.md](../AI_USAGE.md). The live claims spot-checked in [evaluation.md](evaluation.md) were checked by the AI development assistant.
@@ -66,14 +77,16 @@ Every item in the assignment brief, with where it is met. Checked against `main`
 | Short evaluation framework with at least five test queries, expected behavior, what worked and what did not | [evaluation.md](evaluation.md), 8 cases, `evals/results/`; plus [improvements.md](improvements.md) and `evals/heldout.md` | Done |
 | README with setup, architecture, design decisions, known limitations, future improvements, and the seven README questions | [README](../README.md) | Done |
 | Two or three sample outputs | [samples/](samples/): four live reports labelled by mode, date, model | Done |
-| Demo video, 3–5 minutes, one happy path and one failure or edge case | Script in [demo-script.md](demo-script.md) | **Pending: record and link** |
+| Demo video, 3–5 minutes, one happy path and one failure or edge case | [Video](https://www.youtube.com/watch?v=WW-NYzoHdD0), following [demo-script.md](demo-script.md) | Done |
 | Source code repository accessible to evaluators | Private repository | **Pending: grant access or make public** |
 | Stretch: citation grounding, evaluator or judge step, caching, async tool execution, guardrails for low-confidence answers, comparison with a non-agentic baseline | Quote and reference checks plus a verifier; `TTLCache`; asyncio with a semaphore; status and confidence rules, removal of unsupported claims; `evals.run_baseline` | Done |
 | Stretch: memory for follow-up questions | Not implemented (optional); listed under future improvements | Not done |
 
 ## Before submitting
 
-- [ ] Record the demo video and add the link above.
+- [x] Record the demo video and add the link above.
+- [ ] Review and merge the deployment pull request (`feature/cloud-run-deploy`). The service already runs that branch's code.
+- [ ] Set monthly usage limits in the OpenAI, Tavily, and Groq dashboards. The app caps live spend at about $6 a day, and a provider-side limit is a second line of defense.
 - [x] Confirm the CI run on `main` passes for the audit commits. Run 23 (the same tree, before the audit commits were re-authored under the owner's identity) passed all four jobs (backend, frontend, secrets scan, Docker build) on 2026-10-28.
 - [ ] Give evaluators access to the repository, or make it public.
 - [x] Confirm the CI run on `main` passes on GitHub. Checked on 2026-10-28; see above.

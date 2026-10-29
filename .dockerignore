@@ -15,3 +15,7 @@ frontend/test-results
 frontend/playwright-report
 *.pdf
 0*_Claude_*.md
+0*_Predixion_*.md
+0*_Fable_*.md
+image.png
+run.json

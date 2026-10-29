@@ -84,6 +84,13 @@ class Settings(BaseSettings):
     max_sse_per_run: int = Field(5, alias="MAX_SSE_PER_RUN", ge=1)
     max_sse_total: int = Field(50, alias="MAX_SSE_TOTAL", ge=1)
     max_events_per_run: int = Field(400, alias="MAX_EVENTS_PER_RUN", ge=50)
+    # Admission limits for new live runs; 0 turns a limit off. They are counted in memory, so a restart resets them,
+    # except the daily count when LIVE_LEDGER_PATH is set.
+    live_runs_per_user_per_hour: int = Field(0, alias="LIVE_RUNS_PER_USER_PER_HOUR", ge=0)
+    live_runs_per_day: int = Field(0, alias="LIVE_RUNS_PER_DAY", ge=0)
+    # File that keeps live-run start times so LIVE_RUNS_PER_DAY holds across restarts (on Cloud Run, a Cloud Storage
+    # volume). When it cannot be written, live runs are refused. Unset keeps the counts in memory only.
+    live_ledger_path: str | None = Field(None, alias="LIVE_LEDGER_PATH")
 
     db_path: str = Field("data/predixion.sqlite3", alias="PREDIXION_DB_PATH")
     retention_days: float = Field(7.0, alias="RUN_RETENTION_DAYS", gt=0)
@@ -93,8 +100,13 @@ class Settings(BaseSettings):
     api_token_hashes: SecretStr | None = Field(None, alias="API_TOKEN_HASHES")
     # For a container that binds 0.0.0.0 but is published only on host loopback.
     allow_unauthenticated_bind: bool = Field(False, alias="ALLOW_UNAUTHENTICATED_BIND")
+    # With AUTH_MODE=token, what a visitor without a token may do: nothing, fixture runs, or fixture and live runs.
+    # Each visitor's runs are scoped by a random id its browser sends (X-Visitor-Id).
+    public_access: Literal["none", "fixture", "live"] = Field("none", alias="PUBLIC_ACCESS")
     cors_origins: str = Field("http://127.0.0.1:5173,http://localhost:5173", alias="CORS_ORIGINS")
     serve_frontend_dir: str | None = Field(None, alias="SERVE_FRONTEND_DIR")
+    # Strict-Transport-Security max-age for HTTPS deployments; 0 sends no header.
+    hsts_max_age_s: int = Field(0, alias="HSTS_MAX_AGE_S", ge=0)
 
     enable_fault_injection: bool = Field(False, alias="ENABLE_FAULT_INJECTION")
     log_level: str = Field("INFO", alias="LOG_LEVEL")

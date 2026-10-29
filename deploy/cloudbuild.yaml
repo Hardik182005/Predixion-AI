@@ -1,0 +1,11 @@
+# Cloud Build config for the Predixion AI image. deploy/deploy.sh submits a `git archive` of one commit,
+# so the build context holds tracked files only: never .env, local notes, or untracked files.
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "--tag", "${_IMAGE}:${_TAG}", "."]
+images:
+  - "${_IMAGE}:${_TAG}"
+options:
+  # Logs go to the dedicated build bucket (deploy.sh passes --gcs-log-dir), not the project's shared logs.
+  logging: GCS_ONLY
+timeout: 1200s

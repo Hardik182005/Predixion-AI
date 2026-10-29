@@ -11,6 +11,7 @@ import hashlib
 import hmac
 import json
 import logging
+import re
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -30,6 +31,7 @@ from .contracts import (
     QUESTION_MAX_CHARS,
     QUESTION_MIN_CHARS,
     RUN_ID_RE,
+    Mode,
     ResearchRequest,
     RunEvent,
     RunSummary,
@@ -48,11 +50,15 @@ logger = logging.getLogger("predixion.api")
 MAX_BODY_BYTES = 64 * 1024
 IDEMPOTENCY_KEY_MAX = 128
 LOCAL_OWNER = "local"
+# Token user names never contain ":" (parse_token_hashes splits on the first one), so this prefix cannot collide.
+VISITOR_PREFIX = "visitor:"
+VISITOR_ID_RE = re.compile(r"^[A-Za-z0-9_-]{22,64}$")
 
 RUN_ERROR_STATUS = {
     "live_unavailable": 503,
     "idempotency_conflict": 409,
     "capacity": 429,
+    "rate_limited": 429,
     "too_many_streams": 429,
     "run_active": 409,
 }
@@ -91,10 +97,22 @@ def hash_token(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
 
-def current_owner(request: Request, authorization: Annotated[str | None, Header()] = None) -> str:
-    """The user id that scopes every run read and write. Without auth, everything belongs to 'local'."""
+def current_owner(
+    request: Request,
+    authorization: Annotated[str | None, Header()] = None,
+    x_visitor_id: Annotated[str | None, Header()] = None,
+) -> str:
+    """The user id that scopes every run read and write. Without auth, everything belongs to 'local'.
+
+    With PUBLIC_ACCESS on, a request without a token belongs to a visitor, identified by the random id its
+    browser sends. Anyone who knows that id can read the visitor's runs; it is a scope, not a credential.
+    """
     if request.app.state.auth_mode == "none":
         return LOCAL_OWNER
+    if authorization is None and request.app.state.public_access != "none":
+        if x_visitor_id is None or not VISITOR_ID_RE.match(x_visitor_id):
+            raise APIError(401, "unauthorized", "Missing bearer token or visitor id.", {"WWW-Authenticate": "Bearer"})
+        return VISITOR_PREFIX + hash_token(x_visitor_id)[:32]
     scheme, _, token = (authorization or "").partition(" ")
     if scheme.lower() != "bearer" or not token.strip():
         raise APIError(401, "unauthorized", "Missing bearer token.", {"WWW-Authenticate": "Bearer"})
@@ -117,6 +135,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     token_hashes = parse_token_hashes(settings.api_token_hashes.get_secret_value() if settings.api_token_hashes else None)
     if settings.auth_mode == "token" and not token_hashes:
         raise RuntimeError("AUTH_MODE=token requires API_TOKEN_HASHES with at least one user:sha256 entry.")
+    if settings.public_access != "none" and settings.auth_mode != "token":
+        raise RuntimeError("PUBLIC_ACCESS requires AUTH_MODE=token; without it every request already has full access.")
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
@@ -157,6 +177,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         if not request.url.path.startswith("/api/docs"):  # Swagger UI loads its assets from a CDN
             response.headers.setdefault("Content-Security-Policy", CSP)
         response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        if settings.hsts_max_age_s:
+            response.headers.setdefault("Strict-Transport-Security", f"max-age={settings.hsts_max_age_s}")
         if request.url.path.startswith("/api"):
             response.headers.setdefault("Cache-Control", "no-store")
         return response
@@ -165,7 +187,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,
         allow_methods=["GET", "POST", "DELETE"],
-        allow_headers=["Authorization", "Content-Type", "Idempotency-Key", "Last-Event-ID"],
+        allow_headers=["Authorization", "Content-Type", "Idempotency-Key", "Last-Event-ID", "X-Visitor-Id"],
         allow_credentials=False,
         max_age=600,
     )
@@ -178,7 +200,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.exception_handler(RunError)
     async def _run_error(_: Request, exc: RunError) -> JSONResponse:
-        headers = {"Retry-After": "10"} if RUN_ERROR_STATUS.get(exc.code) == 429 else None
+        headers = {"Retry-After": str(exc.retry_after_s or 10)} if RUN_ERROR_STATUS.get(exc.code) == 429 else None
         return _error(RUN_ERROR_STATUS.get(exc.code, 400), exc.code, exc.message, headers)
 
     @app.exception_handler(RequestValidationError)
@@ -210,6 +232,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app.state.auth_mode = settings.auth_mode
     app.state.token_hashes = token_hashes
+    app.state.public_access = settings.public_access
+
+    def live_needs_token(user: str) -> bool:
+        return user.startswith(VISITOR_PREFIX) and settings.public_access != "live"
 
     def manager(request: Request) -> RunManager:
         return request.app.state.manager
@@ -237,11 +263,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return JSONResponse({"status": "ready" if ok else "unavailable"}, status_code=200 if ok else 503)
 
     @app.get("/api/config")
-    async def config(_: Owner) -> dict[str, Any]:
+    async def config(user: Owner) -> dict[str, Any]:
+        needs_token = live_needs_token(user)
         return {
             "version": __version__,
-            "default_mode": settings.mode,
+            "default_mode": "fixture" if needs_token else settings.mode,
             "live_available": settings.live_available,
+            "live_needs_token": needs_token,
             "model": settings.research_model,
             "auth_mode": settings.auth_mode,
             "fault_injection": settings.fault_injection_allowed,
@@ -275,6 +303,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 raise APIError(422, "invalid_request", "Idempotency-Key must be 1-128 printable characters.")
         if body.fault is not None and not settings.fault_injection_allowed:
             raise APIError(403, "fault_injection_disabled", "Fault injection is disabled on this server.")
+        if live_needs_token(user) and manager(request).resolve_mode(body) == Mode.live:
+            raise APIError(401, "live_requires_token", "Live research needs an access token.", {"WWW-Authenticate": "Bearer"})
         for url in body.seed_urls:
             try:
                 validate_public_url(url)

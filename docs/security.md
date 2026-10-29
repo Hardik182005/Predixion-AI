@@ -37,6 +37,7 @@ flowchart LR
 
 - Keys are read only from server environment or the gitignored `.env`. They are held as `SecretStr` and never placed in `/api/config`, reports, events, logs, fixtures, or the frontend bundle. The frontend has no build-time environment secrets.
 - `.gitignore` excludes `.env` and `.env.*` (except `.env.example`, which has empty values). `.dockerignore` keeps `.env*` out of the image build context.
+- On Cloud Run ([deployment.md](deployment.md)), keys come from Secret Manager as environment variables of the service. Only the service's own runtime account can read them, and each secret is readable only through its own binding. The image is built from a `git archive` of one commit, so untracked files such as `.env` never reach the build.
 - Provider endpoints are constants in `config.py`. An attacker who can set environment variables still cannot redirect key-bearing traffic to another host.
 - CI runs gitleaks over the full history.
 - Tests: `tests/test_api.py::test_health_and_config` checks the config response contains no keys.
@@ -81,7 +82,7 @@ Tests:
 - **The React UI renders all report text as text.** There is no `dangerouslySetInnerHTML` and no Markdown-to-HTML rendering.
 - **Links are filtered.** They render only if `safeHttpUrl` accepts them (http or https) and use `rel="noopener noreferrer nofollow"` with `target="_blank"`. Any other link shows "No safe link is available for this source."
 - **Markdown export escapes Markdown syntax** in untrusted text and links only to safe URLs.
-- **Security headers.** A strict Content-Security-Policy (`script-src 'self'`, `object-src 'none'`, `frame-ancestors 'none'`, `base-uri 'none'`), `X-Content-Type-Options: nosniff`, and `Referrer-Policy: no-referrer`.
+- **Security headers.** A strict Content-Security-Policy (`script-src 'self'`, `object-src 'none'`, `frame-ancestors 'none'`, `base-uri 'none'`), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Referrer-Policy: no-referrer`. With `HSTS_MAX_AGE_S` above 0 (the Cloud Run deployment uses one year), `Strict-Transport-Security` too.
 
 Tests:
 - `tests/test_render.py`
@@ -92,16 +93,22 @@ Tests:
 
 - **Local by default.** The server binds `127.0.0.1` by default.
 - **Non-loopback binds need auth.** `predixion serve` refuses to bind elsewhere with `AUTH_MODE=none` unless `ALLOW_UNAUTHENTICATED_BIND=true`. That flag is for a container published only on host loopback, which is what `compose.yaml` does.
-- **Token mode.** With `AUTH_MODE=token`, every `/api` route except config, samples, and health requires a bearer token.
+- **Token mode.** With `AUTH_MODE=token`, every `/api` route requires a bearer token, or a visitor id where `PUBLIC_ACCESS` allows one. Only `/healthz` and `/readyz` are open.
   - Only SHA-256 hashes of tokens are configured (`API_TOKEN_HASHES`), and comparison is constant-time.
   - `predixion token --user NAME` creates a token.
   - Tokens are never put in the frontend bundle. The user pastes one into the UI and it is kept in session storage.
+- **Public access.** `PUBLIC_ACCESS=fixture` or `live` lets callers without a token use the service as visitors.
+  - A visitor sends `X-Visitor-Id`, a random id its browser generates and keeps in local storage. The server stores only a hash-derived owner key (`visitor:<sha256 prefix>`).
+  - The id is a scope, not a credential: anyone who has it can read that visitor's runs, and a visitor can get a new one at will.
+  - A request that carries a token is judged only by the token. A wrong token gets 401; it never falls back to visitor access.
+  - `PUBLIC_ACCESS=fixture` keeps live runs for token holders; the API refuses a visitor's live run and the UI asks for a token.
 - **Owner scoping.** Every run lookup, event stream, cancel, export, delete, and idempotency key is scoped to the owner. Another user's run ID returns 404, not 403, so run existence is not revealed.
 - **Run IDs** must match `^run_[0-9a-f]{24}$` (96 random bits) before any lookup.
 - **CORS** allows only the configured origins (by default the Vite dev server on loopback).
 
 Tests:
 - `tests/test_api.py::test_token_auth_scopes_runs_to_their_owner`, `::test_token_mode_requires_hashes`, `::test_unknown_and_malformed_run_ids`
+- `tests/test_api.py::test_public_fixture_access_scopes_visitors_and_keeps_live_behind_tokens`, `::test_public_access_still_rejects_bad_credentials`, `::test_public_live_access_lets_visitors_run_live`, `::test_public_access_requires_token_mode`
 - `tests/test_store_runs.py::test_other_owners_cannot_see_a_run`, `::test_idempotency_is_scoped_to_owner_and_request`
 - `tests/test_cli.py::test_serve_refuses_public_bind_without_auth`
 
@@ -114,10 +121,14 @@ Tests:
   - Event streams are capped per run and in total.
   - Events per run are capped, always keeping the terminal event.
 - **Duplicate paid runs.** Idempotency keys stop a retried request from starting a second run. A key reused with a different body returns `409`.
-- **Not implemented:** per-user quotas or daily spend limits. A valid token holder can start runs up to the server-wide limits. This must be added before public use.
+- **Live-run admission limits.** `LIVE_RUNS_PER_DAY` caps live runs across all callers in a rolling 24 hours, so daily provider spend is at most that number times `MAX_COST_USD_PER_RUN` ($6 on the Cloud Run deployment: 20 × $0.30). `LIVE_RUNS_PER_USER_PER_HOUR` spreads that allowance across callers. Over a limit returns `429 rate_limited` with `Retry-After`.
+  - The daily count is written to `LIVE_LEDGER_PATH` (a Cloud Storage volume on Cloud Run) before a run is admitted, so restarts and scale-to-zero do not reset it. If the ledger cannot be written, or exists but cannot be read, live runs are refused with `503 live_unavailable`: the limit fails closed.
+  - The hourly per-user counts are in memory and keyed by token user or visitor id. A visitor can change id, so they provide fairness, not a spend bound.
+- **Not implemented:** durable per-user quotas tied to real identities, and edge rate limiting. Fixture runs are not counted, so a flood of them can fill the run queue (capped) and keep the instance running.
 
 Tests:
 - `tests/test_api.py::test_oversized_body`, `::test_rejected_requests`, `::test_idempotency_key`
+- `tests/test_api.py::test_live_run_limits`, `::test_daily_live_limit_survives_a_restart_through_the_ledger`, `::test_live_runs_are_refused_when_the_ledger_is_unusable`
 - `tests/test_store_runs.py::test_capacity_limit`, `::test_event_cap_keeps_terminal_events`
 - `tests/test_reliability.py` budget tests
 - `tests/test_orchestrator.py::test_cost_budget_is_enforced_before_the_first_call`
@@ -155,9 +166,11 @@ Tests: `tests/test_api.py::test_fault_injection_is_refused_when_disabled`, `test
 |---|---|
 | False but well-sourced claims from a misleading page | Reduced (tiers, independent domains, conflicts shown), not prevented |
 | Prompt injection that changes wording without adding uncited claims | Reduced by verification; possible in principle |
-| No per-user quotas or spend limits | Gap; required before public use |
-| Static bearer tokens, no expiry or rotation tooling | Acceptable for a private demo; replace with real identity before public use |
-| No rate limiting at the edge | Gap; put a proxy or gateway in front for public use |
-| SQLite file not encrypted at rest | Relies on host disk protection |
+| Provider spend from public live access | Bounded by the daily live-run limit and per-run cost cap ($6 a day on Cloud Run); provider-side usage limits recommended as a second line |
+| Per-user limits keyed by a client-chosen visitor id | Fairness only; real identity needed for real per-user quotas |
+| Static bearer tokens, no expiry or rotation tooling | Acceptable for a demo; replace with real identity before wider use |
+| No rate limiting at the edge | Gap; fixture traffic is limited only by the run queue and Cloud Run's single instance |
+| Visitor history readable by anyone holding the visitor id | Accepted for a demo; the id never leaves the browser except in requests to this service |
+| SQLite file not encrypted at rest | Relies on host disk protection; on Cloud Run it is in instance memory and gone when the instance stops |
 | Provider-side handling of questions and pages | Governed by OpenAI's, Tavily's, and (when configured) Groq's own policies, not by this code |
 | No manual screen-reader or penetration test | Not done |
