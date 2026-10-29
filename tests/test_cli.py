@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
@@ -62,3 +63,11 @@ def test_token_prints_matching_hash(capsys: pytest.CaptureFixture[str]) -> None:
 def test_serve_refuses_public_bind_without_auth(capsys: pytest.CaptureFixture[str]) -> None:
     assert cli.main(["serve", "--host", "0.0.0.0"]) == 2
     assert "Refusing to bind" in capsys.readouterr().err
+
+
+def test_metrics_prints_execution_metrics_of_a_saved_report(tmp_path, capsys) -> None:
+    sample = Path(__file__).parent.parent / "docs" / "samples" / "vector-db-comparison.json"
+    assert cli.main(["metrics", str(sample)]) == 0
+    out = capsys.readouterr().out
+    assert "estimated cost" in out and "stage timings" in out and "synthesize" in out
+    assert cli.main(["metrics", str(tmp_path / "missing.json")]) == 2

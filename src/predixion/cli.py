@@ -6,6 +6,7 @@ predixion samples                  list fixture sample questions
 predixion token --user NAME        create an API token and its config line
 predixion eval [...]               run the evaluation suite
 predixion deps REPORT.json --source S3   what in a saved report depends on one source (offline)
+predixion metrics REPORT.json      print a saved report's execution metrics and stage timings
 """
 
 from __future__ import annotations
@@ -168,6 +169,48 @@ def cmd_deps(args: argparse.Namespace, _: Settings) -> int:
     return 0
 
 
+def cmd_metrics(args: argparse.Namespace, _: Settings) -> int:
+    """Execution metrics of a saved report (from `ask --json --out`, the API export, or --save-reports)."""
+    from .contracts import ResearchReport
+
+    try:
+        report = ResearchReport.model_validate_json(Path(args.report).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        print(f"Could not read the report: {type(exc).__name__}.", file=sys.stderr)
+        return 2
+    print(render_metrics(report))
+    return 0
+
+
+def render_metrics(report) -> str:
+    ex, m = report.execution, report.execution.metrics
+    rows = [
+        ("status", f"{report.status.value} ({report.stop_reason.value if report.stop_reason else '-'})"),
+        ("confidence", report.confidence.level.value),
+        ("mode / model", f"{ex.mode.value} / {ex.model}" + (f", effort {ex.reasoning_effort}" if ex.reasoning_effort else "")),
+        ("prompt version", ex.prompt_version),
+        ("duration", f"{(m.duration_ms or 0) / 1000:.1f} s"),
+        ("first event", f"{(m.first_event_ms or 0) / 1000:.2f} s"),
+        ("rounds", m.rounds),
+        ("searches / pages read", f"{m.search_calls} / {m.pages_read} (requested {m.pages_requested})"),
+        ("sources found / filtered", f"{m.sources_discovered} / {m.sources_filtered}"),
+        ("evidence accepted / rejected", f"{m.evidence_accepted} / {m.evidence_rejected}"),
+        ("model calls / attempts", f"{m.model_calls} / {m.model_attempts} (retries {m.retries}, fallbacks {m.model_fallbacks})"),
+        ("models used", ", ".join(f"{k} ({v})" for k, v in m.models_used.items()) or "-"),
+        ("tokens in / out", f"{m.input_tokens:,} / {m.output_tokens:,}"),
+        ("estimated cost", f"${m.estimated_cost_usd:.4f}" + (" (uncertain)" if m.cost_uncertain else "")),
+        ("search credits", f"{m.tavily_credits:g}"),
+        ("cache hits / misses", f"{m.cache_hits} / {m.cache_misses}"),
+        ("claims verified", f"{report.verification.supported} of {report.verification.claims_checked}"),
+    ]
+    width = max(len(k) for k, _ in rows)
+    lines = [f"{k:<{width}}  {v}" for k, v in rows]
+    if m.stage_timings:
+        lines += ["", "stage timings"]
+        lines += [f"  {t.stage.value:<11} {t.ms / 1000:7.1f} s" for t in m.stage_timings]
+    return "\n".join(lines)
+
+
 def cmd_eval(args: argparse.Namespace, settings: Settings) -> int:
     from .evals import main as eval_main
 
@@ -206,6 +249,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--no-duplicates", action="store_true", help="remove only this source, not its recorded copies")
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_deps)
+
+    p = sub.add_parser("metrics", help="print a saved report's execution metrics")
+    p.add_argument("report", help="report JSON (from `ask --json --out`, the API export, or --save-reports)")
+    p.set_defaults(func=cmd_metrics)
 
     p = sub.add_parser("eval", help="run the evaluation suite")
     p.add_argument("--mode", choices=[m.value for m in Mode], default="fixture")

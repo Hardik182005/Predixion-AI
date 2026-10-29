@@ -66,6 +66,7 @@ uv run predixion token --user NAME        # prints a new token and the API_TOKEN
 uv run predixion eval --mode fixture      # offline regression suite
 uv run predixion eval --mode live --max-spend 1.0 --save-reports DIR
 uv run predixion deps report.json --source S3   # offline: which claims depend on one source
+uv run predixion metrics report.json            # execution metrics and stage timings of a saved report
 ```
 
 ### API

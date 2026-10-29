@@ -16,6 +16,7 @@ In `.env`:
 Then:
 - `uv run predixion serve` and open http://127.0.0.1:8000.
 - Open these in editor tabs, scrolled to the line: `src/predixion/reliability.py:174` (budget reservation), `src/predixion/reliability.py:243` (the single retry owner), `src/predixion/grounding.py:90` (quote check), `src/predixion/grounding.py:524` (reference check), `src/predixion/urls.py:123` (URL validation), `src/predixion/prompts.py:387` (untrusted-text fencing).
+- Save the happy-path report for the terminal segment: `uv run predixion ask "Is Redis still open source?" --mode live --json --quiet --out run.json`, then `uv run predixion metrics run.json`. No shell quoting involved, so it works the same in PowerShell and bash.
 - Do one warm-up live run so the timing is familiar. Live runs took 28–90 s in the recorded evaluations; the question below took 28 s and $0.05 when it was run for the held-out set, but live results vary, so the script says what to narrate whichever way the run ends.
 - Close other tabs, browser zoom about 110%.
 
@@ -83,7 +84,7 @@ Show `docs/evaluation.md` or `evals/results/live-gpt-6.1-terra.md`.
 
 > "Evaluation: eight cases including the four assignment questions, a nonexistent product, an ambiguous question, contradictory sources, and a provider outage. Offline, the fixture suite passes 20 of 20 checks in about a second and runs in CI. Live, against a one-pass baseline on the same model, the agent covered about twice as many required criteria, 12 versus 6 of 30, at about 8 times the latency and 2.3 times the cost. Those are single runs, scored by a lexical proxy, and the document says so."
 
-Show the terminal: `uv run pytest` (256 tests, offline) and the green CI run.
+Show the terminal: `uv run predixion metrics run.json` on the happy-path report saved earlier (duration, tokens, cost, stage timings), then `uv run pytest` (257 tests, offline) and the green CI run.
 
 > "What's not done: runs aren't durable across restarts, there are no per-user quotas, and verification checks claims against quotes, not quotes against the world. All of that is written down in the README and the audit. The model proposes; the code decides. Thanks."
 

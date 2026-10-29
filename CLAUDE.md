@@ -22,6 +22,7 @@ uv run pytest                             # ~8 s, offline
 uv run predixion eval --mode fixture      # offline regression suite; exit 0 = all agent checks pass
 uv run predixion ask "question" --mode fixture
 uv run predixion deps report.json --source S1   # offline source-dependency analysis
+uv run predixion metrics report.json            # execution metrics and stage timings of a saved report
 uv run predixion serve                    # http://127.0.0.1:8000
 
 cd frontend
