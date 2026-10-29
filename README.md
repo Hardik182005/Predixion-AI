@@ -1,5 +1,17 @@
 # Predixion AI
 
+[![Live demo](https://img.shields.io/badge/live_demo-Cloud_Run-4285F4?logo=googlecloud&logoColor=white)](https://predixion-ai-8840249691.asia-south1.run.app)
+[![Demo video](https://img.shields.io/badge/demo_video-YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=WW-NYzoHdD0)
+[![CI](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml)
+<br>
+[![Python 3.13](https://img.shields.io/badge/python-3.13-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](frontend/package.json)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](frontend/package.json)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](frontend/package.json)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+
 **Clear answers. Evidence you can inspect.**
 
 Predixion AI is a bounded research agent. It takes a question that needs several sources, searches the web, reads the most useful pages, extracts quoted evidence, fills gaps with targeted follow-up searches, and writes a report in which every claim cites the passages that support it. Claims that the cited passages do not support are removed or qualified before the report is shown. When the evidence is thin, the report says so instead of guessing.
@@ -7,6 +19,8 @@ Predixion AI is a bounded research agent. It takes a question that needs several
 It has a web UI, a REST + Server-Sent Events API, and a CLI. A fixture mode runs the full pipeline offline against synthetic sources, for demos and tests, at no cost.
 
 **Try it: https://predixion-ai-8840249691.asia-south1.run.app** · **[Demo video](https://www.youtube.com/watch?v=WW-NYzoHdD0)**
+
+[![Watch the Predixion AI demo video on YouTube](https://img.youtube.com/vi/WW-NYzoHdD0/maxresdefault.jpg)](https://www.youtube.com/watch?v=WW-NYzoHdD0)
 
 The hosted demo runs on Google Cloud Run. Fixture runs are free and unlimited. Live web research is open to everyone within a shared limit of 20 live runs a day and 3 per visitor an hour. Run history lasts only while the server instance is up (it scales to zero after about 15 idle minutes), so export reports you want to keep. See [docs/deployment.md](docs/deployment.md).
 
