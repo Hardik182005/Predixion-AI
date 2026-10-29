@@ -112,6 +112,7 @@ const config: ServerConfig = {
     max_pages_per_run: 12,
     run_deadline_s: 180,
     max_cost_usd_per_run: 0.5,
+    live_runs_per_day: 0,
   },
 };
 
@@ -162,6 +163,19 @@ describe("QuestionForm", () => {
     expect(screen.getByRole("radio", { name: /Fixture demo/ })).toBeChecked();
     await user.click(screen.getByRole("button", { name: "Enter an access token" }));
     expect(onRequestToken).toHaveBeenCalledOnce();
+  });
+
+  it("warns about the shared live budget only when the server sets a daily limit", () => {
+    const liveConfig: ServerConfig = { ...config, live_available: true };
+    const { rerender } = render(<QuestionForm config={liveConfig} samples={[]} busy={false} error={null} onSubmit={vi.fn()} />);
+    expect(screen.queryByText(/shares a small budget/)).not.toBeInTheDocument();
+
+    const limited: ServerConfig = { ...liveConfig, limits: { ...liveConfig.limits, live_runs_per_day: 20 } };
+    rerender(<QuestionForm config={limited} samples={[]} busy={false} error={null} onSubmit={vi.fn()} />);
+    expect(screen.getByText(/20 live runs a day across all visitors/)).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: /How to add your keys/ });
+    expect(link).toHaveAttribute("href", "https://github.com/Hardik182005/Predixion-AI#live-mode");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("offers failure simulation only when the server enables it", async () => {

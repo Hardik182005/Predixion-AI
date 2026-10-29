@@ -69,6 +69,7 @@ def test_health_and_config(client: TestClient) -> None:
     config = client.get("/api/config").json()
     assert config["default_mode"] == "fixture"
     assert config["live_available"] is False
+    assert config["limits"]["live_runs_per_day"] == 0
     assert len(client.get("/api/samples").json()) >= 4
 
 
@@ -305,6 +306,7 @@ def test_public_access_requires_token_mode() -> None:
 def test_live_run_limits(monkeypatch: pytest.MonkeyPatch) -> None:
     live = {"question": QUESTION, "mode": "live"}
     with _public_client(monkeypatch, "live", LIVE_RUNS_PER_USER_PER_HOUR=2, LIVE_RUNS_PER_DAY=3) as client:
+        assert client.get("/api/config", headers=VISITOR_A).json()["limits"]["live_runs_per_day"] == 3
         _start(client, live, headers={**VISITOR_A, "Idempotency-Key": "k1"})
         _start(client, live, headers={**VISITOR_A, "Idempotency-Key": "k1"})  # a replay is not a new run
         _start(client, live, headers=VISITOR_A)

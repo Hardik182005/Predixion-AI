@@ -1,6 +1,7 @@
 import { type FormEvent, useId, useState } from "react";
 
 import type { FaultInjection, Mode, ResearchRequest, SampleQuestion, ServerConfig } from "../lib/types";
+import { GITHUB_URL } from "./Layout";
 
 // Failure simulations the server accepts when fault injection is enabled. Labels say what the run will experience.
 const FAULTS: { id: string; label: string; fault: FaultInjection }[] = [
@@ -41,6 +42,7 @@ export function QuestionForm({
   const liveAvailable = config?.live_available ?? false;
   const needsToken = liveAvailable && (config?.live_needs_token ?? false);
   const liveUsable = liveAvailable && !needsToken;
+  const dailyLiveRuns = config?.limits.live_runs_per_day ?? 0;
   const selectedMode: Mode = mode ?? (liveUsable ? (config?.default_mode ?? "fixture") : "fixture");
   const length = question.trim().length;
   const invalid = length < min ? `Enter a question of at least ${min} characters.` : length > max ? `Keep the question under ${max} characters.` : null;
@@ -156,6 +158,16 @@ export function QuestionForm({
           <button type="button" className="mt-2 text-sm font-medium underline" onClick={onRequestToken}>
             Enter an access token
           </button>
+        )}
+        {liveUsable && dailyLiveRuns > 0 && (
+          <p className="mt-2 text-xs text-muted">
+            Live research on this server shares a small budget: {dailyLiveRuns} live runs a day across all visitors, and the provider
+            credit can run out sooner. If a live run fails or is refused, use the fixture demo, or run Predixion AI with your own
+            OpenAI and Tavily keys.{" "}
+            <a href={`${GITHUB_URL}#live-mode`} className="font-medium underline" target="_blank" rel="noopener noreferrer">
+              How to add your keys<span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </p>
         )}
       </fieldset>
 
