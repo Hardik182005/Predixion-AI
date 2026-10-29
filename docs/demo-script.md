@@ -1,6 +1,6 @@
 # Demo video script (3–5 minutes)
 
-One live happy path, one injected failure plus one edge case, the guardrail code, and real metrics. Target length 4:30. Everything quoted below comes from the repository at `main` (`236e030`): numbers from `evals/results/` and the live runs of 2026-10-28, code lines from `src/predixion/`. The recording has not been made yet; once it is uploaded, add the link to [submission.md](submission.md).
+One live happy path, one injected failure plus one edge case, the guardrail code, and real metrics. Target length 4:30. Everything quoted below comes from the repository at `main` (`236e030`): numbers from `evals/results/` and the live runs of 2026-10-28, code lines from `src/predixion/`. The recording is at https://www.youtube.com/watch?v=WW-NYzoHdD0 and is linked from the README and [submission.md](submission.md). The script was written before the Cloud Run deployment; the hosted demo at https://predixion-ai-8840249691.asia-south1.run.app can stand in for the local server, with the fault-injection control unavailable there.
 
 ## Before recording
 
@@ -86,11 +86,11 @@ Show `docs/evaluation.md` or `evals/results/live-gpt-6.1-terra.md`.
 
 Show the terminal: `uv run predixion metrics run.json` on the happy-path report saved earlier (duration, tokens, cost, stage timings), then `uv run pytest` (257 tests, offline) and the green CI run.
 
-> "What's not done: runs aren't durable across restarts, there are no per-user quotas, and verification checks claims against quotes, not quotes against the world. All of that is written down in the README and the audit. The model proposes; the code decides. Thanks."
+> "What's not done: runs aren't durable across restarts, per-user limits are keyed by a browser-generated id rather than a real identity, and verification checks claims against quotes, not quotes against the world. All of that is written down in the README and the audit. The model proposes; the code decides. Thanks."
 
 ## Things to avoid saying
 
 - That the answers are guaranteed correct. Verification checks claims against their quotes, not the quotes against reality.
-- That this is production-ready or deployed. It runs locally; the README lists what remains before public use.
+- That this is production-ready. The Cloud Run demo is a single instance with in-memory history and a daily live-run cap; the README lists what remains before production use.
 - That the owner manually reviewed the evaluation, unless they have done so before recording.
 - Any precise latency or cost figure other than the ones on screen or in `evals/results/`.
