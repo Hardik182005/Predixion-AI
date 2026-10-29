@@ -14,7 +14,7 @@ from predixion.fixtures import FixtureExtract, FixtureModel
 from predixion.orchestrator import Providers
 from predixion.runs import RunManager
 
-from .conftest import SlowSearch, make_settings, scenario
+from .conftest import SlowSearch, fixture_providers, make_settings, scenario
 
 QUESTION = scenario("agent_memory").question
 UNKNOWN_RUN = "run_" + "f" * 24
@@ -234,3 +234,90 @@ def test_token_auth_scopes_runs_to_their_owner() -> None:
 def test_token_mode_requires_hashes() -> None:
     with pytest.raises(RuntimeError):
         create_app(make_settings(AUTH_MODE="token"))
+
+
+# ---------------------------------------------------------------------------
+# Public access for visitors without a token
+
+ALICE = {"Authorization": "Bearer alice-token"}
+VISITOR_A = {"X-Visitor-Id": "a" * 32}
+VISITOR_B = {"X-Visitor-Id": "b" * 32}
+FAKE_KEYS = {"OPENAI_API_KEY": "test-openai-key", "TAVILY_API_KEY": "test-tavily-key"}
+
+
+def _public_client(monkeypatch: pytest.MonkeyPatch, access: str, **overrides) -> TestClient:
+    """Token mode with live credentials configured; live runs use fixture providers, so nothing leaves the test."""
+    sc = scenario("agent_memory")
+    monkeypatch.setattr(RunManager, "_providers", lambda self, mode, question: fixture_providers(sc))
+    hashes = f"alice:{hash_token('alice-token')}"
+    return _client(AUTH_MODE="token", API_TOKEN_HASHES=hashes, PUBLIC_ACCESS=access, **FAKE_KEYS, **overrides)
+
+
+def test_public_fixture_access_scopes_visitors_and_keeps_live_behind_tokens(monkeypatch: pytest.MonkeyPatch) -> None:
+    with _public_client(monkeypatch, "fixture", PREDIXION_MODE="live") as client:
+        config = client.get("/api/config", headers=VISITOR_A).json()
+        assert (config["live_available"], config["live_needs_token"], config["default_mode"]) == (True, True, "fixture")
+        assert client.get("/api/config", headers=ALICE).json()["live_needs_token"] is False
+
+        run_id = _start(client, {"question": QUESTION, "mode": "fixture"}, headers=VISITOR_A)
+        _sse(client, run_id, headers=VISITOR_A)
+        assert client.get(f"/api/runs/{run_id}", headers=VISITOR_A).json()["status"] == "completed"
+        assert client.get(f"/api/runs/{run_id}/export", headers=VISITOR_A).status_code == 200
+        for other in (VISITOR_B, ALICE):
+            assert client.get(f"/api/runs/{run_id}", headers=other).status_code == 404
+            assert client.get(f"/api/runs/{run_id}/events", headers=other).status_code == 404
+            assert client.get(f"/api/runs/{run_id}/export", headers=other).status_code == 404
+            assert client.post(f"/api/runs/{run_id}/cancel", headers=other).status_code == 404
+            assert client.delete(f"/api/runs/{run_id}", headers=other).status_code == 404
+            assert client.get("/api/runs", headers=other).json() == []
+
+        for body in ({"question": QUESTION, "mode": "live"}, {"question": QUESTION}):  # the server default is live
+            refused = client.post("/api/runs", json=body, headers=VISITOR_A)
+            assert refused.status_code == 401 and _error_code(refused) == "live_requires_token"
+        assert _start(client, {"question": QUESTION, "mode": "live"}, headers=ALICE)
+
+
+def test_public_access_still_rejects_bad_credentials(monkeypatch: pytest.MonkeyPatch) -> None:
+    with _public_client(monkeypatch, "fixture") as client:
+        assert client.get("/api/config").status_code == 401
+        assert client.get("/api/config", headers={"X-Visitor-Id": "too-short"}).status_code == 401
+        assert client.get("/api/config", headers={"X-Visitor-Id": "a" * 31 + "!"}).status_code == 401
+        # A wrong token is refused, not downgraded to visitor access.
+        assert client.get("/api/config", headers={"Authorization": "Bearer wrong", **VISITOR_A}).status_code == 401
+
+
+def test_public_live_access_lets_visitors_run_live(monkeypatch: pytest.MonkeyPatch) -> None:
+    with _public_client(monkeypatch, "live") as client:
+        assert client.get("/api/config", headers=VISITOR_A).json()["live_needs_token"] is False
+        run_id = _start(client, {"question": QUESTION, "mode": "live"}, headers=VISITOR_A)
+        _sse(client, run_id, headers=VISITOR_A)
+        assert client.get(f"/api/runs/{run_id}", headers=VISITOR_A).json()["mode"] == "live"
+        assert client.get(f"/api/runs/{run_id}", headers=VISITOR_B).status_code == 404
+
+
+def test_public_access_requires_token_mode() -> None:
+    with pytest.raises(RuntimeError):
+        create_app(make_settings(PUBLIC_ACCESS="fixture"))
+
+
+def test_live_run_limits(monkeypatch: pytest.MonkeyPatch) -> None:
+    live = {"question": QUESTION, "mode": "live"}
+    with _public_client(monkeypatch, "live", LIVE_RUNS_PER_USER_PER_HOUR=2, LIVE_RUNS_PER_DAY=3) as client:
+        _start(client, live, headers={**VISITOR_A, "Idempotency-Key": "k1"})
+        _start(client, live, headers={**VISITOR_A, "Idempotency-Key": "k1"})  # a replay is not a new run
+        _start(client, live, headers=VISITOR_A)
+        hourly = client.post("/api/runs", json=live, headers=VISITOR_A)
+        assert hourly.status_code == 429 and _error_code(hourly) == "rate_limited"
+        assert 3000 < int(hourly.headers["retry-after"]) <= 3600
+        _start(client, {"question": QUESTION, "mode": "fixture"}, headers=VISITOR_A)  # fixture runs are not limited
+
+        _start(client, live, headers=VISITOR_B)
+        daily = client.post("/api/runs", json=live, headers=ALICE)
+        assert daily.status_code == 429 and _error_code(daily) == "rate_limited"
+        assert int(daily.headers["retry-after"]) > 80_000
+
+
+def test_hsts_is_sent_only_when_configured(client: TestClient) -> None:
+    assert "strict-transport-security" not in client.get("/healthz").headers
+    with _client(HSTS_MAX_AGE_S=31536000) as hsts:
+        assert hsts.get("/healthz").headers["strict-transport-security"] == "max-age=31536000"

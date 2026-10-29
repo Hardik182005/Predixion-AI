@@ -14,7 +14,10 @@ import contextlib
 import hashlib
 import json
 import logging
+import math
 import secrets
+import time
+from collections import deque
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -45,15 +48,18 @@ logger = logging.getLogger("predixion.runs")
 # Extra time beyond the run deadline before the manager stops waiting for the orchestrator.
 HARD_TIMEOUT_GRACE_S = 15.0
 PURGE_INTERVAL_S = 3600.0
+HOUR_S = 3600.0
+DAY_S = 86_400.0
 
 
 class RunError(Exception):
     """A request the manager refuses. `code` maps to an HTTP status in the API layer."""
 
-    def __init__(self, code: str, message: str) -> None:
+    def __init__(self, code: str, message: str, retry_after_s: int | None = None) -> None:
         super().__init__(message)
         self.code = code
         self.message = message
+        self.retry_after_s = retry_after_s
 
 
 class StreamSlot:
@@ -108,6 +114,9 @@ class RunManager:
         self._purge_task: asyncio.Task[None] | None = None
         self._sse_total = 0
         self._sse_per_run: dict[str, int] = {}
+        # Start times (monotonic) of recent live runs, for the admission limits.
+        self._live_by_owner: dict[str, deque[float]] = {}
+        self._live_today: deque[float] = deque()
 
     # ------------------------------------------------------------------
     # Lifecycle
@@ -193,6 +202,8 @@ class RunManager:
 
         if len(self._active) >= self.settings.max_concurrent_runs + self.settings.max_queued_runs:
             raise RunError("capacity", "The server is at capacity. Try again shortly.")
+        if mode == Mode.live:
+            self._admit_live(owner)
 
         run_id = new_run_id()
         self.store.create_run(
@@ -218,6 +229,35 @@ class RunManager:
         active.task.add_done_callback(lambda _t: self._ensure_finished(active))
         log(logger, logging.INFO, "run accepted", run_id=run_id, mode=mode.value, **self._content(question=request.question))
         return self._start_response(run_id, RunStatus.queued, reused=False)
+
+    def _admit_live(self, owner: str) -> None:
+        """Applies the per-user hourly and service-wide daily limits on new live runs, then counts this one.
+
+        The daily limit, with the per-run cost cap, bounds what the service can spend on providers in a day.
+        Replayed idempotent requests return before this and are not counted.
+        """
+        per_user, per_day = self.settings.live_runs_per_user_per_hour, self.settings.live_runs_per_day
+        if not per_user and not per_day:
+            return
+        now = time.monotonic()
+        recent = self._live_by_owner.setdefault(owner, deque())
+        while recent and now - recent[0] >= HOUR_S:
+            recent.popleft()
+        while self._live_today and now - self._live_today[0] >= DAY_S:
+            self._live_today.popleft()
+        if per_day and len(self._live_today) >= per_day:
+            wait = math.ceil(DAY_S - (now - self._live_today[0]))
+            raise RunError(
+                "rate_limited", "This server's daily limit for live research is used up. Fixture mode still works.", wait
+            )
+        if per_user and len(recent) >= per_user:
+            wait = math.ceil(HOUR_S - (now - recent[0]))
+            raise RunError("rate_limited", f"You can start {per_user} live runs per hour. Try again later.", wait)
+        recent.append(now)
+        self._live_today.append(now)
+        # Forget owners whose newest live run is over an hour old, so visitor ids cannot grow this without bound.
+        for key in [k for k, starts in self._live_by_owner.items() if now - starts[-1] >= HOUR_S]:
+            del self._live_by_owner[key]
 
     @staticmethod
     def _start_response(run_id: str, status: RunStatus, *, reused: bool) -> StartRunResponse:
