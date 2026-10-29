@@ -316,6 +316,8 @@ export interface ServerConfig {
     max_pages_per_run: number;
     run_deadline_s: number;
     max_cost_usd_per_run: number;
+    /** Live runs this server allows across all callers per day; 0 means no daily limit. */
+    live_runs_per_day: number;
   };
 }
 

@@ -281,6 +281,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 "max_pages_per_run": settings.max_pages_per_run,
                 "run_deadline_s": settings.run_deadline_s,
                 "max_cost_usd_per_run": settings.max_cost_usd_per_run,
+                "live_runs_per_day": settings.live_runs_per_day,
             },
         }
 

@@ -4,7 +4,7 @@
 [![Demo video](https://img.shields.io/badge/demo_video-YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=WW-NYzoHdD0)
 [![CI](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Hardik182005/Predixion-AI/actions/workflows/ci.yml)
 <!-- The CI badge renders only for people with access to this private repository. -->
-<br>
+
 [![Python 3.13](https://img.shields.io/badge/python-3.13-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](frontend/package.json)
@@ -24,6 +24,22 @@ It has a web UI, a REST + Server-Sent Events API, and a CLI. A fixture mode runs
 [![Watch the Predixion AI demo video on YouTube](https://img.youtube.com/vi/WW-NYzoHdD0/maxresdefault.jpg)](https://www.youtube.com/watch?v=WW-NYzoHdD0)
 
 The hosted demo runs on Google Cloud Run. Fixture runs are free and unlimited. Live web research is open to everyone within a shared limit of 20 live runs a day and 3 per visitor an hour. Run history lasts only while the server instance is up (it scales to zero after about 15 idle minutes), so export reports you want to keep. See [docs/deployment.md](docs/deployment.md).
+
+> **Live research on the hosted demo has a small budget.** The provider credit behind it is limited and can run out before the daily limit does. If a live run fails or is refused, use the fixture demo, or run Predixion AI on your own machine with your own OpenAI and Tavily keys:
+>
+> ```bash
+> git clone https://github.com/Hardik182005/Predixion-AI.git && cd Predixion-AI
+> uv sync
+> cp .env.example .env
+> # Edit .env and set your own keys:
+> #   OPENAI_API_KEY=your-openai-key
+> #   TAVILY_API_KEY=your-tavily-key
+> #   SERVE_FRONTEND_DIR=frontend/dist
+> cd frontend && npm ci && npm run build && cd ..
+> uv run predixion serve                  # http://127.0.0.1:8000, choose "Live web research"
+> ```
+>
+> On Windows, use the PowerShell steps in [Quick start](#quick-start). Your keys stay in `.env` on your machine. See [Live mode](#live-mode) for details.
 
 - [Requirements and how they map to the code](docs/requirements.md)
 - [Security model](docs/security.md)
