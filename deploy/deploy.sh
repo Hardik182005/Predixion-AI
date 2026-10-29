@@ -86,7 +86,12 @@ MSYS2_ARG_CONV_EXCL="--add-volume-mount=;--set-env-vars=" "${gc[@]}" run deploy 
   --concurrency=60 \
   --min-instances=0 \
   --max-instances=1 \
-  --timeout=300   --execution-environment=gen2   --clear-volumes   --clear-volume-mounts   --add-volume="name=ledger,type=cloud-storage,bucket=$state_bucket,mount-options=uid=10001;gid=10001"   --add-volume-mount="volume=ledger,mount-path=/app/ledger" \
+  --timeout=300 \
+  --execution-environment=gen2 \
+  --clear-volumes \
+  --clear-volume-mounts \
+  --add-volume="name=ledger,type=cloud-storage,bucket=$state_bucket,mount-options=uid=10001;gid=10001" \
+  --add-volume-mount="volume=ledger,mount-path=/app/ledger" \
   --labels="app=predixion-ai,commit=$tag" \
   --set-env-vars="$(join "${env[@]}")" \
   --set-secrets="$(join "${secrets[@]}")"
