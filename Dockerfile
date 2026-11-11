@@ -9,7 +9,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # Python runtime serving the API and the built frontend.
-FROM python:3.13-slim
+FROM python:3.15-slim
 COPY --from=ghcr.io/astral-sh/uv:0.10.11 /uv /bin/uv
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
